@@ -8,10 +8,10 @@ export default function Home() {
       <section className="py-24 px-4 bg-gradient-to-b from-blue-50 to-white">
         <div className="max-w-4xl mx-auto text-center">
           <span className="inline-block bg-blue-100 text-blue-700 text-sm font-semibold px-4 py-1.5 rounded-full mb-6">
-            2024 全新SAT数字化考试备考
+            2026 全新SAT数字化考试备考
           </span>
           <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6 text-gray-900">
-            轻松突破 <span className="text-blue-600">1500分</span>
+            轻松突破 <span className="text-blue-600">1550分</span>
           </h1>
           <p className="text-lg md:text-xl max-w-2xl mx-auto mb-10 text-gray-600">
             专业SAT备考平台，覆盖数学、阅读与写作全科目。智能练习系统 + 详解分析，让每一分钟的学习都高效有价值。
