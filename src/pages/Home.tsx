@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, Calculator, BookOpen, PenLine, TrendingUp, Clock, Award } from 'lucide-react'
+import { ArrowRight, Calculator, BookOpen, PenLine, TrendingUp, Clock, Award, Target } from 'lucide-react'
 
 export default function Home() {
   return (
@@ -38,9 +38,9 @@ export default function Home() {
       {/* Subjects */}
       <section className="py-20 px-4">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">三大核心科目</h2>
-          <p className="text-center mb-14 max-w-xl mx-auto text-gray-600">新版数字化SAT考试包含两大模块，我们为每个知识点提供针对性练习</p>
-          <div className="grid md:grid-cols-3 gap-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">核心学习模块</h2>
+          <p className="text-center mb-14 max-w-xl mx-auto text-gray-600">新版数字化SAT考试包含两大模块，我们为每个知识点提供针对性练习与专项突破</p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* 数学 */}
             <div className="p-6 rounded-xl border-2 hover:border-blue-400 transition-colors flex flex-col">
               <div className="mb-4"><Calculator size={32} className="text-blue-600" /></div>
@@ -75,6 +75,18 @@ export default function Home() {
                 {['完整模拟', '计时练习', '成绩分析', '错题回顾'].map(t => <li key={t} className="flex items-center gap-2">✓ {t}</li>)}
               </ul>
               <Link to="/practice" className="block text-center py-2.5 rounded-lg text-white text-sm font-semibold bg-purple-600 hover:bg-purple-700 transition-colors">开始学习</Link>
+            </div>
+
+            {/* 专项知识点 */}
+            <div className="p-6 rounded-xl border-2 hover:border-amber-400 transition-colors flex flex-col">
+              <div className="mb-4"><Target size={32} className="text-amber-600" /></div>
+              <h3 className="text-xl font-bold mb-0.5">专项知识点</h3>
+              <p className="text-sm text-gray-400 mb-3">Targeted Knowledge</p>
+              <p className="text-gray-600 text-sm leading-relaxed mb-4">按知识点分类的专项突破训练，精准定位薄弱环节，逐个击破。</p>
+              <ul className="space-y-1.5 text-sm text-gray-600 flex-1 mb-6">
+                {['文法专项', '阅读专项', '数学专项', '考点精讲'].map(t => <li key={t} className="flex items-center gap-2">✓ {t}</li>)}
+              </ul>
+              <Link to="/knowledge" className="block text-center py-2.5 rounded-lg text-white text-sm font-semibold bg-amber-600 hover:bg-amber-700 transition-colors">开始学习</Link>
             </div>
           </div>
         </div>

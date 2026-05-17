@@ -4,6 +4,7 @@ import Home from './pages/Home'
 import Practice from './pages/Practice'
 import Subjects from './pages/Subjects'
 import FAQ from './pages/FAQ'
+import Knowledge from './pages/Knowledge'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/practice" element={<Practice />} />
           <Route path="/subjects" element={<Subjects />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/knowledge" element={<Knowledge />} />
         </Route>
       </Routes>
     </BrowserRouter>
