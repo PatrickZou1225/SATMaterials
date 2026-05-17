@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { ArrowLeft, CheckCircle, XCircle } from 'lucide-react'
+import { ArrowLeft, ChevronLeft, ChevronRight, CheckCircle, XCircle, RotateCcw, Flag } from 'lucide-react'
 
 interface Question {
   id: number
@@ -168,119 +168,7 @@ const levelNames: Record<string, { name: string; label: string; color: string; b
 const OPTION_LABELS = ['A', 'B', 'C', 'D']
 
 // ============================================================
-//  单题卡片 — SAT 机考左右分栏布局
-// ============================================================
-function QuestionCard({
-  q,
-  idx,
-  selected,
-  revealed,
-  onSelect,
-  onReveal,
-}: {
-  q: Question
-  idx: number
-  selected: number | undefined
-  revealed: boolean
-  onSelect: (optIdx: number) => void
-  onReveal: () => void
-}) {
-  const isCorrect = revealed && selected === q.answer
-
-  return (
-    <div className="bg-white rounded-2xl border shadow-sm overflow-hidden">
-      {/* 题号栏 */}
-      <div className="flex items-center gap-3 px-6 py-3 border-b bg-gray-50">
-        <span className="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 text-sm font-bold flex items-center justify-center shrink-0">
-          {idx + 1}
-        </span>
-        {revealed && (
-          isCorrect
-            ? <span className="flex items-center gap-1 text-green-600 text-sm font-semibold"><CheckCircle size={15} /> 正确</span>
-            : <span className="flex items-center gap-1 text-red-500 text-sm font-semibold"><XCircle size={15} /> 错误</span>
-        )}
-      </div>
-
-      {/* 左右分栏主体 */}
-      <div className="flex" style={{ minHeight: '320px' }}>
-
-        {/* ── 左栏：文章 ── */}
-        <div className="w-1/2 border-r overflow-y-auto p-6" style={{ maxHeight: '480px' }}>
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Passage</p>
-          <div className="text-sm text-gray-800 leading-7 whitespace-pre-line">
-            {q.passage}
-          </div>
-        </div>
-
-        {/* ── 右栏：题目 + 选项 + 按钮 ── */}
-        <div className="w-1/2 overflow-y-auto p-6 flex flex-col" style={{ maxHeight: '480px' }}>
-          <p className="text-sm font-semibold text-gray-900 leading-relaxed mb-5">
-            {q.question}
-          </p>
-
-          <div className="space-y-3 flex-1">
-            {q.options.map((opt, optIdx) => {
-              const label = OPTION_LABELS[optIdx]
-              let base =
-                'w-full text-left flex items-start gap-3 px-4 py-3 rounded-xl border text-sm transition-all '
-
-              if (!revealed) {
-                base +=
-                  selected === optIdx
-                    ? 'border-emerald-500 bg-emerald-50 text-emerald-900 font-medium'
-                    : 'border-gray-200 hover:border-emerald-300 hover:bg-emerald-50 text-gray-700'
-              } else {
-                if (optIdx === q.answer) {
-                  base += 'border-green-500 bg-green-50 text-green-900 font-semibold'
-                } else if (optIdx === selected && selected !== q.answer) {
-                  base += 'border-red-400 bg-red-50 text-red-700'
-                } else {
-                  base += 'border-gray-100 text-gray-400'
-                }
-              }
-
-              return (
-                <button key={optIdx} className={base} onClick={() => onSelect(optIdx)}>
-                  {/* 字母圆圈 */}
-                  <span
-                    className={`shrink-0 w-6 h-6 rounded-full border text-xs font-bold flex items-center justify-center mt-0.5
-                      ${!revealed
-                        ? selected === optIdx
-                          ? 'border-emerald-500 bg-emerald-500 text-white'
-                          : 'border-gray-300 text-gray-500'
-                        : optIdx === q.answer
-                          ? 'border-green-500 bg-green-500 text-white'
-                          : optIdx === selected
-                            ? 'border-red-400 bg-red-400 text-white'
-                            : 'border-gray-200 text-gray-400'
-                      }`}
-                  >
-                    {label}
-                  </span>
-                  <span className="leading-relaxed">{opt}</span>
-                </button>
-              )
-            })}
-          </div>
-
-          {/* 确认按钮 */}
-          {!revealed && (
-            <button
-              onClick={onReveal}
-              disabled={selected === undefined}
-              className="mt-5 self-start px-5 py-2 bg-emerald-600 text-white text-sm font-semibold rounded-xl hover:bg-emerald-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              确认答案
-            </button>
-          )}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-// ============================================================
-//  页面主体
+//  页面主体 — 一页一题 SAT 机考模式
 // ============================================================
 export default function ReadingDetail() {
   const { topic = 'zhuzhi', level = 'level1' } = useParams<{ topic: string; level: string }>()
@@ -288,21 +176,64 @@ export default function ReadingDetail() {
   const levelInfo = levelNames[level]
   const topicName = topicNames[topic] ?? topic
 
+  // 当前题号（0-based）
+  const [currentIndex, setCurrentIndex] = useState(0)
+  // 每道题的选择和是否已确认
   const [selected, setSelected] = useState<Record<number, number>>({})
   const [revealed, setRevealed] = useState<Record<number, boolean>>({})
+  // 标记的题目
+  const [flagged, setFlagged] = useState<Record<number, boolean>>({})
+  // 是否显示完成页
+  const [finished, setFinished] = useState(false)
+  // 是否展开题号导航面板
+  const [showNav, setShowNav] = useState(false)
 
-  const handleSelect = (qId: number, optIdx: number) => {
-    if (revealed[qId]) return
-    setSelected(prev => ({ ...prev, [qId]: optIdx }))
-  }
-
-  const handleReveal = (qId: number) => {
-    setRevealed(prev => ({ ...prev, [qId]: true }))
-  }
-
-  const answeredCount = Object.keys(revealed).length
+  const current = questions[currentIndex]
+  const totalAnswered = Object.keys(revealed).length
   const score = questions.filter(q => revealed[q.id] && selected[q.id] === q.answer).length
 
+  const handleSelect = (optIdx: number) => {
+    if (!current || revealed[current.id]) return
+    setSelected(prev => ({ ...prev, [current.id]: optIdx }))
+  }
+
+  const handleReveal = () => {
+    if (!current || selected[current.id] === undefined) return
+    setRevealed(prev => ({ ...prev, [current.id]: true }))
+  }
+
+  const handleNext = () => {
+    if (currentIndex + 1 >= questions.length) {
+      setFinished(true)
+    } else {
+      setCurrentIndex(i => i + 1)
+    }
+  }
+
+  const handlePrev = () => {
+    if (currentIndex > 0) setCurrentIndex(i => i - 1)
+  }
+
+  const handleJump = (idx: number) => {
+    setCurrentIndex(idx)
+    setFinished(false)
+    setShowNav(false)
+  }
+
+  const handleRestart = () => {
+    setCurrentIndex(0)
+    setSelected({})
+    setRevealed({})
+    setFlagged({})
+    setFinished(false)
+  }
+
+  const toggleFlag = () => {
+    if (!current) return
+    setFlagged(prev => ({ ...prev, [current.id]: !prev[current.id] }))
+  }
+
+  // 空题库
   if (questions.length === 0) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -314,74 +245,297 @@ export default function ReadingDetail() {
     )
   }
 
-  return (
-    <div className="min-h-screen bg-gray-50 py-10 px-4">
-      <div className="max-w-5xl mx-auto">
+  // ── 完成页面 ──
+  if (finished) {
+    const pct = Math.round((score / questions.length) * 100)
+    return (
+      <div className="min-h-screen bg-gray-50 py-10 px-4">
+        <div className="max-w-2xl mx-auto">
+          <div className="bg-white rounded-2xl border shadow-sm p-10 text-center">
+            <div className="text-6xl mb-4">{pct >= 80 ? '🎉' : pct >= 60 ? '💪' : '📖'}</div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">练习完成！</h2>
+            <p className="text-gray-500 mb-2">{topicName} · {levelInfo?.name}</p>
 
-        {/* 顶部导航 */}
-        <Link
-          to="/knowledge"
-          className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-emerald-600 transition-colors mb-6"
-        >
-          <ArrowLeft size={16} /> 返回知识点
-        </Link>
-
-        <div className="flex items-center gap-3 mb-1">
-          <h1 className="text-2xl font-bold text-gray-900">{topicName}</h1>
-          {levelInfo && (
-            <span className={`px-3 py-1 rounded-full text-xs font-bold border ${levelInfo.bg} ${levelInfo.color} ${levelInfo.border}`}>
-              {levelInfo.name} · {levelInfo.label}
-            </span>
-          )}
-        </div>
-        <p className="text-gray-400 text-sm mb-8">共 {questions.length} 道题 · 左侧阅读文章，右侧作答</p>
-
-        {/* 进度条 */}
-        {answeredCount > 0 && (
-          <div className="mb-8 p-4 bg-white rounded-xl border flex items-center gap-4">
-            <div className="flex-1 bg-gray-100 rounded-full h-2">
-              <div
-                className="bg-emerald-500 h-2 rounded-full transition-all"
-                style={{ width: `${(answeredCount / questions.length) * 100}%` }}
-              />
+            {/* 分数大字 */}
+            <div className="my-6">
+              <span className="text-5xl font-bold text-emerald-600">{score}</span>
+              <span className="text-2xl text-gray-400"> / {questions.length}</span>
             </div>
-            <span className="text-sm font-semibold text-gray-700 whitespace-nowrap">
-              {score} / {answeredCount} 正确
-            </span>
-          </div>
-        )}
+            <p className="text-gray-500 mb-8">
+              正确率 <span className="font-bold text-emerald-600">{pct}%</span>
+            </p>
 
-        {/* 题目列表 */}
-        <div className="space-y-6">
-          {questions.map((q, idx) => (
-            <QuestionCard
-              key={q.id}
-              q={q}
-              idx={idx}
-              selected={selected[q.id]}
-              revealed={!!revealed[q.id]}
-              onSelect={(optIdx) => handleSelect(q.id, optIdx)}
-              onReveal={() => handleReveal(q.id)}
-            />
-          ))}
+            {/* 每题回顾缩略 */}
+            <div className="flex flex-wrap justify-center gap-2 mb-8">
+              {questions.map((q, idx) => {
+                const answered = revealed[q.id]
+                const correct = answered && selected[q.id] === q.answer
+                return (
+                  <button
+                    key={q.id}
+                    onClick={() => handleJump(idx)}
+                    className={`w-9 h-9 rounded-lg text-sm font-bold flex items-center justify-center transition-colors
+                      ${answered
+                        ? correct
+                          ? 'bg-green-100 text-green-700 hover:bg-green-200'
+                          : 'bg-red-100 text-red-600 hover:bg-red-200'
+                        : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+                      }`}
+                  >
+                    {idx + 1}
+                  </button>
+                )
+              })}
+            </div>
+
+            <div className="flex justify-center gap-3">
+              <button
+                onClick={handleRestart}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-colors font-semibold"
+              >
+                <RotateCcw size={18} /> 重新练习
+              </button>
+              <Link
+                to="/knowledge"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-colors font-semibold"
+              >
+                返回知识点
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // ── 做题界面（一页一题）──
+  const isRevealed = !!revealed[current.id]
+  const isCorrect = isRevealed && selected[current.id] === current.answer
+  const hasSelected = selected[current.id] !== undefined
+
+  return (
+    <div className="min-h-screen bg-gray-100 flex flex-col">
+
+      {/* ══════════ 顶部工具栏 ══════════ */}
+      <header className="bg-white border-b px-4 py-2.5 flex items-center justify-between sticky top-0 z-30">
+        {/* 左：返回 + 标题 */}
+        <div className="flex items-center gap-3">
+          <Link
+            to="/knowledge"
+            className="text-gray-400 hover:text-emerald-600 transition-colors"
+          >
+            <ArrowLeft size={20} />
+          </Link>
+          <div className="hidden sm:block">
+            <span className="text-sm font-bold text-gray-800">{topicName}</span>
+            {levelInfo && (
+              <span className={`ml-2 px-2 py-0.5 rounded-full text-xs font-bold ${levelInfo.bg} ${levelInfo.color}`}>
+                {levelInfo.name}
+              </span>
+            )}
+          </div>
         </div>
 
-        {/* 全部完成 */}
-        {answeredCount === questions.length && (
-          <div className="mt-10 p-6 bg-emerald-50 border border-emerald-200 rounded-2xl text-center">
-            <p className="text-2xl font-bold text-emerald-700 mb-1">🎉 完成！</p>
-            <p className="text-gray-600 mb-4">
-              得分：<span className="font-bold text-emerald-700">{score} / {questions.length}</span>
-            </p>
-            <Link
-              to="/knowledge"
-              className="inline-block px-6 py-2 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 transition-colors text-sm"
-            >
-              返回知识点
-            </Link>
-          </div>
-        )}
+        {/* 中：题号进度 */}
+        <div className="flex items-center gap-3">
+          <span className="text-sm font-semibold text-gray-700">
+            Question {currentIndex + 1} of {questions.length}
+          </span>
+        </div>
+
+        {/* 右：题号面板切换 + 标记 */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={toggleFlag}
+            className={`p-2 rounded-lg transition-colors ${flagged[current.id] ? 'bg-amber-100 text-amber-600' : 'text-gray-400 hover:bg-gray-100'}`}
+            title="标记此题"
+          >
+            <Flag size={18} />
+          </button>
+          <button
+            onClick={() => setShowNav(v => !v)}
+            className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-lg text-xs font-semibold text-gray-600 transition-colors"
+          >
+            题号导航
+          </button>
+        </div>
+      </header>
+
+      {/* ── 进度条 ── */}
+      <div className="w-full bg-gray-200 h-1">
+        <div
+          className="bg-emerald-500 h-1 transition-all duration-300"
+          style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
+        />
       </div>
+
+      {/* ── 题号导航弹窗 ── */}
+      {showNav && (
+        <div className="bg-white border-b shadow-sm px-4 py-3">
+          <div className="max-w-5xl mx-auto">
+            <div className="flex flex-wrap gap-2">
+              {questions.map((q, idx) => {
+                const answered = revealed[q.id]
+                const correct = answered && selected[q.id] === q.answer
+                const isCurrent = idx === currentIndex
+                const isFlagged = flagged[q.id]
+                return (
+                  <button
+                    key={q.id}
+                    onClick={() => handleJump(idx)}
+                    className={`w-9 h-9 rounded-lg text-sm font-bold flex items-center justify-center transition-colors relative
+                      ${isCurrent
+                        ? 'ring-2 ring-emerald-500 bg-emerald-50 text-emerald-700'
+                        : answered
+                          ? correct
+                            ? 'bg-green-100 text-green-700 hover:bg-green-200'
+                            : 'bg-red-100 text-red-600 hover:bg-red-200'
+                          : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                      }`}
+                  >
+                    {idx + 1}
+                    {isFlagged && (
+                      <span className="absolute -top-1 -right-1 w-3 h-3 bg-amber-400 rounded-full border border-white" />
+                    )}
+                  </button>
+                )
+              })}
+            </div>
+            <div className="flex gap-4 mt-2 text-xs text-gray-400">
+              <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-green-100 inline-block" /> 正确</span>
+              <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-red-100 inline-block" /> 错误</span>
+              <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-gray-100 inline-block" /> 未答</span>
+              <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-amber-400 inline-block" /> 标记</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ══════════ 题目主体 — SAT 左右分栏 ══════════ */}
+      <main className="flex-1 flex overflow-hidden">
+
+        {/* ── 左栏：文章 ── */}
+        <div className="w-1/2 border-r bg-white overflow-y-auto">
+          <div className="p-8">
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Passage</p>
+            <div className="text-sm text-gray-800 leading-7 whitespace-pre-line">
+              {current.passage}
+            </div>
+          </div>
+        </div>
+
+        {/* ── 右栏：题目 + 选项 ── */}
+        <div className="w-1/2 bg-white overflow-y-auto flex flex-col">
+          <div className="p-8 flex-1 flex flex-col">
+            {/* 题目 */}
+            <p className="text-[15px] font-semibold text-gray-900 leading-relaxed mb-6">
+              {current.question}
+            </p>
+
+            {/* 选项 */}
+            <div className="space-y-3 flex-1">
+              {current.options.map((opt, optIdx) => {
+                const label = OPTION_LABELS[optIdx]
+                let base =
+                  'w-full text-left flex items-start gap-3 px-4 py-3.5 rounded-xl border-2 text-sm transition-all cursor-pointer '
+
+                if (!isRevealed) {
+                  base +=
+                    selected[current.id] === optIdx
+                      ? 'border-emerald-500 bg-emerald-50 text-emerald-900 font-medium'
+                      : 'border-gray-200 hover:border-emerald-300 hover:bg-emerald-50/50 text-gray-700'
+                } else {
+                  if (optIdx === current.answer) {
+                    base += 'border-green-500 bg-green-50 text-green-900 font-semibold'
+                  } else if (optIdx === selected[current.id] && selected[current.id] !== current.answer) {
+                    base += 'border-red-400 bg-red-50 text-red-700'
+                  } else {
+                    base += 'border-gray-100 text-gray-400'
+                  }
+                }
+
+                return (
+                  <button key={optIdx} className={base} onClick={() => handleSelect(optIdx)}>
+                    {/* 字母圆圈 */}
+                    <span
+                      className={`shrink-0 w-7 h-7 rounded-full border-2 text-xs font-bold flex items-center justify-center mt-0.5
+                        ${!isRevealed
+                          ? selected[current.id] === optIdx
+                            ? 'border-emerald-500 bg-emerald-500 text-white'
+                            : 'border-gray-300 text-gray-500'
+                          : optIdx === current.answer
+                            ? 'border-green-500 bg-green-500 text-white'
+                            : optIdx === selected[current.id]
+                              ? 'border-red-400 bg-red-400 text-white'
+                              : 'border-gray-200 text-gray-400'
+                        }`}
+                    >
+                      {label}
+                    </span>
+                    <span className="leading-relaxed pt-0.5">{opt}</span>
+                  </button>
+                )
+              })}
+            </div>
+
+            {/* 答题反馈 */}
+            {isRevealed && (
+              <div className={`mt-6 p-4 rounded-xl border ${isCorrect ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
+                <p className="flex items-center gap-2 font-semibold text-sm mb-1">
+                  {isCorrect
+                    ? <><CheckCircle size={16} className="text-green-500" /> 回答正确！</>
+                    : <><XCircle size={16} className="text-red-500" /> 回答错误</>
+                  }
+                </p>
+                <p className="text-sm text-gray-600">
+                  正确答案是 <span className="font-bold">{OPTION_LABELS[current.answer]}</span>
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      </main>
+
+      {/* ══════════ 底部操作栏 ══════════ */}
+      <footer className="bg-white border-t px-4 py-3 flex items-center justify-between sticky bottom-0 z-30">
+        {/* 左：上一题 */}
+        <button
+          onClick={handlePrev}
+          disabled={currentIndex === 0}
+          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors
+            disabled:opacity-30 disabled:cursor-not-allowed
+            text-gray-600 hover:bg-gray-100"
+        >
+          <ChevronLeft size={18} /> Back
+        </button>
+
+        {/* 中：分数/进度 */}
+        <div className="text-sm text-gray-400">
+          已答 {totalAnswered} / {questions.length} 题
+          {totalAnswered > 0 && <span className="ml-2 text-emerald-600 font-semibold">{score} 正确</span>}
+        </div>
+
+        {/* 右：确认 or 下一题 */}
+        {!isRevealed ? (
+          <button
+            onClick={handleReveal}
+            disabled={!hasSelected}
+            className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors
+              disabled:opacity-30 disabled:cursor-not-allowed
+              bg-emerald-600 text-white hover:bg-emerald-700"
+          >
+            确认答案
+          </button>
+        ) : (
+          <button
+            onClick={handleNext}
+            className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors
+              bg-emerald-600 text-white hover:bg-emerald-700"
+          >
+            {currentIndex + 1 >= questions.length ? '查看结果' : 'Next'} <ChevronRight size={18} />
+          </button>
+        )}
+      </footer>
     </div>
   )
 }
