@@ -2,6 +2,11 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { PenLine, BookOpen, Calculator, ChevronRight, ArrowLeft } from 'lucide-react'
 
+// 各阅读 topic 对应的路由 key（无内容则留空）
+const topicRouteKeys: Record<string, string> = {
+  '主旨与细节题': 'zhuzhi',
+}
+
 type Tab = 'grammar' | 'reading' | 'math'
 
 interface KnowledgeItem {
@@ -195,15 +200,33 @@ export default function Knowledge() {
                 </div>
                 <p className="text-sm text-gray-500 mb-5">{item.description}</p>
                 <div className="flex gap-3">
-                  {item.levels.map((lv, j) => (
-                    <button
-                      key={j}
-                      className={`flex-1 ${lv.bg} border rounded-xl px-3 py-3 text-center transition-all hover:shadow-sm hover:scale-[1.02]`}
-                    >
-                      <div className={`text-xs font-bold ${lv.color} mb-1`}>{lv.name}</div>
-                      <div className="text-xs text-gray-600">{lv.label}</div>
-                    </button>
-                  ))}
+                  {item.levels.map((lv, j) => {
+                    const topicKey = topicRouteKeys[item.title]
+                    const levelKey = `level${j + 1}`
+                    const hasContent = topicKey !== undefined && j === 0 // 目前只有 level1 有内容
+                    const btnClass = `flex-1 ${lv.bg} border rounded-xl px-3 py-3 text-center transition-all hover:shadow-sm hover:scale-[1.02]`
+                    if (hasContent && topicKey) {
+                      return (
+                        <Link
+                          key={j}
+                          to={`/knowledge/reading/${topicKey}/${levelKey}`}
+                          className={btnClass}
+                        >
+                          <div className={`text-xs font-bold ${lv.color} mb-1`}>{lv.name}</div>
+                          <div className="text-xs text-gray-600">{lv.label}</div>
+                        </Link>
+                      )
+                    }
+                    return (
+                      <button
+                        key={j}
+                        className={btnClass}
+                      >
+                        <div className={`text-xs font-bold ${lv.color} mb-1`}>{lv.name}</div>
+                        <div className="text-xs text-gray-600">{lv.label}</div>
+                      </button>
+                    )
+                  })}
                 </div>
               </div>
             ))}
