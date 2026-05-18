@@ -119,6 +119,54 @@ sat-prep/
 
 ---
 
+## 环境配置备忘（新电脑首次使用）
+
+### 1. 克隆仓库
+```
+git clone https://github.com/PatrickZou1225/SATMaterials.git
+```
+
+### 2. 安装依赖
+```
+cd SATMaterials
+npm install
+```
+
+### 3. 配置 Git 代理（国内访问 GitHub 必需）
+
+如果在中国大陆，git push/pull 会连不上 GitHub，需要让 Git 走代理：
+
+```
+git config --global http.proxy http://127.0.0.1:<端口>
+git config --global https.proxy http://127.0.0.1:<端口>
+```
+
+**Patrick 当前使用的代理工具与端口**：
+- 工具：**ClashX**（Mac 端，菜单栏图标）
+- HTTP 代理端口：**7890**
+
+所以命令是：
+```
+git config --global http.proxy http://127.0.0.1:7890
+git config --global https.proxy http://127.0.0.1:7890
+```
+
+### 4. 排查代理端口的方法
+
+如果忘了端口号，用这个命令查本机所有监听端口：
+```
+lsof -iTCP -sTCP:LISTEN -P -n | grep 127.0.0.1
+```
+找到 `ClashX`（或其他代理工具）那一行，看它的端口号。
+
+### 5. 取消代理（如果切到不需要代理的网络）
+```
+git config --global --unset http.proxy
+git config --global --unset https.proxy
+```
+
+---
+
 ## 下一步可能做的事
 
 - 给其他阅读题型（FSP目的题、文学文本题等）添加题目
