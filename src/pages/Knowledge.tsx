@@ -221,9 +221,11 @@ export default function Knowledge() {
                       <button
                         key={j}
                         className={btnClass}
+                        title="题目即将上线，敬请期待"
                       >
                         <div className={`text-xs font-bold ${lv.color} mb-1`}>{lv.name}</div>
                         <div className="text-xs text-gray-600">{lv.label}</div>
+                        <div className="text-[10px] text-gray-300 mt-0.5">即将上线</div>
                       </button>
                     )
                   })}

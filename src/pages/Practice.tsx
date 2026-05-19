@@ -4,28 +4,67 @@ import { CheckCircle, XCircle, ChevronRight, RotateCcw } from 'lucide-react'
 
 type Filter = { subject: Subject | 'all'; difficulty: Difficulty | 'all' }
 
+function fisherYatesShuffle<T>(arr: T[]): T[] {
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
+
+// ── localStorage ──
+const STORAGE_KEY = 'sat-practice-progress'
+
+interface SavedState {
+  filter: Filter
+  queue: Question[]
+  index: number
+  score: { correct: number; total: number }
+}
+
+function loadState(): SavedState | null {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (!raw) return null
+    return JSON.parse(raw)
+  } catch { return null }
+}
+
+function saveState(state: SavedState) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)) } catch {}
+}
+
+function clearState() {
+  try { localStorage.removeItem(STORAGE_KEY) } catch {}
+}
+
 export default function Practice() {
-  const [filter, setFilter] = useState<Filter>({ subject: 'all', difficulty: 'all' })
-  const [queue, setQueue] = useState<Question[]>([])
-  const [index, setIndex] = useState(0)
+  const saved = loadState()
+  const [filter, setFilter] = useState<Filter>(saved?.filter ?? { subject: 'all', difficulty: 'all' })
+  const [queue, setQueue] = useState<Question[]>(saved?.queue ?? [])
+  const [index, setIndex] = useState(saved?.index ?? 0)
+  const [score, setScore] = useState(saved?.score ?? { correct: 0, total: 0 })
   const [selected, setSelected] = useState<number | null>(null)
   const [showResult, setShowResult] = useState(false)
-  const [score, setScore] = useState({ correct: 0, total: 0 })
   const [finished, setFinished] = useState(false)
+  const [initialized, setInitialized] = useState(!!saved)
 
   useEffect(() => {
+    if (initialized) return
     let filtered = questions
     if (filter.subject !== 'all') filtered = filtered.filter(q => q.subject === filter.subject)
     if (filter.difficulty !== 'all') filtered = filtered.filter(q => q.difficulty === filter.difficulty)
-    // Shuffle
-    const shuffled = [...filtered].sort(() => Math.random() - 0.5)
+    const shuffled = fisherYatesShuffle(filtered)
     setQueue(shuffled)
-    setIndex(0)
-    setSelected(null)
-    setShowResult(false)
-    setScore({ correct: 0, total: 0 })
-    setFinished(false)
-  }, [filter])
+    setInitialized(true)
+  }, [filter, initialized])
+
+  // 持久化
+  useEffect(() => {
+    if (!initialized) return
+    saveState({ filter, queue, index, score })
+  }, [filter, queue, index, score, initialized])
 
   const current = queue[index]
 
@@ -48,13 +87,14 @@ export default function Practice() {
   }
 
   const handleRestart = () => {
-    const shuffled = [...queue].sort(() => Math.random() - 0.5)
+    const shuffled = fisherYatesShuffle(queue)
     setQueue(shuffled)
     setIndex(0)
     setSelected(null)
     setShowResult(false)
     setScore({ correct: 0, total: 0 })
     setFinished(false)
+    clearState()
   }
 
   const difficultyLabel = { easy: '简单', medium: '中等', hard: '困难' }

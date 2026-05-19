@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ArrowLeft, ChevronLeft, ChevronRight, CheckCircle, XCircle, RotateCcw, Flag, Lightbulb, Clock } from 'lucide-react'
 import { topicData, topicNames, levelNames, type ReadingQuestion } from '../data/readingQuestions'
@@ -77,14 +77,15 @@ export default function ReadingDetail() {
   const [elapsedSeconds, setElapsedSeconds] = useState(saved?.elapsedSeconds ?? 0)
   const [timerRunning, setTimerRunning] = useState(true)
 
-  // 自动保存进度
-  const persistProgress = useCallback(() => {
-    saveProgress(topic, level, { selected, revealed, flagged, currentIndex, elapsedSeconds })
-  }, [topic, level, selected, revealed, flagged, currentIndex, elapsedSeconds])
-
+  // 自动保存进度（1秒防抖，避免计时器每秒触发写入）
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   useEffect(() => {
-    persistProgress()
-  }, [persistProgress])
+    if (debounceRef.current) clearTimeout(debounceRef.current)
+    debounceRef.current = setTimeout(() => {
+      saveProgress(topic, level, { selected, revealed, flagged, currentIndex, elapsedSeconds })
+    }, 1000)
+    return () => { if (debounceRef.current) clearTimeout(debounceRef.current) }
+  }, [topic, level, selected, revealed, flagged, currentIndex, elapsedSeconds])
 
   // 计时器：finished 或暂停时停走
   useEffect(() => {
