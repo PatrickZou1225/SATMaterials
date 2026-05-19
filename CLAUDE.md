@@ -217,6 +217,38 @@ git config --global --unset https.proxy
 
 ---
 
+## CC Switch — Claude Code 配置切换工具
+
+**用途**：管理 Claude Code / Codex / Gemini CLI 等多个 AI 编码工具的 API 配置（endpoint、token、模型），在不同 provider 之间一键切换，不用手动改 JSON。
+
+### 已安装位置
+- 桌面应用：`/Applications/CC Switch.app`（Mac 端，Launchpad / Spotlight 搜「CC Switch」打开）
+- 配置数据：`~/.cc-switch/cc-switch.db`
+- 切换 provider 时会自动写入 `~/.claude/settings.json`
+
+### 安装方式（其他电脑首次装时参考）
+
+**Mac（Homebrew）**：
+```
+brew install --cask cc-switch
+```
+
+**国内网络可能下载卡住** → 走 ClashX 代理：
+```
+HTTPS_PROXY=http://127.0.0.1:7890 HTTP_PROXY=http://127.0.0.1:7890 brew install --cask cc-switch
+```
+
+**Windows / Linux** → 从 GitHub Releases 下载安装包：
+https://github.com/farion1231/cc-switch/releases
+
+### 基本用法
+1. 打开 CC Switch app
+2. 进入「Provider 管理」 → 点右上角 **+** 添加 provider（填 endpoint + token）
+3. 选中 provider → 点 **Use** → 自动写入 `~/.claude/settings.json`
+4. 切换 provider 支持热切换，无需重启 Claude Code
+
+---
+
 ## 下一步可能做的事
 
 - 给其他阅读题型（FSP目的题、文学文本题等）添加题目

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { ArrowLeft, ChevronLeft, ChevronRight, CheckCircle, XCircle, RotateCcw, Flag, Lightbulb } from 'lucide-react'
+import { ArrowLeft, ChevronLeft, ChevronRight, CheckCircle, XCircle, RotateCcw, Flag, Lightbulb, Clock } from 'lucide-react'
 import { topicData, topicNames, levelNames, type ReadingQuestion } from '../data/readingQuestions'
 
 const OPTION_LABELS = ['A', 'B', 'C', 'D']
@@ -15,6 +15,16 @@ interface SavedProgress {
   revealed: Record<number, boolean>
   flagged: Record<number, boolean>
   currentIndex: number
+  elapsedSeconds?: number
+}
+
+function formatTime(totalSeconds: number) {
+  const s = Math.max(0, Math.floor(totalSeconds))
+  const h = Math.floor(s / 3600)
+  const m = Math.floor((s % 3600) / 60)
+  const sec = s % 60
+  const pad = (n: number) => n.toString().padStart(2, '0')
+  return h > 0 ? `${h}:${pad(m)}:${pad(sec)}` : `${pad(m)}:${pad(sec)}`
 }
 
 function loadProgress(topic: string, level: string): SavedProgress | null {
@@ -63,15 +73,27 @@ export default function ReadingDetail() {
   const [showNav, setShowNav] = useState(false)
   // 移动端切换 passage / question 视图
   const [mobileView, setMobileView] = useState<'passage' | 'question'>('passage')
+  // 正向计时（秒）
+  const [elapsedSeconds, setElapsedSeconds] = useState(saved?.elapsedSeconds ?? 0)
+  const [timerRunning, setTimerRunning] = useState(true)
 
   // 自动保存进度
   const persistProgress = useCallback(() => {
-    saveProgress(topic, level, { selected, revealed, flagged, currentIndex })
-  }, [topic, level, selected, revealed, flagged, currentIndex])
+    saveProgress(topic, level, { selected, revealed, flagged, currentIndex, elapsedSeconds })
+  }, [topic, level, selected, revealed, flagged, currentIndex, elapsedSeconds])
 
   useEffect(() => {
     persistProgress()
   }, [persistProgress])
+
+  // 计时器：finished 或暂停时停走
+  useEffect(() => {
+    if (finished || !timerRunning) return
+    const id = window.setInterval(() => {
+      setElapsedSeconds(s => s + 1)
+    }, 1000)
+    return () => window.clearInterval(id)
+  }, [finished, timerRunning])
 
   const current = questions[currentIndex]
   const totalAnswered = Object.keys(revealed).length
@@ -117,6 +139,8 @@ export default function ReadingDetail() {
     setFlagged({})
     setFinished(false)
     setMobileView('passage')
+    setElapsedSeconds(0)
+    setTimerRunning(true)
     clearProgress(topic, level)
   }
 
@@ -154,6 +178,8 @@ export default function ReadingDetail() {
             </div>
             <p className="text-gray-500 mb-8">
               正确率 <span className="font-bold text-emerald-600">{pct}%</span>
+              <span className="mx-2 text-gray-300">·</span>
+              用时 <span className="font-bold text-gray-700 font-mono tabular-nums">{formatTime(elapsedSeconds)}</span>
             </p>
 
             {/* 每题回顾 */}
@@ -227,6 +253,18 @@ export default function ReadingDetail() {
           <span className="text-sm font-semibold text-gray-700">
             Question {currentIndex + 1} of {questions.length}
           </span>
+          <button
+            onClick={() => setTimerRunning(r => !r)}
+            title={timerRunning ? '点击暂停' : '点击继续'}
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono font-semibold tabular-nums transition-colors ${
+              timerRunning
+                ? 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+            }`}
+          >
+            <Clock size={14} className={timerRunning ? '' : 'opacity-60'} />
+            {formatTime(elapsedSeconds)}
+          </button>
         </div>
 
         <div className="flex items-center gap-2">
