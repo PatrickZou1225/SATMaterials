@@ -119,6 +119,56 @@ sat-prep/
 
 ---
 
+## 日常工作流（最重要！每次改完都按这个走）
+
+### 📌 场景 1：当前电脑改完内容 → 保存进度 → 同步上线
+
+每次让 Claude 改完代码后，Patrick 要做的事：
+
+**① 本地预览（可选但推荐）**
+- VS Code 终端运行 `npm run dev`
+- 浏览器打开 `localhost:5173` 检查改动效果
+- 看完没问题，终端按 `Ctrl+C` 关掉
+
+**② 提交并推送到 GitHub**
+1. 点 VS Code 左侧 **Source Control 图标**（或按 `Cmd+Shift+G`）
+2. 输入框写**提交备注**（例如：`添加阅读Level2题目`、`优化首页布局`）
+3. 点 **✓ Commit**
+4. 点 **Sync Changes**（推送到 GitHub）
+5. **完事！** Vercel 会自动检测 main 分支更新，1-2 分钟后线上网站自动更新 ✅
+
+---
+
+### 📌 场景 2：换到另一台电脑 → 拉取最新进度
+
+**如果这台电脑第一次用** → 看下面"环境配置备忘"那一节走一遍。
+
+**如果之前已经克隆过**：
+1. 打开 VS Code，进入项目
+2. 点 Source Control 面板 → **Sync Changes / Pull**（或终端跑 `git pull`）
+3. 终端运行 `npm install`（保险起见，确保依赖最新）
+4. `npm run dev` 启动本地预览
+
+---
+
+### 📌 场景 3：git push/pull 卡住 → 代理问题
+
+打开 ClashX，终端运行：
+```
+git config --global http.proxy http://127.0.0.1:7890
+git config --global https.proxy http://127.0.0.1:7890
+```
+
+---
+
+### 🌟 核心口诀
+
+> **改完 → Commit 写备注 → Sync → 完事**
+>
+> **换电脑 → Pull → npm install → npm run dev**
+
+---
+
 ## 环境配置备忘（新电脑首次使用）
 
 ### 1. 克隆仓库
