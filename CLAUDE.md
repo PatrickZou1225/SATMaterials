@@ -217,35 +217,139 @@ git config --global --unset https.proxy
 
 ---
 
-## CC Switch — Claude Code 配置切换工具
+## Claude Code 多模型切换（Claude 中转 ↔ DeepSeek）
 
-**用途**：管理 Claude Code / Codex / Gemini CLI 等多个 AI 编码工具的 API 配置（endpoint、token、模型），在不同 provider 之间一键切换，不用手动改 JSON。
+> 2026-05-19 实测可用。通过 `launchctl setenv` 设置环境变量 + `~/.zshrc` 写入，让 VS Code 和终端都能正确加载。
 
-### 已安装位置
-- 桌面应用：`/Applications/CC Switch.app`（Mac 端，Launchpad / Spotlight 搜「CC Switch」打开）
-- 配置数据：`~/.cc-switch/cc-switch.db`
-- 切换 provider 时会自动写入 `~/.claude/settings.json`
+### 安装 CC Switch（可选 GUI）
 
-### 安装方式（其他电脑首次装时参考）
-
-**Mac（Homebrew）**：
-```
+```bash
 brew install --cask cc-switch
 ```
 
-**国内网络可能下载卡住** → 走 ClashX 代理：
-```
-HTTPS_PROXY=http://127.0.0.1:7890 HTTP_PROXY=http://127.0.0.1:7890 brew install --cask cc-switch
+在 CC Switch 中新建两个 Profile：
+
+| 字段 | Claude 中转 | DeepSeek |
+|------|------------|----------|
+| 请求地址 | `https://pikachu.claudecode.love` | `https://api.deepseek.com/anthropic` |
+| API Key | `sk-b0b246226e18f0d2c0f41eefe310762c759e71937974dfb4ac17bd769b7b21f9` | `sk-cce220333d73455191bee31e64d45996` |
+
+> **注意**：CC Switch 会检测 `~/.zshrc` 中是否有硬编码的环境变量，如果有会弹出"环境变量冲突"警告并拒绝工作。解决方法是先清空 `.zshrc`，让 CC Switch 和切换脚本接管。
+
+### 安装切换脚本 `cc`
+
+```bash
+mkdir -p ~/bin
 ```
 
-**Windows / Linux** → 从 GitHub Releases 下载安装包：
-https://github.com/farion1231/cc-switch/releases
+复制以下内容到 `~/bin/cc`：
 
-### 基本用法
-1. 打开 CC Switch app
-2. 进入「Provider 管理」 → 点右上角 **+** 添加 provider（填 endpoint + token）
-3. 选中 provider → 点 **Use** → 自动写入 `~/.claude/settings.json`
-4. 切换 provider 支持热切换，无需重启 Claude Code
+```bash
+#!/bin/bash
+
+CLAUDE_URL="https://pikachu.claudecode.love"
+CLAUDE_KEY="sk-b0b246226e18f0d2c0f41eefe310762c759e71937974dfb4ac17bd769b7b21f9"
+
+DEEPSEEK_URL="https://api.deepseek.com/anthropic"
+DEEPSEEK_KEY="sk-cce220333d73455191bee31e64d45996"
+
+restart_vscode() {
+  echo "Restarting VS Code..."
+  osascript -e 'tell app "Visual Studio Code" to quit'
+  sleep 2
+  open -a "Visual Studio Code"
+  echo "Done."
+}
+
+switch_to() {
+  local name=$1 url=$2 key=$3 do_restart=$4
+  launchctl setenv ANTHROPIC_BASE_URL "$url"
+  launchctl setenv ANTHROPIC_AUTH_TOKEN "$key"
+  echo "export ANTHROPIC_BASE_URL=\"$url\"" > ~/.zshrc
+  echo "export ANTHROPIC_AUTH_TOKEN=\"$key\"" >> ~/.zshrc
+  echo "Switched to $name ($url)"
+  if [ "$do_restart" = "1" ]; then
+    restart_vscode
+  fi
+}
+
+show_status() {
+  local url name
+  url=$(launchctl getenv ANTHROPIC_BASE_URL 2>/dev/null)
+  if echo "$url" | grep -q deepseek; then
+    name="DeepSeek"
+  elif echo "$url" | grep -q pikachu; then
+    name="Claude (relay)"
+  else
+    name="Unknown"
+  fi
+  echo "Current: $name | $url"
+}
+
+restart=false
+for arg in "$@"; do
+  case "$arg" in -r|--restart) restart=true ;; esac
+done
+
+case "${1:-}" in
+  claude|c)
+    shift; switch_to "Claude (relay)" "$CLAUDE_URL" "$CLAUDE_KEY" "$([ "$restart" = true ] && echo 1 || echo 0)"
+    ;;
+  deepseek|ds|d)
+    shift; switch_to "DeepSeek" "$DEEPSEEK_URL" "$DEEPSEEK_KEY" "$([ "$restart" = true ] && echo 1 || echo 0)"
+    ;;
+  status|s|"")
+    show_status
+    ;;
+  restart|r)
+    restart_vscode
+    ;;
+  -h|--help|help)
+    echo "Usage: cc <command> [-r]"
+    echo ""
+    echo "  cc claude | c       Switch to Claude relay"
+    echo "  cc deepseek | ds    Switch to DeepSeek"
+    echo "  cc c -r             Switch + restart VS Code"
+    echo "  cc restart | r      Restart VS Code"
+    echo "  cc status | s       Show current model"
+    ;;
+  *)
+    echo "Unknown: $1"
+    echo "Usage: cc {claude|deepseek|restart|status} [-r]"
+    ;;
+esac
+```
+
+然后：
+
+```bash
+chmod +x ~/bin/cc
+echo 'export PATH="$HOME/bin:$PATH"' >> ~/.zprofile
+source ~/.zprofile
+```
+
+### 清空 .zshrc，避免与 CC Switch 冲突
+
+```bash
+echo "" > ~/.zshrc
+```
+
+### 日常使用
+
+```bash
+cc ds -r     # 切换到 DeepSeek 并重启 VS Code
+cc c -r      # 切换到 Claude 中转并重启 VS Code
+cc status    # 查看当前模型
+```
+
+> **重要**：`cc -r` 命令必须在 macOS 自带 **Terminal.app** 中运行，不要在 VS Code 终端里跑。VS Code 关闭时会杀死终端，导致环境变量设置失败。
+
+### 原理
+
+切换脚本通过 `launchctl setenv` 设置环境变量（供 VS Code 等 GUI 应用读取），同时写入 `~/.zshrc`（供终端新标签页自动加载）。两个变量：
+
+- `ANTHROPIC_BASE_URL` — API 请求地址
+- `ANTHROPIC_AUTH_TOKEN` — API 密钥
 
 ---
 
