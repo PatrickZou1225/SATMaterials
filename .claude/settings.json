@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(brew install *)",
-      "Read(//Users/patrickzou/Downloads/AI 文件夹/**)"
+      "Read(//Users/patrickzou/Downloads/AI 文件夹/**)",
+      "Bash(npx tsc *)",
+      "Bash(npx vite *)"
     ]
   }
 }
