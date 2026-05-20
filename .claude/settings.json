@@ -4,7 +4,8 @@
       "Bash(brew install *)",
       "Read(//Users/patrickzou/Downloads/AI 文件夹/**)",
       "Bash(npx tsc *)",
-      "Bash(npx vite *)"
+      "Bash(npx vite *)",
+      "Bash(code \"/Users/patrickzou/Library/Application Support/Claude-3p/local-agent-mode-sessions/32b0d4fd-5cc6-4ae6-8539-acae3d4dbaeb/00000000-0000-4000-8000-000000000001/local_d82f7963-0a99-44ec-9833-d32d0f0fe25d.json\")"
     ]
   }
 }
