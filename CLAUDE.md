@@ -5,6 +5,14 @@
 
 ---
 
+## 截图交流（重要！DeepSeek 不支持图片）
+
+> DeepSeek 模型无法识别图片。Patrick 截图后会说 **"看图"**，意思是：运行 `~/bin/img2txt` 从剪贴板提取文字（macOS Vision OCR，秒级），然后把文字结果返回给 Patrick 分析。
+>
+> **关键**：看到"看图"就执行命令 `~/bin/img2txt`，不要等 Patrick 做任何其他操作。他不需要粘贴图片，只需要说"看图"两个字。
+
+---
+
 ## 项目概况
 
 - **名称**: SAT Prep — 中文 SAT 备考网站
@@ -214,6 +222,70 @@ lsof -iTCP -sTCP:LISTEN -P -n | grep 127.0.0.1
 git config --global --unset http.proxy
 git config --global --unset https.proxy
 ```
+
+### 6. 安装 `img2txt`（截图 OCR 工具，macOS 专用）
+
+> DeepSeek 模型不支持图片输入，所以用 macOS 自带 Vision OCR 把截图里的文字瞬间提取出来，AI 再分析文字。
+> 使用前提：macOS 10.15+，自带 Vision 框架，无需任何第三方依赖。
+
+```bash
+mkdir -p ~/bin ~/Screenshots
+```
+
+把下面这段 Swift 代码保存为 `/tmp/ocr.swift`：
+
+```swift
+import Vision
+import AppKit
+import Foundation
+
+let screenshotsDir = NSHomeDirectory() + "/Screenshots"
+try? FileManager.default.createDirectory(atPath: screenshotsDir, withIntermediateDirectories: true)
+
+let df = DateFormatter()
+df.dateFormat = "yyyy-MM-dd_HH-mm-ss"
+let filename = "screenshot_\(df.string(from: Date())).png"
+let filepath = screenshotsDir + "/" + filename
+
+guard let img = NSPasteboard.general.readObjects(forClasses: [NSImage.self], options: nil)?.first as? NSImage,
+      let tiff = img.tiffRepresentation,
+      let bmp = NSBitmapImageRep(data: tiff),
+      let png = bmp.representation(using: .png, properties: [:]) else {
+    print("ERROR: No image in clipboard")
+    exit(1)
+}
+try png.write(to: URL(fileURLWithPath: filepath))
+print("SAVED: \(filepath)")
+
+guard let cgImg = img.cgImage(forProposedRect: nil, context: nil, hints: nil) else { exit(1) }
+let req = VNRecognizeTextRequest()
+req.recognitionLanguages = ["zh-Hans", "zh-Hant", "en"]
+req.recognitionLevel = .accurate
+try? VNImageRequestHandler(cgImage: cgImg, options: [:]).perform([req])
+if let obs = req.results {
+    for o in obs {
+        if let top = o.topCandidates(1).first {
+            print(top.string)
+        }
+    }
+}
+```
+
+然后编译安装：
+
+```bash
+swiftc -O /tmp/ocr.swift -o ~/bin/img2txt && rm /tmp/ocr.swift
+echo 'export PATH="$HOME/bin:$PATH"' >> ~/.zprofile
+source ~/.zprofile
+```
+
+测试（先截一张图到剪贴板，然后跑）：
+
+```bash
+~/bin/img2txt
+```
+
+如果能输出文字，就说明安装成功。以后 Patrick 说 **"看图"**，AI 就会自动跑这个命令。
 
 ---
 
