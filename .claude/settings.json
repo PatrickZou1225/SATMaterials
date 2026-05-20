@@ -14,7 +14,8 @@
       "Bash(mkdir -p \"/Users/patrickzou/Library/Mobile Documents/com~apple~CloudDocs/sat-prep/.claude/skills/karpathy-guidelines\")",
       "Edit(/.claude/skills/karpathy-guidelines/**)",
       "Bash(git add *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
     ],
     "additionalDirectories": [
       "/Users/patrickzou/Library/Mobile Documents/com~apple~CloudDocs/sat-prep/.claude/skills"
