@@ -5,7 +5,19 @@
       "Read(//Users/patrickzou/Downloads/AI 文件夹/**)",
       "Bash(npx tsc *)",
       "Bash(npx vite *)",
-      "Bash(code \"/Users/patrickzou/Library/Application Support/Claude-3p/local-agent-mode-sessions/32b0d4fd-5cc6-4ae6-8539-acae3d4dbaeb/00000000-0000-4000-8000-000000000001/local_d82f7963-0a99-44ec-9833-d32d0f0fe25d.json\")"
+      "Bash(code \"/Users/patrickzou/Library/Application Support/Claude-3p/local-agent-mode-sessions/32b0d4fd-5cc6-4ae6-8539-acae3d4dbaeb/00000000-0000-4000-8000-000000000001/local_d82f7963-0a99-44ec-9833-d32d0f0fe25d.json\")",
+      "WebFetch(domain:github.com)",
+      "Bash(curl -sL \"https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md\")",
+      "Bash(curl -sL \"https://api.github.com/repos/forrestchang/andrej-karpathy-skills/git/trees/main?recursive=1\")",
+      "Bash(python3 -c \"import json,sys; data=json.load\\(sys.stdin\\); [print\\(t['path']\\) for t in data.get\\('tree',[]\\) if not t['path'].startswith\\('.'\\)]\")",
+      "Bash(curl -sL \"https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/skills/karpathy-guidelines/SKILL.md\")",
+      "Bash(mkdir -p \"/Users/patrickzou/Library/Mobile Documents/com~apple~CloudDocs/sat-prep/.claude/skills/karpathy-guidelines\")",
+      "Edit(/.claude/skills/karpathy-guidelines/**)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
+    ],
+    "additionalDirectories": [
+      "/Users/patrickzou/Library/Mobile Documents/com~apple~CloudDocs/sat-prep/.claude/skills"
     ]
   }
 }
