@@ -1,6 +1,4 @@
 {
-  "effortLevel": "xhigh",
-  "alwaysThinkingEnabled": true,
   "permissions": {
     "allow": [
       "Bash(brew install *)",
@@ -19,10 +17,14 @@
       "Bash(git commit -m ' *)",
       "Bash(git push *)",
       "Bash(cat ~/.claude/settings.json 2>/dev/null || echo \"No user settings\")",
-      "Read(//Users/patrickzou/.claude/**)"
+      "Read(//Users/patrickzou/.claude/**)",
+      "Bash(curl -sL \"https://api.github.com/repos/affaan-m/ECC/git/trees/main?recursive=1\")",
+      "Bash(python3 -c ' *)"
     ],
     "additionalDirectories": [
       "/Users/patrickzou/Library/Mobile Documents/com~apple~CloudDocs/sat-prep/.claude/skills"
     ]
-  }
+  },
+  "alwaysThinkingEnabled": true,
+  "effortLevel": "xhigh"
 }
