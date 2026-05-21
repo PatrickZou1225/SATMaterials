@@ -1,4 +1,6 @@
 {
+  "effortLevel": "xhigh",
+  "alwaysThinkingEnabled": true,
   "permissions": {
     "allow": [
       "Bash(brew install *)",
@@ -15,7 +17,9 @@
       "Edit(/.claude/skills/karpathy-guidelines/**)",
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(cat ~/.claude/settings.json 2>/dev/null || echo \"No user settings\")",
+      "Read(//Users/patrickzou/.claude/**)"
     ],
     "additionalDirectories": [
       "/Users/patrickzou/Library/Mobile Documents/com~apple~CloudDocs/sat-prep/.claude/skills"
