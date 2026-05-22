@@ -1,5 +1,6 @@
 {
   "permissions": {
+    "defaultMode": "bypassPermissions",
     "allow": [
       "Bash(brew install *)",
       "Read(//Users/patrickzou/Downloads/AI 文件夹/**)",
@@ -19,10 +20,20 @@
       "Bash(cat ~/.claude/settings.json 2>/dev/null || echo \"No user settings\")",
       "Read(//Users/patrickzou/.claude/**)",
       "Bash(curl -sL \"https://api.github.com/repos/affaan-m/ECC/git/trees/main?recursive=1\")",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Bash(ls \"/Users/patrickzou/Downloads/AI 文件夹/\" 2>&1; echo \"---\"; ls \"/Users/patrickzou/Downloads/AI 文件夹/脚本工具/\" 2>&1; echo \"---\"; ls \"/Users/patrickzou/Downloads/AI 文件夹/PDF讲义/\" 2>&1; echo \"---\"; ls /tmp/pdfenv/bin/python 2>&1)",
+      "Read(//opt/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/bin/**)",
+      "Bash(/tmp/pdfenv/bin/python -c \"import reportlab; print\\('reportlab', reportlab.Version\\)\")",
+      "Bash(ls -la \"/System/Library/Fonts/STHeiti Medium.ttc\" \"/System/Library/Fonts/Songti.ttc\" \"/System/Library/Fonts/Hiragino Sans GB.ttc\" 2>&1)",
+      "Read(//System/Library/Fonts/**)",
+      "Bash(/tmp/pdfenv/bin/python \"/Users/patrickzou/Downloads/AI 文件夹/脚本工具/test_reportlab_cn.py\")",
+      "Bash(open \"/Users/patrickzou/Downloads/AI 文件夹/PDF讲义/_test_reportlab_cn.pdf\")",
+      "Bash(python3 build_methodology.py)"
     ],
     "additionalDirectories": [
-      "/Users/patrickzou/Library/Mobile Documents/com~apple~CloudDocs/sat-prep/.claude/skills"
+      "/Users/patrickzou/Library/Mobile Documents/com~apple~CloudDocs/sat-prep/.claude/skills",
+      "/tmp",
+      "/private/tmp"
     ]
   },
   "alwaysThinkingEnabled": true,

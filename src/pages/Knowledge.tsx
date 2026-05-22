@@ -203,7 +203,7 @@ export default function Knowledge() {
                   {item.levels.map((lv, j) => {
                     const topicKey = topicRouteKeys[item.title]
                     const levelKey = `level${j + 1}`
-                    const hasContent = topicKey !== undefined && j === 0 // 目前只有 level1 有内容
+                    const hasContent = topicKey !== undefined // zhuzhi 三个 level 均已上线
                     const btnClass = `flex-1 ${lv.bg} border rounded-xl px-3 py-3 text-center transition-all hover:shadow-sm hover:scale-[1.02]`
                     if (hasContent && topicKey) {
                       return (
