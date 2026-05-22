@@ -28,7 +28,15 @@
       "Bash(/tmp/pdfenv/bin/python \"/Users/patrickzou/Downloads/AI 文件夹/脚本工具/test_reportlab_cn.py\")",
       "Bash(open \"/Users/patrickzou/Downloads/AI 文件夹/PDF讲义/_test_reportlab_cn.pdf\")",
       "Bash(python3 build_methodology.py)",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173/202605AS-%E7%AC%AC%E4%B8%80%E5%A5%97-Q10.png)"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173/202605AS-%E7%AC%AC%E4%B8%80%E5%A5%97-Q10.png)",
+      "Bash(npx vercel *)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\" \"https://sat-materials.vercel.app\")",
+      "Bash(curl -s \"https://sat-materials.vercel.app\")",
+      "Bash(gh api *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" --connect-timeout 5 \"https://sat-materials-team-v0duyfo8k44nfwlqsuyhzqgc.vercel.app\")",
+      "Bash(curl -s \"https://raw.githubusercontent.com/PatrickZou1225/SATMaterials/main/README.md\")",
+      "Bash(curl -sI --connect-timeout 5 \"https://sat-materials.vercel.app\")",
+      "Bash(curl -sI --connect-timeout 5 \"https://patrickzou1225.github.io/SATMaterials\")"
     ],
     "defaultMode": "bypassPermissions",
     "additionalDirectories": [

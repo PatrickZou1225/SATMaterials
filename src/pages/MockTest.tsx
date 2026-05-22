@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
-import { ArrowLeft, ChevronLeft, ChevronRight, CheckCircle, XCircle, RotateCcw, Flag, Clock, AlertTriangle, Send } from 'lucide-react'
+import { ArrowLeft, ChevronLeft, ChevronRight, RotateCcw, Flag, Clock, AlertTriangle, Send } from 'lucide-react'
 import { getTestSet, type MockTestQuestion } from '../data/mockTestQuestions'
 
 const OPTION_LABELS = ['A', 'B', 'C', 'D']
@@ -309,8 +309,6 @@ export default function MockTest() {
   // ============================================================
   //  做题界面（无逐题反馈）
   // ============================================================
-  const hasSelectedCurrent = selected[current.id] !== undefined
-
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
 
