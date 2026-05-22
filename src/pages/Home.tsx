@@ -74,7 +74,7 @@ export default function Home() {
               <ul className="space-y-1.5 text-sm text-gray-600 flex-1 mb-6">
                 {['完整模拟', '计时练习', '成绩分析', '错题回顾'].map(t => <li key={t} className="flex items-center gap-2">✓ {t}</li>)}
               </ul>
-              <Link to="/practice" className="block text-center py-2.5 rounded-lg text-white text-sm font-semibold bg-purple-600 hover:bg-purple-700 transition-colors">开始学习</Link>
+              <Link to="/mock-test" className="block text-center py-2.5 rounded-lg text-white text-sm font-semibold bg-purple-600 hover:bg-purple-700 transition-colors">开始模考</Link>
             </div>
 
             {/* 专项知识点 */}

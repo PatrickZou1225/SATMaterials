@@ -7,6 +7,8 @@ import Subjects from './pages/Subjects'
 import FAQ from './pages/FAQ'
 import Knowledge from './pages/Knowledge'
 import ReadingDetail from './pages/ReadingDetail'
+import MockTestList from './pages/MockTestList'
+import MockTest from './pages/MockTest'
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
             <Route path="/faq" element={<FAQ />} />
             <Route path="/knowledge" element={<Knowledge />} />
             <Route path="/knowledge/reading/:topic/:level" element={<ReadingDetail />} />
+            <Route path="/mock-test/:testId/:moduleIndex" element={<MockTest />} />
+            <Route path="/mock-test" element={<MockTestList />} />
           </Route>
         </Routes>
       </BrowserRouter>

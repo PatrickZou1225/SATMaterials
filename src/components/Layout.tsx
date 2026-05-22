@@ -19,6 +19,7 @@ export default function Layout() {
             <NavLink to="/subjects" className={({ isActive }) => isActive ? 'text-blue-600' : 'hover:text-blue-600 transition-colors'}>科目</NavLink>
             <NavLink to="/knowledge" className={({ isActive }) => isActive ? 'text-blue-600' : 'hover:text-blue-600 transition-colors'}>专项知识点</NavLink>
             <NavLink to="/practice" className={({ isActive }) => isActive ? 'text-blue-600' : 'hover:text-blue-600 transition-colors'}>练习</NavLink>
+            <NavLink to="/mock-test" className={({ isActive }) => isActive ? 'text-purple-600' : 'hover:text-purple-600 transition-colors'}>模拟测试</NavLink>
             <NavLink to="/faq" className={({ isActive }) => isActive ? 'text-blue-600' : 'hover:text-blue-600 transition-colors'}>常见问题</NavLink>
             <NavLink to="/practice" className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">开始练习</NavLink>
           </nav>
@@ -35,6 +36,7 @@ export default function Layout() {
             <NavLink to="/subjects" onClick={() => setMenuOpen(false)} className="hover:text-blue-600">科目</NavLink>
             <NavLink to="/knowledge" onClick={() => setMenuOpen(false)} className="hover:text-blue-600">专项知识点</NavLink>
             <NavLink to="/practice" onClick={() => setMenuOpen(false)} className="hover:text-blue-600">练习</NavLink>
+            <NavLink to="/mock-test" onClick={() => setMenuOpen(false)} className="hover:text-purple-600">模拟测试</NavLink>
             <NavLink to="/faq" onClick={() => setMenuOpen(false)} className="hover:text-blue-600">常见问题</NavLink>
             <NavLink to="/practice" onClick={() => setMenuOpen(false)} className="px-4 py-2 bg-blue-600 text-white rounded-lg text-center">开始练习</NavLink>
           </div>

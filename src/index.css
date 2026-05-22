@@ -12,3 +12,10 @@ body {
   font-family: system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
+
+mark {
+  background: #fef08a;
+  color: inherit;
+  padding: 0 2px;
+  border-radius: 2px;
+}
