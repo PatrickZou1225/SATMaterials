@@ -37,7 +37,9 @@
       "Bash(curl -s \"https://raw.githubusercontent.com/PatrickZou1225/SATMaterials/main/README.md\")",
       "Bash(curl -sI --connect-timeout 5 \"https://sat-materials.vercel.app\")",
       "Bash(curl -sI --connect-timeout 5 \"https://patrickzou1225.github.io/SATMaterials\")",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\" --connect-timeout 3 -x http://127.0.0.1:7890 https://github.com)"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" --connect-timeout 3 -x http://127.0.0.1:7890 https://github.com)",
+      "Bash(git -C /Users/patrickzou/sat-prep diff --stat)",
+      "Bash(git -C /Users/patrickzou/sat-prep diff sat-prep)"
     ],
     "defaultMode": "bypassPermissions",
     "additionalDirectories": [
