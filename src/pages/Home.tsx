@@ -11,7 +11,7 @@ export default function Home() {
             2026 全新SAT数字化考试备考
           </span>
           <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6 text-gray-900 dark:text-slate-100">
-            轻松突破 <span className="text-blue-600 dark:text-blue-400">1550分</span>
+            轻松突破 <span className="text-blue-600 dark:text-blue-400">1500分</span>
           </h1>
           <p className="text-lg md:text-xl max-w-2xl mx-auto mb-10 text-gray-600 dark:text-slate-400">
             专业SAT备考平台，覆盖数学、阅读与写作全科目。智能练习系统 + 详解分析，让每一分钟的学习都高效有价值。
