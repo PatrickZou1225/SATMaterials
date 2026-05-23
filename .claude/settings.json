@@ -36,7 +36,8 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" --connect-timeout 5 \"https://sat-materials-team-v0duyfo8k44nfwlqsuyhzqgc.vercel.app\")",
       "Bash(curl -s \"https://raw.githubusercontent.com/PatrickZou1225/SATMaterials/main/README.md\")",
       "Bash(curl -sI --connect-timeout 5 \"https://sat-materials.vercel.app\")",
-      "Bash(curl -sI --connect-timeout 5 \"https://patrickzou1225.github.io/SATMaterials\")"
+      "Bash(curl -sI --connect-timeout 5 \"https://patrickzou1225.github.io/SATMaterials\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" --connect-timeout 3 -x http://127.0.0.1:7890 https://github.com)"
     ],
     "defaultMode": "bypassPermissions",
     "additionalDirectories": [
