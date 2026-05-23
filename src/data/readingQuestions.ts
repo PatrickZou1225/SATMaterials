@@ -433,7 +433,7 @@ export const levelNames: Record<
   string,
   { name: string; label: string; color: string; bg: string; border: string }
 > = {
-  level1: { name: 'Level 1', label: '新手保护期', color: 'text-green-700', bg: 'bg-green-50', border: 'border-green-300' },
-  level2: { name: 'Level 2', label: '渐入佳境', color: 'text-amber-700', bg: 'bg-amber-50', border: 'border-amber-300' },
-  level3: { name: 'Level 3', label: '试试就逝世', color: 'text-red-700', bg: 'bg-red-50', border: 'border-red-300' },
+  level1: { name: 'Level 1', label: '新手保护期', color: 'text-green-700 dark:text-green-400', bg: 'bg-green-50 dark:bg-green-950', border: 'border-green-300' },
+  level2: { name: 'Level 2', label: '渐入佳境', color: 'text-amber-700 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-950', border: 'border-amber-300' },
+  level3: { name: 'Level 3', label: '试试就逝世', color: 'text-red-700 dark:text-red-400', bg: 'bg-red-50 dark:bg-red-950', border: 'border-red-300' },
 }

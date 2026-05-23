@@ -113,17 +113,21 @@ sat-prep/
 - 非专业程序员，需要清晰简洁的操作指引
 - 使用 VS Code 开发
 - 用 Git GUI（VS Code 侧边栏 Source Control）而非命令行提交代码
-- 项目存放在 iCloud Drive 路径下
+- 项目存放在 `~/sat-prep`（本地路径，Git 同步，不在 iCloud）
 
 ## 输出文件位置
 
-所有 AI 生成的文件（PDF、脚本、文档等）统一输出到 `~/Downloads/AI 文件夹/`，按类型分目录：
+所有 AI 生成的文件（PDF、脚本、文档等）统一输出到 iCloud 下的 **AI文件夹**：
 
-- `PDF讲义/` — PDF 文档、讲义
-- `脚本工具/` — Python 脚本、工具
-- 其他类型新建对应子目录
+```
+/Users/patrickzou/Library/Mobile Documents/com~apple~CloudDocs/AI文件夹/
+├── PDF讲义/          # PDF 文档、讲义
+├── 脚本工具/          # Python 脚本、工具
+├── Claude-会话/       # Claude 会话记录（跨电脑同步）
+└── 其他/             # 临时/未分类
+```
 
-不在工作目录或临时目录存放生成文件。
+不在工作目录或临时目录存放生成文件。换电脑后同一路径可访问。
 
 ---
 
@@ -183,20 +187,20 @@ git config --global https.proxy http://127.0.0.1:7890
 
 > **改完 → Commit 写备注 → Sync → 完事**
 >
-> **换电脑 → Pull → npm install → npm run dev**
+> **换电脑 → Pull → npm install → 恢复AI记忆 → npm run dev**
 
 ---
 
 ## 环境配置备忘（新电脑首次使用）
 
 ### 1. 克隆仓库
-```
-git clone https://github.com/PatrickZou1225/SATMaterials.git
+```bash
+git clone https://github.com/PatrickZou1225/SATMaterials.git ~/sat-prep
 ```
 
 ### 2. 安装依赖
-```
-cd SATMaterials
+```bash
+cd ~/sat-prep
 npm install
 ```
 
@@ -233,7 +237,17 @@ git config --global --unset http.proxy
 git config --global --unset https.proxy
 ```
 
-### 6. 安装 `img2txt`（截图 OCR 工具，macOS 专用）
+### 6. 恢复 Claude Code 跨电脑记忆（软链接）
+
+换电脑后，需要让 Claude Code 读取 iCloud 里的会话记录和项目记忆。跑这行命令：
+
+```bash
+rm -rf ~/.claude/projects && ln -s "/Users/patrickzou/Library/Mobile Documents/com~apple~CloudDocs/AI文件夹/Claude-会话/projects" ~/.claude/projects
+```
+
+> **原理**：Claude Code 本身把数据存本地 `~/.claude/projects/`。这条命令把这个目录变成一个"快捷方式"指向 iCloud。iCloud 会先自动同步 AI文件夹 的内容，所以第一次打开可能要多等几分钟。
+
+### 7. 安装 `img2txt`（截图 OCR 工具，macOS 专用）
 
 > DeepSeek 模型不支持图片输入，所以用 macOS 自带 Vision OCR 把截图里的文字瞬间提取出来，AI 再分析文字。
 > 使用前提：macOS 10.15+，自带 Vision 框架，无需任何第三方依赖。

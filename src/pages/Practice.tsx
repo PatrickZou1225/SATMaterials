@@ -98,20 +98,20 @@ export default function Practice() {
   }
 
   const difficultyLabel = { easy: '简单', medium: '中等', hard: '困难' }
-  const difficultyColor = { easy: 'text-green-600 bg-green-50', medium: 'text-yellow-600 bg-yellow-50', hard: 'text-red-600 bg-red-50' }
+  const difficultyColor = { easy: 'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-950', medium: 'text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-950', hard: 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950' }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 py-10 px-4">
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">练习题</h1>
-        <p className="text-gray-500 mb-8">选择科目和难度，开始练习</p>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-slate-100 mb-2">练习题</h1>
+        <p className="text-gray-500 dark:text-slate-400 mb-8">选择科目和难度，开始练习</p>
 
         {/* Filters */}
-        <div className="bg-white rounded-xl border p-4 mb-6 flex flex-wrap gap-4">
+        <div className="bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-slate-700 p-4 mb-6 flex flex-wrap gap-4">
           <div>
-            <label className="text-sm font-medium text-gray-700 block mb-1">科目</label>
+            <label className="text-sm font-medium text-gray-700 dark:text-slate-300 block mb-1">科目</label>
             <select
-              className="border rounded-lg px-3 py-2 text-sm"
+              className="border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 rounded-lg px-3 py-2 text-sm"
               value={filter.subject}
               onChange={e => setFilter(f => ({ ...f, subject: e.target.value as Subject | 'all' }))}
             >
@@ -121,9 +121,9 @@ export default function Practice() {
             </select>
           </div>
           <div>
-            <label className="text-sm font-medium text-gray-700 block mb-1">难度</label>
+            <label className="text-sm font-medium text-gray-700 dark:text-slate-300 block mb-1">难度</label>
             <select
-              className="border rounded-lg px-3 py-2 text-sm"
+              className="border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 rounded-lg px-3 py-2 text-sm"
               value={filter.difficulty}
               onChange={e => setFilter(f => ({ ...f, difficulty: e.target.value as Difficulty | 'all' }))}
             >
@@ -134,18 +134,18 @@ export default function Practice() {
             </select>
           </div>
           <div className="flex items-end">
-            <span className="text-sm text-gray-500">{queue.length} 道题</span>
+            <span className="text-sm text-gray-500 dark:text-slate-400">{queue.length} 道题</span>
           </div>
         </div>
 
         {/* Finished screen */}
         {finished && (
-          <div className="bg-white rounded-xl border p-10 text-center">
+          <div className="bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-slate-700 p-10 text-center">
             <div className="text-6xl mb-4">🎉</div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">练习完成！</h2>
-            <p className="text-gray-500 mb-6">
-              共 {score.total} 题，答对 <span className="text-green-600 font-bold">{score.correct}</span> 题，
-              正确率 <span className="text-blue-600 font-bold">{Math.round(score.correct / score.total * 100)}%</span>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-slate-100 mb-2">练习完成！</h2>
+            <p className="text-gray-500 dark:text-slate-400 mb-6">
+              共 {score.total} 题，答对 <span className="text-green-600 dark:text-green-400 font-bold">{score.correct}</span> 题，
+              正确率 <span className="text-blue-600 dark:text-blue-400 font-bold">{Math.round(score.correct / score.total * 100)}%</span>
             </p>
             <button onClick={handleRestart} className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors font-semibold">
               <RotateCcw size={18} /> 再练一次
@@ -155,43 +155,43 @@ export default function Practice() {
 
         {/* Question card */}
         {!finished && current && (
-          <div className="bg-white rounded-xl border p-6 md:p-8">
+          <div className="bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-slate-700 p-6 md:p-8">
             {/* Progress */}
             <div className="flex justify-between items-center mb-6">
-              <span className="text-sm text-gray-500">第 {index + 1} / {queue.length} 题</span>
+              <span className="text-sm text-gray-500 dark:text-slate-400">第 {index + 1} / {queue.length} 题</span>
               <div className="flex gap-2">
-                <span className="text-xs px-2 py-1 rounded-full bg-blue-50 text-blue-600">
+                <span className="text-xs px-2 py-1 rounded-full bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400">
                   {current.subject === 'math' ? '数学' : '阅读与写作'}
                 </span>
                 <span className={`text-xs px-2 py-1 rounded-full ${difficultyColor[current.difficulty]}`}>
                   {difficultyLabel[current.difficulty]}
                 </span>
-                <span className="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-600">
+                <span className="text-xs px-2 py-1 rounded-full bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-slate-400">
                   {current.topic}
                 </span>
               </div>
             </div>
 
             {/* Progress bar */}
-            <div className="w-full bg-gray-100 rounded-full h-1.5 mb-8">
+            <div className="w-full bg-gray-100 dark:bg-slate-800 rounded-full h-1.5 mb-8">
               <div className="bg-blue-600 h-1.5 rounded-full transition-all" style={{ width: `${(index / queue.length) * 100}%` }} />
             </div>
 
             {/* Question */}
-            <h2 className="text-lg font-semibold text-gray-900 mb-6 leading-relaxed">{current.question}</h2>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-6 leading-relaxed">{current.question}</h2>
 
             {/* Options */}
             <div className="space-y-3 mb-6">
               {current.options.map((opt, i) => {
                 let cls = 'w-full text-left px-4 py-3.5 rounded-xl border-2 text-sm font-medium transition-all '
                 if (!showResult) {
-                  cls += selected === i ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-blue-300 hover:bg-blue-50'
+                  cls += selected === i ? 'border-blue-500 bg-blue-50 dark:bg-blue-950' : 'border-gray-200 dark:border-slate-600 hover:border-blue-300 dark:hover:border-blue-700 hover:bg-blue-50 dark:hover:bg-blue-950/50'
                 } else if (i === current.answer) {
-                  cls += 'border-green-500 bg-green-50 text-green-800'
+                  cls += 'border-green-500 bg-green-50 dark:bg-green-950 text-green-800 dark:text-green-200'
                 } else if (selected === i) {
-                  cls += 'border-red-400 bg-red-50 text-red-800'
+                  cls += 'border-red-400 bg-red-50 dark:bg-red-950 text-red-800 dark:text-red-200'
                 } else {
-                  cls += 'border-gray-200 text-gray-400'
+                  cls += 'border-gray-200 dark:border-slate-700 text-gray-400 dark:text-slate-600'
                 }
                 return (
                   <button key={i} className={cls} onClick={() => handleSelect(i)}>
@@ -207,9 +207,9 @@ export default function Practice() {
 
             {/* Explanation */}
             {showResult && (
-              <div className={`p-4 rounded-xl mb-6 ${selected === current.answer ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`}>
-                <p className="font-semibold mb-1 text-sm">{selected === current.answer ? '✅ 回答正确！' : '❌ 回答错误'}</p>
-                <p className="text-sm text-gray-700">{current.explanation}</p>
+              <div className={`p-4 rounded-xl mb-6 ${selected === current.answer ? 'bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800' : 'bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800'}`}>
+                <p className="font-semibold mb-1 text-sm text-slate-900 dark:text-slate-100">{selected === current.answer ? '✅ 回答正确！' : '❌ 回答错误'}</p>
+                <p className="text-sm text-gray-700 dark:text-slate-300">{current.explanation}</p>
               </div>
             )}
 
@@ -221,14 +221,14 @@ export default function Practice() {
             )}
 
             {/* Score */}
-            <div className="mt-4 text-center text-sm text-gray-400">
+            <div className="mt-4 text-center text-sm text-gray-400 dark:text-slate-500">
               已答 {score.total} 题 · 答对 {score.correct} 题
             </div>
           </div>
         )}
 
         {!finished && queue.length === 0 && (
-          <div className="bg-white rounded-xl border p-10 text-center text-gray-500">
+          <div className="bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-slate-700 p-10 text-center text-gray-500 dark:text-slate-400">
             没有找到符合条件的题目，请调整筛选条件
           </div>
         )}

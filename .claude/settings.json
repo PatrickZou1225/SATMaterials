@@ -40,7 +40,6 @@
     ],
     "defaultMode": "bypassPermissions",
     "additionalDirectories": [
-      "/Users/patrickzou/Library/Mobile Documents/com~apple~CloudDocs/sat-prep/.claude/skills",
       "/tmp",
       "/private/tmp"
     ]

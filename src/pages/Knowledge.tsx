@@ -50,9 +50,9 @@ const grammarTopics: KnowledgeItem[] = [
 ]
 
 const levelDefs = [
-  { name: 'Level 1', label: '新手保护期', color: 'text-green-700', bg: 'bg-green-50 border-green-200' },
-  { name: 'Level 2', label: '渐入佳境', color: 'text-amber-700', bg: 'bg-amber-50 border-amber-200' },
-  { name: 'Level 3', label: '试试就逝世', color: 'text-red-700', bg: 'bg-red-50 border-red-200' },
+  { name: 'Level 1', label: '新手保护期', color: 'text-green-700 dark:text-green-400', bg: 'bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800' },
+  { name: 'Level 2', label: '渐入佳境', color: 'text-amber-700 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-950 border-amber-200 dark:border-amber-800' },
+  { name: 'Level 3', label: '试试就逝世', color: 'text-red-700 dark:text-red-400', bg: 'bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800' },
 ]
 
 const readingTopics: ReadingTopic[] = [
@@ -143,9 +143,9 @@ const tabs: { key: Tab; label: string; icon: React.ReactNode; color: string; act
 ]
 
 const borderColors: Record<Tab, string> = {
-  grammar: 'hover:border-rose-300',
-  reading: 'hover:border-emerald-300',
-  math: 'hover:border-blue-300',
+  grammar: 'hover:border-rose-300 dark:hover:border-rose-800',
+  reading: 'hover:border-emerald-300 dark:hover:border-emerald-800',
+  math: 'hover:border-blue-300 dark:hover:border-blue-800',
 }
 
 const dotColors: Record<Tab, string> = {
@@ -159,14 +159,14 @@ export default function Knowledge() {
   const current = tabs.find(t => t.key === activeTab)!
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 py-12 px-4">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <Link to="/" className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-blue-600 transition-colors mb-6">
+        <Link to="/" className="inline-flex items-center gap-1 text-sm text-gray-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-6">
           <ArrowLeft size={16} /> 返回首页
         </Link>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">专项知识点</h1>
-        <p className="text-gray-500 mb-10">按知识点分类的专项突破训练，精准定位薄弱环节</p>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-slate-100 mb-2">专项知识点</h1>
+        <p className="text-gray-500 dark:text-slate-400 mb-10">按知识点分类的专项突破训练，精准定位薄弱环节</p>
 
         {/* Tab navigation */}
         <div className="flex gap-2 mb-8">
@@ -177,7 +177,7 @@ export default function Knowledge() {
               className={`flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold transition-all ${
                 activeTab === tab.key
                   ? `${tab.activeColor} text-white shadow-md`
-                  : 'bg-white border text-gray-600 hover:bg-gray-50'
+                  : 'bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-800'
               }`}
             >
               {tab.icon}
@@ -192,13 +192,13 @@ export default function Knowledge() {
             {readingTopics.map((item, i) => (
               <div
                 key={i}
-                className="bg-white rounded-2xl border-2 border-transparent hover:border-emerald-300 p-6 transition-all hover:shadow-md"
+                className="bg-white dark:bg-slate-900 rounded-2xl border-2 border-transparent dark:border-slate-700 hover:border-emerald-300 dark:hover:border-emerald-700 p-6 transition-all hover:shadow-md"
               >
                 <div className="flex items-start justify-between mb-2">
-                  <h3 className="text-lg font-bold text-gray-900">{item.title}</h3>
-                  <span className="text-emerald-600 mt-1"><ChevronRight size={18} /></span>
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-slate-100">{item.title}</h3>
+                  <span className="text-emerald-600 dark:text-emerald-400 mt-1"><ChevronRight size={18} /></span>
                 </div>
-                <p className="text-sm text-gray-500 mb-5">{item.description}</p>
+                <p className="text-sm text-gray-500 dark:text-slate-400 mb-5">{item.description}</p>
                 <div className="flex gap-3">
                   {item.levels.map((lv, j) => {
                     const topicKey = topicRouteKeys[item.title]
@@ -213,7 +213,7 @@ export default function Knowledge() {
                           className={btnClass}
                         >
                           <div className={`text-xs font-bold ${lv.color} mb-1`}>{lv.name}</div>
-                          <div className="text-xs text-gray-600">{lv.label}</div>
+                          <div className="text-xs text-gray-600 dark:text-slate-400">{lv.label}</div>
                         </Link>
                       )
                     }
@@ -224,8 +224,8 @@ export default function Knowledge() {
                         title="题目即将上线，敬请期待"
                       >
                         <div className={`text-xs font-bold ${lv.color} mb-1`}>{lv.name}</div>
-                        <div className="text-xs text-gray-600">{lv.label}</div>
-                        <div className="text-[10px] text-gray-300 mt-0.5">即将上线</div>
+                        <div className="text-xs text-gray-600 dark:text-slate-400">{lv.label}</div>
+                        <div className="text-[10px] text-gray-300 dark:text-slate-600 mt-0.5">即将上线</div>
                       </button>
                     )
                   })}
@@ -238,16 +238,16 @@ export default function Knowledge() {
             {(activeTab === 'grammar' ? grammarTopics : mathTopics).map((item, i) => (
               <div
                 key={i}
-                className={`bg-white rounded-2xl border-2 border-transparent ${borderColors[activeTab]} p-6 transition-all hover:shadow-md`}
+                className={`bg-white dark:bg-slate-900 rounded-2xl border-2 border-transparent dark:border-slate-700 ${borderColors[activeTab]} p-6 transition-all hover:shadow-md`}
               >
                 <div className="flex items-start justify-between mb-3">
-                  <h3 className="text-lg font-bold text-gray-900">{item.title}</h3>
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-slate-100">{item.title}</h3>
                   <span className={`${current.color} mt-1`}><ChevronRight size={18} /></span>
                 </div>
-                <p className="text-sm text-gray-500 mb-4">{item.description}</p>
+                <p className="text-sm text-gray-500 dark:text-slate-400 mb-4">{item.description}</p>
                 <div className="space-y-2">
                   {item.points.map(point => (
-                    <div key={point} className="flex items-center gap-2 text-sm text-gray-700">
+                    <div key={point} className="flex items-center gap-2 text-sm text-gray-700 dark:text-slate-300">
                       <span className={`w-1.5 h-1.5 rounded-full ${dotColors[activeTab]} shrink-0`} />
                       {point}
                     </div>

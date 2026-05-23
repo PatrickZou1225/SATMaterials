@@ -14,23 +14,23 @@ export default function FAQ() {
   const [open, setOpen] = useState<number | null>(0)
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
+    <div className="min-h-screen bg-gray-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 py-12 px-4">
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">常见问题</h1>
-        <p className="text-gray-500 mb-10">关于SAT备考和本平台的常见问题解答</p>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-slate-100 mb-2">常见问题</h1>
+        <p className="text-gray-500 dark:text-slate-400 mb-10">关于SAT备考和本平台的常见问题解答</p>
 
         <div className="space-y-3">
           {faqs.map((faq, i) => (
-            <div key={i} className="bg-white rounded-xl border overflow-hidden">
+            <div key={i} className="bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-slate-700 overflow-hidden">
               <button
-                className="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-gray-50 transition-colors"
+                className="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
                 onClick={() => setOpen(open === i ? null : i)}
               >
-                <span className="font-semibold text-gray-900">{faq.q}</span>
-                {open === i ? <ChevronUp size={18} className="text-gray-400 shrink-0" /> : <ChevronDown size={18} className="text-gray-400 shrink-0" />}
+                <span className="font-semibold text-gray-900 dark:text-slate-100">{faq.q}</span>
+                {open === i ? <ChevronUp size={18} className="text-gray-400 dark:text-slate-400 shrink-0" /> : <ChevronDown size={18} className="text-gray-400 dark:text-slate-400 shrink-0" />}
               </button>
               {open === i && (
-                <div className="px-6 pb-5 text-gray-600 text-sm leading-relaxed border-t pt-4">
+                <div className="px-6 pb-5 text-gray-600 dark:text-slate-300 text-sm leading-relaxed border-t border-gray-200 dark:border-slate-700 pt-4">
                   {faq.a}
                 </div>
               )}

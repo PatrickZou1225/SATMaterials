@@ -35,17 +35,17 @@ export default function PasswordGate({ children }: { children: React.ReactNode }
 
   if (!authenticated) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+      <div className="min-h-screen bg-gray-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 flex items-center justify-center px-4">
         <div className="w-full max-w-sm">
-          <div className="bg-white rounded-2xl shadow-lg p-8 text-center">
-            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-lg p-8 text-center border border-gray-200 dark:border-slate-700">
+            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 dark:bg-slate-800">
               <Lock size={28} className="text-blue-600" />
             </div>
-            <h1 className="flex items-center justify-center gap-2 text-xl font-bold text-gray-900 mb-1">
-              <BookOpen size={22} className="text-blue-600" />
+            <h1 className="flex items-center justify-center gap-2 text-xl font-bold text-gray-900 dark:text-slate-100 mb-1">
+              <BookOpen size={22} className="text-blue-600 dark:text-blue-400" />
               SAT Prep
             </h1>
-            <p className="text-sm text-gray-500 mb-6">请输入访问密码</p>
+            <p className="text-sm text-gray-500 dark:text-slate-400 mb-6">请输入访问密码</p>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="relative">
@@ -55,16 +55,16 @@ export default function PasswordGate({ children }: { children: React.ReactNode }
                   onChange={e => { setInput(e.target.value); setError(false) }}
                   placeholder="输入密码"
                   autoFocus
-                  className={`w-full px-4 py-3 border rounded-lg text-sm outline-none transition-colors pr-10 ${
+                  className={`w-full px-4 py-3 border rounded-lg text-sm outline-none transition-colors pr-10 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 ${
                     error
                       ? 'border-red-300 focus:border-red-500'
-                      : 'border-gray-300 focus:border-blue-500'
+                      : 'border-gray-300 dark:border-slate-600 focus:border-blue-500'
                   }`}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-slate-500 hover:text-gray-600 dark:hover:text-slate-300"
                 >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>

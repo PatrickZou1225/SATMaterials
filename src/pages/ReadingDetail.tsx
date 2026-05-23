@@ -153,10 +153,10 @@ export default function ReadingDetail() {
   // 空题库
   if (questions.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex items-center justify-center">
         <div className="text-center">
-          <p className="text-gray-500 mb-4">暂无题目，敬请期待！</p>
-          <Link to="/knowledge" className="text-emerald-600 hover:underline">← 返回知识点</Link>
+          <p className="text-gray-500 dark:text-slate-400 mb-4">暂无题目，敬请期待！</p>
+          <Link to="/knowledge" className="text-emerald-600 dark:text-emerald-400 hover:underline">← 返回知识点</Link>
         </div>
       </div>
     )
@@ -166,21 +166,21 @@ export default function ReadingDetail() {
   if (finished) {
     const pct = Math.round((score / questions.length) * 100)
     return (
-      <div className="min-h-screen bg-gray-50 py-10 px-4">
+      <div className="min-h-screen bg-gray-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 py-10 px-4">
         <div className="max-w-2xl mx-auto">
-          <div className="bg-white rounded-2xl border shadow-sm p-6 sm:p-10 text-center">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm p-6 sm:p-10 text-center">
             <div className="text-6xl mb-4">{pct >= 80 ? '🎉' : pct >= 60 ? '💪' : '📖'}</div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">练习完成！</h2>
-            <p className="text-gray-500 mb-2">{topicName} · {levelInfo?.name}</p>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-slate-100 mb-2">练习完成！</h2>
+            <p className="text-gray-500 dark:text-slate-400 mb-2">{topicName} · {levelInfo?.name}</p>
 
             <div className="my-6">
-              <span className="text-5xl font-bold text-emerald-600">{score}</span>
-              <span className="text-2xl text-gray-400"> / {questions.length}</span>
+              <span className="text-5xl font-bold text-emerald-600 dark:text-emerald-400">{score}</span>
+              <span className="text-2xl text-gray-400 dark:text-slate-500"> / {questions.length}</span>
             </div>
-            <p className="text-gray-500 mb-8">
-              正确率 <span className="font-bold text-emerald-600">{pct}%</span>
-              <span className="mx-2 text-gray-300">·</span>
-              用时 <span className="font-bold text-gray-700 font-mono tabular-nums">{formatTime(elapsedSeconds)}</span>
+            <p className="text-gray-500 dark:text-slate-400 mb-8">
+              正确率 <span className="font-bold text-emerald-600 dark:text-emerald-400">{pct}%</span>
+              <span className="mx-2 text-gray-300 dark:text-slate-600">·</span>
+              用时 <span className="font-bold text-gray-700 dark:text-slate-300 font-mono tabular-nums">{formatTime(elapsedSeconds)}</span>
             </p>
 
             {/* 每题回顾 */}
@@ -195,9 +195,9 @@ export default function ReadingDetail() {
                     className={`w-9 h-9 rounded-lg text-sm font-bold flex items-center justify-center transition-colors
                       ${answered
                         ? correct
-                          ? 'bg-green-100 text-green-700 hover:bg-green-200'
-                          : 'bg-red-100 text-red-600 hover:bg-red-200'
-                        : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+                          ? 'bg-green-100 dark:bg-green-950 text-green-700 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-900'
+                          : 'bg-red-100 dark:bg-red-950 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-900'
+                        : 'bg-gray-100 dark:bg-slate-800 text-gray-400 dark:text-slate-500 hover:bg-gray-200 dark:hover:bg-slate-700'
                       }`}
                   >
                     {idx + 1}
@@ -215,7 +215,7 @@ export default function ReadingDetail() {
               </button>
               <Link
                 to="/knowledge"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-colors font-semibold"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-slate-300 rounded-xl hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors font-semibold"
               >
                 返回知识点
               </Link>
@@ -232,16 +232,16 @@ export default function ReadingDetail() {
   const hasSelected = selected[current.id] !== undefined
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+    <div className="min-h-screen bg-gray-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col">
 
       {/* ══════════ 顶部工具栏 ══════════ */}
-      <header className="bg-white border-b px-4 py-2.5 flex items-center justify-between sticky top-0 z-30">
+      <header className="bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-700 px-4 py-2.5 flex items-center justify-between sticky top-0 z-30">
         <div className="flex items-center gap-3">
-          <Link to="/knowledge" className="text-gray-400 hover:text-emerald-600 transition-colors">
+          <Link to="/knowledge" className="text-gray-400 dark:text-slate-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
             <ArrowLeft size={20} />
           </Link>
           <div className="hidden sm:block">
-            <span className="text-sm font-bold text-gray-800">{topicName}</span>
+            <span className="text-sm font-bold text-gray-800 dark:text-slate-200">{topicName}</span>
             {levelInfo && (
               <span className={`ml-2 px-2 py-0.5 rounded-full text-xs font-bold ${levelInfo.bg} ${levelInfo.color}`}>
                 {levelInfo.name}
@@ -251,7 +251,7 @@ export default function ReadingDetail() {
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="text-sm font-semibold text-gray-700">
+          <span className="text-sm font-semibold text-gray-700 dark:text-slate-300">
             Question {currentIndex + 1} of {questions.length}
           </span>
           <button
@@ -259,8 +259,8 @@ export default function ReadingDetail() {
             title={timerRunning ? '点击暂停' : '点击继续'}
             className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono font-semibold tabular-nums transition-colors ${
               timerRunning
-                ? 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
-                : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+                ? 'bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900'
+                : 'bg-gray-100 dark:bg-slate-800 text-gray-400 dark:text-slate-500 hover:bg-gray-200 dark:hover:bg-slate-700'
             }`}
           >
             <Clock size={14} className={timerRunning ? '' : 'opacity-60'} />
@@ -271,14 +271,14 @@ export default function ReadingDetail() {
         <div className="flex items-center gap-2">
           <button
             onClick={toggleFlag}
-            className={`p-2 rounded-lg transition-colors ${flagged[current.id] ? 'bg-amber-100 text-amber-600' : 'text-gray-400 hover:bg-gray-100'}`}
+            className={`p-2 rounded-lg transition-colors ${flagged[current.id] ? 'bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400' : 'text-gray-400 dark:text-slate-500 hover:bg-gray-100 dark:hover:bg-slate-800'}`}
             title="标记此题"
           >
             <Flag size={18} />
           </button>
           <button
             onClick={() => setShowNav(v => !v)}
-            className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-lg text-xs font-semibold text-gray-600 transition-colors"
+            className="px-3 py-1.5 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 rounded-lg text-xs font-semibold text-gray-600 dark:text-slate-300 transition-colors"
           >
             题号导航
           </button>
@@ -286,7 +286,7 @@ export default function ReadingDetail() {
       </header>
 
       {/* ── 进度条 ── */}
-      <div className="w-full bg-gray-200 h-1">
+      <div className="w-full bg-gray-200 dark:bg-slate-800 h-1">
         <div
           className="bg-emerald-500 h-1 transition-all duration-300"
           style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
@@ -295,7 +295,7 @@ export default function ReadingDetail() {
 
       {/* ── 题号导航弹窗 ── */}
       {showNav && (
-        <div className="bg-white border-b shadow-sm px-4 py-3">
+        <div className="bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-700 shadow-sm px-4 py-3">
           <div className="max-w-5xl mx-auto">
             <div className="flex flex-wrap gap-2">
               {questions.map((q, idx) => {
@@ -309,26 +309,26 @@ export default function ReadingDetail() {
                     onClick={() => handleJump(idx)}
                     className={`w-9 h-9 rounded-lg text-sm font-bold flex items-center justify-center transition-colors relative
                       ${isCurrent
-                        ? 'ring-2 ring-emerald-500 bg-emerald-50 text-emerald-700'
+                        ? 'ring-2 ring-emerald-500 bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300'
                         : answered
                           ? correct
-                            ? 'bg-green-100 text-green-700 hover:bg-green-200'
-                            : 'bg-red-100 text-red-600 hover:bg-red-200'
-                          : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                            ? 'bg-green-100 dark:bg-green-950 text-green-700 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-900'
+                            : 'bg-red-100 dark:bg-red-950 text-red-600 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-900'
+                          : 'bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-slate-400 hover:bg-gray-200 dark:hover:bg-slate-700'
                       }`}
                   >
                     {idx + 1}
                     {isFlagged && (
-                      <span className="absolute -top-1 -right-1 w-3 h-3 bg-amber-400 rounded-full border border-white" />
+                      <span className="absolute -top-1 -right-1 w-3 h-3 bg-amber-400 rounded-full border border-white dark:border-slate-800" />
                     )}
                   </button>
                 )
               })}
             </div>
-            <div className="flex gap-4 mt-2 text-xs text-gray-400">
-              <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-green-100 inline-block" /> 正确</span>
-              <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-red-100 inline-block" /> 错误</span>
-              <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-gray-100 inline-block" /> 未答</span>
+            <div className="flex gap-4 mt-2 text-xs text-gray-400 dark:text-slate-500">
+              <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-green-100 dark:bg-green-950 inline-block" /> 正确</span>
+              <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-red-100 dark:bg-red-950 inline-block" /> 错误</span>
+              <span className="flex items-center gap-1"><span className="w-3 h-3 rounded bg-gray-100 dark:bg-slate-800 inline-block" /> 未答</span>
               <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-amber-400 inline-block" /> 标记</span>
             </div>
           </div>
@@ -336,13 +336,13 @@ export default function ReadingDetail() {
       )}
 
       {/* ══════════ 移动端 Passage/Question 切换 Tab ══════════ */}
-      <div className="md:hidden bg-white border-b flex">
+      <div className="md:hidden bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-700 flex">
         <button
           onClick={() => setMobileView('passage')}
           className={`flex-1 py-3 text-sm font-semibold text-center transition-colors ${
             mobileView === 'passage'
-              ? 'text-emerald-600 border-b-2 border-emerald-500'
-              : 'text-gray-400'
+              ? 'text-emerald-600 dark:text-emerald-400 border-b-2 border-emerald-500'
+              : 'text-gray-400 dark:text-slate-500'
           }`}
         >
           Passage
@@ -351,8 +351,8 @@ export default function ReadingDetail() {
           onClick={() => setMobileView('question')}
           className={`flex-1 py-3 text-sm font-semibold text-center transition-colors ${
             mobileView === 'question'
-              ? 'text-emerald-600 border-b-2 border-emerald-500'
-              : 'text-gray-400'
+              ? 'text-emerald-600 dark:text-emerald-400 border-b-2 border-emerald-500'
+              : 'text-gray-400 dark:text-slate-500'
           }`}
         >
           Question
@@ -363,12 +363,12 @@ export default function ReadingDetail() {
       <main className="flex-1 flex flex-col md:flex-row overflow-hidden">
 
         {/* ── 左栏 / 移动端 Passage ── */}
-        <div className={`md:w-1/2 border-r bg-white overflow-y-auto ${
+        <div className={`md:w-1/2 border-r border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 overflow-y-auto ${
           mobileView === 'passage' ? 'block' : 'hidden md:block'
         }`}>
           <div className="p-5 sm:p-8">
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Passage</p>
-            <div className="text-sm text-gray-800 leading-7 whitespace-pre-line">
+            <p className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-4">Passage</p>
+            <div className="text-sm text-gray-800 dark:text-slate-200 leading-7 whitespace-pre-line">
               {current.passage}
             </div>
             {/* 移动端：读完文章后的快捷按钮 */}
@@ -384,12 +384,12 @@ export default function ReadingDetail() {
         </div>
 
         {/* ── 右栏 / 移动端 Question ── */}
-        <div className={`md:w-1/2 bg-white overflow-y-auto flex flex-col ${
+        <div className={`md:w-1/2 bg-white dark:bg-slate-900 overflow-y-auto flex flex-col ${
           mobileView === 'question' ? 'block' : 'hidden md:block'
         }`}>
           <div className="p-5 sm:p-8 flex-1 flex flex-col">
             {/* 题目 */}
-            <p className="text-[15px] font-semibold text-gray-900 leading-relaxed mb-6">
+            <p className="text-[15px] font-semibold text-gray-900 dark:text-slate-100 leading-relaxed mb-6">
               {current.question}
             </p>
 
@@ -403,15 +403,15 @@ export default function ReadingDetail() {
                 if (!isRevealed) {
                   base +=
                     selected[current.id] === optIdx
-                      ? 'border-emerald-500 bg-emerald-50 text-emerald-900 font-medium'
-                      : 'border-gray-200 hover:border-emerald-300 hover:bg-emerald-50/50 text-gray-700'
+                      ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950 text-emerald-900 dark:text-emerald-100 font-medium'
+                      : 'border-gray-200 dark:border-slate-600 hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/50 text-gray-700 dark:text-slate-300'
                 } else {
                   if (optIdx === current.answer) {
-                    base += 'border-green-500 bg-green-50 text-green-900 font-semibold'
+                    base += 'border-green-500 bg-green-50 dark:bg-green-950 text-green-900 dark:text-green-100 font-semibold'
                   } else if (optIdx === selected[current.id] && selected[current.id] !== current.answer) {
-                    base += 'border-red-400 bg-red-50 text-red-700'
+                    base += 'border-red-400 bg-red-50 dark:bg-red-950 text-red-700 dark:text-red-200'
                   } else {
-                    base += 'border-gray-100 text-gray-400'
+                    base += 'border-gray-100 dark:border-slate-800 text-gray-400 dark:text-slate-600'
                   }
                 }
 
@@ -422,12 +422,12 @@ export default function ReadingDetail() {
                         ${!isRevealed
                           ? selected[current.id] === optIdx
                             ? 'border-emerald-500 bg-emerald-500 text-white'
-                            : 'border-gray-300 text-gray-500'
+                            : 'border-gray-300 dark:border-slate-500 text-gray-500 dark:text-slate-400'
                           : optIdx === current.answer
                             ? 'border-green-500 bg-green-500 text-white'
                             : optIdx === selected[current.id]
                               ? 'border-red-400 bg-red-400 text-white'
-                              : 'border-gray-200 text-gray-400'
+                              : 'border-gray-200 dark:border-slate-700 text-gray-400 dark:text-slate-500'
                         }`}
                     >
                       {label}
@@ -440,23 +440,23 @@ export default function ReadingDetail() {
 
             {/* 答题反馈 + 解析 */}
             {isRevealed && (
-              <div className={`mt-6 p-4 rounded-xl border ${isCorrect ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
-                <p className="flex items-center gap-2 font-semibold text-sm mb-1">
+              <div className={`mt-6 p-4 rounded-xl border ${isCorrect ? 'bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800' : 'bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800'}`}>
+                <p className="flex items-center gap-2 font-semibold text-sm mb-1 text-slate-900 dark:text-slate-100">
                   {isCorrect
                     ? <><CheckCircle size={16} className="text-green-500" /> 回答正确！</>
                     : <><XCircle size={16} className="text-red-500" /> 回答错误</>
                   }
                 </p>
-                <p className="text-sm text-gray-600 mb-3">
+                <p className="text-sm text-gray-600 dark:text-slate-300 mb-3">
                   正确答案是 <span className="font-bold">{OPTION_LABELS[current.answer]}</span>
                 </p>
                 {/* 解析 */}
                 {current.explanation && (
-                  <div className="mt-3 pt-3 border-t border-gray-200/60">
-                    <p className="flex items-center gap-1.5 text-sm font-semibold text-gray-700 mb-1.5">
+                  <div className="mt-3 pt-3 border-t border-gray-200/60 dark:border-slate-700/60">
+                    <p className="flex items-center gap-1.5 text-sm font-semibold text-gray-700 dark:text-slate-200 mb-1.5">
                       <Lightbulb size={14} className="text-amber-500" /> 解题思路
                     </p>
-                    <p className="text-sm text-gray-600 leading-relaxed">
+                    <p className="text-sm text-gray-600 dark:text-slate-300 leading-relaxed">
                       {current.explanation}
                     </p>
                   </div>
@@ -468,18 +468,18 @@ export default function ReadingDetail() {
       </main>
 
       {/* ══════════ 底部操作栏 ══════════ */}
-      <footer className="bg-white border-t px-4 py-3 flex items-center justify-between sticky bottom-0 z-30">
+      <footer className="bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-700 px-4 py-3 flex items-center justify-between sticky bottom-0 z-30">
         <button
           onClick={handlePrev}
           disabled={currentIndex === 0}
           className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors
             disabled:opacity-30 disabled:cursor-not-allowed
-            text-gray-600 hover:bg-gray-100"
+            text-gray-600 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800"
         >
           <ChevronLeft size={18} /> Back
         </button>
 
-        <div className="text-sm text-gray-400 hidden sm:block">
+        <div className="text-sm text-gray-400 dark:text-slate-500 hidden sm:block">
           已答 {totalAnswered} / {questions.length} 题
           {totalAnswered > 0 && <span className="ml-2 text-emerald-600 font-semibold">{score} 正确</span>}
         </div>
