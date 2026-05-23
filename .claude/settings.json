@@ -39,7 +39,11 @@
       "Bash(curl -sI --connect-timeout 5 \"https://patrickzou1225.github.io/SATMaterials\")",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" --connect-timeout 3 -x http://127.0.0.1:7890 https://github.com)",
       "Bash(git -C /Users/patrickzou/sat-prep diff --stat)",
-      "Bash(git -C /Users/patrickzou/sat-prep diff sat-prep)"
+      "Bash(git -C /Users/patrickzou/sat-prep diff sat-prep)",
+      "Bash(which icalBuddy 2>/dev/null; which osascript 2>/dev/null; ls /usr/bin/osascript 2>/dev/null)",
+      "Read(//usr/bin/**)",
+      "Bash(osascript -e 'tell application \"Calendar\" to get name of every calendar')",
+      "Bash(osascript -e ' *)"
     ],
     "defaultMode": "bypassPermissions",
     "additionalDirectories": [
