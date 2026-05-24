@@ -43,12 +43,18 @@
       "Bash(which icalBuddy 2>/dev/null; which osascript 2>/dev/null; ls /usr/bin/osascript 2>/dev/null)",
       "Read(//usr/bin/**)",
       "Bash(osascript -e 'tell application \"Calendar\" to get name of every calendar')",
-      "Bash(osascript -e ' *)"
+      "Bash(osascript -e ' *)",
+      "Bash(mv /Users/patrickzou/sat-prep/knowledge-base \"/Users/patrickzou/Library/Mobile Documents/com~apple~CloudDocs/AI文件夹/知识库\" && rm -rf /Users/patrickzou/sat-prep/knowledge-base && echo \"Done\" && ls \"/Users/patrickzou/Library/Mobile Documents/com~apple~CloudDocs/AI文件夹/知识库/\")",
+      "Bash(python3 -c \"import PyPDF2; print\\('PyPDF2 ok'\\)\")",
+      "Bash(python3 -c \"import pdfplumber; print\\('pdfplumber ok'\\)\")",
+      "Bash(python3 -c \"import pytesseract; print\\('pytesseract ok'\\)\")",
+      "Bash(/tmp/pdf_ocr)"
     ],
     "defaultMode": "bypassPermissions",
     "additionalDirectories": [
       "/tmp",
-      "/private/tmp"
+      "/private/tmp",
+      "/Users/patrickzou/Library/Mobile Documents/com~apple~CloudDocs/AI文件夹"
     ]
   },
   "alwaysThinkingEnabled": true,
