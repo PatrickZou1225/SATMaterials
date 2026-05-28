@@ -472,7 +472,7 @@ const fsp_huaxian_level1: ReadingQuestion[] = [
   },
   {
     id: 4005,
-    passage: 'A trend away from stable, relatively high humidity in the Middle East over the past 8 million years can be inferred from the composition of cave formations dating to different periods. Cave formations from about 7 million years ago mainly consist of <u>transparent columnar calcite, indicative of an underground water system regularly replenished by rainfall</u>. Cave formations younger than approximately 1 million years, however, mainly consist of <u>branching, opaque (and sometimes colorful) material, often with more frequent growth interruptions</u>, indicating an intermittent water supply.',
+    passage: 'A trend away from stable, relatively high humidity in the Middle East over the past 8 million years can be inferred from the composition of cave formations dating to different periods. Cave formations from about 7 million years ago mainly consist of <u>transparent columnar calcite</u>, indicative of an underground water system regularly replenished by rainfall. Cave formations younger than approximately 1 million years, however, mainly consist of <u>branching, opaque (and sometimes colorful) material, often with more frequent growth interruptions</u>, indicating an intermittent water supply.',
     question: 'Which choice best describes the function of the two underlined portions in the text as a whole?',
     options: [
       'They identify different characteristics of cave formations that when considered together provide evidence for a long-term shift toward lower and more variable humidity in the Middle East.',
