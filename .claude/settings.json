@@ -57,6 +57,9 @@
       "/Users/patrickzou/Library/Mobile Documents/com~apple~CloudDocs/AI文件夹"
     ]
   },
-  "alwaysThinkingEnabled": true,
-  "effortLevel": "xhigh"
+  "alwaysThinkingEnabled": false,
+  "effortLevel": "low",
+  "env": {
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0"
+  }
 }

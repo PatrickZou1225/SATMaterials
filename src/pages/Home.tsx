@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, Calculator, BookOpen, PenLine, TrendingUp, Clock, Award, Target } from 'lucide-react'
+import { ArrowRight, Calculator, BookOpen, PenLine, TrendingUp, Clock, Award, Target, Flame, Zap, Trophy, Star } from 'lucide-react'
 
 export default function Home() {
   return (
@@ -88,6 +88,42 @@ export default function Home() {
               </ul>
               <Link to="/knowledge" className="block text-center py-2.5 rounded-lg text-white text-sm font-semibold bg-amber-600 hover:bg-amber-700 transition-colors">开始学习</Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 难题集训练 */}
+      <section className="py-20 px-4 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-white">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-14">
+            <span className="inline-block bg-amber-500/20 text-amber-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-4">
+              难题集训练
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">四大班型 · 难题突破</h2>
+            <p className="max-w-xl mx-auto text-slate-400">按班级分层训练，FSP目的题拆解为划线目的题、全文结构题、全文主旨题，靶向攻克重难点</p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { name: '能夯班', desc: '夯实基础，系统构建SAT知识体系', icon: <Flame size={24} />, gradient: 'from-orange-500 to-red-500', bg: 'bg-orange-500/10', border: 'border-orange-500/30', key: 'nenghan' },
+              { name: '强化班', desc: '强化训练，突破薄弱环节', icon: <Zap size={24} />, gradient: 'from-amber-500 to-yellow-500', bg: 'bg-amber-500/10', border: 'border-amber-500/30', key: 'qianghua' },
+              { name: '冲刺班', desc: '考前冲刺，高频难题集中突破', icon: <Trophy size={24} />, gradient: 'from-purple-500 to-indigo-500', bg: 'bg-purple-500/10', border: 'border-purple-500/30', key: 'chongci' },
+              { name: '密卷班', desc: '密卷演练，模拟真题难度与出题思路', icon: <Star size={24} />, gradient: 'from-rose-500 to-pink-500', bg: 'bg-rose-500/10', border: 'border-rose-500/30', key: 'mijuan' },
+            ].map(cls => (
+              <Link
+                key={cls.key}
+                to={`/hard-problems/${cls.key}`}
+                className={`${cls.bg} ${cls.border} border rounded-2xl p-6 transition-all hover:scale-105 hover:shadow-xl group`}
+              >
+                <div className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${cls.gradient} mb-4 shadow-lg`}>
+                  {cls.icon}
+                </div>
+                <h3 className="text-lg font-bold mb-1.5">{cls.name}</h3>
+                <p className="text-sm text-slate-400 mb-4">{cls.desc}</p>
+                <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-amber-400 group-hover:text-amber-300 transition-colors">
+                  进入训练 <ArrowRight size={14} />
+                </span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>

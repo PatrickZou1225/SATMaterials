@@ -415,6 +415,19 @@ const zhuzhi_level3: ReadingQuestion[] = [
 ]
 
 // ============================================================
+//  难题集 FSP 拆分的子题型（空数组，待后续添加题目）
+// ============================================================
+const fsp_huaxian_level1: ReadingQuestion[] = []
+const fsp_huaxian_level2: ReadingQuestion[] = []
+const fsp_huaxian_level3: ReadingQuestion[] = []
+const fsp_jiegou_level1: ReadingQuestion[] = []
+const fsp_jiegou_level2: ReadingQuestion[] = []
+const fsp_jiegou_level3: ReadingQuestion[] = []
+const fsp_zhuzhi_level1: ReadingQuestion[] = []
+const fsp_zhuzhi_level2: ReadingQuestion[] = []
+const fsp_zhuzhi_level3: ReadingQuestion[] = []
+
+// ============================================================
 //  题目数据映射 — 后续新增 topic/level 在这里添加
 // ============================================================
 export const topicData: Record<string, Record<string, ReadingQuestion[]>> = {
@@ -423,10 +436,29 @@ export const topicData: Record<string, Record<string, ReadingQuestion[]>> = {
     level2: zhuzhi_level2,
     level3: zhuzhi_level3,
   },
+  // FSP 拆分的三个子题型（难题集专用）
+  huaxianmudi: {
+    level1: fsp_huaxian_level1,
+    level2: fsp_huaxian_level2,
+    level3: fsp_huaxian_level3,
+  },
+  quanwenjiegou: {
+    level1: fsp_jiegou_level1,
+    level2: fsp_jiegou_level2,
+    level3: fsp_jiegou_level3,
+  },
+  quanwenzhuzhi: {
+    level1: fsp_zhuzhi_level1,
+    level2: fsp_zhuzhi_level2,
+    level3: fsp_zhuzhi_level3,
+  },
 }
 
 export const topicNames: Record<string, string> = {
   zhuzhi: '主旨与细节题',
+  huaxianmudi: '划线目的题',
+  quanwenjiegou: '全文结构题',
+  quanwenzhuzhi: '全文主旨题',
 }
 
 export const levelNames: Record<

@@ -5,6 +5,22 @@
 
 ---
 
+## 文件转 Markdown（提速处理）
+
+> 已安装 [Microsoft MarkItDown](https://github.com/microsoft/markitdown)（v0.1.6，pipx），可将 DOCX/PPTX/XLSX/HTML/EPUB/文字型PDF 等转为 Markdown。
+>
+> 还写了一个整合脚本 `~/bin/to-markdown`，自动判断文件类型：
+> - **DOCX/PPTX/XLSX/HTML/EPUB** → 直接调用 markitdown 转换
+> - **文字型 PDF** → markitdown (pdfminer)
+> - **扫描型 PDF / 图片** → macOS Vision OCR（`~/bin/img2txt`）
+> - **YouTube URL** → 提取字幕
+>
+> **用法**：`to-markdown document.docx` → 同目录生成 `document.md`
+>
+> **重要**：Patrick 投喂新资料时，Claude 应主动提醒他用 `to-markdown` 转换，这样 Claude 可以直接读取 .md 而非等 OCR。
+
+---
+
 ## 截图交流（重要！DeepSeek 不支持图片）
 
 > DeepSeek 模型无法识别图片。Patrick 截图后会说 **"看图"**，意思是：运行 `~/bin/img2txt` 从剪贴板提取文字（macOS Vision OCR，秒级），然后把文字结果返回给 Patrick 分析。
