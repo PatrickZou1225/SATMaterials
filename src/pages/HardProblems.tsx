@@ -21,7 +21,6 @@ interface KnowledgeItem {
 interface ReadingTopic {
   title: string
   description: string
-  levels: { name: string; label: string; color: string; bg: string }[]
 }
 
 const grammarTopics: KnowledgeItem[] = [
@@ -32,25 +31,19 @@ const grammarTopics: KnowledgeItem[] = [
   { title: '代词与指代', description: '确保代词指代清晰明确，避免歧义', points: ['代词与先行词一致', '模糊指代的修正', '关系代词的选择', '反身代词的用法'] },
 ]
 
-const levelDefs = [
-  { name: 'Level 1', label: '新手保护期', color: 'text-green-700 dark:text-green-400', bg: 'bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800' },
-  { name: 'Level 2', label: '渐入佳境', color: 'text-amber-700 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-950 border-amber-200 dark:border-amber-800' },
-  { name: 'Level 3', label: '试试就逝世', color: 'text-red-700 dark:text-red-400', bg: 'bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800' },
-]
-
 const readingTopics: ReadingTopic[] = [
-  { title: '主旨与细节题', description: '把握文章核心观点，定位关键细节信息', levels: levelDefs },
-  { title: '划线目的题', description: '分析文中划线部分在上下文中的功能与目的', levels: levelDefs },
-  { title: '全文结构题', description: '理解文章整体结构、段落组织与逻辑推进', levels: levelDefs },
-  { title: '全文主旨题', description: '归纳整篇文章的中心思想与核心论点', levels: levelDefs },
-  { title: '文学文本题', description: '理解小说、诗歌等文学作品的叙事技巧与主题', levels: levelDefs },
-  { title: '双篇题', description: '比较两篇文章的观点异同与逻辑关系', levels: levelDefs },
-  { title: '图表题', description: '结合图表数据与文本信息进行综合分析', levels: levelDefs },
-  { title: '推断题', description: '基于文本信息进行合理的逻辑推断', levels: levelDefs },
-  { title: '循证题', description: '从文中找到支持特定结论的证据', levels: levelDefs },
-  { title: '例证题', description: '理解作者使用例子的目的与论证效果', levels: levelDefs },
-  { title: '语境词汇题', description: '根据上下文推断词汇在特定语境中的含义', levels: levelDefs },
-  { title: '逻辑词汇填空题', description: '选择恰当的逻辑连接词，把握句间关系', levels: levelDefs },
+  { title: '主旨与细节题', description: '把握文章核心观点，定位关键细节信息' },
+  { title: '划线目的题', description: '分析文中划线部分在上下文中的功能与目的' },
+  { title: '全文结构题', description: '理解文章整体结构、段落组织与逻辑推进' },
+  { title: '全文主旨题', description: '归纳整篇文章的中心思想与核心论点' },
+  { title: '文学文本题', description: '理解小说、诗歌等文学作品的叙事技巧与主题' },
+  { title: '双篇题', description: '比较两篇文章的观点异同与逻辑关系' },
+  { title: '图表题', description: '结合图表数据与文本信息进行综合分析' },
+  { title: '推断题', description: '基于文本信息进行合理的逻辑推断' },
+  { title: '循证题', description: '从文中找到支持特定结论的证据' },
+  { title: '例证题', description: '理解作者使用例子的目的与论证效果' },
+  { title: '语境词汇题', description: '根据上下文推断词汇在特定语境中的含义' },
+  { title: '逻辑词汇填空题', description: '选择恰当的逻辑连接词，把握句间关系' },
 ]
 
 const mathTopics: KnowledgeItem[] = [
@@ -169,45 +162,29 @@ export default function HardProblems({ selectedClass_ }: Props) {
         {/* Topic cards */}
         {activeTab === 'reading' ? (
           <div className="grid md:grid-cols-2 gap-6">
-            {readingTopics.map((item, i) => (
-              <div
-                key={i}
-                className="bg-white dark:bg-slate-900 rounded-2xl border-2 border-transparent dark:border-slate-700 hover:border-emerald-300 dark:hover:border-emerald-700 p-6 transition-all hover:shadow-md"
-              >
-                <div className="flex items-start justify-between mb-2">
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-slate-100">{item.title}</h3>
-                  <span className="text-emerald-600 dark:text-emerald-400 mt-1"><ChevronRight size={18} /></span>
-                </div>
-                <p className="text-sm text-gray-500 dark:text-slate-400 mb-5">{item.description}</p>
-                <div className="flex gap-3">
-                  {item.levels.map((lv, j) => {
-                    const topicKey = topicRouteKeys[item.title]
-                    const levelKey = `level${j + 1}`
-                    const hasContent = topicKey !== undefined
-                    const btnClass = `flex-1 ${lv.bg} border rounded-xl px-3 py-3 text-center transition-all hover:shadow-sm hover:scale-[1.02]`
-                    if (hasContent && topicKey) {
-                      return (
-                        <Link
-                          key={j}
-                          to={`/knowledge/reading/${topicKey}/${levelKey}`}
-                          className={btnClass}
-                        >
-                          <div className={`text-xs font-bold ${lv.color} mb-1`}>{lv.name}</div>
-                          <div className="text-xs text-gray-600 dark:text-slate-400">{lv.label}</div>
-                        </Link>
-                      )
-                    }
-                    return (
-                      <button key={j} className={btnClass} title="题目即将上线，敬请期待">
-                        <div className={`text-xs font-bold ${lv.color} mb-1`}>{lv.name}</div>
-                        <div className="text-xs text-gray-600 dark:text-slate-400">{lv.label}</div>
-                        <div className="text-[10px] text-gray-300 dark:text-slate-600 mt-0.5">即将上线</div>
-                      </button>
-                    )
-                  })}
-                </div>
-              </div>
-            ))}
+            {readingTopics.map((item, i) => {
+              const topicKey = topicRouteKeys[item.title]
+              const hasContent = topicKey !== undefined
+              const cardClass = `bg-white dark:bg-slate-900 rounded-2xl border-2 border-transparent dark:border-slate-700 hover:border-emerald-300 dark:hover:border-emerald-700 p-6 transition-all hover:shadow-md ${hasContent ? '' : 'opacity-60'}`
+              const inner = (
+                <>
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-slate-100">{item.title}</h3>
+                    <span className="text-emerald-600 dark:text-emerald-400 mt-1"><ChevronRight size={18} /></span>
+                  </div>
+                  <p className="text-sm text-gray-500 dark:text-slate-400 mb-4">{item.description}</p>
+                  {hasContent ? (
+                    <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-600 dark:text-emerald-400">进入练习 <ChevronRight size={14} /></span>
+                  ) : (
+                    <span className="text-xs text-gray-300 dark:text-slate-600">即将上线</span>
+                  )}
+                </>
+              )
+              if (hasContent) {
+                return <Link key={i} to={`/knowledge/reading/${topicKey}/level1`} className={cardClass}>{inner}</Link>
+              }
+              return <div key={i} className={cardClass}>{inner}</div>
+            })}
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">

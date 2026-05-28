@@ -420,7 +420,7 @@ const zhuzhi_level3: ReadingQuestion[] = [
 const fsp_huaxian_level1: ReadingQuestion[] = [
   {
     id: 4001,
-    passage: "The following text is from William Shakespeare's circa 1611 play The Winter's Tale. Camillo has been away from his home in Sicily and serves in the court of Polixenes, the king of Bohemia. He has asked Polixenes for permission to return to Sicily.\n\nPOLIXENES: I pray thee, good Camillo, be no more importunate. 'Tis a sickness denying thee anything, a death to grant this.\nCAMILLO: It is fifteen years since I saw my country. Though I have for the most part been aired abroad, I desire to lay my bones there. Besides, the penitent king, my master, hath sent for me, <u>to whose feeling sorrows I might be some allay—or I o'erween [presume] to think so</u>—which is another spur to my departure.",
+    passage: "The following text is from William Shakespeare's circa 1611 play The Winter's Tale. Camillo has been away from his home in Sicily and serves in the court of Polixenes, the king of Bohemia. He has asked Polixenes for permission to return to Sicily.\n\nPOLIXENES: I pray thee, good Camillo, be no more importunate. 'Tis a sickness denying thee anything, a death to grant this.\nCAMILLO: It is fifteen years since I saw my country. Though I have for the most part been aired abroad, I desire to lay my bones there. Besides, the penitent king, my master, hath sent for me, to whose feeling sorrows I might be some allay—or I o'erween to think so—which is another spur to my departure.",
     question: 'Which choice best describes the function of the underlined portion in the text as a whole?',
     options: [
       'It bolsters the idea that Camillo\'s primary motivation to return home is his concern for the king of Sicily\'s well-being in his absence.',
@@ -433,7 +433,7 @@ const fsp_huaxian_level1: ReadingQuestion[] = [
   },
   {
     id: 4002,
-    passage: 'The following text is from William Carlos Williams\'s 1925 creative nonfiction book In the American Grain. Williams is discussing how works by nineteenth-century US poet and fiction writer Edgar Allan Poe were received by American readers.\n\nPoe must suffer by his originality. Invent that which is new, even if it be made of <u>pine from your own yard</u>, and there\'s none to know what you have done. It is because there\'s no name. This is the cause of Poe\'s lack of recognition. He was American. He was the astounding, inconceivable growth of his locality.',
+    passage: 'The following text is from William Carlos Williams\'s 1925 creative nonfiction book In the American Grain. Williams is discussing how works by nineteenth-century US poet and fiction writer Edgar Allan Poe were received by American readers.\n\nPoe must suffer by his originality. Invent that which is new, even if it be made of pine from your own yard, and there\'s none to know what you have done. It is because there\'s no name. This is the cause of Poe\'s lack of recognition. He was American. He was the astounding, inconceivable growth of his locality.',
     question: 'As used in the text, what does the underlined figurative phrase most nearly mean?',
     options: [
       'Personal experiences that are hard for others to comprehend',
@@ -446,7 +446,7 @@ const fsp_huaxian_level1: ReadingQuestion[] = [
   },
   {
     id: 4003,
-    passage: 'The scenario of a dwarf mongoose engaging in territorial conflict with an outgroup dwarf mongoose illustrates a major dimension of social life across animal species, from the solitary to those with complex sociality: <u>intraspecific contact with perceived outsiders</u>. Though one prominent hypothesis posits that sophisticated cognitive adaptations are primarily driven by the demands of various behaviors within established social groups (e.g., cooperative response to predation), interactions with same-species outsiders arguably contribute comparably by favoring nuanced analysis (e.g., evaluation of relative physical status).',
+    passage: 'The scenario of a dwarf mongoose engaging in territorial conflict with an outgroup dwarf mongoose illustrates a major dimension of social life across animal species, from the solitary to those with complex sociality: intraspecific contact with perceived outsiders. Though one prominent hypothesis posits that sophisticated cognitive adaptations are primarily driven by the demands of various behaviors within established social groups (e.g., cooperative response to predation), interactions with same-species outsiders arguably contribute comparably by favoring nuanced analysis (e.g., evaluation of relative physical status).',
     question: 'Which choice best describes the function of the underlined portion in the text as a whole?',
     options: [
       'It establishes that perceiving an individual of the same species as an outsider exemplifies the kind of analysis mentioned later in the text.',
@@ -459,7 +459,7 @@ const fsp_huaxian_level1: ReadingQuestion[] = [
   },
   {
     id: 4004,
-    passage: 'Most Native languages belong to language families, or groups of languages whose structural and lexical correspondence likely derives from their descent from a single language spoken long ago. A minority—such as Washoe, which is spoken in California and Nevada, and Chitimacha, which is spoken in Louisiana—are isolates, having no demonstrable genealogical relationship to other languages. <u>Yet Washoe and Chitimacha, like all isolates, are potentially remnants of families whose other members vanished before the historical record could attest to them, perhaps through the geographical expansion of extant families.</u>',
+    passage: 'Most Native languages belong to language families, or groups of languages whose structural and lexical correspondence likely derives from their descent from a single language spoken long ago. A minority—such as Washoe, which is spoken in California and Nevada, and Chitimacha, which is spoken in Louisiana—are isolates, having no demonstrable genealogical relationship to other languages. Yet Washoe and Chitimacha, like all isolates, are potentially remnants of families whose other members vanished before the historical record could attest to them, perhaps through the geographical expansion of extant families.',
     question: 'Which choice best describes the function of the underlined sentence in the text as a whole?',
     options: [
       'It implies that a nonisolate language may have influenced both Washoe and Chitimacha to such a degree that their relationship to their former families is no longer discernible.',
@@ -472,7 +472,7 @@ const fsp_huaxian_level1: ReadingQuestion[] = [
   },
   {
     id: 4005,
-    passage: 'A trend away from stable, relatively high humidity in the Middle East over the past 8 million years can be inferred from the composition of cave formations dating to different periods. Cave formations from about 7 million years ago mainly consist of <u>transparent columnar calcite, indicative of an underground water system regularly replenished by rainfall</u>. Cave formations younger than approximately 1 million years, however, mainly consist of <u>branching, opaque (and sometimes colorful) material, often with more frequent growth interruptions</u>, indicating an intermittent water supply.',
+    passage: 'A trend away from stable, relatively high humidity in the Middle East over the past 8 million years can be inferred from the composition of cave formations dating to different periods. Cave formations from about 7 million years ago mainly consist of transparent columnar calcite, indicative of an underground water system regularly replenished by rainfall. Cave formations younger than approximately 1 million years, however, mainly consist of branching, opaque (and sometimes colorful) material, often with more frequent growth interruptions, indicating an intermittent water supply.',
     question: 'Which choice best describes the function of the two underlined portions in the text as a whole?',
     options: [
       'They identify different characteristics of cave formations that when considered together provide evidence for a long-term shift toward lower and more variable humidity in the Middle East.',
@@ -485,7 +485,7 @@ const fsp_huaxian_level1: ReadingQuestion[] = [
   },
   {
     id: 4006,
-    passage: 'Guadalupe Romero Vilanueva et al. conducted radiocarbon analysis of paint used in rock art at the Patagonian archaeological site Cueva Huenul 1, revealing that images of a comblike motif date to as early as 8,000 years ago, predating other paintings in the region by several millennia. The motif was subsequently reproduced multiple times at the site over the next 3,000 years, <u>a period coinciding with extremely arid conditions and slightly negative population growth</u>. The motif may therefore have functioned to help preserve cultural knowledge during a time of ecological and demographic stress.',
+    passage: 'Guadalupe Romero Vilanueva et al. conducted radiocarbon analysis of paint used in rock art at the Patagonian archaeological site Cueva Huenul 1, revealing that images of a comblike motif date to as early as 8,000 years ago, predating other paintings in the region by several millennia. The motif was subsequently reproduced multiple times at the site over the next 3,000 years, a period coinciding with extremely arid conditions and slightly negative population growth. The motif may therefore have functioned to help preserve cultural knowledge during a time of ecological and demographic stress.',
     question: 'Which choice best describes the function of the underlined portion in the text as a whole?',
     options: [
       'It emphasizes the historical conditions that explain why production of the painted motif described in the text abruptly ceased after 3,000 years of continued use.',
@@ -498,7 +498,7 @@ const fsp_huaxian_level1: ReadingQuestion[] = [
   },
   {
     id: 4007,
-    passage: 'Several sociologists have observed that the word "culture," though commonly used in academic literature, is an ultimately hazy concept. For example, Victoria Bonnell and Lynn Hunt have noted that "many critics have pointed to the vagueness of the concept of culture." <u>Does the concept of culture encompass knowledge, or laws, or both these things and others?</u> For casual usage, such haziness is permissible—we know culture when we see it—but for researchers, a standardization of the term is called for if sociology is to truly progress.',
+    passage: 'Several sociologists have observed that the word "culture," though commonly used in academic literature, is an ultimately hazy concept. For example, Victoria Bonnell and Lynn Hunt have noted that "many critics have pointed to the vagueness of the concept of culture." Does the concept of culture encompass knowledge, or laws, or both these things and others? For casual usage, such haziness is permissible—we know culture when we see it—but for researchers, a standardization of the term is called for if sociology is to truly progress.',
     question: 'Which choice best describes the function of the underlined sentence in the text as a whole?',
     options: [
       'It lists two essential components of what is referred to by Bonnell and Hunt as "culture."',
@@ -511,7 +511,7 @@ const fsp_huaxian_level1: ReadingQuestion[] = [
   },
   {
     id: 4008,
-    passage: 'The following text is from Anne Spencer\'s 1922 poem "Translation."\n\nWe trekked into a far country,\nMy friend and I.\nOur deeper content was never spoken,\nBut each knew all the other said.\nHe told me how calm his soul was laid\nBy the lack of <u>anvil and strife</u>.\n"The wooing kestrel," I said, "mutes his mating-note\nTo please the harmony of this sweet silence."',
+    passage: 'The following text is from Anne Spencer\'s 1922 poem "Translation."\n\nWe trekked into a far country,\nMy friend and I.\nOur deeper content was never spoken,\nBut each knew all the other said.\nHe told me how calm his soul was laid\nBy the lack of anvil and strife.\n"The wooing kestrel," I said, "mutes his mating-note\nTo please the harmony of this sweet silence."',
     question: 'Which choice best describes the function of the reference to "anvil and strife" in the text as a whole?',
     options: [
       'It illustrates how the speaker and her friend have developed such a firm friendship despite rarely discussing their feelings.',
@@ -524,7 +524,7 @@ const fsp_huaxian_level1: ReadingQuestion[] = [
   },
   {
     id: 4009,
-    passage: 'The Museum of Modern Art (MOMA) in New York City has an exhibition of video games that includes Pac-Man from 1980, which museum visitors can play on site, and SimCity 2000 from 1994, which visitors can see only in a video presentation. MOMA claims the video presentations are only for games that would be impractical to display in a playable form, but <u>video games are an inherently interactive medium</u>, a feature that is grossly absent in a video-only presentation.',
+    passage: 'The Museum of Modern Art (MOMA) in New York City has an exhibition of video games that includes Pac-Man from 1980, which museum visitors can play on site, and SimCity 2000 from 1994, which visitors can see only in a video presentation. MOMA claims the video presentations are only for games that would be impractical to display in a playable form, but video games are an inherently interactive medium, a feature that is grossly absent in a video-only presentation.',
     question: 'Which choice best describes the function of the underlined sentence in the text as a whole?',
     options: [
       'It identifies a feature of many video games that is not shared by some of the games included in MOMA\'s exhibition.',
@@ -537,7 +537,7 @@ const fsp_huaxian_level1: ReadingQuestion[] = [
   },
   {
     id: 4010,
-    passage: 'In 1965, poet and scholar Dudley Randall founded Broadside Press in Detroit, Michigan. With the goal of making the work of Black poets widely available to the public, Randall published and distributed broadsides: individual poems printed on single sheets of paper. <u>Since these broadsides became associated with the innovative aesthetics of the Black Arts Movement (1965–1975),</u> Randall\'s publication format may likewise seem to have been pioneering, but, in fact, broadside poetry had also flourished in seventeenth-century London, where single-sheet popular ballads flooded the marketplace.',
+    passage: 'In 1965, poet and scholar Dudley Randall founded Broadside Press in Detroit, Michigan. With the goal of making the work of Black poets widely available to the public, Randall published and distributed broadsides: individual poems printed on single sheets of paper. Since these broadsides became associated with the innovative aesthetics of the Black Arts Movement (1965–1975), Randall\'s publication format may likewise seem to have been pioneering, but, in fact, broadside poetry had also flourished in seventeenth-century London, where single-sheet popular ballads flooded the marketplace.',
     question: 'Which choice best describes the function of the underlined portion in the text as a whole?',
     options: [
       'It undermines the argument that Randall\'s method for publishing poetry was a largely novel one.',
@@ -563,7 +563,7 @@ const fsp_huaxian_level1: ReadingQuestion[] = [
   },
   {
     id: 4012,
-    passage: 'Editor Jared Shurin\'s 2023 anthology The Big Book of Cyberpunk contains 108 stories, an enormous number. The anthology has a vast chronological scope, including both James Tiptree Jr.\'s "The Girl Who Was Plugged In" (1973) and Lavanya Lakshminarayan\'s "Etudes" (2020). In his introduction, Shurin defines cyberpunk as a subgenre of speculative fiction concerning "the influence of technology on the scale, the pace, or the pattern of human affairs"; however, many critics have previously argued that <u>cyberpunk is a literary movement that is not just idea driven but that has distinctive aesthetic components as well.</u>',
+    passage: 'Editor Jared Shurin\'s 2023 anthology The Big Book of Cyberpunk contains 108 stories, an enormous number. The anthology has a vast chronological scope, including both James Tiptree Jr.\'s "The Girl Who Was Plugged In" (1973) and Lavanya Lakshminarayan\'s "Etudes" (2020). In his introduction, Shurin defines cyberpunk as a subgenre of speculative fiction concerning "the influence of technology on the scale, the pace, or the pattern of human affairs"; however, many critics have previously argued that cyberpunk is a literary movement that is not just idea driven but that has distinctive aesthetic components as well.',
     question: 'Which choice best describes the function of the underlined portion in the text as a whole?',
     options: [
       'It points out a characteristic that is shared by the work of Tiptree and Lakshminarayan.',
@@ -576,7 +576,7 @@ const fsp_huaxian_level1: ReadingQuestion[] = [
   },
   {
     id: 4013,
-    passage: '<u>Individual elephants and Arctic herbivores such as caribou tend to have fixed geographic ranges throughout their lifetimes,</u> which had prompted some researchers to speculate that the Arctic woolly mammoth, an extinct elephantid, might have exhibited similar behavior. Mammoth tusks grew in sequential layers, incorporating ingested minerals and organics, and so each ivory stratum reflects the ratio of strontium isotopes (87Sr/86Sr) in the local environment; thus, the sequence of strata shows where the animal roamed during life. Recent analysis of the strontium ratios in the strata of one Arctic woolly mammoth tusk in relation to the geographic distribution of strontium ratios in the environment shows the animal\'s range begin to expand as it reached sexual maturity, only to contract again in its final 1.5 years.',
+    passage: 'Individual elephants and Arctic herbivores such as caribou tend to have fixed geographic ranges throughout their lifetimes, which had prompted some researchers to speculate that the Arctic woolly mammoth, an extinct elephantid, might have exhibited similar behavior. Mammoth tusks grew in sequential layers, incorporating ingested minerals and organics, and so each ivory stratum reflects the ratio of strontium isotopes (87Sr/86Sr) in the local environment; thus, the sequence of strata shows where the animal roamed during life. Recent analysis of the strontium ratios in the strata of one Arctic woolly mammoth tusk in relation to the geographic distribution of strontium ratios in the environment shows the animal\'s range begin to expand as it reached sexual maturity, only to contract again in its final 1.5 years.',
     question: 'Which choice best describes the function of the underlined statement in the text as a whole?',
     options: [
       'It discusses a characteristic shared by certain animals in order to explain why researchers raised a possibility that turned out not to be supported by data described later in the text.',
@@ -589,7 +589,7 @@ const fsp_huaxian_level1: ReadingQuestion[] = [
   },
   {
     id: 4014,
-    passage: 'The following text is from Mary Shelley\'s 1818 novel Frankenstein. Victor Frankenstein, who is narrating this portion of text, describes the state of scientific knowledge as he began his own study of the natural world.\n\nThe untaught peasant beheld the elements around him and was acquainted with their practical uses. The most learned philosopher knew little more. He had partially unveiled the face of Nature, but her immortal lineaments were still a wonder and a mystery. <u>He might dissect, anatomise, and give names; but, not to speak of a final cause, causes in their secondary and tertiary grades were utterly unknown to him.</u> I had gazed upon the fortifications and impediments that seemed to keep human beings from entering the citadel of nature, and rashly and ignorantly I had repined.',
+    passage: 'The following text is from Mary Shelley\'s 1818 novel Frankenstein. Victor Frankenstein, who is narrating this portion of text, describes the state of scientific knowledge as he began his own study of the natural world.\n\nThe untaught peasant beheld the elements around him and was acquainted with their practical uses. The most learned philosopher knew little more. He had partially unveiled the face of Nature, but her immortal lineaments were still a wonder and a mystery. He might dissect, anatomise, and give names; but, not to speak of a final cause, causes in their secondary and tertiary grades were utterly unknown to him. I had gazed upon the fortifications and impediments that seemed to keep human beings from entering the citadel of nature, and rashly and ignorantly I had repined.',
     question: 'Which choice best describes the function of the underlined sentence in the text as a whole?',
     options: [
       'It explains what can be gained from a scientific approach to understanding natural phenomena.',
@@ -602,7 +602,7 @@ const fsp_huaxian_level1: ReadingQuestion[] = [
   },
   {
     id: 4015,
-    passage: 'Typically, synthetic leather is petroleum based, but materials scientists searching for an ecologically sustainable alternative have used various bacteria that secrete linear chains of glucose, forming a dense mesh of cellulose called a pellicle, which is leatherlike except in color. The standard process for dyeing leather generates substantial wastewater and other undesirable byproducts, so <u>adopting such a regimen would run counter to the ecological promise of the pellicle approach</u>. To address this, Kenneth T. Walker and colleagues worked to modify Komagataeibacter rhaeticus bacteria to produce a pellicle with embedded pigmentation cells, thereby allowing the pellicle to "dye" itself from the inside.',
+    passage: 'Typically, synthetic leather is petroleum based, but materials scientists searching for an ecologically sustainable alternative have used various bacteria that secrete linear chains of glucose, forming a dense mesh of cellulose called a pellicle, which is leatherlike except in color. The standard process for dyeing leather generates substantial wastewater and other undesirable byproducts, so adopting such a regimen would run counter to the ecological promise of the pellicle approach. To address this, Kenneth T. Walker and colleagues worked to modify Komagataeibacter rhaeticus bacteria to produce a pellicle with embedded pigmentation cells, thereby allowing the pellicle to "dye" itself from the inside.',
     question: 'Which choice best describes the function of the underlined portion in the text as a whole?',
     options: [
       'To illustrate how the researchers adapted the pellicle approach to overcome a potential impediment to their main goal as presented in the text',
