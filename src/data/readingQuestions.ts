@@ -884,7 +884,7 @@ export const topicData: Record<string, Record<string, ReadingQuestion[]>> = {
 
 export const topicNames: Record<string, string> = {
   zhuzhi: '主旨与细节题',
-  chongci_zhuzhi: '冲刺班 · 主旨题',
+  chongci_zhuzhi: '冲刺班 · 全文主旨题',
   huaxianmudi: '划线目的题',
   quanwenjiegou: '全文结构题',
   quanwenzhuzhi: '全文主旨题',
