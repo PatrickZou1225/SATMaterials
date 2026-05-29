@@ -5,7 +5,6 @@ import { PenLine, BookOpen, Calculator, ChevronRight, ArrowLeft } from 'lucide-r
 // 各阅读 topic 对应的路由 key（无内容则留空）
 const topicRouteKeys: Record<string, string> = {
   '主旨与细节题': 'zhuzhi',
-  '冲刺班 · 全文主旨题': 'chongci_zhuzhi',
 }
 
 type Tab = 'grammar' | 'reading' | 'math'
@@ -109,14 +108,6 @@ const readingTopics: ReadingTopic[] = [
   },
 ]
 
-const classTopics: ReadingTopic[] = [
-  {
-    title: '冲刺班 · 全文主旨题',
-    description: '冲刺班难题集 — 15 道全文主旨实战训练',
-    levels: [{ name: '难题集', label: '15 题', color: 'text-purple-700 dark:text-purple-400', bg: 'bg-purple-50 dark:bg-purple-950 border-purple-200 dark:border-purple-800' }],
-  },
-]
-
 const mathTopics: KnowledgeItem[] = [
   {
     title: '线性方程与不等式',
@@ -197,107 +188,51 @@ export default function Knowledge() {
 
         {/* Knowledge cards */}
         {activeTab === 'reading' ? (
-          <>
-            {/* 题型专项知识点 */}
-            <div className="grid md:grid-cols-2 gap-6">
-              {readingTopics.map((item, i) => (
-                <div
-                  key={i}
-                  className="bg-white dark:bg-slate-900 rounded-2xl border-2 border-transparent dark:border-slate-700 hover:border-emerald-300 dark:hover:border-emerald-700 p-6 transition-all hover:shadow-md"
-                >
-                  <div className="flex items-start justify-between mb-2">
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-slate-100">{item.title}</h3>
-                    <span className="text-emerald-600 dark:text-emerald-400 mt-1"><ChevronRight size={18} /></span>
-                  </div>
-                  <p className="text-sm text-gray-500 dark:text-slate-400 mb-5">{item.description}</p>
-                  <div className="flex gap-3">
-                    {item.levels.map((lv, j) => {
-                      const topicKey = topicRouteKeys[item.title]
-                      const levelKey = lv.routeKey || `level${j + 1}`
-                      const hasContent = topicKey !== undefined
-                      const btnClass = `flex-1 ${lv.bg} border rounded-xl px-3 py-3 text-center transition-all hover:shadow-sm hover:scale-[1.02]`
-                      if (hasContent && topicKey) {
-                        return (
-                          <Link
-                            key={j}
-                            to={`/knowledge/reading/${topicKey}/${levelKey}`}
-                            className={btnClass}
-                          >
-                            <div className={`text-xs font-bold ${lv.color} mb-1`}>{lv.name}</div>
-                            <div className="text-xs text-gray-600 dark:text-slate-400">{lv.label}</div>
-                          </Link>
-                        )
-                      }
+          <div className="grid md:grid-cols-2 gap-6">
+            {readingTopics.map((item, i) => (
+              <div
+                key={i}
+                className="bg-white dark:bg-slate-900 rounded-2xl border-2 border-transparent dark:border-slate-700 hover:border-emerald-300 dark:hover:border-emerald-700 p-6 transition-all hover:shadow-md"
+              >
+                <div className="flex items-start justify-between mb-2">
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-slate-100">{item.title}</h3>
+                  <span className="text-emerald-600 dark:text-emerald-400 mt-1"><ChevronRight size={18} /></span>
+                </div>
+                <p className="text-sm text-gray-500 dark:text-slate-400 mb-5">{item.description}</p>
+                <div className="flex gap-3">
+                  {item.levels.map((lv, j) => {
+                    const topicKey = topicRouteKeys[item.title]
+                    const levelKey = lv.routeKey || `level${j + 1}`
+                    const hasContent = topicKey !== undefined
+                    const btnClass = `flex-1 ${lv.bg} border rounded-xl px-3 py-3 text-center transition-all hover:shadow-sm hover:scale-[1.02]`
+                    if (hasContent && topicKey) {
                       return (
-                        <button
+                        <Link
                           key={j}
+                          to={`/knowledge/reading/${topicKey}/${levelKey}`}
                           className={btnClass}
-                          title="题目即将上线，敬请期待"
                         >
                           <div className={`text-xs font-bold ${lv.color} mb-1`}>{lv.name}</div>
                           <div className="text-xs text-gray-600 dark:text-slate-400">{lv.label}</div>
-                          <div className="text-[10px] text-gray-300 dark:text-slate-600 mt-0.5">即将上线</div>
-                        </button>
+                        </Link>
                       )
-                    })}
-                  </div>
+                    }
+                    return (
+                      <button
+                        key={j}
+                        className={btnClass}
+                        title="题目即将上线，敬请期待"
+                      >
+                        <div className={`text-xs font-bold ${lv.color} mb-1`}>{lv.name}</div>
+                        <div className="text-xs text-gray-600 dark:text-slate-400">{lv.label}</div>
+                        <div className="text-[10px] text-gray-300 dark:text-slate-600 mt-0.5">即将上线</div>
+                      </button>
+                    )
+                  })}
                 </div>
-              ))}
-            </div>
-
-            {/* 班型难题集 */}
-            <div className="mt-12">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-slate-100 mb-4 flex items-center gap-2">
-                <span className="w-1 h-6 bg-purple-500 rounded-full inline-block" />
-                班型难题集
-              </h2>
-              <div className="grid md:grid-cols-2 gap-6">
-                {classTopics.map((item, i) => (
-                  <div
-                    key={i}
-                    className="bg-white dark:bg-slate-900 rounded-2xl border-2 border-purple-200 dark:border-purple-800 hover:border-purple-400 dark:hover:border-purple-600 p-6 transition-all hover:shadow-md"
-                  >
-                    <div className="flex items-start justify-between mb-2">
-                      <h3 className="text-lg font-bold text-gray-900 dark:text-slate-100">{item.title}</h3>
-                      <span className="text-purple-600 dark:text-purple-400 mt-1"><ChevronRight size={18} /></span>
-                    </div>
-                    <p className="text-sm text-gray-500 dark:text-slate-400 mb-5">{item.description}</p>
-                    <div className="flex gap-3">
-                      {item.levels.map((lv, j) => {
-                        const topicKey = topicRouteKeys[item.title]
-                        const levelKey = lv.routeKey || `level${j + 1}`
-                        const hasContent = topicKey !== undefined
-                        const btnClass = `flex-1 ${lv.bg} border rounded-xl px-3 py-3 text-center transition-all hover:shadow-sm hover:scale-[1.02]`
-                        if (hasContent && topicKey) {
-                          return (
-                            <Link
-                              key={j}
-                              to={`/knowledge/reading/${topicKey}/${levelKey}`}
-                              className={btnClass}
-                            >
-                              <div className={`text-xs font-bold ${lv.color} mb-1`}>{lv.name}</div>
-                              <div className="text-xs text-gray-600 dark:text-slate-400">{lv.label}</div>
-                            </Link>
-                          )
-                        }
-                        return (
-                          <button
-                            key={j}
-                            className={btnClass}
-                            title="题目即将上线，敬请期待"
-                          >
-                            <div className={`text-xs font-bold ${lv.color} mb-1`}>{lv.name}</div>
-                            <div className="text-xs text-gray-600 dark:text-slate-400">{lv.label}</div>
-                            <div className="text-[10px] text-gray-300 dark:text-slate-600 mt-0.5">即将上线</div>
-                          </button>
-                        )
-                      })}
-                    </div>
-                  </div>
-                ))}
               </div>
-            </div>
-          </>
+            ))}
+          </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {(activeTab === 'grammar' ? grammarTopics : mathTopics).map((item, i) => (
