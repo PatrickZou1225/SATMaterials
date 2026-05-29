@@ -368,9 +368,10 @@ export default function ReadingDetail() {
         }`}>
           <div className="p-5 sm:p-8">
             <p className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-4">Passage</p>
-            <div className="text-sm text-gray-800 dark:text-slate-200 leading-7 whitespace-pre-line">
-              {current.passage}
-            </div>
+            <div
+              className="text-sm text-gray-800 dark:text-slate-200 leading-7 whitespace-pre-line"
+              dangerouslySetInnerHTML={{ __html: current.passage }}
+            />
             {/* 移动端：读完文章后的快捷按钮 */}
             <div className="md:hidden mt-6">
               <button
