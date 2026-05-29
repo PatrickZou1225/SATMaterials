@@ -414,6 +414,235 @@ const zhuzhi_level3: ReadingQuestion[] = [
   },
 ]
 
+// ── 冲刺班 · 主旨题 Level 1 ──
+const chongci_zhuzhi_level1: ReadingQuestion[] = [
+  {
+    id: 1,
+    passage:
+      'Postcranial skeletal pneumaticity (PSP), a system of skeletal air sacs, occurred in three Cretaceous clades, including pterosaurs (e.g., Pteranodon); past studies have hypothesized that the trait was homologous (originating from a shared ancestor). With this in mind, Tito Aureliano et al. examined fossils of common ancestors of the clades using microtomography, finding openings in bones—a possible indicator of PSP—but of sizes inconsistent with PSP. The team reported other findings contradicting the homology hypothesis as well, concluding that PSP likely evolved independently in each clade.',
+    question: 'Which choice best states the main idea of the text?',
+    options: [
+      'Aureliano et al. found openings in bones in fossils of common ancestors of pterosaurs and two other Cretaceous clades, but the team determined that the sizes of the openings were too varied to be indicative of PSP, thereby weakening the homology hypothesis.',
+      'Although past studies by paleontologists concluded that PSP in pterosaurs and two other Cretaceous clades was likely attributable to a common ancestor, those paleontologists lacked access to technology that led Aureliano et al. to reach a different conclusion.',
+      'Previous studies hypothesized that PSP originated in a shared ancestor of pterosaurs and two other clades, but the findings of Aureliano et al. suggest that PSP evolved independently in pterosaurs and was subsequently inherited by the other two clades.',
+      'Aureliano et al. found that pterosaurs and two other Cretaceous clades with PSP likely lacked a common ancestor with the trait, leading the team to posit a different evolutionary origin for PSP than that posited in earlier studies.',
+    ],
+    answer: 3,
+    explanation:
+      '文章结论：PSP 在各 clade 中独立进化（evolved independently in each clade）。D 选项准确概括：Aureliano 团队认为这些 clades 没有共同祖先携带 PSP，提出了与早期研究不同的进化起源。C 选项错误——文章说"independently in EACH clade"而非 pterosaurs 先有再传给其他。',
+  },
+  {
+    id: 2,
+    passage:
+      'Studies of ocean wave breaking have predominantly focused on traveling waves (those propagating along the horizontal plane), so Mark McAllister et al. utilized a circular wave tank to produce and study spike waves, axisymmetric standing waves that can erupt vertically when traveling waves propagating in opposing directions intersect. Traveling waves break when wave steepness (height-to-length ratio) passes a critical threshold; breaking thus constrains wave height. McAllister et al. found that spike waves can exceed that constraint, as other factors than just steepness (e.g. jet stability and cavity shape) mediate spike-wave breaking.',
+    question: 'Which choice best states the main idea of the text?',
+    options: [
+      'McAllister et al. suggest that spike waves can form when traveling waves propagating in opposing directions intersect and that spike waves tend to be higher than traveling waves.',
+      'The process of breaking limits the height of traveling waves, but the study by McAllister et al. suggests that spike waves can exceed those limits if their height-to-length ratio reaches a critical threshold.',
+      'The study by McAllister et al. suggests that when traveling waves intersect in specific ways, the resulting wave may be higher than would be expected based on the properties of traveling waves.',
+      'Previous studies have suggested that steepness mediates breaking in traveling waves, but the study by McAllister et al. shows that jet stability and cavity shape may also influence breaking in such waves.',
+    ],
+    answer: 2,
+    explanation:
+      '研究核心发现：spike waves 可以突破 traveling waves 的高度限制，因为 spike wave breaking 由 steepness 以外的因素（jet stability, cavity shape）决定。C 选项准确概括："相交产生的波可能比 traveling waves 属性所预期的更高"。B 选项错误——spike waves 不需要达到 critical threshold 就能突破限制。D 选项将发现错误归结为 traveling waves 的 breaking 机制。',
+  },
+  {
+    id: 3,
+    passage:
+      "Mauricio Drelichman and Hans-Joachim Voth's research into the debt defaults of Philip II (who ruled an empire including Spain and much of Belgium from 1556 to 1598) relates to other work on European early modern state finance, including Hoffman and Norberg's research on the relationship between state finance and political development. But Drelichman and Voth's unique contribution to the field is their reconstruction of the earliest extant set of annual fiscal records for any sovereign state, demonstrating in turn that Philip's defaults were caused by short-term cash shortages, not long-term unsustainable debts.",
+    question: 'Which choice best states the main idea of the text?',
+    options: [
+      'Analysis of the earliest available records of a sovereign state\'s finances can be found not in the work of Hoffman and Norberg but in that of Drelichman and Voth.',
+      'Drelichman and Voth advanced the field of research on European early modern state finance by assembling a novel collection of evidence that gave them insight into Philip II\'s debt defaults.',
+      'The research by Drelichman and Voth suggests that the logistics of ruling both Spain and much of Belgium led to short-term problems with cash that forced Philip II to default on his debts.',
+      "Drelichman and Voth's research on Philip II's debt defaults builds on earlier work by Hoffman and Norberg, adding nuance to the earlier work's findings.",
+    ],
+    answer: 1,
+    explanation:
+      '文章重点："But Drelichman and Voth\'s unique contribution..."——他们的独特贡献是重建了最早的年度财政记录，从而证明 Philip 的违约是短期现金流问题而非长期不可持续债务。B 选项准确概括了这个贡献。A 选项过于狭隘（只说记录在哪），C 选项只关注具体发现而忽略了方法论贡献，D 选项弱化了他们工作的独创性。',
+  },
+  {
+    id: 4,
+    passage:
+      "The following text is adapted from Mark Twain's 1876 novel The Adventures of Tom Sawyer. Aunt Polly is having dinner with Tom, her mischievous young nephew.\n\nAunt Polly asked Tom questions that were full of guile, and very deep—for she wanted to trap him into damaging revealments. Like many other simple-hearted souls, it was her pet vanity to believe she was endowed with a talent for dark and mysterious diplomacy, and she loved to contemplate her most transparent devices as marvels of low cunning.",
+    question: 'Which choice best describes how Aunt Polly is presented in the text?',
+    options: [
+      "The narrator gently makes fun of Aunt Polly's mistaken confidence in her subtlety.",
+      "The narrator humorously exaggerates Aunt Polly's view of herself as an intellectual.",
+      'The narrator characterizes Aunt Polly as being excessively nosy about other people\'s private lives.',
+      "The narrator emphasizes that Aunt Polly's intentions are good even when she behaves impolitely.",
+    ],
+    answer: 0,
+    explanation:
+      '叙述者用 ironic tone 描写 Polly 姨妈：她把"最透明的伎俩"（most transparent devices）当成"高深谋略的杰作"（marvels of low cunning），这是 gentle mockery。A 选项准确：叙述者温和地取笑了 Aunt Polly 对自己精明的错误自信。"simple-hearted souls"和"pet vanity"体现了 gentle 而非 harsh 的嘲讽。',
+  },
+  {
+    id: 5,
+    passage:
+      "Eighteenth-century economist Adam Smith is famed for his metaphor of the invisible hand, which he putatively used to illustrate a robust model of how individuals produce aggregate benefits by pursuing their own economic interests. Note 'putatively': as Gavin Kennedy has shown, Smith deploys this metaphor only once in his economic writings—to make a narrow point about the then-dominant economic theory of mercantilism—and it was largely ignored until some twentieth-century economists eager to secure an intellectual pedigree for their views elevated it to a fully-fledged paradigm.",
+    question: 'Which choice best states the main idea of the text?',
+    options: [
+      "The reputation of Smith's metaphor of the invisible hand is not due to the importance of the metaphor in Smith's work but rather to the promotion of the metaphor by some later economists for their own ends.",
+      "Smith's metaphor of the invisible hand has been interpreted as a model of how individuals acting in their own interest produce aggregate benefits, but it was intended as a subtle critique of the economic theory of mercantilism.",
+      "Some twentieth-century economists gave Smith's metaphor of the invisible hand a significance it does not have in Smith's work, but it is nevertheless a useful model of how individuals produce aggregate benefits by pursuing their own economic interests.",
+      "Although Smith is famed for his metaphor of the invisible hand, the metaphor was largely ignored until economists in the twentieth century came to realize that the metaphor was a robust model that anticipated their own views.",
+    ],
+    answer: 0,
+    explanation:
+      '文章论点：invisible hand 的盛名并非来自 Smith 本人的重视——他只在一处用过，且只针对 mercantilism——而是 20 世纪经济学家为了给自己的观点找学术谱系而把它捧上神坛。A 选项精准概括："reputation...not due to importance in Smith\'s work but to promotion by later economists for their own ends"。C 选项后半句说"still a useful model"与文章批评立场矛盾。',
+  },
+  {
+    id: 6,
+    passage:
+      "Why do some people with high incomes vote for politicians supporting higher taxes on those with high incomes like themselves? Economists Benjamin Enke et al. propose that values are a luxury good: that is, the higher one's income, the more weight one has the liberty to assign to one's values when voting. Thus, Enke et al. suggest that although the behavior of high-income earners who advocate for higher taxes may seem counterintuitive, such people likely do so because they feel enabled by their economic security to take a stance they think is morally correct.",
+    question: 'Which choice best states the main idea of the text?',
+    options: [
+      'A group of economists asserts that people with relatively high incomes are consequently enabled to take certain considerations into account when voting.',
+      'According to a group of economists, politicians who support higher taxes on those with high incomes must convince a sufficient number of people with such incomes to vote against their material interest if the politicians are to be elected.',
+      'A team of economists finds that people who vote for higher taxes on those with high incomes are likely to think their moral values coincide with their material interests.',
+      "According to a team of economists, the higher a voter's income, the more likely that voter's values are to conflict with their material interests.",
+    ],
+    answer: 0,
+    explanation:
+      '核心概念："values are a luxury good"——收入越高，在投票时越有余裕考虑价值观而非物质利益。A 选项准确概括："高收入使人有能力在投票时考虑其他因素"。D 选项错误地将"价值观与物质利益冲突"表述为必然结论，但文章说的是经济安全感让人能按道德信念投票，未必冲突。',
+  },
+  {
+    id: 7,
+    passage:
+      "Philosophers note that many people have an intuitive sense that while we ought not to lie, there may be circumstances in which lying is permissible. If this intuition is correct and we lack an inviolable duty to speak truthfully, what grounds opposition to lying in the first place? Japa Pallikkathayil has advanced one answer by appealing to a duty to respect others' agential interests: the possession of false beliefs constrains agency, and thus we ought not to impede the formation of true beliefs unless doing so prevents a greater constraint on someone's agency or an otherwise impermissible end.",
+    question: 'Which choice best states the main idea of the text?',
+    options: [
+      "Pallikkathayil's argument suggests that if we have a duty to respect other people's agential interests and if possession of false beliefs constrains agency, then we have an inviolable duty to speak truthfully.",
+      "Pallikkathayil's argument shows that if our intuition that circumstances may make lying permissible is correct, then it is unclear whether there are any grounds for an opposition to lying in the first place.",
+      "One potential means of justifying opposition to lying is Pallikkathayil's argument that we have an obligation to respect other people's agency that entails a commitment to truthfulness except in certain circumstances.",
+      "Many people have an intuitive sense that lying is permissible in some circumstances but lack a principled way to identify those circumstances, and Pallikkathayil's argument may provide a means of resolving that problem.",
+    ],
+    answer: 2,
+    explanation:
+      '文章结构：提出问题（如果撒谎有时是允许的，反对撒谎的理据是什么？）→ Pallikkathayil 的回答（尊重他人的 agential interests → 不应阻碍真实信念的形成，除非阻止更大的 agency 限制）。核心是一种"允许例外"的反对撒谎的理由。C 选项准确概括："opposition to lying...except in certain circumstances"。A 选项错误地把有限制的义务说成"inviolable"。',
+  },
+  {
+    id: 8,
+    passage:
+      "Within higher education, studying philosophy requires that students be conversant with the field's foundational texts and historical figures. By contrast, doing philosophy within or beyond the academy demands the creative, self-directed application of acquired expertise to enduring questions about the nature of existence and knowledge. While both approaches engage with influential figures, those who do philosophy treat such figures as vital interlocutors who facilitate new insights rather than as ossified authorities who, though relevant to the present, primarily represent the discipline's past.",
+    question: 'Based on the text, which choice best describes the relationship between doing philosophy and studying philosophy?',
+    options: [
+      'Doing philosophy involves developing novel ideas through imagined dialogue with past philosophers based on knowledge of those philosophers\' views acquired by studying philosophy.',
+      'Doing philosophy helps students formulate concrete solutions to practical issues, whereas studying philosophy prioritizes engagement with historical arguments in the field.',
+      'Doing philosophy represents a departure from the norms that govern scholarly inquiry, whereas studying philosophy requires conformation to these norms.',
+      'Doing philosophy requires students to challenge the ideas articulated by past philosophers, especially when these ideas are broadly accepted by other people studying philosophy.',
+    ],
+    answer: 0,
+    explanation:
+      '文章关键对比：studying philosophy = 熟悉经典文本和历史人物；doing philosophy = 在知识基础上创造性地应用，把历史人物当作"vital interlocutors who facilitate new insights"。A 准确描述了这个关系：doing philosophy 是通过与过去哲学家的"想象对话"发展新见解，而这种对话的基础（knowledge of those philosophers\' views）来自 studying philosophy。',
+  },
+  {
+    id: 9,
+    passage:
+      "The following text is from Mary Shelley's 1818 novel Frankenstein. Victor Frankenstein, who narrates this portion of text, describes the state of scientific knowledge as he began his own study of the natural world.\n\nThe untaught peasant beheld the elements around him and was acquainted with their practical uses. The most learned philosopher knew little more. He had partially unveiled the face of Nature, but her immortal lineaments were still a wonder and a mystery. He might dissect, anatomize, and give names; but, not to speak of a final cause, causes in their secondary and tertiary grades were utterly unknown to him. I had gazed upon the fortifications and impediments that seemed to keep human beings from entering the citadel of nature, and rashly and ignorantly I had repined.",
+    question: 'Which choice best describes the main idea of the text?',
+    options: [
+      'Victor became disappointed in science when he realized that the practical knowledge laypeople have of nature is often deeper than the scientific understanding.',
+      'Victor was impressed by the layperson\'s practical understanding of nature but thought science provided a clearer understanding.',
+      'Victor was immediately impressed by the advantages of the scientific approach to understanding natural phenomena.',
+      'Victor thinks that conventional scientific approaches to understanding natural phenomena will not yield the answers he seeks.',
+    ],
+    answer: 3,
+    explanation:
+      'Victor 的观点：最博学的哲学家也只揭开了自然的面纱一角，深层原因（secondary and tertiary causes）完全未知。他将科学比作"堡垒"，感到自己"rashly and ignorantly"在抱怨。D 选项准确：他认为传统科学方法无法给出他寻求的答案。A 选项错在说 laypeople 的知识比科学更深——文本说两者都 similarly limited。',
+  },
+  {
+    id: 10,
+    passage:
+      "In their meta-analysis of research on advergames (videogames developed to promote products or services), Zeph M.C. van Berlo et al. confirm that such games, though they can elicit player interest, may not facilitate subsequent recall of product and brand information. This phenomenon can be explained by the finite nature of cognitive capacity as it is articulated in Annie Lang's limited capacity model of motivated mediated message processing. In this case, players' cognitive resources are directed foremost toward the advergame's mechanics, leaving little or no capacity for encoding and storing the information the advertiser intends to be salient.",
+    question: 'Which choice best states the main idea of the text?',
+    options: [
+      'The limited capacity model of motivated mediated message processing developed by Lang provides a means of explaining the finding by van Berlo et al. that players may not readily recollect the brand and product information embedded in advergames.',
+      'The meta-analysis by van Berlo et al. reveals that higher engagement in advergame mechanics is linked to lower effectiveness in persuading players to purchase particular brands and products.',
+      'Although the limited capacity model of motivated mediated message processing developed by Lang suggests otherwise, advergames can succeed as marketing tools, provided that they achieve a balance between game mechanics and the promotion of a brand or product.',
+      'Research by van Berlo et al. corroborates Lang\'s conclusion that because people predominantly focus on game mechanics when playing video games, it is difficult for advergames to communicate brand and product information in ways that are highly memorable.',
+    ],
+    answer: 0,
+    explanation:
+      '文章结构：van Berlo 的 meta-analysis 发现 advergames 不利于品牌回忆 → 这个现象可以用 Lang 的 limited capacity model 解释 → 玩家认知资源被游戏机制耗尽，无法编码广告信息。A 选项准确概括了这个"发现+理论解释"的逻辑。D 选项将关系说成"corroborate Lang\'s conclusion"，但 Lang 的模型是被用来解释 van Berlo 的发现，而非 van Berlo 验证了 Lang 的结论。',
+  },
+  {
+    id: 11,
+    passage:
+      "The following text is adapted from William Shakespeare's 1597 play The Tragedy of King Richard III. Richard is reflecting on the recent arrest of his brother, the Duke of Clarence, on suspicion of treason against King Edward IV. Derby, Hastings, Buckingham, Rivers, Dorset, and Grey are also members of the English nobility.\n\nRICHARD: I do the wrong, and first begin to brawl. / The secret mischiefs that I set flowing / I lay unto the grievous charge of others. / Clarence, whom I indeed have cast in darkness, / I do beweep to many simple [gullible people], / Namely, to Derby, Hastings, Buckingham; / And tell them 'tis the Queen and her allies / That stir the King against the Duke my brother. / Now they believe it, and withal whet me / To be revenged on Rivers, Dorset, Grey.",
+    question: 'Which choice best describes what happens in the text?',
+    options: [
+      'Richard attributes Clarence\'s troubles to both his own secret plotting and the distrust of Clarence that the queen and her allies Derby, Hastings, and Buckingham have planted in the king\'s mind.',
+      'Richard describes having wept as he informed Derby, Hastings, and Buckingham that the queen and her allies convinced the king to act against Clarence, and says that the earnestness of his grief caused them to accept his version of events.',
+      'Richard acknowledges that his mischievous nature has spurred him to commit misdeeds in the past, including instigating enmity between the king and Clarence, but he reports that he has hitherto not lost the trust of the queen and her allies.',
+      'Richard indicates that he has pretended to be aggrieved about Clarence\'s arrest while secretly having orchestrated it himself, and that his listeners have accepted his version of events and encouraged him to seek revenge.',
+    ],
+    answer: 1,
+    explanation:
+      'Richard 在独白中坦白：是他自己把 Clarence 送进了监狱（"I indeed have cast in darkness"），但他假装悲伤（"do beweep"），告诉 Derby 等人是皇后和她的同盟在挑拨离间。他们相信了，并鼓励 Richard 去报复。B 选项准确描述了 Richard 的表层行为（哭着告诉别人是皇后害了 Clarence）。注意：Richard 的真实动机是隐藏的，问题问的是"what happens"（文本中发生了什么），而非深层的心理分析。',
+  },
+  {
+    id: 12,
+    passage:
+      'The following text is from George Eliot\'s 1857 short story "The Sad Fortunes of the Rev. Amos Barton." The Countess Czerlaski is a newcomer to the town of Milby.\n\nIt is true, the Countess was a little vain, a little ambitious, a little selfish, a little shallow and frivolous, a little given to white lies,—But who considers such slight blemishes, such moral pimples as these, disqualifications for entering into the most respectable society! Indeed, the severest ladies in Milby would have been perfectly aware that these characteristics would have created no wide distinction between the Countess Czerlaski and themselves; and since it was clear there was a wide distinction—why, it must lie in the possession of some vices from which they were undeniably free.',
+    question: 'Which choice best states the main idea of the text?',
+    options: [
+      'The residents of Milby had initially viewed the Countess Czerlaski with suspicion, but they have gradually come to see her as mostly harmless.',
+      'Although the Countess Czerlaski actively cultivates a sense of mystery about her, her background is less interesting than what many residents of Milby have been led to believe.',
+      'Although the residents of Milby are generally thought to be hospitable, the Countess Czerlaski has committed many social blunders that have caused her to be widely disliked.',
+      'Some residents of Milby are determined to disapprove of the Countess Czerlaski, even though the reasons for their dislike are largely groundless.',
+    ],
+    answer: 3,
+    explanation:
+      '文章运用了反讽和讽刺：叙述者说 Countess 的缺点只是"moral pimples"（道德上的青春痘），而且 Milby 最严厉的女士们其实自己也有同样的缺点——既然这些缺点不能解释她们与 Countess 之间的"巨大差异"，那她们对 Countess 的反感必然是建立在其他莫须有的理由上的。D 选项准确抓住了这个讽刺核心：Milby 的居民执意不赞成 Countess，但理由站不住脚。',
+  },
+  {
+    id: 13,
+    passage:
+      'The following text is from Ralph Waldo Emerson\'s 1841 essay "The Method of Nature."\n\nThe scholars are the priests of that thought which establishes the foundations of the earth. No matter what is their special work or profession, they stand for the spiritual interest of the world, and it is a common calamity if they neglect their post in a country where the material interest is so predominant as it is in America.',
+    question: 'Which choice best states the main idea of the text?',
+    options: [
+      'Military experience encourages Americans to contemplate aspects of human life that they would not choose to otherwise.',
+      'It is unfortunate that so many intellectuals are concerned with material things rather than ideas.',
+      'Many descriptions of the role of scholars in society unfairly diminish their importance.',
+      'In a country whose citizens are largely preoccupied with tangible gains, it is crucial that some people work to foster and preserve ideas.',
+    ],
+    answer: 3,
+    explanation:
+      'Emerson 的核心论点：学者是"思想的祭司"，代表世界的"精神利益"；在美国这样一个"物质利益"占主导地位的国家，学者如果失职将是一场灾难。D 选项精确转述了这层意思：在全民追逐物质利益的国家，必须有人致力于培养和保存思想。A 偏离主题（军事经验）；B 方向反了（学者是守护思想的人，不是沉迷物质的人）；C 与文意无关。',
+  },
+  {
+    id: 14,
+    passage:
+      'Meredith E. Protas and colleagues have explored how convergent evolution—a phenomenon that occurs when the same trait evolves independently in two reproductively separate lineages—can result from a genetic mechanism shared by both lineages. Meanwhile, Cynthia C. Steiner and colleagues have investigated how convergence occurs through different genetic mechanisms, but the relative prevalence of convergence through shared and different genetic processes is still poorly understood. This motivated biologists Delbert A. Green II and Cassandra G. Extavour to evaluate both types of convergence in a single study for their 2012 paper.',
+    question: 'Which choice best states the main idea of the text?',
+    options: [
+      'Before Green and Extavour\'s study, convergent evolution was assumed to require a shared genetic mechanism between two lineages that share the trait.',
+      'Both the study by Protas and colleagues and that by Green and Extavour compare convergence through shared genetic mechanisms to convergence through different genetic mechanisms.',
+      'Green and Extavour\'s study addresses convergent evolution more comprehensively than the studies by Protas and colleagues and Steiner and colleagues do.',
+      'Green and Extavour\'s study was conducted using data from the studies by Protas and colleagues and Steiner and colleagues.',
+    ],
+    answer: 2,
+    explanation:
+      '文章结构清晰：Protas 研究 shared mechanism → Steiner 研究 different mechanism → 但没人知道哪种更普遍 → Green & Extavour 把两种类型放在同一篇研究里评估。C 选项准确概括：Green & Extavour 的研究比前人更全面（因为前人各看一种，他们两种一起看）。A 歪曲文意（并非"assumed to require"）；B 错误（Protas 只看 shared，并非比较两种）；D 无中生有（没说用了前人的数据）。',
+  },
+  {
+    id: 15,
+    passage:
+      'While no one doubts that politicians are influenced by a variety of incentives, it is generally agreed that they seek to support policies their constituents favor—after all, they risk losing office if they do not. Direct contact with constituents via such means as public events and emails from voters is a major source of politicians\' beliefs about their constituents\' views, but it is susceptible to a selection effect. There is little reason to presume that individuals with the time, resources, and strength of feeling to directly engage with their representatives are themselves broadly representative.',
+    question: 'Which choice best states the main idea of the text?',
+    options: [
+      'People who are likely to contact their elected representatives do not tend to be representative of politicians\' constituents generally.',
+      'Direct contact with constituents shapes politicians\' beliefs about policies their constituents favor, and they try to act in accordance with those beliefs.',
+      'Politicians aim to advocate for their constituents\' policy preferences, but politicians\' understanding of those preferences may be skewed.',
+      'Although politicians have an incentive to act in accordance with their constituents\' views, that is not the only incentive.',
+    ],
+    answer: 2,
+    explanation:
+      '文章逻辑：政治家有动机支持选民偏好的政策（否则会丢官）→ 他们通过直接接触了解选民观点 → 但直接接触存在"selection effect"（选择偏差）→ 愿意花时间联系政治家的那批人并不代表全体选民。C 选项完整概括了这个两段式逻辑：政治家想代表选民，但他们对选民偏好的理解可能被扭曲。A 只说了选择偏差本身，没提对政治家的影响；B 完全漏掉了选择偏差这个核心缺陷；D 偏离主题（文章说的是信息偏差，不是多种激励）。',
+  },
+]
+
 // ============================================================
 //  题目数据映射 — 后续新增 topic/level 在这里添加
 // ============================================================
@@ -423,10 +652,14 @@ export const topicData: Record<string, Record<string, ReadingQuestion[]>> = {
     level2: zhuzhi_level2,
     level3: zhuzhi_level3,
   },
+  chongci_zhuzhi: {
+    level1: chongci_zhuzhi_level1,
+  },
 }
 
 export const topicNames: Record<string, string> = {
   zhuzhi: '主旨与细节题',
+  chongci_zhuzhi: '冲刺班 · 主旨题',
 }
 
 export const levelNames: Record<

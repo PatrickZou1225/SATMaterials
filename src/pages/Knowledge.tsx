@@ -5,6 +5,7 @@ import { PenLine, BookOpen, Calculator, ChevronRight, ArrowLeft } from 'lucide-r
 // 各阅读 topic 对应的路由 key（无内容则留空）
 const topicRouteKeys: Record<string, string> = {
   '主旨与细节题': 'zhuzhi',
+  '冲刺班 · 主旨题': 'chongci_zhuzhi',
 }
 
 type Tab = 'grammar' | 'reading' | 'math'
@@ -60,6 +61,11 @@ const readingTopics: ReadingTopic[] = [
     title: '主旨与细节题',
     description: '把握文章核心观点，定位关键细节信息',
     levels: levelDefs,
+  },
+  {
+    title: '冲刺班 · 主旨题',
+    description: '冲刺班专项训练 — 主旨与细节题实战',
+    levels: [{ name: 'Level 1', label: '新手保护期', color: 'text-green-700 dark:text-green-400', bg: 'bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800' }],
   },
   {
     title: 'FSP目的题',

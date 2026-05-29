@@ -9,7 +9,18 @@
 
 > DeepSeek 模型无法识别图片。Patrick 截图后会说 **"看图"**，意思是：运行 `~/bin/img2txt` 从剪贴板提取文字（macOS Vision OCR，秒级），然后把文字结果返回给 Patrick 分析。
 >
-> **关键**：看到"看图"就执行命令 `~/bin/img2txt`，不要等 Patrick 做任何其他操作。他不需要粘贴图片，只需要说"看图"两个字。
+> **关键**：看到"看图"就执行命令 `~/bin/img2txt`，不要等 Patrick 做任何其他操作。
+>
+> **img2txt 工作原理**：优先读系统剪贴板 → 剪贴板没图时搜索本地截图文件夹。
+>
+> **Patrick 截图方式**：优先使用 macOS 自带快捷键 **Cmd+Ctrl+Shift+4**（截图到剪贴板），不要用第三方截图工具。
+>
+> **如果剪贴板不更新**：
+> 1. 确认用的是 Cmd+Ctrl+Shift+4（不是 Cmd+Shift+4）
+> 2. `ps aux | grep -iE 'clipboard|clipy|maccy|pastebot'` 检查是否有剪贴板管理工具
+> 3. `killall pboard` 重启剪贴板服务
+>
+> **核心教训（2026-05-29）**：优先使用 macOS 自带功能。不要给第三方 App 改配置、不要编译自定义工具。Apple 原生方案 99% 的情况最可靠。
 
 ---
 
