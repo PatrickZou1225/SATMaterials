@@ -372,6 +372,12 @@ export default function ReadingDetail() {
               className="text-sm text-gray-800 dark:text-slate-200 leading-7 whitespace-pre-line"
               dangerouslySetInnerHTML={{ __html: current.passage }}
             />
+            {current.chartImage && (
+              <div className="mt-4 p-3 bg-gray-50 dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700">
+                <p className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-2">Chart / Table</p>
+                <img src={current.chartImage} alt="Chart" className="w-full rounded" />
+              </div>
+            )}
             {/* 移动端：读完文章后的快捷按钮 */}
             <div className="md:hidden mt-6">
               <button

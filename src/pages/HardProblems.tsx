@@ -8,6 +8,7 @@ const topicRouteKeys: Record<string, string> = {
   '划线目的题': 'huaxianmudi',
   '全文结构题': 'quanwenjiegou',
   '全文主旨题': 'chongci_zhuzhi',
+  '图表题': 'tubiaoti',
 }
 
 type Tab = 'grammar' | 'reading' | 'math'

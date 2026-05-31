@@ -10,6 +10,7 @@ export interface ReadingQuestion {
   options: string[]
   answer: number // 0=A, 1=B, 2=C, 3=D
   explanation: string // 中文解析
+  chartImage?: string // 图表题专用：图表图片路径
 }
 
 // ── 主旨与细节题 Level 1（新手保护期）──
@@ -853,6 +854,362 @@ const fsp_zhuzhi_level2: ReadingQuestion[] = []
 const fsp_zhuzhi_level3: ReadingQuestion[] = []
 
 // ============================================================
+//  图表题（冲刺班难题集）— 21 题
+// ============================================================
+const tubiaoti_level1: ReadingQuestion[] = [
+  {
+    id: 5001,
+    passage: 'While US public charities, like Commonfund, must file Form 990 yearly with the IRS, private foundations, such as Lilly Endowment Inc., must file a different form, 990-PF. In addition, foundations that engage in certain prohibited activities must also file Form 4720 and pay a penalty tax on the money involved. Private foundations are prohibited from holding excess interests in a business enterprise, "self-dealing" (conducting activities that benefit foundation insiders), making taxable expenditures such as outlays for lobbying, and failing to cross a required threshold in making charitable distributions from income. Out of the organizations that filed Form 990-PF in the years 2003–2005, __________',
+    question: 'Which choice most effectively uses data from the graph to complete the assertion?',
+    options: [
+      'those that also filed Form 4720 collectively paid larger penalties for failing to meet the minimum charitable distribution requirement than for other reasons.',
+      'those that also filed Form 4720 paid a larger penalty for failing to meet a minimum charitable distribution requirement than those organizations that filed Form 990 but also filed Form 4720 for the same reason.',
+      'those that were also required to file Form 4720 because they had excess holdings in a business enterprise paid, on average, a larger penalty than those organizations that filed Form 4720 because they engaged in self-dealing.',
+      'a smaller percentage of those that also filed Form 4720 did so because they engaged in self-dealing than the percentage of those that filed Form 4720 because they did not meet the minimum charitable distribution requirement.',
+    ],
+    answer: 3,
+    explanation: 'The graph shows the distribution of reasons for filing Form 4720. The percentage for failing to meet the minimum charitable distribution requirement is larger than the percentage for self-dealing, supporting option D.',
+    chartImage: '/images/chart-questions/chart_01.png',
+  },
+  {
+    id: 5002,
+    passage: 'To understand how expressions of anger in reviews of products affect readers of those reviews, business scholar Dezhi Yin and colleagues measured study participants\' responses to three versions of the same negative review—a control review expressing no anger, a review expressing a high degree of anger, and a review expressing a low degree of anger. Reviewing the data, a student concludes that the mere presence of anger in a review may not negatively affect readers\' perceptions of the review, but a high degree of anger in a review does worsen readers\' perceptions of the review.',
+    question: 'Which choice best describes data from the graph that support the student\'s conclusion?',
+    options: [
+      'On average, participants\' ratings of the helpfulness of the review were substantially higher than were participants\' ratings of the reviewed product regardless of which type of review participants had seen.',
+      'Compared with participants who saw the control review, participants who saw the low-anger review rated the review as slightly more helpful, whereas participants who saw the high-anger review rated the review as less helpful.',
+      'Participants who saw the low-anger review rated the review as slightly more helpful than participants who saw the control review did, but participants\' attitude toward the reviewed product was slightly worse when participants saw the low-anger review than when they saw the no-anger review.',
+      'Compared with participants who saw the low-anger review, participants who saw the high-anger review rated the review as less helpful and had a less positive attitude toward the reviewed product.',
+    ],
+    answer: 1,
+    explanation: 'The student concludes that mere presence of anger may not hurt (low-anger slightly better than control) but high anger does hurt (high-anger worse). Option B captures both parts: low-anger rated slightly more helpful, high-anger rated less helpful.',
+    chartImage: '/images/chart-questions/chart_02.svg',
+  },
+  {
+    id: 5003,
+    passage: 'Domestic sheep\'s wild ancestor, the mouflon, has a coarse outer coat and an inner coat of wool fiber that is finer in diameter and therefore much softer. In some domestic breeds, such as the Spanish Merino, the outer fiber is only marginally coarser than the inner, and the wool is soft overall. Thus, Merino wool is ideal for delicate garments worn against the skin. Meanwhile, the Navajo-Churro has been selected to retain the marked distinction between outer and inner fiber that the Merino has lost. Being coarser than Merino wool overall, Navajo-Churro wool yields a more durable yarn, which Diné (Navajo) weavers use in their celebrated rugs. Yet a comparison of the fiber characteristics of all three sheep reveals that __________',
+    question: 'Which choice most effectively uses data from the table to complete the text?',
+    options: [
+      'the Mouflon is the only one of the three sheep to have a highly variable diameter of its outer fiber.',
+      'domestication resulted in a counterintuitive increase in the inner fiber\'s minimum diameter, making the inner fiber of the Merino and the Navajo-Churro less suitable for delicate garments than the mouflon\'s inner fiber is.',
+      'the domestication of the mouflon and the subsequent selection process that produced the Merino and the Navajo-Churro resulted in greater softness of outer and inner fiber alike.',
+      'the selection process that enabled the Navajo-Churro to retain its somewhat coarse outer fiber also resulted in inner fiber that, at its softest, is softer than either the mouflon\'s or the Merino\'s inner fiber.',
+    ],
+    answer: 3,
+    explanation: 'The table data shows Navajo-Churro inner fiber minimum diameter is finer (softer) than both mouflon and Merino, supporting D. This is a surprising finding given Navajo-Churro\'s overall coarseness.',
+    chartImage: '/images/chart-questions/chart_03.png',
+  },
+  {
+    id: 5004,
+    passage: 'A sociology student is reading an essay on the median age of first marriage in Western countries throughout the twentieth century. The author of the essay cites factors common to these countries that the author believes caused an increase in the median age of first marriage, such as new technologies that shortened the time needed for domestic chores, making two-person households less necessary and living alone more viable. The student asserts that beyond these factors there must be additional ones specific to particular Western countries that influenced the increase of age at first marriage.',
+    question: 'Which choice most effectively uses data from the graph that support the student\'s assertion?',
+    options: [
+      'Between 1970 and 2000, the median age of first marriage rose more sharply for men in England and Wales than it did for men in the United States.',
+      'In England and Wales, the median age of first marriage was consistently higher for men than for women between 1900 and 2000, but this was not always the case in the United States.',
+      'The median age of first marriage for men in England and Wales was lower in 1970 than in 1950 or 1990.',
+      'Between 1900 and 2000, the median age of first marriage for women in England and Wales was consistently higher than for women in the United States, as was the case for men.',
+    ],
+    answer: 0,
+    explanation: 'The student says country-specific factors must exist. Option A shows different rates of increase between countries, supporting the idea that factors beyond the common ones affected each country differently.',
+    chartImage: '/images/chart-questions/chart_04.png',
+  },
+  {
+    id: 5005,
+    passage: 'The late Hemphillian (Hh) North American Land Mammal Age includes the subdivisions Hh3, 6.8 million years ago (Ma) to 6 Ma, and Hh4, 6 Ma to 4.75 Ma. While mammalian fossils have indicated that Florida\'s Montbrook Fossil Site (MFS) and Palmetto Fauna of the Bone Valley Region (PFBV) date to Hh4, a more precise determination of the sites\' ages has proved challenging. Stephanie R. Killingsworth et al. compared average ratios of strontium-87 to strontium-86 (⁸⁷Sr/⁸⁶Sr) in fossil shark teeth from MFS and PFBV—0.709000 and 0.709028, respectively—to ⁸⁷Sr/⁸⁶Sr ratios in the global strontium seawater curve, a record that shows how ⁸⁷Sr/⁸⁶Sr ratios in seawater correspond to numerical ages and that is used to date fossils and, by extension, fossil sites. The researchers concluded that __________',
+    question: 'Which choice most effectively uses data from the table to complete the statement?',
+    options: [
+      'mammalian fossil evidence offers less dating precision than do ⁸⁷Sr/⁸⁶Sr ratios in fossil shark teeth and that PFBV likely was deposited closer to the Hh3-Hh4 boundary than was MFS.',
+      'the average ⁸⁷Sr/⁸⁶Sr ratios in the fossil shark teeth from MFS and PFBV resolve previous uncertainty about the sites\' relative ages by indicating that both sites were deposited contemporaneously during the late Hh.',
+      'the average ⁸⁷Sr/⁸⁶Sr ratios in the fossil shark teeth from MFS and PFBV only partially support the site age estimates previously established through mammalian fossil evidence.',
+      'the average ⁸⁷Sr/⁸⁶Sr ratios in the fossil shark teeth from MFS and PFBV corroborate that both MFS and PFBV fall within Hh4 but suggest that PFBV was likely deposited more recently than MFS.',
+    ],
+    answer: 3,
+    explanation: 'Both sites date to Hh4. MFS=0.709000, PFBV=0.709028. Higher ⁸⁷Sr/⁸⁶Sr ratio in seawater curve = more recent. PFBV has higher ratio, suggesting it was deposited more recently.',
+    chartImage: '/images/chart-questions/chart_05.png',
+  },
+  {
+    id: 5006,
+    passage: 'A tariff is a tax on imported goods intended to protect domestic producers of similar goods from international competition. Eliminating tariffs can lead to an influx of cheaper imported goods, lowering prices; in a place where domestic production is relatively expensive, this influx can suppress domestic production, as the country\'s consumers favor more cheaply produced imported goods over domestically produced ones. A student consults a table showing projected changes in production and average market prices of agricultural commodities in four countries in a tariff-elimination scenario. Based on the data, the student claims that compared with India and Russia, agricultural production in Argentina and the United States is likely relatively inexpensive.',
+    question: 'Which choice most effectively uses information from the text and data from the table to support the student\'s claim?',
+    options: [
+      'Although agricultural production in India and Russia would likely decrease if tariffs were eliminated, it would likely increase in both Argentina and the United States.',
+      'Although eliminating tariffs would likely cause agricultural market prices to decrease in most locations, it would likely cause agricultural market prices to increase in both Argentina and the United States.',
+      'Argentina and the United States are the only countries shown that are projected to see both an increase in agricultural production and a reduction in agricultural prices in the absence of tariffs.',
+      'In the absence of tariffs, total agricultural production in Argentina and the United States would likely exceed that in India and Russia.',
+    ],
+    answer: 0,
+    explanation: 'If production increases when tariffs are eliminated (Argentina, US), it means domestic production is relatively inexpensive and can compete. If production decreases (India, Russia), domestic production is expensive. Option A directly supports the claim.',
+    chartImage: '/images/chart-questions/chart_06.png',
+  },
+  {
+    id: 5007,
+    passage: 'Interested in how differences in the color of dogs\' irises affect human responses to dogs, Akitsugu Konno et al. showed close-up images of dogs\' faces to human participants and asked them to rate the dogs\' traits and their own attitudes toward the dogs. Konno et al. suggest that differences in iris color led participants to view some dogs as more vulnerable and in need of protection than others and that this phenomenon could help explain the association the researchers observed between iris color and participants\' inclinations to interact with or keep dogs, as illustrated by the finding that __________',
+    question: 'Which choice most effectively uses data from the table to complete the statement?',
+    options: [
+      'the more mature a dog was perceived to be, the more likely participants were to rate it as having light irises.',
+      'participants favored the dogs in images 2 and 11, which they rated as less mature than the dogs in images 20 and 16.',
+      'participants rated the dog in image 2 as less mature than the dog in image 11 and rated the dog in image 16 as less mature than the dog in image 20.',
+      'dogs that participants rated as friendlier were also dogs that participants indicated a stronger willingness to interact with or keep.',
+    ],
+    answer: 1,
+    explanation: 'The finding should link iris color to perceived vulnerability and willingness to interact/keep. Option B connects favorability (willingness to interact) with perceived maturity (vulnerability proxy), consistent with the researchers\' suggested mechanism.',
+    chartImage: '/images/chart-questions/chart_07.png',
+  },
+  {
+    id: 5008,
+    passage: 'Some climate models for the western United States predict that while total annual precipitation may remain unchanged from the present level, precipitation will become concentrated into fewer but more intense rain and snow events. University of Texas climate scientist Geeta Persad and her colleagues simulated how the amount of water entering aquifers and the amount being used for irrigation purposes would change if this were to occur. Persad and her colleagues concluded that concentration of precipitation into fewer events would result in a higher number of dry days, triggering more irrigation, but that this change in irrigation output is highly sensitive to the baseline concentration of precipitation that currently exists in an area.',
+    question: 'Which choice best describes data from the table that support Persad and her colleagues\' conclusion?',
+    options: [
+      'If baseline precipitation is somewhat concentrated, the amount of water being used for irrigation will increase 0.4% for surface water and 0.9% for groundwater, whereas the amount of water entering aquifers will increase 11.0% if baseline precipitation is evenly distributed.',
+      'If baseline precipitation is somewhat concentrated, water use for irrigation will increase only slightly, whereas it will increase 9.0% for surface water and 7.9% for groundwater if baseline precipitation is evenly distributed.',
+      'If baseline precipitation is somewhat concentrated, the amount of water entering aquifers will increase 4.9%, while the amount being used for irrigation will increase 0.4% for surface water and 0.9% for groundwater.',
+      'If baseline precipitation is somewhat concentrated, water use for irrigation will decline by a small amount, whereas it will increase 11.0% for surface water and 9.0% for groundwater if baseline precipitation is evenly distributed.',
+    ],
+    answer: 1,
+    explanation: 'The conclusion says the effect is "highly sensitive to baseline concentration." Option B shows this: small increase under "somewhat concentrated" vs large increase under "evenly distributed," illustrating the sensitivity.',
+    chartImage: '/images/chart-questions/chart_08.png',
+  },
+  {
+    id: 5009,
+    passage: 'After sample A0106 was retrieved from the asteroid Ryugu, a portion of it was subjected to an extraction protocol in which small amounts of pulverized material were rinsed, sequentially, with hexane, dichloromethane, methanol, and finally a mixture of dichloromethane and methanol. Each rinse created a separate extract suitable for spectral analysis. Based on the table, both alkane and dimethyl sulfide compounds must have been present in the pulverized sample before the methanol-only extraction, because __________',
+    question: 'Which choice uses data from the table to effectively complete the text?',
+    options: [
+      'the third extract in the sequence contains dimethyl sulfides and the fourth contains alkanes.',
+      'the second extract in the sequence contains alkanes but no dimethyl sulfides.',
+      'three of the four extracts contain alkanes but only one of the four contains dimethyl sulfides.',
+      'the fourth extract in the sequence contains alkanes but no dimethyl sulfides.',
+    ],
+    answer: 0,
+    explanation: 'The methanol-only extraction is the third step. The question asks why both compounds must have been present BEFORE the methanol-only step. Option A indicates dimethyl sulfides appear in the third extract and alkanes in the fourth, meaning both were still present in the sample before methanol extraction.',
+    chartImage: '/images/chart-questions/chart_09.png',
+  },
+  {
+    id: 5010,
+    passage: 'Mycorrhizal fungi in soil benefits many plants, substantially increasing the mass of some. A student conducted an experiment to illustrate this effect. The student chose three plant species for the experiment, including two that are mycorrhizal hosts (species known to benefit from mycorrhizal fungi) and one nonmycorrhizal species (a species that doesn\'t benefit from and may even be harmed by mycorrhizal fungi). The student then grew several plants from each species both in soil containing mycorrhizal fungi and in soil that had been treated to kill mycorrhizal and other fungi. After several weeks, the student measured the plants\' average mass and was surprised to discover that __________',
+    question: 'Which choice most effectively uses data from the table to complete the statement?',
+    options: [
+      'broccoli grown in soil containing mycorrhizal fungi had a slightly higher average mass than broccoli grown in soil that had been treated to kill fungi.',
+      'corn grown in soil containing mycorrhizal fungi had a higher average mass than broccoli grown in soil containing mycorrhizal fungi.',
+      'marigolds grown in soil containing mycorrhizal fungi had a much higher average mass than marigolds grown in soil that had been treated to kill fungi.',
+      'corn had the highest average mass of all three species grown in soil that had been treated to kill fungi, while marigolds had the lowest.',
+    ],
+    answer: 2,
+    explanation: 'The student was "surprised." The surprising result would be that marigolds (the nonmycorrhizal species) thrived with fungi, contrary to expectation that they would be harmed. Option C shows marigolds had much higher mass with fungi, which is surprising for a nonmycorrhizal species.',
+    chartImage: '/images/chart-questions/chart_10.png',
+  },
+  {
+    id: 5011,
+    passage: 'The mating environment hypothesis predicts that populations of flowering plants compensate for reduced mating opportunities due to dichogamy (a plant\'s expression of male and female functions at separate times to prevent self-pollination) by adjusting the bias of floral sex allocation during the flowering period, increasing the probability of successful cross-plant pollination. Researchers tested the hypothesis by examining a population of broadleaf arrowhead, a plant for which bloom onset generally takes longer for male flowers than for female flowers, during the flowering season. They concluded that the mating environment hypothesis is not well supported by their observational data.',
+    question: 'Which choice best describes data from the table that support the researchers\' conclusion?',
+    options: [
+      'Whereas the total number of open flowers per growth unit peaked on day 15, the proportion of male flowers experienced a peak earlier in the flowering season, on day 10.',
+      'Sex allocations were largely evenly distributed on days 10 and 15 but were female biased on days 5 and 20.',
+      'Although sex allocations became overwhelmingly female biased by day 20, male flowers\' estimated reproductive success rate did not vary from day 5 to 20.',
+      'The proportion of male flowers remained constant throughout the flowering season while the total number of open flowers steadily increased.',
+    ],
+    answer: 0,
+    explanation: 'The hypothesis predicts compensation for dichogamy through adjusted sex allocation. The data showing male peak (day 10) before total peak (day 15) would be consistent with normal dichogamy, not compensatory adjustment. This lack of compensation pattern fails to support the hypothesis.',
+    chartImage: '/images/chart-questions/chart_11.png',
+  },
+  {
+    id: 5012,
+    passage: 'Kaiser Foundation Hospitals and other US public charities must file Form 990 yearly with the IRS, but private foundations, such as the Gordon and Betty Moore Foundation, must file a different form, 990-PF. In addition, foundations that engage in certain prohibited activities must also file Form 4720 and pay a penalty tax on the money involved. Private foundations are prohibited from doing the following: holding excess interests in a business enterprise, "self-dealing" (conducting activities that benefit foundation insiders), making taxable expenditures such as grants to noncharitable entities, and failing to cross a required threshold in making charitable distributions from income. Out of the organizations that filed Form 990-PF in the years 2003–2005, __________',
+    question: 'Which choice most effectively uses data from the graph to complete the assertion?',
+    options: [
+      'those that filed Form 4720 were less likely to do so because they did not meet the minimum charitable distribution requirement than for other reasons.',
+      'those that filed Form 4720 because they had excess holdings in a business enterprise paid, on average, a significantly smaller penalty than those organizations that filed Form 4720 because they made taxable expenditures.',
+      'the percentage of those that filed Form 4720 because they made taxable expenditures was smaller than the percentage of those that did so because they did not meet the minimum charitable distribution requirement.',
+      'more of those that filed Form 4720 failed to meet a minimum charitable distribution requirement than did those organizations that filed Form 990 but filed Form 4720 for the same reason.',
+    ],
+    answer: 2,
+    explanation: 'The graph shows the distribution of reasons for filing Form 4720. The percentage for failing to meet distribution requirements is larger than the percentage for taxable expenditures, supporting option C.',
+    chartImage: '/images/chart-questions/chart_12.png',
+  },
+  {
+    id: 5013,
+    passage: 'Honeybee hives consist mainly of hexagonal (six-sided) units called cells, in which queens lay eggs. Hexagonal cells for eggs that develop into nonreproductive workers are smaller than those for eggs that develop into reproductive drones, though the size difference varies by species. Difference in cell size results in a construction problem—it\'s hard to neatly connect sections of small cells to sections of large cells—that bees solve by building intermediate cells of different shapes between the worker and drone sections. A student studying beehive structure consults data on three species, concluding that __________',
+    question: 'Which choice most effectively uses data from the graph to complete the student\'s conclusion?',
+    options: [
+      'both the western honeybee and the black dwarf honeybee probably reserve eight-sided cells for drone eggs, while the dwarf honeybee likely deposits drone eggs in seven-sided cells.',
+      'the western honeybee probably relies on many more geometrical shapes when constructing cells than either the dwarf honeybee or the black dwarf honeybee does.',
+      'cells for worker eggs are probably closer in size to cells for drone eggs in the hives of the western honeybee than in the hives of the dwarf honeybee and the black dwarf honeybee.',
+      'the percentage of hexagonal cells is probably slightly lower in the hives of the western honeybee than in the hives of the dwarf honeybee and the black dwarf honeybee.',
+    ],
+    answer: 2,
+    explanation: 'The size difference between worker and drone cells affects the need for intermediate (non-hexagonal) cells. If western honeybee worker and drone cells are closer in size, it would need fewer intermediate cells, which is supported by the graph data.',
+    chartImage: '/images/chart-questions/chart_13.png',
+  },
+  {
+    id: 5014,
+    passage: 'Working in Ghana, Emmanuel Hanyabui and colleagues compared the impact on pineapple growth of different combinations of soil additives, including NPK fertilizer (an inorganic fertilizer containing nitrogen, phosphorus, and potassium), organic compost, and biochar (a carbon-rich material produced from organic waste matter). Based on data in the table, pineapple farmers with no access to inorganic soil additives would likely increase the weight and size of their fruits by the greatest amount by using __________',
+    question: 'Which choice most effectively uses data from the table to complete the text?',
+    options: [
+      'compost alone.',
+      'biochar alone.',
+      'biochar and compost.',
+      'biochar and NPK fertilizer.',
+    ],
+    answer: 2,
+    explanation: 'The question specifies "no access to inorganic soil additives." NPK is inorganic, so options with NPK are excluded. Of the organic-only options (compost alone, biochar alone, biochar+compost), the table shows biochar+compost yields the greatest increase.',
+    chartImage: '/images/chart-questions/chart_14.png',
+  },
+  {
+    id: 5015,
+    passage: 'Hemerocallis sp. plants typically carry a negative electrical charge, while bees and other pollinators tend to accumulate a positive charge. Given that negatively and positively charged objects attract, a research team hypothesized that the difference in charges could attract Hemerocallis sp. stamens to the plants\' pollinators. Based on the team\'s experiments, the hypothesis was well supported for positive charges above a certain threshold. The team found that foraging honeybees exceeded that threshold, which suggests that __________',
+    question: 'Which choice most effectively uses data from the graph to complete the text?',
+    options: [
+      'red mason bees can also attract the stamens.',
+      'red mason bees and European peacock caterpillars, with greater maximum charges than foraging honeybees have, cannot attract the stamens.',
+      'European peacock caterpillars tend to repel the stamens.',
+      'the threshold positive charge for a pollinator to attract the stamens must be greater than 100pC.',
+    ],
+    answer: 0,
+    explanation: 'The graph shows charge levels for different pollinators. Foraging honeybees exceed the threshold and attract stamens. Red mason bees have similar or higher charge than honeybees, meaning they also exceed the threshold and can attract stamens.',
+    chartImage: '/images/chart-questions/chart_15.png',
+  },
+  {
+    id: 5016,
+    passage: 'Laila Nazirah and colleagues found that tilling—the practice of turning soil with hoes, plows, or other machines before planting crops—was associated with an increased yield of rice. But some studies of other crops have found the opposite effect, raising the question of whether the increase in yield found by Nazirah and colleagues is specific to their study crop. However, this doesn\'t seem to be the case: __________',
+    question: 'Which choice most effectively uses data from the table to complete the assertion?',
+    options: [
+      'Salem Alhaji Ali and colleagues reported an even larger positive effect of tilling on the yield of winter wheat.',
+      'a study using rice yielded 4,370 kilograms per hectare with tilling and only 2,450 kilograms per hectare without tilling.',
+      'crop yields with tilling have ranged from 3,078 kilograms per hectare for maize to 4,370 kilograms per hectare for rice.',
+      'G.F. Botta and colleagues found a similar association in a study using soybeans.',
+    ],
+    answer: 3,
+    explanation: 'The assertion is that the positive effect of tilling is NOT specific to rice. Option D shows soybeans also had a positive association with tilling, proving the effect generalizes to other crops.',
+    chartImage: '/images/chart-questions/chart_16.png',
+  },
+  {
+    id: 5017,
+    passage: 'It may seem that the optimal strategy for an animal pursuing prey or escaping predators is to move at maximal speed, but the energy expense of exploiting full speed capacity can disfavor such a strategy even in escape contexts, as evidenced by the fact that __________',
+    question: 'Which choice most effectively uses data from the graph to complete the text?',
+    options: [
+      'most lizard species use about the same percentage of their maximal speed when escaping predation as they do when pursuing prey.',
+      'multiple lizard species move at an average of less than 90% of their maximal speed while escaping predation.',
+      'more lizard species use, on average, 90%–100% of their maximal speed while escaping predation than use any other percentage of their maximal speed.',
+      'at least 4 lizard species use, on average, less than 100% of their maximal speed while pursuing prey.',
+    ],
+    answer: 1,
+    explanation: 'The claim is that even in escape (life-or-death) situations, animals don\'t use full speed due to energy costs. Option B shows that many species use less than 90% of maximal speed while escaping, supporting the claim that full speed is disfavored.',
+    chartImage: '/images/chart-questions/chart_17.png',
+  },
+  {
+    id: 5018,
+    passage: 'Polyethylene (PE) plastic sheeting is used as agricultural mulch because it is effective at reducing the propagation of weeds. Seeking a biodegradable alternative, Waqas Ahmad and colleagues tended otherwise equivalent plots of strawberries mulched with PE sheeting or one of several newsprint pulp-based alternatives: just newsprint pulp (NP), pulp bound with guar gum (GG), or pulp bound with psyllium husk (PH). The graph represents strawberry plots for which all emerging weeds were left in place throughout the experiment. Once the fruit was harvested, the weeds were removed, dried, and weighed for dry biomass. Based on the results, there was not a predictable association between treatment effectiveness and fruit yield.',
+    question: 'Which choice most effectively uses data from the graph to support the underlined claim?',
+    options: [
+      'The psyllium husk and guar gum treatments were associated with lower weed biomasses and higher fruit yields than the treatment with just newsprint pulp was.',
+      'While the psyllium husk treatment was associated with a higher weed biomass than the guar gum treatment was, the guar gum treatment was associated with a higher fruit yield than the psyllium husk treatment was.',
+      'While the guar gum and polyethylene treatments were associated with the lowest weed biomasses, the guar gum treatment was associated with the highest fruit yield and the polyethylene treatment was associated with the lowest fruit yield.',
+      'The treatment with just newsprint pulp was associated with the highest weed biomass and was not one of the two treatments associated with the highest fruit yields.',
+    ],
+    answer: 2,
+    explanation: 'The claim is "no predictable association between treatment effectiveness and fruit yield." Option C best supports this: GG and PE both had low weed biomass (effective weed control), but GG had highest fruit yield while PE had lowest—opposite outcomes despite similar weed control, proving no predictable association.',
+    chartImage: '/images/chart-questions/chart_18.svg',
+  },
+  {
+    id: 5019,
+    passage: 'Some researchers studying Indigenous actors and filmmakers in the United States have turned their attention to the early days of cinema, particularly the 1910s and 1920s, when people like James Young Deer, Dark Cloud, Edwin Carewe, and Lillian St. Cyr (known professionally as Red Wing) were involved in one way or another with numerous films. In fact, so many films and associated records for this era have been lost that counts of those four figures\' output should be taken as bare minimums rather than totals; it\'s entirely possible, for example, that __________',
+    question: 'Which choice most effectively uses data from the table to complete the example?',
+    options: [
+      'Dark Cloud acted in significantly fewer films than did Lillian St. Cyr, who is credited with 66 performances.',
+      'Edwin Carewe\'s 47 credited acting roles includes only films made after 1934.',
+      'Lillian St. Cyr acted in far more than 66 films and Edwin Carewe directed more than 58.',
+      'James Young Deer actually directed 33 films and acted in only 10.',
+    ],
+    answer: 2,
+    explanation: 'The claim is that counts are "bare minimums" because records were lost. Option C supports this by suggesting the actual numbers are "far more than" the recorded counts, consistent with the idea that records undercount.',
+    chartImage: '/images/chart-questions/chart_19.png',
+  },
+  {
+    id: 5020,
+    passage: 'To understand the extent of deforestation in the Chorotega region of Costa Rica, Juan Pablo Arroyo Mora and colleagues used historical aerial photography and remote sensing data to track changes in the total number of forest patches in areas of different land use capability classes (categories that indicate possible uses of forest land). Due to the Chorotega region\'s accessibility, various types of forested areas were converted to cattle pasture as rising international meat prices drove a cattle ranching boom in the 1960s and 1970s: this conversion is evident in the __________',
+    question: 'Which choice most effectively uses data from the graph to complete the assertion?',
+    options: [
+      'high number of patches in Class VII and Class VIII in 1986.',
+      'difference between the number of patches in Class VII and in Class VI in 2000.',
+      'increase in the number of patches for all Classes from 1979 to 2000.',
+      'decrease in the number of patches for all classes from 1960 to 1979.',
+    ],
+    answer: 3,
+    explanation: 'The cattle ranching boom in the 1960s-70s caused deforestation (forest → pasture). Deforestation would decrease the number of forest patches. Option D shows this decrease during the exact period of the cattle boom.',
+    chartImage: '/images/chart-questions/chart_20.png',
+  },
+  {
+    id: 5021,
+    passage: 'Interested in how differences in the color of dogs\' irises affect human responses to dogs, Akitsugu Konno et al. showed close-up images of dogs\' faces to human participants and asked them to rate the dogs\' traits and their own attitudes toward the dogs. Konno et al. suggest that differences in iris color led participants to view some dogs as more vulnerable and in need of protection than others and that this phenomenon could help explain the association the researchers observed between iris color and participants\' inclinations to interact with or keep dogs, as illustrated by the finding that __________',
+    question: 'Which choice most effectively uses data from the table to complete the statement?',
+    options: [
+      'participants rated the dog in image 3 as less mature than the dog in image 8 and rated the dog in image 14 as less mature than the dog in image 24.',
+      'dogs that participants rated as friendlier were also dogs that participants indicated a stronger willingness to interact with or keep.',
+      'the more mature a dog was perceived to be, the more likely participants were to rate it as having light irises.',
+      'participants favored the dogs in images 3 and 8, which they rated as less mature than the dogs in images 24 and 14.',
+    ],
+    answer: 3,
+    explanation: 'The finding should show the link between iris color → perceived vulnerability → willingness to interact. Option D shows participants favored dogs perceived as less mature (more vulnerable) with darker irises, supporting the mechanism the researchers describe.',
+    chartImage: '/images/chart-questions/chart_21.svg',
+  },
+  {
+    id: 5022,
+    passage: 'Indonesia is trying to increase its electricity capacity (the maximum amount of electricity that can be generated) for renewable energy in order to reduce dependence on fossil fuels, which can be costly financially and environmentally. From 2017 to 2020, Indonesia\'s use of four renewable technologies has trended upward, but not uniformly: the electricity capacity of solar power fell from 97.4 megawatts in 2017 to 65.5 megawatts in 2018, and the electricity capacity of __________',
+    question: 'Which choice most effectively uses data from the graph to complete the assertion?',
+    options: [
+      'both geothermal and wind neither increased nor decreased from 2019 to 2020.',
+      'both wind and solar never surpassed that of renewable hydropower throughout the four-year period.',
+      'wind was much lower in 2017 than it was in 2018, 2019, or 2020.',
+      'renewable hydropower was much higher than that of solar for all four years.',
+    ],
+    answer: 0,
+    explanation: 'The graph shows geothermal and wind capacity remained flat from 2019 to 2020, while other sources fluctuated. Option A correctly identifies this stability for both geothermal and wind.',
+    chartImage: '/images/chart-questions/chart_22.svg',
+  },
+  {
+    id: 5023,
+    passage: 'A Pew Research Center survey conducted in January 2024 found that three out of ten US adults make at least one New Year\'s resolution (a promise for the year ahead), while half of those who make a resolution make more than one. The survey asked participants what kinds of resolutions they made and separated them into several categories. The table presents percentages of people who make particular kinds of New Year\'s resolutions among those who choose to make them, indexed by age bracket.',
+    question: 'Which choice best presents a conclusion about the habits of New Year\'s resolution makers that is best supported by information in the text and the table?',
+    options: [
+      'The majority of US adults who make resolutions related to health and exercise also make resolutions in multiple additional categories.',
+      'Among all US adults, people become less likely to make New Year\'s resolutions as they age, regardless of the type of resolution.',
+      'Resolution makers between the ages of 50 and 64 are more likely to make resolutions related to personal relationships and less likely to make resolutions related to finances than resolution makers between the ages of 30 and 49 are.',
+      'Resolution makers between the ages of 18 and 29 are more likely to make resolutions about health and exercise than resolution makers between the ages of 30 and 49 are.',
+    ],
+    answer: 2,
+    explanation: 'The table data shows that the 50-64 age bracket has higher percentages for personal relationship resolutions and lower percentages for finance resolutions compared to the 30-49 bracket, supporting option C.',
+    chartImage: '/images/chart-questions/chart_23.svg',
+  },
+  {
+    id: 5024,
+    passage: 'A 2022 US Department of Agriculture report by Kayode Ajewole et al. calculated average annual growth rates of agricultural exports from countries over the five years before and the five years following the creation of a free trade agreement (FTA) with the US. The table shows data for five countries in the study. (Post-FTA calculations included some anticipatory effects preceding the agreements\' official start.) Ajewole et al. note that an increase in the rate of exports to the US in the post-FTA period does not necessarily indicate that a country produced more goods for export as a result of the FTA. Rather, FTAs sometimes incentivize countries to redirect existing trade from nonmember countries to FTA partners, as is most likely the case with __________',
+    question: 'Which choice most effectively uses data from the table to complete the statement?',
+    options: [
+      'Jordan, because the post-FTA period coincided with increasing rates of both its agricultural exports to the US and its total agricultural exports to countries not participating in the FTA.',
+      'Australia, because its rate of agricultural exports to the US and its rate of total agricultural exports both decreased in the post-FTA period relative to the pre-FTA period.',
+      'Morocco, because its rate of agricultural exports to the US increased in the post-FTA period relative to the pre-FTA period, while its rate of total agricultural exports decreased during the same period.',
+      'Panama, because the post-FTA period saw a decrease in its rate of agricultural exports to the US but not in its rate of total agricultural exports.',
+    ],
+    answer: 2,
+    explanation: 'The redirect hypothesis says trade shifts from nonmembers to FTA partners. Morocco shows increased exports to the US but decreased total exports, indicating trade was redirected rather than newly created. Option C supports this.',
+    chartImage: '/images/chart-questions/chart_24.svg',
+  },
+  {
+    id: 5025,
+    passage: 'Polyethylene (PE) plastic sheeting is used as agricultural mulch because it is effective at reducing the propagation of weeds. Seeking a biodegradable alternative, Waqas Ahmad and colleagues tended otherwise equivalent plots of strawberries mulched with PE sheeting or one of several newsprint pulp-based alternatives: just newsprint pulp (NP), pulp bound with guar gum (GG), or pulp bound with psyllium husk (PH). The graph represents strawberry plots for which all emerging weeds were left in place throughout the experiment. Once the fruit was harvested, the weeds were removed, dried, and weighed for dry biomass. Based on the results, there was not a predictable association between treatment effectiveness and fruit yield.',
+    question: 'Which choice most effectively uses data from the graph to support the underlined claim?',
+    options: [
+      'The psyllium husk and guar gum treatments were associated with lower weed biomasses and higher fruit yields than the treatment with just newsprint pulp was.',
+      'While the psyllium husk treatment was associated with a higher weed biomass than the guar gum treatment was, the guar gum treatment was associated with a higher fruit yield than the psyllium husk treatment was.',
+      'While the guar gum and polyethylene treatments were associated with the lowest weed biomasses, the guar gum treatment was associated with the highest fruit yield and the polyethylene treatment was associated with the lowest fruit yield.',
+      'The treatment with just newsprint pulp was associated with the highest weed biomass and was not one of the two treatments associated with the highest fruit yields.',
+    ],
+    answer: 2,
+    explanation: 'The claim is "no predictable association between treatment effectiveness and fruit yield." Option C supports this: GG and PE both had low weed biomass, but GG had highest yield while PE had lowest—opposite outcomes despite similar weed control.',
+    chartImage: '/images/chart-questions/chart_25.png',
+  },
+]
+
+// ============================================================
 //  题目数据映射 — 后续新增 topic/level 在这里添加
 // ============================================================
 export const topicData: Record<string, Record<string, ReadingQuestion[]>> = {
@@ -880,6 +1237,9 @@ export const topicData: Record<string, Record<string, ReadingQuestion[]>> = {
     level2: fsp_zhuzhi_level2,
     level3: fsp_zhuzhi_level3,
   },
+  tubiaoti: {
+    level1: tubiaoti_level1,
+  },
 }
 
 export const topicNames: Record<string, string> = {
@@ -888,6 +1248,7 @@ export const topicNames: Record<string, string> = {
   huaxianmudi: '划线目的题',
   quanwenjiegou: '全文结构题',
   quanwenzhuzhi: '全文主旨题',
+  tubiaoti: '图表题',
 }
 
 export const levelNames: Record<
