@@ -6,7 +6,11 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        serif: ['"Times New Roman"', 'Times', 'Georgia', 'serif'],
+      },
+    },
   },
   plugins: [],
 }

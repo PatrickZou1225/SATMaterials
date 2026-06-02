@@ -437,7 +437,7 @@ export default function MockTest() {
           <div className="p-5 sm:p-8">
             <p className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-4">Passage</p>
             <div
-              className="text-sm text-gray-800 dark:text-slate-200 leading-7 whitespace-pre-line"
+              className="text-base text-gray-900 dark:text-slate-100 leading-8 whitespace-pre-line font-serif"
               dangerouslySetInnerHTML={{ __html: current.passage }}
             />
             {current.image && (
