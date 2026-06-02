@@ -369,7 +369,7 @@ export default function ReadingDetail() {
           <div className="p-5 sm:p-8">
             <p className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-4">Passage</p>
             <div
-              className="text-sm text-gray-800 dark:text-slate-200 leading-7 whitespace-pre-line"
+              className="text-sm text-gray-800 dark:text-slate-200 leading-7 whitespace-pre-line font-serif"
               dangerouslySetInnerHTML={{ __html: current.passage }}
             />
             {current.chartImage && (
@@ -396,7 +396,7 @@ export default function ReadingDetail() {
         }`}>
           <div className="p-5 sm:p-8 flex-1 flex flex-col">
             {/* 题目 */}
-            <p className="text-[15px] font-semibold text-gray-900 dark:text-slate-100 leading-relaxed mb-6">
+            <p className="text-[15px] font-semibold text-gray-900 dark:text-slate-100 leading-relaxed mb-6 font-serif">
               {current.question}
             </p>
 
@@ -439,7 +439,7 @@ export default function ReadingDetail() {
                     >
                       {label}
                     </span>
-                    <span className="leading-relaxed pt-0.5">{opt}</span>
+                    <span className="leading-relaxed pt-0.5 font-serif">{opt}</span>
                   </button>
                 )
               })}
