@@ -178,12 +178,12 @@ export default function Practice() {
             </div>
 
             {/* Question */}
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-6 leading-relaxed">{current.question}</h2>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-slate-100 mb-6 leading-relaxed font-serif">{current.question}</h2>
 
             {/* Options */}
             <div className="space-y-3 mb-6">
               {current.options.map((opt, i) => {
-                let cls = 'w-full text-left px-4 py-3.5 rounded-xl border-2 text-sm font-medium transition-all '
+                let cls = 'w-full text-left px-4 py-3.5 rounded-xl border-2 text-base font-medium transition-all font-serif'
                 if (!showResult) {
                   cls += selected === i ? 'border-blue-500 bg-blue-50 dark:bg-blue-950' : 'border-gray-200 dark:border-slate-600 hover:border-blue-300 dark:hover:border-blue-700 hover:bg-blue-50 dark:hover:bg-blue-950/50'
                 } else if (i === current.answer) {
