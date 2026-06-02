@@ -437,7 +437,7 @@ export default function MockTest() {
           <div className="p-5 sm:p-8">
             <p className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-4">Passage</p>
             <div
-              className="text-sm text-gray-800 dark:text-slate-200 leading-7 whitespace-pre-line"
+              className="text-base text-gray-900 dark:text-slate-100 leading-8 whitespace-pre-line font-serif"
               dangerouslySetInnerHTML={{ __html: current.passage }}
             />
             {current.image && (
@@ -462,7 +462,7 @@ export default function MockTest() {
         {/* 右栏 Question */}
         <div className={`md:w-1/2 bg-white dark:bg-slate-900 overflow-y-auto flex flex-col ${mobileView === 'question' ? 'block' : 'hidden md:block'}`}>
           <div className="p-5 sm:p-8 flex-1 flex flex-col">
-            <p className="text-[15px] font-semibold text-gray-900 dark:text-slate-100 leading-relaxed mb-6">
+            <p className="text-base font-semibold text-gray-900 dark:text-slate-100 leading-relaxed mb-6 font-serif">
               {current.question}
             </p>
 
@@ -474,7 +474,7 @@ export default function MockTest() {
                   <button
                     key={optIdx}
                     onClick={() => handleSelect(optIdx)}
-                    className={`w-full text-left flex items-start gap-3 px-4 py-3.5 rounded-xl border-2 text-sm transition-all cursor-pointer ${
+                    className={`w-full text-left flex items-start gap-3 px-4 py-3.5 rounded-xl border-2 text-base transition-all cursor-pointer font-serif ${
                       isSelected
                         ? `border-${accentColor}-500 bg-${accentColor}-50 dark:bg-${accentColor}-900/30 text-${accentColor}-900 dark:text-${accentColor}-300 font-medium`
                         : `border-gray-200 dark:border-slate-700 hover:border-${accentColor}-300 hover:bg-${accentColor}-50/50 dark:hover:bg-${accentColor}-900/20 text-gray-700 dark:text-slate-300`
