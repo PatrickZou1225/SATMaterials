@@ -1,4 +1,7 @@
 {
+  "env": {
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0"
+  },
   "permissions": {
     "allow": [
       "Bash(brew install *)",
@@ -48,7 +51,10 @@
       "Bash(python3 -c \"import PyPDF2; print\\('PyPDF2 ok'\\)\")",
       "Bash(python3 -c \"import pdfplumber; print\\('pdfplumber ok'\\)\")",
       "Bash(python3 -c \"import pytesseract; print\\('pytesseract ok'\\)\")",
-      "Bash(/tmp/pdf_ocr)"
+      "Bash(/tmp/pdf_ocr)",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:5173/search)",
+      "Bash(open \"http://localhost:5173/search\")"
     ],
     "defaultMode": "bypassPermissions",
     "additionalDirectories": [
@@ -58,8 +64,5 @@
     ]
   },
   "alwaysThinkingEnabled": false,
-  "effortLevel": "low",
-  "env": {
-    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0"
-  }
+  "effortLevel": "low"
 }

@@ -10,6 +10,7 @@ import HardProblems from './pages/HardProblems'
 import ReadingDetail from './pages/ReadingDetail'
 import MockTestList from './pages/MockTestList'
 import MockTest from './pages/MockTest'
+import Search from './pages/Search'
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="/hard-problems/:className" element={<HardProblems />} />
             <Route path="/mock-test/:testId/:moduleIndex" element={<MockTest />} />
             <Route path="/mock-test" element={<MockTestList />} />
+            <Route path="/search" element={<Search />} />
           </Route>
         </Routes>
       </BrowserRouter>
