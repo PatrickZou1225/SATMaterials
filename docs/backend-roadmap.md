@@ -7,7 +7,7 @@
 - `profiles` 表启用行级权限：学生只能读取自己的资料，老师可以读取学生资料。学生只能修改自己的显示名称，不能修改角色。
 - 配置 Supabase 前，网站继续使用原有访问密码；配置后切换为个人账号登录。
 
-2026-09-18 已创建 Supabase 项目并执行账号迁移。已核对 `profiles`、两条权限规则和两个 Auth 触发器存在。公开认证接口正常，邮箱注册已启用且需要邮件验证。项目 URL 和 publishable key 已写入本机不提交的 `.env.local`，本地构建通过。Vercel `sat-materials` 的 Production 已配置两个公开连接变量，仍需部署新版代码才能生效。
+2026-09-18 已创建 Supabase 项目并执行账号迁移。已核对 `profiles`、两条权限规则和两个 Auth 触发器存在。公开认证接口正常，邮箱注册已启用且需要邮件验证。项目 URL 和 publishable key 已写入本机不提交的 `.env.local`，本地构建通过。Vercel `sat-materials` 的 Production 和 Preview 已配置两个公开连接变量，仍需部署新版代码才能生效。
 
 ## 启用步骤
 
