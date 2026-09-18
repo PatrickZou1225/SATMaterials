@@ -1,8 +1,10 @@
 import { Outlet, NavLink } from 'react-router-dom'
 import { BookOpen, Menu, X, Moon, Sun, Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { useAccount } from '../context/account'
 
 export default function Layout() {
+  const account = useAccount()
   const [menuOpen, setMenuOpen] = useState(false)
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     if (typeof window === 'undefined') return 'light'
@@ -54,6 +56,10 @@ export default function Layout() {
               </NavLink>
             </nav>
             <NavLink to="/practice" className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">开始练习</NavLink>
+            {account && <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-300">
+              <span>{account.profile?.display_name || account.user.email} · {account.profile?.role === 'teacher' ? '老师' : '学生'}</span>
+              <button type="button" onClick={() => void account.signOut()} className="text-blue-600 dark:text-blue-400 hover:underline">退出</button>
+            </div>}
             {themeBtn}
           </div>
 
@@ -73,6 +79,7 @@ export default function Layout() {
             <NavLink to="/faq" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">常见问题</NavLink>
             <NavLink to="/search" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">搜索</NavLink>
             <NavLink to="/practice" onClick={() => setMenuOpen(false)} className="px-4 py-2 bg-blue-600 text-white rounded-lg text-center">开始练习</NavLink>
+            {account && <button type="button" onClick={() => void account.signOut()} className="text-left text-blue-600 dark:text-blue-400">{account.profile?.display_name || account.user.email} · 退出登录</button>}
             {themeBtn}
           </div>
         )}

@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout'
-import PasswordGate from './components/PasswordGate'
+import AccountGate from './components/AccountGate'
 import Home from './pages/Home'
 import Practice from './pages/Practice'
 import Subjects from './pages/Subjects'
@@ -14,7 +14,7 @@ import Search from './pages/Search'
 
 function App() {
   return (
-    <PasswordGate>
+    <AccountGate>
       <BrowserRouter>
         <Routes>
           <Route element={<Layout />}>
@@ -32,7 +32,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-    </PasswordGate>
+    </AccountGate>
   )
 }
 
