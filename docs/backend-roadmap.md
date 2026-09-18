@@ -7,7 +7,7 @@
 - `profiles` 表启用行级权限：学生只能读取自己的资料，老师可以读取学生资料。学生只能修改自己的显示名称，不能修改角色。
 - 配置 Supabase 前，网站继续使用原有访问密码；配置后切换为个人账号登录。
 
-2026-09-18 已创建 Supabase 项目并执行账号迁移。已核对 `profiles`、两条权限规则和两个 Auth 触发器存在。公开认证接口正常，邮箱注册已启用且需要邮件验证。项目 URL 和 publishable key 已写入本机不提交的 `.env.local`，本地构建通过。正式站尚未配置环境变量或部署新版。
+2026-09-18 已创建 Supabase 项目并执行账号迁移。已核对 `profiles`、两条权限规则和两个 Auth 触发器存在。公开认证接口正常，邮箱注册已启用且需要邮件验证。项目 URL 和 publishable key 已写入本机不提交的 `.env.local`，本地构建通过。Vercel `sat-materials` 的 Production 已配置两个公开连接变量，仍需部署新版代码才能生效。
 
 ## 启用步骤
 
@@ -22,9 +22,9 @@
    where email = 'teacher@example.com';
    ```
 
-5. 在 Vercel 的 `sat-materials` 项目中为 Production 填入相同的两个 `VITE_` 值，然后重新部署。正式网站域名是 `https://www.satpreppatrick.com/`。不要把 `.env.local` 提交到 Git。
+5. Vercel 的 `sat-materials` 项目已为 Production 填入相同的两个 `VITE_` 值。推送新版代码后会触发部署。正式网站域名是 `https://www.satpreppatrick.com/`。不要把 `.env.local` 提交到 Git。
 
-目前本地代码尚未推送，线上域名仍运行旧版网站。启用前先完成数据库迁移、账号注册和本地验证，再推送与部署，避免线上出现无法登录的页面。
+目前本地代码尚未推送，线上域名仍运行旧版网站。已从远端 `main` 创建独立的 `backend-phase1` 分支，避免把本地 `main` 的其他未推送提交一起发布。下一步是推送该分支，先验收预览部署，再合并到 `main` 发布正式站。
 
 ## 下一批
 
