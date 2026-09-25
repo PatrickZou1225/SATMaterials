@@ -11,7 +11,10 @@ if (args.length === 0) {
 
 const outIndex = args.indexOf('--out');
 const outputPathArg = outIndex >= 0 ? args[outIndex + 1] : undefined;
-const inputPaths = args.filter((arg, index) => index !== outIndex && index !== outIndex + 1);
+// Without this guard a missing --out makes outIndex -1, which dropped args[0]
+// and silently converted only the second input module.
+const inputPaths =
+  outIndex >= 0 ? args.filter((_, index) => index !== outIndex && index !== outIndex + 1) : args;
 
 if (inputPaths.length === 0) {
   console.error('Missing Veritas JSON input file.');
