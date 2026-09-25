@@ -9,10 +9,39 @@ function escapeHtml(text: string): string {
     .replace(/'/g, '&#39;')
 }
 
+// "While researching a topic, a student has taken the following notes: • a • b"
+// — the source renders these as a bulleted list, but the captured text flattens
+// the bullets inline. Split the intro off and render the items as real list rows.
+function formatParagraph(paragraph: string): string {
+  const trimmed = paragraph.trim()
+
+  if (!trimmed.includes('•')) {
+    return `<p class="mb-4 last:mb-0">${escapeHtml(trimmed)}</p>`
+  }
+
+  const [intro, ...items] = trimmed.split(/\s*•\s*/)
+  const html: string[] = []
+
+  if (intro.trim()) {
+    html.push(`<p class="mb-3">${escapeHtml(intro.trim())}</p>`)
+  }
+
+  html.push(
+    `<ul class="mb-4 list-disc space-y-2 pl-6 last:mb-0">${items
+      .map(item => item.trim())
+      .filter(Boolean)
+      .map(item => `<li>${escapeHtml(item)}</li>`)
+      .join('')}</ul>`,
+  )
+
+  return html.join('')
+}
+
 function formatParagraphs(text: string): string {
-  return escapeHtml(text.trim())
+  return text
+    .trim()
     .split(/\n{2,}/)
-    .map(paragraph => `<p class="mb-4 last:mb-0">${paragraph.trim()}</p>`)
+    .map(formatParagraph)
     .join('')
 }
 
