@@ -85,4 +85,18 @@ Before publishing imported questions in SATPrep, review:
 - Math figures and tables are preserved.
 - Reading passages are not accidentally merged into the answer choices.
 
-For images, download or recreate the needed figures into `public/images/` and replace private image URLs before deployment.
+The captured text is flattened, so three layout features survive only as plain
+text and have to be restored. Check every question for them — see the
+"题目排版规则" section in `CLAUDE.md`:
+
+- **Bulleted notes** ("a student has taken the following notes: • …") must render
+  as a list, not one dense paragraph.
+- **Provenance lines** ("The following text is adapted from …") must stay visually
+  distinct from the excerpt that follows.
+- **Tables** must be structured `table` objects. A conversion that reports
+  `Flattened tables (need a hand-built table object)` is a table the collector
+  missed, so build it by hand. The collector's health check reporting
+  `抓到表格 0` does NOT mean the set has no table questions.
+
+For images, download or recreate the needed figures into `public/` (named
+`<test-id>-m<module>-q<number>.<ext>`) and replace private image URLs before deployment.

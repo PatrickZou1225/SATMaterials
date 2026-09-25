@@ -147,6 +147,20 @@
 
 ---
 
+## 题目排版规则（Rules — 导入套题必查）
+
+> Patrick 2026-09-25 定的。Veritas 抓回来的文本是**拍平**的：列表、出处说明、表格全被压成一串字。
+> 渲染层负责还原版式，**不在数据里手工排**。所有 passage 都走 `src/lib/passage.ts` 的 `formatPassageHtml()`——新页面渲染 passage 也必须用它，不要直接输出文本。
+
+1. **Bullet points** —— "a student has taken the following notes: • A • B" 这类要点题，必须渲染成真正的项目符号列表，**不能揉成一段**。（`formatPassageHtml` 已处理）
+2. **出处说明与正文分开** —— 文学题的 "The following text is adapted from Mark Twain's 1876 novel *The Adventures of Tom Sawyer*." 是**编者说明**，不是正文。必须与后面的选段**在视觉上分开**（小字、斜体、左边竖线），不能混成一段。（`formatPassageHtml` 已处理：识别 `The following text/passage/poem/excerpt is (adapted) from ...` 开头，拆成独立块）
+3. **表格** —— 表格必须建成结构化 `table` 对象（`{ title?, headers, rows }`），让页面渲染成真表格；**绝不能留一串拍平的表格文字**。Veritas 有些表用 div 拼、不是 `<table>`，采集时会漏（体检显示"抓到表格 0"不代表没有表题）——转换脚本会对"提到 table 但无 table 对象"的题打警告，看到警告就手工建表。
+4. **配图** —— 图片要下载到 `public/` 换成站内路径，命名 `<test-id>-m<模块号>-q<题号>.<ext>`，不能只留 Veritas 私有 URL。
+
+**每套新题导入后，除了核对答案，必须逐题扫一遍这三类版式**（列表 / 出处说明 / 表格配图）。
+
+---
+
 ## 技术栈
 
 | 类别 | 技术 |
