@@ -137,6 +137,11 @@ const parseModule = async (inputPath) => {
       imageCounts.set(image, (imageCounts.get(image) || 0) + 1);
     }
   }
+  const inferUnderlines = (question) => {
+    const match = question.match(/what does the word ["“]([^"”]+)["”] most nearly mean/i);
+    return match ? [match[1]] : undefined;
+  };
+
   const questions = (raw.questions || []).map((record, index) => {
     const options = (record.options || []).map(stripOptionPrefix).filter(Boolean);
     const answer =
@@ -146,13 +151,17 @@ const parseModule = async (inputPath) => {
 
     const hasAnswer = answer >= 0;
     const image = candidateImages(record).find((src) => imageCounts.get(src) === 1);
+    const question = inferQuestion(record);
 
     return {
       id: Number(record.number) || index + 1,
       passage: inferPassage(record),
-      question: inferQuestion(record),
+      question,
       options,
       answer: hasAnswer ? answer : null,
+      // Vocabulary stems name the target word in quotes; the exam underlines that
+      // word in the passage but Veritas drops the styling, so recover it here.
+      underline: inferUnderlines(question),
       image: image && imageCounts.get(image) === 1 ? image : undefined,
       table: record.table,
     };

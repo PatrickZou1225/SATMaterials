@@ -22,7 +22,8 @@ export const importedMockTest = {
             "Technologies",
             "Illustrations"
           ],
-          "answer": 1
+          "answer": 1,
+          "underline": ["devices"]
         },
         {
           "id": 2,
@@ -106,7 +107,8 @@ export const importedMockTest = {
             "It identifies the motivation for The Jazz Continuum's choreographic approach that is described earlier in the text.",
             "It identifies the specific ways in which the Lindy Hop is similar to the contemporary dance styles discussed in the text."
           ],
-          "answer": 2
+          "answer": 2,
+          "underline": ["Inspired by Barnes's curiosity about the similarities between the Lindy Hop and these seemingly unrelated dance styles"]
         },
         {
           "id": 9,

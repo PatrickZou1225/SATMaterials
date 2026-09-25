@@ -70,7 +70,8 @@ export const importedMockTest = {
             "Reliable",
             "Talented"
           ],
-          "answer": 0
+          "answer": 0,
+          "underline": ["good"]
         },
         {
           "id": 6,
@@ -106,7 +107,8 @@ export const importedMockTest = {
             "It identifies the specific ways in which the Lindy Hop is similar to the contemporary dance styles discussed in the text.",
             "It identifies the motivation for Rhythm Lineage’s choreographic approach that is described earlier in the text."
           ],
-          "answer": 3
+          "answer": 3,
+          "underline": ["Inspired by Johnson’s curiosity about the similarities between the Lindy Hop and these seemingly unrelated dance styles"]
         },
         {
           "id": 9,
@@ -143,7 +145,8 @@ export const importedMockTest = {
             "George Campbell’s The Philosophy of Rhetoric, a highly influential attempt to develop a foundational theory of how humans communicate, was published in 1776.",
             "In late 1776, Benjamin Franklin traveled to France to seek French support for the American cause, eventually leading to France providing both military and financial aid to the Americans."
           ],
-          "answer": 0
+          "answer": 0,
+          "underline": ["the Declaration was only one of several significant works published during 1776, a remarkable year for political thought"]
         },
         {
           "id": 12,

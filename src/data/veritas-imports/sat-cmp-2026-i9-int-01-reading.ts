@@ -82,7 +82,8 @@ export const importedMockTest = {
             "It emphasizes the magnitude of the effect reported by Lai and colleagues of ocean acidification on Gasterosteus aculeatus.",
             "It counters the objection of Clements and colleagues to studies that rely on relatively small sample sizes."
           ],
-          "answer": 0
+          "answer": 0,
+          "underline": ["Such analysis, in turn, can contribute to reports of exaggerated effects."]
         },
         {
           "id": 7,
@@ -224,7 +225,8 @@ export const importedMockTest = {
             "Jansson was an intensely private person but still responded personally to thousands of letters from fans writing about the Moomins.",
             "Jansson resigned from creating a daily Moomin comic strip in 1959 after working on it for seven years, and her brother Lars took her place."
           ],
-          "answer": 2
+          "answer": 2,
+          "underline": ["A student who is researching children's literature asserts that even though this outcome wasn't what Jansson had intended, she committed to the role she found herself in."]
         },
         {
           "id": 15,
@@ -435,7 +437,8 @@ export const importedMockTest = {
             "Enumerate",
             "Regret"
           ],
-          "answer": 3
+          "answer": 3,
+          "underline": ["lament"]
         },
         {
           "id": 5,
@@ -459,7 +462,8 @@ export const importedMockTest = {
             "It offers a relative percentage to help convey the density of A. confutestita in the Wadden Sea intertidal zone during population blooms.",
             "It introduces a point of comparison to illustrate the scale of the phosphate storage by A. confutestita in the Wadden Sea intertidal zone."
           ],
-          "answer": 3
+          "answer": 3,
+          "underline": ["roughly 5% of Germany's yearly phosphorous fertilizer usage"]
         },
         {
           "id": 7,

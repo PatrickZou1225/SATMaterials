@@ -27,6 +27,7 @@ export interface MockTestQuestion {
   answer: number // 0-indexed (A=0, B=1, C=2, D=3)
   image?: string // 可选：图表/表格图片 URL（放在 public/ 目录下）
   table?: MockTestTable // 可选：结构化表格（数据类题目）
+  underline?: string[] // 可选：原文中需要划线的词/句（词汇题的词、underlined portion 的句子）
 }
 
 export interface MockTestModule {

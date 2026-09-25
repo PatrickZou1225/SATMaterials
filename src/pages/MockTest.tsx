@@ -439,7 +439,7 @@ export default function MockTest() {
             <p className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-4">Passage</p>
             <div
               className="text-base text-gray-900 dark:text-slate-100 leading-8 whitespace-pre-line font-serif"
-              dangerouslySetInnerHTML={{ __html: formatPassageHtml(current.passage) }}
+              dangerouslySetInnerHTML={{ __html: formatPassageHtml(current.passage, current.underline) }}
             />
             {current.table && (
               <div className="mt-6 p-4 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 overflow-x-auto">

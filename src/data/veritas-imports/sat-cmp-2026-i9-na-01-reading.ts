@@ -82,7 +82,8 @@ export const importedMockTest = {
             "It summarizes a shift in scientists' understanding of how Gadus morhua has responded to ocean acidification.",
             "It emphasizes the magnitude of the effect reported by Jutfelt and Hedgärde of ocean acidification on Gadus morhua."
           ],
-          "answer": 1
+          "answer": 1,
+          "underline": ["Such analysis, in turn, can contribute to reports of exaggerated effects."]
         },
         {
           "id": 7,
@@ -94,7 +95,8 @@ export const importedMockTest = {
             "To give examples of unconventional types of art that were featured at the Judson Gallery",
             "To shift the discussion to two types of art that were associated with the pop art movement"
           ],
-          "answer": 2
+          "answer": 2,
+          "underline": ["from assemblages (mixed-media pieces with found objects) to \"Happenings\" (performance art experiences designed to be irreplicable)"]
         },
         {
           "id": 8,
@@ -143,7 +145,8 @@ export const importedMockTest = {
             "\"I learned a lot from collaborating on a community mural for our town. We had several professional artists teach us new painting techniques.\"",
             "\"Since community art efforts installed a new sculpture garden in our town, we have seen an increase in visitors, and our hotels, stores, and restaurants are reporting higher revenues from tourism."
           ],
-          "answer": 3
+          "answer": 3,
+          "underline": ["These projects often greatly benefit the local economy, drawing residents and visitors to shop at businesses in the community."]
         },
         {
           "id": 12,
@@ -391,7 +394,8 @@ export const importedMockTest = {
             "It addresses a potential criticism about the size and scope of tribal cultural centers.",
             "It examines the relationship between the size of certain institutions and their ability to attract their intended audiences."
           ],
-          "answer": 1
+          "answer": 1,
+          "underline": ["Both centers contrast with museums that aren't Indigenous-led"]
         },
         {
           "id": 5,
@@ -415,7 +419,8 @@ export const importedMockTest = {
             "By suggesting that Luttrell's understanding of his position with regard to Sempringham Priory is a mitigating factor in evaluating his behavior",
             "By asserting that the nature of the conflict between Luttrell and Sempringham Priory makes it dificult to determine why Luttrell acted as he did"
           ],
-          "answer": 2
+          "answer": 2,
+          "underline": ["So Luttrell's reputation should be regarded as questionable at best."]
         },
         {
           "id": 7,

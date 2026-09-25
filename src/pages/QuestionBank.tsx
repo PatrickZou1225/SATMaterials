@@ -96,7 +96,7 @@ function QuestionPreview({ entry }: { entry: BankQuestion }) {
     <div className="p-5">
       <div
         className="text-base leading-8 font-serif text-slate-900 dark:text-slate-100"
-        dangerouslySetInnerHTML={{ __html: formatPassageHtml(question.passage) }}
+        dangerouslySetInnerHTML={{ __html: formatPassageHtml(question.passage, question.underline) }}
       />
 
       {question.table && <div className="mt-5 overflow-x-auto">
