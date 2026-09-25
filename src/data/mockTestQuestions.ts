@@ -7,6 +7,14 @@
 // 添加新套题：在 allMockTests 数组里追加一个对象即可
 // ============================================================
 
+import { importedMockTest as satCmp2026I9Int01Reading } from './veritas-imports/sat-cmp-2026-i9-int-01-reading'
+
+export interface MockTestTable {
+  title?: string // 可选：表格标题
+  headers: string[]
+  rows: string[][]
+}
+
 export interface MockTestQuestion {
   id: number
   passage: string
@@ -14,6 +22,7 @@ export interface MockTestQuestion {
   options: string[]
   answer: number // 0-indexed (A=0, B=1, C=2, D=3)
   image?: string // 可选：图表/表格图片 URL（放在 public/ 目录下）
+  table?: MockTestTable // 可选：结构化表格（数据类题目）
 }
 
 export interface MockTestModule {
@@ -330,6 +339,7 @@ A splash of light from the late-afternoon sun lingered at the foot of Nariman's 
 //  组装所有套题
 // ──────────────────────────────────────────────
 export const allMockTests: MockTestSet[] = [
+  satCmp2026I9Int01Reading,
   {
     id: '2505as-1',
     title: '2505AS 第一套',

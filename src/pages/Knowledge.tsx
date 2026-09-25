@@ -1,10 +1,15 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { PenLine, BookOpen, Calculator, ChevronRight, ArrowLeft } from 'lucide-react'
+import { topicData } from '../data/readingQuestions'
 
 // 各阅读 topic 对应的路由 key（无内容则留空）
 const topicRouteKeys: Record<string, string> = {
   '主旨与细节题': 'zhuzhi',
+  '划线目的题': 'huaxianmudi',
+  '全文主旨题': 'chongci_zhuzhi',
+  '图表题': 'tubiaoti',
+  '推断题': 'tuizhi',
 }
 
 type Tab = 'grammar' | 'reading' | 'math'
@@ -62,8 +67,13 @@ const readingTopics: ReadingTopic[] = [
     levels: levelDefs,
   },
   {
-    title: 'FSP目的题',
-    description: '分析作者写作意图与文本功能目的',
+    title: '划线目的题',
+    description: '分析划线部分在上下文中的功能与目的',
+    levels: levelDefs,
+  },
+  {
+    title: '全文主旨题',
+    description: '归纳整篇文章的中心思想与核心论点',
     levels: levelDefs,
   },
   {
@@ -203,9 +213,9 @@ export default function Knowledge() {
                   {item.levels.map((lv, j) => {
                     const topicKey = topicRouteKeys[item.title]
                     const levelKey = lv.routeKey || `level${j + 1}`
-                    const hasContent = topicKey !== undefined
+                    const hasContent = !!(topicKey && topicData[topicKey]?.[levelKey]?.length)
                     const btnClass = `flex-1 ${lv.bg} border rounded-xl px-3 py-3 text-center transition-all hover:shadow-sm hover:scale-[1.02]`
-                    if (hasContent && topicKey) {
+                    if (hasContent) {
                       return (
                         <Link
                           key={j}

@@ -1209,6 +1209,288 @@ const tubiaoti_level1: ReadingQuestion[] = [
   },
 ]
 
+// ── 推断题 Level 1（新手保护期 — Easy）──
+const tuizhi_level1: ReadingQuestion[] = [
+  {
+    id: 6001,
+    passage:
+      'Previous research has shown that plant species with a narrow geographical range tend to be more genetically homogeneous than plant species with extensive ranges are. Based on these findings, researchers recently ran simulations to predict how the genetic variation of several species of Mammillaria, a genus of cactus found throughout the Americas, might change in different distribution conditions. One of these species, M. klissingiana, is found only in the state of Tamaulipas. The researchers simulated what would happen if M. klissingiana spread to new habitats outside Tamaulipas, and, consistent with previous findings, the results showed that ______',
+    question: 'Which choice most logically completes the text?',
+    options: [
+      'several other Mammillaria species could survive in Tamaulipas in the future.',
+      'the genetic homogeneity of M. klissingiana decreased over time.',
+      'there was a gradual increase in the genetic homogeneity of Mammillaria species in states neighboring Tamaulipas.',
+      'Mammillaria species other than M. klissingiana would become more common in Tamaulipas.',
+    ],
+    answer: 1,
+    explanation:
+      '【Prediction 预测推理】已知规律：范围越窄→基因越同质。新条件：M. klissingiana 扩散到新栖息地（范围变广）。推断结果：同质性下降。B 严格遵循规律。A/C/D 讨论的都是其他物种，偏离了 M. klissingiana 这个核心变量。',
+  },
+  {
+    id: 6002,
+    passage:
+      'The Study on Global Ageing and Adult Health (SAGE) seeks to discover long-term trends related to aging by compiling and analyzing evidence from approximately 66,000 participants in multiple countries. As with most longitudinal studies, extensive funding support is needed for SAGE to collect the relevant data over timescales and at intervals that will support robust conclusions. But the quality of a more constrained investigation, such as a sociology study seeking only to yield the average age at which people in a given city first become parents, is much less dependent on high levels of funding because ______',
+    question: 'Which choice most logically completes the text?',
+    options: [
+      'such studies are likely to be a lower priority for funding than SAGE.',
+      'the sociology study is unlikely to be able to recruit 66,000 participants.',
+      'expanding the scope of such studies is unlikely to be feasible.',
+      'such studies are not trying to identify trends over time.',
+    ],
+    answer: 3,
+    explanation:
+      '【Applying Principle 原理应用】原理：纵向研究需要长期追踪时间变化→需要大量资金。小规模调查只需单时间点数据→不需要长期资金（因为不追踪趋势）。D 精准抓住核心区别。A 讨论"优先级"而非"资金需求"；B 讨论的是样本量，但原��的核心是"是否追踪时间"而不是样本大小。',
+  },
+  {
+    id: 6003,
+    passage:
+      'In dialects of English spoken in Scotland, the "r" sound is strongly emphasized when it appears at the end of syllables (as in "car") or before other consonant sounds (as in "bird"). English dialects of the Upland South, a region stretching from Oklahoma to western Virginia, place similar emphasis on "r" at the ends of syllables and before other consonant sounds. Historical records show that the Upland South was colonized largely by people whose ancestors came from Scotland. Thus, linguists have concluded that ______',
+    question: 'Which choice most logically completes the text?',
+    options: [
+      'the English dialects spoken in the Upland South acquired their emphasis on the "r" sound from dialects spoken in Scotland.',
+      'emphasis on the "r" sound will eventually spread from English dialects spoken in the Upland South to dialects spoken elsewhere.',
+      'the English dialects spoken in Scotland were influenced by dialects spoken in the Upland South.',
+      'people from Scotland abandoned their emphasis on the "r" sound after relocating to the Upland South.',
+    ],
+    answer: 0,
+    explanation:
+      '【Abduction 溯因推理】观察结果：两地有相同语言特征 + 历史联系（Upland South 殖民者来自苏格兰）。反推最合理原因：特征随移民从苏格兰传到 Upland South。A 准确。B 预测未来；C 因果方向颠倒；D 与事实矛盾（特征没有消失）。',
+  },
+  {
+    id: 6004,
+    passage:
+      'In September of 1989, Indonesia liberalized its stock market, meaning that it began allowing foreign individuals and businesses to invest money in Indonesian companies. This was part of a wave of stock market liberalizations around the world — Jamaica in 1991, Nigeria in 1995, and so on. The standard view among economists at the time was that liberalization would make it easier for companies to raise money from investors. Economist Peter Blair Henry examined the economies of 11 countries that were part of the liberalization wave and found that, on average, companies based in those countries received significant increases in investment in the three years following liberalization, suggesting that ______',
+    question: 'Which choice most logically completes the text?',
+    options: [
+      'companies in Jamaica experienced a greater increase in investment following liberalization than did companies in Indonesia.',
+      'companies in the countries Henry studied did not benefit from liberalization until at least three years after liberalization occurred.',
+      'economists who held the standard view of liberalization failed to anticipate some serious negative effects of liberalization.',
+      "economists' expectations about the effect of liberalization on investment were largely correct for the countries Henry studied.",
+    ],
+    answer: 3,
+    explanation:
+      '【Prediction 预测推理】已知：经济学家预期自由化→投资增加。Henry 研究结果：自由化后三年投资显著增长。推断：预期基本正确。D 准确。A 文章没有比较不同国家；B "至少三年后才受益"是对原文的时间歪曲；C "负面效果"原文未提。',
+  },
+  {
+    id: 6005,
+    passage:
+      'Mariana Lopes Barata and Pedro Simoes Coelho collected data from 324 music-streaming service users to identify factors that influence users to opt for paid (premium) versions of music streaming services, like Apple Music. They hypothesized that hedonic motivation (the enjoyment that a consumer perceives to be associated with using a service) would be positively correlated with users\' intentions to adopt premium versions. The researchers asked participants to rate statements such as "Using paid music streaming services is pleasant." They found that, indeed, hedonic motivation positively influences the intention to adopt premium streaming service versions, which suggests that ______',
+    question: 'Which choice most logically completes the text?',
+    options: [
+      'it may be advantageous for music streaming companies to try to influence the extent to which potential users perceive the premium version as pleasant to use.',
+      'participants who strongly agreed with the statement "Using paid music streaming services is pleasant" were more likely to express loyalty to Apple Music than to other streaming services.',
+      'the statement "Using paid music streaming services is pleasant" is not a reliable measure of hedonic motivation.',
+      "users' intentions to pay for premium streaming services are probably unaffected by factors other than hedonic motivation.",
+    ],
+    answer: 0,
+    explanation:
+      '【Applying Principle 原理应用】研究发现：享乐动机越高→越可能付费。应用：公司应该增强用户对产品的愉悦感知。A 精准应用了研究发现。B "忠诚度"偷换概念（原研究是"使用意愿"）；C 与研究结论相反；D "不受其他因素影响"过于绝对。',
+  },
+  {
+    id: 6006,
+    passage:
+      'Though longitudinal studies like the Northern Ireland Longitudinal Study (NILS), which has surveyed approximately 500,000 participants in Northern Ireland to find trends in public health, are expensive because they are conducted over many years, by spanning these time frames, they can reveal causal patterns. But studies for which cause and effect is not at issue, like a public opinion study that merely seeks to determine the proportion of a city\'s population that supports a particular tax proposal, can succeed without longitudinal methods, which means that ______',
+    question: 'Which choice most logically completes the text?',
+    options: [
+      'the public opinion study could likely be completed at a considerably lower cost than NILS.',
+      'longitudinal methods would likely be less suitable for studies in public opinion than for studies in public health.',
+      'longitudinal methods would likely be less expensive for studies in public opinion than for studies in public health.',
+      'the results from NILS would likely be more reliable than those from the public opinion study.',
+    ],
+    answer: 0,
+    explanation:
+      '【Applying Principle 原理应用】原理：追踪因果趋势→需要长期方法→昂贵。民意调查只需比例→不需要长期方法→不需要那么多资金→成本更低。A 精准。B 讨论"适合性"而非成本；C 方向反了；D "可靠性比较"原文未涉及。',
+  },
+]
+
+// ── 推断题 Level 2（渐入佳境 — Medium）──
+const tuizhi_level2: ReadingQuestion[] = [
+  {
+    id: 6101,
+    passage:
+      'Arthurian legends derive from many sources, such as Annales Cambriae, composed around 970, and the Mabinogion from the 12th and 13th centuries. One of the most significant sources, Geoffrey of Monmouth\'s History of the Kings of Britain, was written in Latin in the 1130s; some material from it was later adapted by the Norman poet Wace into the Roman de Brut in 1155. But while no source before 1155 includes references to the famous Round Table at which Arthur\'s knights assembled, both the Roman de Brut and Sir Thomas Malory\'s 15th-century compilation of Arthurian Legends, Le Morte d\'Arthur, do. It can therefore be inferred that ______',
+    question: 'Which choice most logically completes the text?',
+    options: [
+      'Malory did not use Annales Cambriae as a source for information he presented about the Round Table.',
+      "Geoffrey of Monmouth's accounts of Arthurian legends in his History are more similar overall in content to the accounts in the Mabinogion than they are to the accounts in Roman de Brut.",
+      'Geoffrey of Monmouth was unaware of stories of the Round Table when composing his History, though historians know that works containing such stories were available to him.',
+      "Le Morte d'Arthur is more historically accurate than History, because the Mabinogion had not been written when Geoffrey of Monmouth was writing his work.",
+    ],
+    answer: 0,
+    explanation:
+      '【时间线推断】Annales Cambriae 写于约 970 年，早于 1155 年，而原文明确说 1155 年前的文献都没有 Round Table 的记载。因此，Malory 不可能从 Annales Cambriae 获得有关 Round Table 的信息，A 正确。B 比较整体内容，原文未涉及；C 声称当时已有相关作品可供 Geoffrey 使用，与原文信息不符；D 对历史准确性作了无依据的判断。',
+  },
+  {
+    id: 6102,
+    passage:
+      'The Harlem Renaissance, which gave us great literary works like May Miller\'s play The Bog Guide and nonliterary works like James Van Der Zee\'s photograph Couple, Harlem, is often said to have ended in the 1930s shortly after the Great Depression began. But some scholars argue that the Harlem Renaissance never really ended because it continues to shape culture in the United States today. These scholars therefore suggest that ______',
+    question: 'Which choice most logically completes the text?',
+    options: [
+      'if a cultural movement has both literary and nonliterary innovations, then it is likely to be influential.',
+      'if a cultural movement is very innovative, then it is unlikely to be able to sustain itself for long.',
+      "if the literary works of a cultural movement are influential, then it doesn't matter whether the nonliterary works are.",
+      'if the influence of a cultural movement continues, then in some sense the movement itself continues.',
+    ],
+    answer: 3,
+    explanation:
+      '【Applying Principle 原理应用】学者论证：HR 的影响持续到今天 → 所以 HR 没有真正结束。这个论证暗含的原理：持续的影响 = 运动本身的持续。D 把这个原理明确陈述出来。A/B/C 都偏离了论证的核心逻辑链条。',
+  },
+  {
+    id: 6103,
+    passage:
+      'Architects looking for inspiration may examine photographs of iconic buildings such as the Forbidden City in Beijing. A two-dimensional photograph, however, cannot capture how a building interacts with its surroundings, whether by complementing, blending in with, or perhaps even clashing with sights and activities nearby. An image of the Forbidden City thus ______',
+    question: 'Which choice most logically completes the text?',
+    options: [
+      "serves to exaggerate the building's historical importance.",
+      "fails to convey the full impact of the building's design and structure.",
+      'misrepresents how the building is perceived by people who have never visited Beijing.',
+      "conceals the subtle deterioration of the building's materials.",
+    ],
+    answer: 1,
+    explanation:
+      "【Evaluation 评价限定】照片的局限：无法捕捉建筑与周围环境的互动。结论限定：照片不能完整传达建筑的设计和结构效果。B 精准概括了这个局限。A \"夸大历史重要性\"无依据；C 范围太窄；D \"材料老化\"完全无关。",
+  },
+  {
+    id: 6104,
+    passage:
+      "Anne Bronte's 1847 novel Agnes Grey contains elements drawn from Bronte's own life: there are many parallels between the experiences of the novel's title character and those of Bronte, and as a result Agnes Grey is regularly described as an autobiographical novel. This characterization can be useful, but it also presents drawbacks in terms of how the work is perceived, as it may lead readers to believe that Bronte merely fictionalized true events, which, in an artistic field where creativity and inventiveness are prized, can suggest that ______",
+    question: 'Which choice most logically completes the text?',
+    options: [
+      'Agnes Grey is less of an imaginative achievement than it actually is.',
+      'the real-world counterparts of other characters in Agnes Grey are hard to identify.',
+      'Bronte should not have claimed that Agnes Grey is based on real events.',
+      'critics disagree about whether Agnes Grey shows greater originality than works without autobiographical elements.',
+    ],
+    answer: 0,
+    explanation:
+      '【Evaluation 评价限定】"自传体"标签→读者以为只是记录事实→在崇尚创意的文艺领域→作品被低估想象力。A 精准：被认为不如实际上的想象力成就。B "其他角色难以识别"不是核心问题；C "不应该声称"是评价作者而非作品；D "评论家分歧"未在原文提及。',
+  },
+  {
+    id: 6105,
+    passage:
+      'Researchers who study olfaction — the sense of smell — define valence as a person\'s perception of how pleasant an odor is. Conventional wisdom holds that valence is culturally mediated. A team of scientists led by Artin Arshamian evaluated this view by testing how people from ten different places — including the Mah Meri people from a small community in the Malay Peninsula and the Imbabura Quichua people from a small community in Ecuador — ranked ten odors from most pleasant to least pleasant. In general, respondents ranked scents similarly regardless of where they lived, overwhelmingly choosing the odorant linalool as more pleasant than mushroom alcohol. These results call into question the idea that ______',
+    question: 'Which choice most logically completes the text?',
+    options: [
+      'differences in olfactory valence may be attributable to differences in personal taste.',
+      "a person's location has no influence on that person's olfactory valence for a given odor.",
+      'olfactory valence is influenced by cultural traditions.',
+      'olfactory valence can be objectively measured across cultures.',
+    ],
+    answer: 2,
+    explanation:
+      '【Paradox 悖论解释 + Evaluation 评价限定】传统观点：文化调节气味偏好。实验发现：不同文化的人对气味的排名相似。这个结果质疑了传统观点——如果文化调节，不同文化应该有不同排名。C 是被质疑的观点。A "个人品味差异"不是传统观点的核心；B 与实验结果一致（不是被质疑的）；D "客观测量"是另一个维度。',
+  },
+  {
+    id: 6106,
+    passage:
+      'British professional soccer team Manchester United Football Club, whose home uniform color is mainly red, won more than half its home matches between 1947 and 2003. This is a higher proportion of home matches than Hull City Association Football Club, whose home uniform color is not red, won during the same period. According to a study by Martin J. Attrill and colleagues, the color red can cause people to respond with fear and hesitation, which the researchers think helps explain Manchester United\'s success. Nadav Goldschmied and colleagues reanalyzed the published data from this study, however, and found no evidence that red uniformed teams are more likely than other teams to win, suggesting that Manchester United\'s performance at its home stadium ______',
+    question: 'Which choice most logically completes the text?',
+    options: [
+      'would probably have remained roughly the same if its players had not been wearing red uniforms.',
+      "was likely influenced by its opponents' associations with the color red.",
+      "was directly tied to its players' general satisfaction with their uniform color.",
+      'may have influenced other teams to change their uniform colors.',
+    ],
+    answer: 0,
+    explanation:
+      '【Paradox 悖论解释】矛盾：Attrill 研究→红色有助于赢球。Goldschmied 再分析→无证据表明红色队服更可能赢球。解释矛盾：曼联的高胜率与红色无关→不穿红色胜率也一样。A 准确。B 支持 Attrill（与 Goldschmied 矛盾）；C "球员满意度"是新变量；D 偏离核心争议。',
+  },
+]
+
+// ── 推断题 Level 3（试试就逝世 — Hard）──
+const tuizhi_level3: ReadingQuestion[] = [
+  {
+    id: 6201,
+    passage:
+      'In June of 1987, South Korea liberalized its stock market, meaning that it began allowing foreign individuals and businesses to invest money in South Korean companies. This was part of a wave of stock market liberalization from the mid-1980s through the mid-1990s — Brazil in 1988, Venezuela in 1990, and so on. In an analysis of economic data from 1976 to 1993, Ross Levine and Sara Zervos found that liberalization did not lead to enduring increases in investment in companies based in countries that liberalized. Peter Blair Henry, however, found that, on average, investment in companies in liberalized countries increased significantly in the three years following liberalization. Taken together, these results suggest that ______',
+    question: 'Which choice most logically completes the text?',
+    options: [
+      'investment growth is likely to be more consistent in countries that liberalize than in countries that do not.',
+      'it typically takes at least three years for companies to benefit from government policies allowing foreign investment, but governments rarely maintain such policies for that long.',
+      "economists' expectations about the effect of liberalization on investment were largely correct.",
+      'companies based in countries that begin allowing foreign investment will probably see short-term increases in investment, but that their gains are unlikely to last.',
+    ],
+    answer: 3,
+    explanation:
+      '【Prediction 双研究调和】关键：两个研究的时间尺度不同。Levine & Zervos（1976-1993）：无持久增长（长期）。Henry：三年内显著增长（短期）。两者不矛盾——短期有效，长期不持久。D 精准综合了两个发现。A 无比较国数据；B "至少三年"和"rarely maintain"是原文没有的假设；C 只匹配 Henry 而忽略 Levine。',
+  },
+  {
+    id: 6202,
+    passage:
+      "Some ethicists hold that the moral goodness of an individual's actions depends solely on whether the actions themselves are good, irrespective of the context in which they are carried out. Philosopher L. Sebastian Purcell has shown that surviving works of Aztec (Nahua) philosophy express a very different view. Purcell reveals that these works posit an ethical system in which an individual's actions are judged in light of how well they accord with the individual's role in society and how well they contribute to the community. To the extent that these works are representative of Aztec thought, Purcell's analysis suggests that ______",
+    question: 'Which choice most logically completes the text?',
+    options: [
+      "the Aztecs would have disputed the idea that the morality of an individual's actions can be assessed by appealing to standards of behavior that are independent of the individual's social circumstances.",
+      "the Aztecs would not have accepted the notion that the morality of an individual's actions can be fairly evaluated by people who do not live in the same society as that individual.",
+      'actions by members of Aztec society who contributed a great deal to their community could be judged as morally good even if those actions were inconsistent with behaviors the Aztecs regarded as good in all contexts.',
+      'similar actions performed by people in different social roles in Aztec society would have been regarded as morally equivalent unless those actions led to different outcomes for the community.',
+    ],
+    answer: 0,
+    explanation:
+      '【Applying Principle 哲学原理应用】对比：Context-independent ethics（行为本身决定道德）vs Aztec context-dependent ethics（社会角色+社区贡献）。Aztec 哲学反对脱离社会情境的道德判断。A 精准——Aztec 拒绝"独立于社会情境的行为标准"。B 过度推广（"必须住在同一社会才能评价"）；C 歪曲了原文逻辑；D 与 Aztec 观点相反（角色不同→评价不同）。',
+  },
+  {
+    id: 6203,
+    passage:
+      'The National Environmental Policy Act (NEPA) requires US federal agencies to assess environmental effects of potential actions, such as building highways. While many NEPA reviews require public comment, categorical exclusions (CEs) allow quick reviews with no public comment for actions that will minimally affect the environment. In 2020 the rule governing CEs was revised: before, CEs could be granted for actions that "do not individually or cumulatively have a significant effect on the human environment," but the revised rule allowed CEs if actions "normally do not have a significant effect on the human environment." Environmentalists found this revision to be potentially detrimental because ______',
+    question: 'Which choice most logically completes the text?',
+    options: [
+      'the increasing need to build new highways and rehabilitate older highways in the US incentivizes agencies to grant CEs after 2020 for reasons that would not have been considered valid prior to 2020.',
+      'the 2020 relaxation of the rule regarding CEs would permit more exclusions, resulting in more reviews of actions by federal agencies and a paradoxically slower review process.',
+      'the rule that governed CEs before 2020 allowed expedited reviews of actions that might have significant effects on the environment if those effects were believed to be rare, while the 2020 revision of the rule subjected such actions to slower reviews.',
+      'the 2020 revision of the rule governing CEs would allow expedited reviews of actions that had a minimal environmental effect when considered on their own but a significant effect when considered together.',
+    ],
+    answer: 3,
+    explanation:
+      '【Paradox 政策悖论】核心变量变化：旧规则用"do not individually or cumulatively have"（不考虑累积效应），新规则用"normally do not"（删除了 cumulatively）。这意味着：单独影响小但需要很多次、累积影响大的行动→旧规则不豁免→新规则可能豁免。D 精准识别了这个关键变化。A 引入"高速公路需求"外部因素；B 逻辑矛盾（CE 本身是加速审查）；C 混淆了新旧规则。',
+  },
+  {
+    id: 6204,
+    passage:
+      'Ants and aphids are known to be mutualistic: ants feed on the honeydew produced by aphids, while aphids benefit from ants\' protection against predators. If aphid colonies — which generally require relatively stable surfaces, such as trees or other woody plants, to thrive — are too small to produce significant volumes of honeydew, however, ants will prey on aphids. Researcher Tae-sung Kwon examined ant and aphid abundance in two habitats in South Korea, one on the mainland and one on Jeju Island. Though the habitats differed in some important respects, both were predominantly grassland, which could help explain why Kwon observed ______',
+    question: 'Which choice most logically completes the text?',
+    options: [
+      'different ant and aphid species on the mainland compared to those on the island.',
+      'a positive correlation between aphid diversity and abundance on both the mainland and the island.',
+      'a negative correlation between ant and aphid abundance on both the mainland and the island.',
+      'diminished ant and aphid abundance on the mainland compared to that on the island.',
+    ],
+    answer: 2,
+    explanation:
+      '【Prediction 条件嵌套推理】多层条件链：(1)草地缺乏树木→蚜虫群体小；(2)群体小→蜜露不足；(3)蜜露不足→蚂蚁从合作转为捕食；(4)捕食→蚂蚁多则蚜虫少（负相关）。C 精准推导出负相关。B 正相关是典型共生模式，但草地环境改变了模式。A/D 讨论物种差异而非关系方向。',
+  },
+  {
+    id: 6205,
+    passage:
+      'The single origin hypothesis of iron metallurgy posits that the craft originated in Anatolia (West Asia) circa 2200-2000 BCE before diffusing to other parts of the world, including Africa. Some proponents of the hypothesis argue that iron production technologies first arrived in North Africa through Carthage, where the earliest evidence of ironworking dates to approximately 800-600 BCE, before these technologies spread to sub-Saharan Africa over the following centuries. However, excavation of multiple sites on the Adamawa plateau in Central Africa conducted by Etienne Zangato and Augustin Holl uncovered evidence of iron workshops that may have been in operation as late as 900-750 BCE in Gbabari and as early as 2300-1900 BCE in Oboui and Gbatoro. These findings suggest that ______',
+    question: 'Which choice most logically completes the text?',
+    options: [
+      'iron production may have originated in Anatolia much earlier than the available evidence currently indicates.',
+      'iron production technologies were likely transmitted from Anatolia to Central Africa via an alternate route than the one suggested by some proponents of the single origin hypothesis.',
+      'iron production technologies found in Gbabari likely derived directly from technologies transmitted from Anatolia, but those found in Oboui and Gbatoro did not.',
+      'iron production may have developed independently and relatively simultaneously in Anatolia and parts of Central Africa.',
+    ],
+    answer: 3,
+    explanation:
+      '【Paradox 科学悖论】时间线矛盾：中非 Oboui/Gbatoro (2300-1900 BCE) 比 Anatolia 起源 (2200-2000 BCE) 还要早或同时。如果中非更早，就无法从 Anatolia 传播。D 最简洁解释：两地独立且大约同时发展。A 无证据支持往前推 Anatolia 年代；B 替代路径无法解释中非更早；C Gbabari 晚于 Anatolia，但 Oboui/Gbatoro 更早，逻辑不通。',
+  },
+  {
+    id: 6206,
+    passage:
+      'Whistler waves are low-frequency plasma waves that on Earth are typically generated by lightning. Numerous recordings of whistler waves on Venus have led many scientists to suggest that the planet\'s atmosphere is host to extensive amounts of lightning, and, in fact, Venusian whistler waves have similar energy signatures to those of whistler waves generated by lightning on Earth. The majority of Venusian whistler wave data come from two spacecraft missions — the Pioneer Venus Orbiter (PVO) and the Venus Express (VEX) — which have included few observations of other phenomena consistent with lightning occurrences (such as flashes of light), leading other scientists to suggest that ______',
+    question: 'Which choice most logically completes the text?',
+    options: [
+      'there are geophysical characteristics of Venus not shared with Earth that promote the generation of whistler waves.',
+      'the purported Venusian whistler waves must actually be some other type of atmospheric activity than whistler waves.',
+      'Venusian lightning has properties that make it unlikely to generate whistler waves.',
+      'similarities in the energy signatures of Venusian and Earth whistler waves may reflect imprecisions in the PVO and VEX data.',
+    ],
+    answer: 0,
+    explanation:
+      '【Paradox 科学悖论】矛盾：Venus 有 whistler waves（地球上由闪电产生）→但缺少闪电的其他证据（如闪光）。最佳解释：Venus 上有其他机制（非闪电）也能产生 whistler waves。A 直接提出替代机制—不同的地球物理特征。B "must be"太绝对；C 与"相似能量特征"矛盾；D 质疑数据，不如 A 简洁。',
+  },
+]
+
 // ============================================================
 //  题目数据映射 — 后续新增 topic/level 在这里添加
 // ============================================================
@@ -1240,6 +1522,11 @@ export const topicData: Record<string, Record<string, ReadingQuestion[]>> = {
   tubiaoti: {
     level1: tubiaoti_level1,
   },
+  tuizhi: {
+    level1: tuizhi_level1,
+    level2: tuizhi_level2,
+    level3: tuizhi_level3,
+  },
 }
 
 export const topicNames: Record<string, string> = {
@@ -1249,6 +1536,7 @@ export const topicNames: Record<string, string> = {
   quanwenjiegou: '全文结构题',
   quanwenzhuzhi: '全文主旨题',
   tubiaoti: '图表题',
+  tuizhi: '推断题',
 }
 
 export const levelNames: Record<

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import { ArrowLeft, ChevronLeft, ChevronRight, RotateCcw, Flag, Clock, AlertTriangle, Send } from 'lucide-react'
 import { getTestSet, type MockTestQuestion } from '../data/mockTestQuestions'
+import { formatPassageHtml } from '../lib/passage'
 
 const OPTION_LABELS = ['A', 'B', 'C', 'D']
 
@@ -438,8 +439,38 @@ export default function MockTest() {
             <p className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-4">Passage</p>
             <div
               className="text-base text-gray-900 dark:text-slate-100 leading-8 whitespace-pre-line font-serif"
-              dangerouslySetInnerHTML={{ __html: current.passage }}
+              dangerouslySetInnerHTML={{ __html: formatPassageHtml(current.passage) }}
             />
+            {current.table && (
+              <div className="mt-6 p-4 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 overflow-x-auto">
+                <p className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-3">Table</p>
+                {current.table.title && (
+                  <p className="mb-3 text-sm font-semibold text-gray-700 dark:text-slate-300">{current.table.title}</p>
+                )}
+                <table className="w-full text-sm border-collapse font-sans">
+                  <thead>
+                    <tr>
+                      {current.table.headers.map((header, i) => (
+                        <th key={i} className="border border-gray-300 dark:border-slate-600 px-3 py-2 text-left font-semibold text-gray-700 dark:text-slate-200 bg-gray-100 dark:bg-slate-700">
+                          {header}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {current.table.rows.map((row, r) => (
+                      <tr key={r}>
+                        {row.map((cell, c) => (
+                          <td key={c} className="border border-gray-300 dark:border-slate-600 px-3 py-2 text-gray-900 dark:text-slate-100">
+                            {cell}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
             {current.image && (
               <div className="mt-6 p-4 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700">
                 <p className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-3">Figure</p>

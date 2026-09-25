@@ -1,7 +1,7 @@
 # SAT Prep 备考网站 — 项目上下文
 
-> 这个文件是给 Claude（AI 助手）看的项目备忘录。
-> 不管在哪台电脑、用桌面客户端还是 VS Code 插件，只要说"读一下 CLAUDE.md"就能恢复上下文。
+> 这个文件是给 Codex（AI 助手）看的项目备忘录。
+> 不管在哪台电脑、用桌面客户端还是 VS Code 插件，只要说"读一下 AGENTS.md"就能恢复上下文。
 
 ---
 
@@ -17,7 +17,7 @@
 >
 > **用法**：`to-markdown document.docx` → 同目录生成 `document.md`
 >
-> **重要**：Patrick 投喂新资料时，Claude 应主动提醒他用 `to-markdown` 转换，这样 Claude 可以直接读取 .md 而非等 OCR。
+> **重要**：Patrick 投喂新资料时，Codex 应主动提醒他用 `to-markdown` 转换，这样 Codex 可以直接读取 .md 而非等 OCR。
 
 ---
 
@@ -71,10 +71,10 @@
 
 **标准流程：**
 1. Patrick 截图 → 丢进 `~/Desktop/截图文件夹/`
-2. Patrick 说"读截图" → Claude 去读对应的 .md 文件
-3. Claude 按触发词格式输出解析
+2. Patrick 说"读截图" → Codex 去读对应的 .md 文件
+3. Codex 按触发词格式输出解析
 
-**Patrick 投喂新资料时，Claude 应主动提醒：**
+**Patrick 投喂新资料时，Codex 应主动提醒：**
 - 如果是 PDF/DOCX → 先用 `to-markdown` 转换
 - 如果是截图 → 丢进截图文件夹自动转换
 
@@ -159,7 +159,7 @@ sat-prep/
 ├── package.json
 ├── tailwind.config.js
 ├── tsconfig.json
-└── CLAUDE.md              # ← 你正在读的这个文件
+└── AGENTS.md              # ← 你正在读的这个文件
 ```
 
 ---
@@ -226,7 +226,7 @@ sat-prep/
 ├── 知识库/            # 个人知识库（SAT 阅读、AI、语言等，跨电脑同步）
 ├── PDF讲义/          # PDF 文档、讲义
 ├── 脚本工具/          # Python 脚本、工具
-├── Claude-会话/       # Claude 会话记录（跨电脑同步）
+├── Codex-会话/       # Codex 会话记录（跨电脑同步）
 └── 其他/             # 临时/未分类
 ```
 
@@ -235,7 +235,7 @@ sat-prep/
 ## 知识库
 
 Patrick 的知识库在 iCloud AI文件夹/知识库/，包含多个领域（SAT 阅读/数学/文法、AI 学习、语言学习、旅游、理财等）。
-每次 Patrick 投喂新题目或资料时，Claude 应主动读回对应知识库文件，分析归类并写入。
+每次 Patrick 投喂新题目或资料时，Codex 应主动读回对应知识库文件，分析归类并写入。
 知识库独立于 SAT-prep 项目，不进入 git，仅通过 iCloud 同步。
 
 ---
@@ -254,7 +254,7 @@ Patrick 的知识库在 iCloud AI文件夹/知识库/，包含多个领域（SAT
 
 ### 📌 场景 1：当前电脑改完内容 → 保存进度 → 同步上线
 
-每次让 Claude 改完代码后，Patrick 要做的事：
+每次让 Codex 改完代码后，Patrick 要做的事：
 
 **① 本地预览（可选但推荐）**
 - VS Code 终端运行 `npm run dev`

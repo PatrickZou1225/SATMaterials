@@ -141,8 +141,8 @@ brew install --cask cc-switch
 
 | 字段 | Claude 中转 | DeepSeek |
 |------|------------|----------|
-| 请求地址 | `https://pikachu.claudecode.love` | `https://api.deepseek.com/anthropic` |
-| API Key | `sk-b0b246226e18f0d2c0f41eefe310762c759e71937974dfb4ac17bd769b7b21f9` | `sk-cce220333d73455191bee31e64d45996` |
+| 请求地址 | 你的 Claude 中转地址 | `https://api.deepseek.com/anthropic` |
+| API Key | 你的 Claude API Key | 你的 DeepSeek API Key |
 
 > **注意**：CC Switch 会检测 `~/.zshrc` 中是否有硬编码的环境变量，如果有会弹出"环境变量冲突"警告并拒绝工作。解决方法是先清空 `.zshrc`，让 CC Switch 和切换脚本接管。
 
@@ -157,11 +157,11 @@ mkdir -p ~/bin
 ```bash
 #!/bin/bash
 
-CLAUDE_URL="https://pikachu.claudecode.love"
-CLAUDE_KEY="sk-b0b246226e18f0d2c0f41eefe310762c759e71937974dfb4ac17bd769b7b21f9"
+CLAUDE_URL="你的 Claude 中转地址"
+CLAUDE_KEY="你的 Claude API Key"
 
 DEEPSEEK_URL="https://api.deepseek.com/anthropic"
-DEEPSEEK_KEY="sk-cce220333d73455191bee31e64d45996"
+DEEPSEEK_KEY="你的 DeepSeek API Key"
 
 restart_vscode() {
   echo "Restarting VS Code..."
