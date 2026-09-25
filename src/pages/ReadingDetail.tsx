@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ArrowLeft, ChevronLeft, ChevronRight, CheckCircle, XCircle, RotateCcw, Flag, Lightbulb, Clock } from 'lucide-react'
 import { topicData, topicNames, levelNames, type ReadingQuestion } from '../data/readingQuestions'
+import { formatPassageHtml } from '../lib/passage'
 
 const OPTION_LABELS = ['A', 'B', 'C', 'D']
 
@@ -370,7 +371,7 @@ export default function ReadingDetail() {
             <p className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-4">Passage</p>
             <div
               className="text-base text-gray-900 dark:text-slate-100 leading-8 whitespace-pre-line font-serif"
-              dangerouslySetInnerHTML={{ __html: current.passage }}
+              dangerouslySetInnerHTML={{ __html: formatPassageHtml(current.passage) }}
             />
             {current.chartImage && (
               <div className="mt-4 p-3 bg-gray-50 dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700">
