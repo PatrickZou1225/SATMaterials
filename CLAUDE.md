@@ -154,7 +154,21 @@
 
 1. **Bullet points** —— "a student has taken the following notes: • A • B" 这类要点题，必须渲染成真正的项目符号列表，**不能揉成一段**。（`formatPassageHtml` 已处理）
 2. **出处说明与正文分开** —— 文学题的 "The following text is adapted from Mark Twain's 1876 novel *The Adventures of Tom Sawyer*." 是**编者说明**，不是正文。必须与后面的选段**在视觉上分开**（小字、斜体、左边竖线），不能混成一段。（`formatPassageHtml` 已处理：识别 `The following text/passage/poem/excerpt is (adapted) from ...` 开头，拆成独立块）
+
+   ⚠️ **只对「文学文本题」适用——「Quotation 题」不适用，务必区分。**
+
+   | | 文学文本题 | **Quotation 题** |
+   |---|---|---|
+   | 题干 | 问文本本身（主旨 / 目的 / 功能 / 结构 / 上下文理解） | 问**引用**："Which quotation from *X* most effectively illustrates / supports the claim?" |
+   | 做题方式 | 读懂选段 | **从选项里选一句引用，去证明文本最后一句的观点** |
+   | 开头的 "Cane is a 1923 novel by Jean Toomer." | （不适用） | **不是编者说明，是题目本身的铺垫**——学生必须读它才能判断引用是否切题 |
+   | 排版 | 出处说明拆成小字侧栏 | **保持整段，不要拆** |
+
+   已确认（2026-09-25）：E5-INT-03 M3 q6、H8-INT-02 q13、H8-NA-01 q10、F6-INT-01 q12、I9-NA-01 q12 这 5 道 Quotation 题的排版**无需修改**。
+
 3. **表格** —— 表格必须建成结构化 `table` 对象（`{ title?, headers, rows }`），让页面渲染成真表格；**绝不能留一串拍平的表格文字**。Veritas 有些表用 div 拼、不是 `<table>`，采集时会漏（体检显示"抓到表格 0"不代表没有表题）——转换脚本会对"提到 table 但无 table 对象"的题打警告，看到警告就手工建表。
+
+   ⚠️ **例外**：如果这道题的表格是**原样采集的截图**（不是被拍平成文字的），**保持原图不动**——转录成结构化表格有出错风险，原图是零风险的。（已确认 2026-09-25：E5-INT-02 M3 q14 的 ISS 灰尘真菌生长率表保持截图）
 4. **配图** —— 图片要下载到 `public/` 换成站内路径，命名 `<test-id>-m<模块号>-q<题号>.<ext>`，不能只留 Veritas 私有 URL。
 
 **每套新题导入后，除了核对答案，必须逐题扫一遍这三类版式**（列表 / 出处说明 / 表格配图）。
