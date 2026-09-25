@@ -294,7 +294,7 @@ export const importedMockTest = {
         },
         {
           "id": 20,
-          "passage": "As the publisher of the Virginia Gazette, Clementina Rind helped spread ideas that would become important in the American Revolution. In August 1774, she published Thomas Jefferson's A Summary View of the Rights of British America, a pamphlet ______ many of the principles that later appeared in the Declaration of Independence",
+          "passage": "As the publisher of the Virginia Gazette, Clementina Rind helped spread ideas that would become important in the American Revolution. In August 1774, she published Thomas Jefferson's A Summary View of the Rights of British America, a pamphlet ______ many of the principles that later appeared in the Declaration of Independence.",
           "question": "Which choice completes the text so that it conforms to the conventions of Standard English?",
           "options": [
             "presented",
