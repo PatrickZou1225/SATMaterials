@@ -27,22 +27,31 @@ git config --global https.proxy http://127.0.0.1:<端口>
 ```
 
 **Patrick 当前使用的代理工具与端口**：
-- 工具：**ClashX**（Mac 端，菜单栏图标）
-- HTTP 代理端口：**7890**
+- 工具：**ClashX Meta**（Mac 端，菜单栏图标）
+- HTTP 代理端口：**7891**（ClashX 里可改，历史上也用过 7890 —— 填错端口会报 `Failed to connect to 127.0.0.1 port 7890`）
 
 所以命令是：
 ```
-git config --global http.proxy http://127.0.0.1:7890
-git config --global https.proxy http://127.0.0.1:7890
+git config --global http.proxy http://127.0.0.1:7891
+git config --global https.proxy http://127.0.0.1:7891
 ```
 
 ## 4. 排查代理端口的方法
 
-如果忘了端口号，用这个命令查本机所有监听端口：
+最可靠的是直接问 macOS 系统代理设置（ClashX 会把它设成自己的端口）：
+```
+scutil --proxy | grep -E 'HTTPPort|HTTPSPort|HTTPProxy'
+```
+看到 `HTTPPort : 7891` 就是 7891。
+
+也可以枚举本机监听端口：
 ```
 lsof -iTCP -sTCP:LISTEN -P -n | grep 127.0.0.1
 ```
-找到 `ClashX`（或其他代理工具）那一行，看它的端口号。
+
+## 4b. 另一种报错：HTTP2 framing layer
+
+如果没走代理、直连 GitHub，可能报 `Error in the HTTP2 framing layer` —— 这是网络层被干扰，不是端口问题。设好上面的代理即可。
 
 ## 5. 取消代理（如果切到不需要代理的网络）
 

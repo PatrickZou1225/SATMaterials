@@ -308,9 +308,10 @@ Patrick 的知识库在 iCloud AI文件夹/知识库/，包含多个领域（SAT
 
 打开 ClashX，终端运行：
 ```
-git config --global http.proxy http://127.0.0.1:7890
-git config --global https.proxy http://127.0.0.1:7890
+git config --global http.proxy http://127.0.0.1:7891
+git config --global https.proxy http://127.0.0.1:7891
 ```
+端口不确定就先跑 `scutil --proxy | grep -E 'HTTPPort|HTTPSPort'` 看当前值（历史上用过 7890，现在 ClashX Meta 是 7891）。
 
 ---
 
@@ -326,7 +327,7 @@ git config --global https.proxy http://127.0.0.1:7890
 
 > 完整步骤见 [docs/setup.md](docs/setup.md)。包含：克隆仓库、npm install、Git 代理、img2txt 安装、模型切换脚本。
 
-日常使用只需记住：**git push/pull 卡住 → 打开 ClashX，跑 `git config --global http.proxy http://127.0.0.1:7890`**
+日常使用只需记住：**git push/pull 卡住 → 打开 ClashX，跑 `git config --global http.proxy http://127.0.0.1:<端口>`**（端口用 `scutil --proxy | grep HTTPPort` 查，当前是 **7891**）
 
 ---
 
