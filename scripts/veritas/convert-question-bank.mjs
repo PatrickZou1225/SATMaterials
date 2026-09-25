@@ -138,7 +138,7 @@ const parseModule = async (inputPath) => {
     }
   }
   const inferUnderlines = (question) => {
-    const match = question.match(/what does the word ["“]([^"”]+)["”] most nearly mean/i);
+    const match = question.match(/what does the word ["“]([^"”]+)["”] most (?:nearly mean|likely indicate)/i);
     return match ? [match[1]] : undefined;
   };
 

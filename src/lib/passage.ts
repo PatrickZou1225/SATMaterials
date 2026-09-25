@@ -44,17 +44,17 @@ const HIGHLIGHT_CLASS =
 // vocabulary question asks about, or the sentence a function question calls
 // "the underlined portion". We re-apply that marking as a highlight — easier to
 // spot than a rule, which the surrounding prose hides. Two sources feed it: the
-// imported sets list the phrases in `underline`, while the older hand-written
-// sets carry the exam's own markup inline as "<u>…</u>". Normalize both to
+// imported sets list the phrases in `underline`, while the hand-written sets
+// carry the marking inline as "<u>…</u>" or "<mark>…</mark>". Normalize both to
 // marked segments so everything downstream is escaped exactly once.
 function markedSegments(text: string, underlines: string[]): Segment[] {
   const segments: Segment[] = []
-  const inline = /<u>([\s\S]*?)<\/u>/g
+  const inline = /<(u|mark)>([\s\S]*?)<\/\1>/g
   let cursor = 0
 
   for (const match of text.matchAll(inline)) {
     if (match.index > cursor) segments.push({ text: text.slice(cursor, match.index), marked: false })
-    segments.push({ text: match[1], marked: true })
+    segments.push({ text: match[2], marked: true })
     cursor = match.index + match[0].length
   }
 
