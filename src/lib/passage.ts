@@ -100,14 +100,18 @@ function applyUnderlines(text: string, underlines: string[]): string {
 // "While researching a topic, a student has taken the following notes: • a • b"
 // — the source renders these as a bulleted list, but the captured text flattens
 // the bullets inline. Split the intro off and render the items as real list rows.
+// The marker glyph is not stable across captures (Veritas emits either U+2022 or
+// U+00B7 depending on the page), so accept both.
+const LIST_MARKER = /[•·]/
+
 function formatParagraph(paragraph: string, underlines: string[]): string {
   const trimmed = paragraph.trim()
 
-  if (!trimmed.includes('•')) {
+  if (!LIST_MARKER.test(trimmed)) {
     return `<p class="mb-4 last:mb-0">${applyUnderlines(trimmed, underlines)}</p>`
   }
 
-  const [intro, ...items] = trimmed.split(/\s*•\s*/)
+  const [intro, ...items] = trimmed.split(/\s*[•·]\s*/)
   const html: string[] = []
 
   if (intro.trim()) {
