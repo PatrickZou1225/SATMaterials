@@ -500,15 +500,36 @@ export const importedMockTest = {
         },
         {
           "id": 11,
-          "passage": "Strontium Isotope Ratios for an Igneous Rock Sample Mineral formation stage 8 7Sr/8 8 Sr Crystal core 0.71685 Crystal rim 0.71548 Crystal matrix 0.71416 A student is studying igneous rock formations on Elba Island, Italy, and reviews published data on the ratio of strontium isotopes (87Sr/ 88Sr) in minerals from a specific rock sample. These isotope ratios provide information about the composition of the magma that formed the rock. Ratios below 0.710 suggest more material from the mantle in the magma, while ratios increasing above that number usually indicate greater proportions of material from the continental crust. The minerals in the rock sample record three growth stages: crystal core zones formed first, then rim zones, and finally the surrounding matrix. The student concludes that the rock sample _______",
+          "passage": "A student is studying igneous rock formations on Elba Island, Italy, and reviews published data on the ratio of strontium isotopes (87Sr/88Sr) in minerals from a specific rock sample. These isotope ratios provide information about the composition of the magma that formed the rock. Ratios below 0.710 suggest more material from the mantle in the magma, while ratios increasing above that number usually indicate greater proportions of material from the continental crust. The minerals in the rock sample record three growth stages: crystal core zones formed first, then rim zones, and finally the surrounding matrix. The student concludes that the rock sample _______",
           "question": "Based on the information given, which choice most effectively uses data from the table to complete the student's conclusion?",
           "options": [
-            "does not show the expected 87Sr/8 Sr ratios across the stages of mineral formation.",
-            "contains 87Sr/8 Sr ratios too similar to provide reliable information about magma sources.",
+            "does not show the expected 87Sr/88Sr ratios across the stages of mineral formation.",
+            "contains 87Sr/88Sr ratios too similar to provide reliable information about magma sources.",
             "formed from magma with decreasing but persistent crustal influence.",
             "shows evidence of increasing continental crust material in later forming minerals."
           ],
-          "answer": 2
+          "answer": 2,
+          "table": {
+            "title": "Strontium Isotope Ratios for an Igneous Rock Sample",
+            "headers": [
+              "Mineral formation stage",
+              "87Sr/88Sr"
+            ],
+            "rows": [
+              [
+                "Crystal core",
+                "0.71685"
+              ],
+              [
+                "Crystal rim",
+                "0.71548"
+              ],
+              [
+                "Crystal matrix",
+                "0.71416"
+              ]
+            ]
+          }
         },
         {
           "id": 12,

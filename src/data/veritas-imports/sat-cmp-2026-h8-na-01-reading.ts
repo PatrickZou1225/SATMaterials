@@ -134,7 +134,7 @@ export const importedMockTest = {
         },
         {
           "id": 11,
-          "passage": "Defensive Behavior and Reproductive Traits of Select Bird Species Scientific name Common name Broken-wing display? Incubation (days) Incubation duty Max broods per year Bucephala islandica Barrow's goldeneye NO 34 1 parent 1 Haematopus bachmani black oystercatcher NO 33 2 parents 1 Zenaida macroura mourning dove Yes 15 2 parents 7 Pooecetes gramineus vesper sparrow Yes 13 1 parent 3 In an extensive review of existing literature, Léna de Framond and team cataloged the prevalence of broken-wing display—a defensive behavior observed in Charadrius semipalmatus (semipalmated plover) and many other species—throughout the Aves class. Documentation of the display in 285 species across 52 families suggests the behavior likely evolved independently multiple times, prompting the team to consider ecological and life-history characteristics with hypothesized associations to the behavior's emergence, including traits related to reproduction investment and future reproduction potential. Based on their review of those traits, the team concluded that ______",
+          "passage": "In an extensive review of existing literature, Léna de Framond and team cataloged the prevalence of broken-wing display—a defensive behavior observed in Charadrius semipalmatus (semipalmated plover) and many other species—throughout the Aves class. Documentation of the display in 285 species across 52 families suggests the behavior likely evolved independently multiple times, prompting the team to consider ecological and life-history characteristics with hypothesized associations to the behavior's emergence, including traits related to reproduction investment and future reproduction potential. Based on their review of those traits, the team concluded that ______",
           "question": "Which choice most effectively uses data from the table to complete the conclusion?",
           "options": [
             "among species with more than one parental incubator, the use of broken-wing display is associated with greater incubation duration.",
@@ -142,7 +142,52 @@ export const importedMockTest = {
             "incubation duration and capacity for multiple broods are more strongly associated with the use of broken-wing display than the number of parental incubators is.",
             "capacity for multiple broods, number of parental incubators, and incubation duration are equally associated with the use of broken-wing display."
           ],
-          "answer": 2
+          "answer": 2,
+          "table": {
+            "title": "Defensive Behavior and Reproductive Traits of Select Bird Species",
+            "headers": [
+              "Scientific name",
+              "Common name",
+              "Broken-wing display?",
+              "Incubation (days)",
+              "Incubation duty",
+              "Max broods per year"
+            ],
+            "rows": [
+              [
+                "Bucephala islandica",
+                "Barrow's goldeneye",
+                "No",
+                "34",
+                "1 parent",
+                "1"
+              ],
+              [
+                "Haematopus bachmani",
+                "black oystercatcher",
+                "No",
+                "33",
+                "2 parents",
+                "1"
+              ],
+              [
+                "Zenaida macroura",
+                "mourning dove",
+                "Yes",
+                "15",
+                "2 parents",
+                "7"
+              ],
+              [
+                "Pooecetes gramineus",
+                "vesper sparrow",
+                "Yes",
+                "13",
+                "1 parent",
+                "3"
+              ]
+            ]
+          }
         },
         {
           "id": 12,
@@ -453,7 +498,7 @@ export const importedMockTest = {
         },
         {
           "id": 10,
-          "passage": "Orientation of Paired Leaves in Grapevines and Related Species Species Total leaf pairs examined Pairs with opposite-side Pairs with same-side Ratio(n to 1) Vitis vulpina 155 108 47 2.30 Vitis labrusca 383 287 96 2.99 Vitis coignetiae 58 37 21 1.76 Vitis riparia 843 646 197 3.28 Many plants have leaves that are larger on one side of their long central axis than the other, a phenomenon known as asymmetrical orientation. University of California, Berkeley biologist Ciera Martinez and colleagues examined several species of grapevines and closely related plants, which have leaves that grow in pairs, to see if both leaves in a pair tend to be oriented toward the same side (that is, have more tissue on the same side) or not. They found that opposite-side orientations are more common than same-side orientations by ratios as high as ______",
+          "passage": "Many plants have leaves that are larger on one side of their long central axis than the other, a phenomenon known as asymmetrical orientation. University of California, Berkeley biologist Ciera Martinez and colleagues examined several species of grapevines and closely related plants, which have leaves that grow in pairs, to see if both leaves in a pair tend to be oriented toward the same side (that is, have more tissue on the same side) or not. They found that opposite-side orientations are more common than same-side orientations by ratios as high as ______",
           "question": "Which choice most effectively uses data from the table to complete the assertion?",
           "options": [
             "646 to 1.",
@@ -461,11 +506,51 @@ export const importedMockTest = {
             "3.28 to 1.",
             "843 to 1."
           ],
-          "answer": 2
+          "answer": 2,
+          "table": {
+            "title": "Orientation of Paired Leaves in Grapevines and Related Species",
+            "headers": [
+              "Species",
+              "Total leaf pairs examined",
+              "Pairs with opposite-side",
+              "Pairs with same-side",
+              "Ratio (n to 1)"
+            ],
+            "rows": [
+              [
+                "Vitis vulpina",
+                "155",
+                "108",
+                "47",
+                "2.30"
+              ],
+              [
+                "Vitis labrusca",
+                "383",
+                "287",
+                "96",
+                "2.99"
+              ],
+              [
+                "Vitis coignetiae",
+                "58",
+                "37",
+                "21",
+                "1.76"
+              ],
+              [
+                "Vitis riparia",
+                "843",
+                "646",
+                "197",
+                "3.28"
+              ]
+            ]
+          }
         },
         {
           "id": 11,
-          "passage": "P50 Value, Mean Elevation, and Rainforest Occupancy for Five New Caledonian Woody Species Species P50 (megapascal) Mean elevation (m) Rainforest occupancy (%) Paracryphia alticola -2.1 1,011 91 Ascarina rubricaulis -2.28 825 86 Amborella trichopoda -2.77 756 82 Hedycarya parvifolia -3.19 956 86 Zygogynum crassifolium -4.05 57 24 P50—the pressure in the xylem (water-conducting tissue) at which a plant loses 50% of its hydraulic conductivity due to embolisms (air bubbles in the water flow)—is a key index of xylem embolism resistance and, by extension, tolerance of water stress; lower P50 values indicate lower vulnerability to xylem embolisms. Studies have found that variation in this functional trait corresponds with the distribution of plant species along moisture and elevation gradients. A student hypothesizes that this pattern would persist in woody species in New Caledonia, which is home to moist tropical rainforests, dry forests, and a range of elevations. To test the hypothesis, the student analyzes P50 values as well as mean elevation and rainforest occupancy rates for New Caledonian woody species.",
+          "passage": "P50—the pressure in the xylem (water-conducting tissue) at which a plant loses 50% of its hydraulic conductivity due to embolisms (air bubbles in the water flow)—is a key index of xylem embolism resistance and, by extension, tolerance of water stress; lower P50 values indicate lower vulnerability to xylem embolisms. Studies have found that variation in this functional trait corresponds with the distribution of plant species along moisture and elevation gradients. A student hypothesizes that this pattern would persist in woody species in New Caledonia, which is home to moist tropical rainforests, dry forests, and a range of elevations. To test the hypothesis, the student analyzes P50 values as well as mean elevation and rainforest occupancy rates for New Caledonian woody species.",
           "question": "Which choice best describes the extent to which the student's hypothesis is supported by data from the table?",
           "options": [
             "Although the data indicate that species' vulnerability to xylem embolisms varies within a relatively narrow range, their rainforest occupancy rates and elevation distributions vary much more widely; the hypothesis is therefore not supported.",
@@ -473,7 +558,48 @@ export const importedMockTest = {
             "The data indicate that compared with Zygogynum crassifolium, which has the lowest rainforest occupancy rate and occurs at the lowest mean elevation, Paracryphia alticola, which has the highest rainforest occupancy rate and occurs at the highest mean elevation, is more vulnerable to water stress; the hypothesis is therefore strongly supported.",
             "Although the data suggest a pattern in which species' resistance to xylem embolisms tends to increase with decreasing elevation and rainforest occupancy, Hedycarya parvifolia is an exception to this trend; the hypothesis is therefore moderately supported."
           ],
-          "answer": 3
+          "answer": 3,
+          "table": {
+            "title": "P50 Value, Mean Elevation, and Rainforest Occupancy for Five New Caledonian Woody Species",
+            "headers": [
+              "Species",
+              "P50 (megapascal)",
+              "Mean elevation (m)",
+              "Rainforest occupancy (%)"
+            ],
+            "rows": [
+              [
+                "Paracryphia alticola",
+                "-2.1",
+                "1,011",
+                "91"
+              ],
+              [
+                "Ascarina rubricaulis",
+                "-2.28",
+                "825",
+                "86"
+              ],
+              [
+                "Amborella trichopoda",
+                "-2.77",
+                "756",
+                "82"
+              ],
+              [
+                "Hedycarya parvifolia",
+                "-3.19",
+                "956",
+                "86"
+              ],
+              [
+                "Zygogynum crassifolium",
+                "-4.05",
+                "57",
+                "24"
+              ]
+            ]
+          }
         },
         {
           "id": 12,
