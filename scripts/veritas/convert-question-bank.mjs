@@ -185,9 +185,12 @@ const sourceTitle =
   parsedModules.length > 1
     ? firstTitle.replace(/\s*\/\s*Module\s*\d+(?:\s*\([^)]+\))?/i, '')
     : firstTitle;
+// Titles can carry CJK annotations, but the id becomes the set
+// half of every question_key, which the database constrains to [a-z0-9_-]. Drop
+// anything outside that alphabet rather than emitting an unusable key.
 const testId = sourceTitle
   .toLowerCase()
-  .replace(/[^\w\u4e00-\u9fff]+/g, '-')
+  .replace(/[^a-z0-9]+/g, '-')
   .replace(/^-|-$/g, '')
   .slice(0, 80);
 
