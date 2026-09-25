@@ -7,6 +7,8 @@ import { AccountContext, type Profile } from '../context/account'
 export default function AccountGate({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [profile, setProfile] = useState<Profile | null>(null)
+  const [profileState, setProfileState] = useState<'loading' | 'ready' | 'error'>('loading')
+  const [profileAttempt, setProfileAttempt] = useState(0)
   const [loading, setLoading] = useState(Boolean(supabase))
   const [mode, setMode] = useState<'login' | 'register'>('login')
   const [email, setEmail] = useState('')
@@ -34,10 +36,15 @@ export default function AccountGate({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!supabase || !user) return
     let active = true
+    setProfileState('loading')
     supabase.from('profiles').select('display_name, role').eq('id', user.id).single()
-      .then(({ data }) => { if (active) setProfile(data as Profile | null) })
+      .then(({ data, error }) => {
+        if (!active) return
+        setProfile(error ? null : data as Profile | null)
+        setProfileState(error ? 'error' : 'ready')
+      })
     return () => { active = false }
-  }, [user])
+  }, [user, profileAttempt])
 
   if (!supabase) return <PasswordGate>{children}</PasswordGate>
 
@@ -90,6 +97,21 @@ export default function AccountGate({ children }: { children: ReactNode }) {
       </div>
     </div>
   }
+
+  if (profileState === 'error') {
+    return <div className="min-h-screen bg-slate-50 dark:bg-slate-950 grid place-items-center px-4">
+      <div className="w-full max-w-sm rounded-2xl bg-white dark:bg-slate-900 p-8 shadow-lg border border-slate-200 dark:border-slate-700 text-center">
+        <h1 className="text-xl font-bold text-slate-900 dark:text-white">无法读取账号资料</h1>
+        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">请检查网络后重试，或退出后重新登录。</p>
+        <div className="mt-6 flex gap-3">
+          <button type="button" onClick={() => setProfileAttempt(attempt => attempt + 1)} className="flex-1 rounded-lg bg-blue-600 px-4 py-2.5 font-medium text-white hover:bg-blue-700">重试</button>
+          <button type="button" onClick={() => { if (supabase) void supabase.auth.signOut() }} className="flex-1 rounded-lg border border-slate-300 dark:border-slate-600 px-4 py-2.5 font-medium text-slate-700 dark:text-slate-200">退出登录</button>
+        </div>
+      </div>
+    </div>
+  }
+
+  if (!profile) return <div className="min-h-screen grid place-items-center text-slate-600">正在读取账号资料…</div>
 
   return <AccountContext.Provider value={{ user, profile, signOut: async () => { if (supabase) await supabase.auth.signOut() } }}>
     {children}
