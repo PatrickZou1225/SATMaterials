@@ -32,7 +32,25 @@ VeritasQuestionCollector.listSets()
 await VeritasQuestionCollector.collect()
 ```
 
-Chrome will download a JSON file. Keep the downloaded file as the raw source archive.
+Chrome will download a JSON file. The collector names it after the set and module (for example `sat-cmp-2026-i9-na-01-module-1-routing.json`) and prints a health check when it finishes. Read that output before moving on:
+
+```
+体检：27 题 | 缺答案 0 | 选项不足 0 | 题干过短 0 | 抓到表格 1
+✅ 体检通过：答案齐全、选项完整、题干正常。
+```
+
+If it warns about missing answers or truncated stems, fix the page state and collect again rather than converting a bad capture.
+
+## Identifying Downloads
+
+Chrome names downloads unpredictably, so the JSON files themselves often cannot be told apart by filename. To list what is sitting in `~/Downloads` without converting anything:
+
+```bash
+node scripts/veritas/identify-downloads.mjs          # default: ~/Downloads
+node scripts/veritas/identify-downloads.mjs <dir>    # or any directory
+```
+
+It prints one row per Veritas capture with the set and module (read from the question detail panel), question count, missing answers, tables, unique figures, and a verdict. Use it to decide which files are worth converting.
 
 ## Local Conversion
 

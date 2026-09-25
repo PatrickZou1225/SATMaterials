@@ -135,8 +135,11 @@
     const answerLetter = findCorrectAnswer(root);
     const answer = answerLetter ? answerLetter.charCodeAt(0) - 65 : null;
 
+    // Keep the option-letter lookahead case-sensitive: with /i, a plain " a "
+    // inside the prose ("...quotation from a town mayor...") looks like option A
+    // and truncates the stem.
     const questionMatch =
-      text.match(/Question\s*\d+\s*(.*?)(?=\s+[A-D][\s).:：])/i) ||
+      text.match(/[Qq]uestion\s*\d+\s*(.*?)(?=\s+[A-D][\s).:：])/) ||
       text.match(/第\s*\d+\s*题\s*(.*?)(?=\s+[A-D][\s).:：])/);
     const question = clean(questionMatch?.[1] || '');
 
@@ -158,6 +161,80 @@
     };
   };
 
+  const inferSetLabel = () => {
+    const text = textOf(document.body);
+    const patterns = [
+      /系统题库\s*详情\s*SAT机考\s*(SAT CMP[^\n]*?Module\s*\d+(?:\s*\([^)]+\))?)/i,
+      /(SAT CMP[^\n]*?Module\s*\d+(?:\s*\([^)]+\))?)/i,
+      /([A-Z][A-Z0-9]{1,}[-\w]*\s*\/\s*Module\s*\d+(?:\s*\([^)]+\))?)/,
+    ];
+    for (const re of patterns) {
+      const match = text.match(re);
+      if (match) return clean(match[1]);
+    }
+    return '';
+  };
+
+  // document.title is unreliable here: on the list page it resolves to widget text
+  // ("二维码", "登录" ...), which is how downloads ended up named 二维码 (3).json.
+  const usableTitle = () => {
+    const title = clean(document.title);
+    return title.length >= 6 && !/二维码|登录|首页|系统题库/.test(title) ? title : '';
+  };
+
+  const toFileName = (label) =>
+    label
+      .replace(/[^\w一-鿿.-]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 90);
+
+  const MIN_STEM_LENGTH = 25;
+
+  const healthReport = (questions) => {
+    const missingAnswers = [];
+    const missingOptions = [];
+    const shortStems = [];
+    let tableCount = 0;
+
+    questions.forEach((q, index) => {
+      const number = q.number || index + 1;
+      if (!q.answerLetter && !Number.isInteger(q.answer)) missingAnswers.push(number);
+      if ((q.options || []).length < 4) missingOptions.push(number);
+      if (clean(q.question).length < MIN_STEM_LENGTH) shortStems.push(number);
+      if (q.table) tableCount++;
+    });
+
+    return { total: questions.length, missingAnswers, missingOptions, shortStems, tableCount };
+  };
+
+  const printHealth = (health) => {
+    const { total, missingAnswers, missingOptions, shortStems } = health;
+    console.log(
+      `体检：${total} 题 | 缺答案 ${missingAnswers.length} | 选项不足 ${missingOptions.length} | ` +
+        `题干过短 ${shortStems.length} | 抓到表格 ${health.tableCount}`,
+    );
+
+    if (missingAnswers.length) {
+      console.warn(
+        `⚠️ 第 ${missingAnswers.join(', ')} 题没抓到答案 —— 采集前请先打开「显示答案」。`,
+      );
+    }
+    if (missingOptions.length) {
+      console.warn(
+        `⚠️ 第 ${missingOptions.join(', ')} 题选项不足 4 个，可能是没渲染完 —— ` +
+          '用 collect({ delayMs: 1500 }) 加大等待再试。',
+      );
+    }
+    if (shortStems.length) {
+      console.warn(
+        `⚠️ 第 ${shortStems.join(', ')} 题题干短得可疑，可能被截断了 —— 交给我检查这几题。`,
+      );
+    }
+    if (total && !missingAnswers.length && !missingOptions.length && !shortStems.length) {
+      console.log('✅ 体检通过：答案齐全、选项完整、题干正常。');
+    }
+  };
+
   const downloadJson = (payload, filename) => {
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -171,10 +248,8 @@
   };
 
   const collect = async ({ delayMs = 900, maxQuestions = 60 } = {}) => {
-    const title =
-      clean(document.querySelector('h1,h2,[class*="title"]')?.textContent) ||
-      clean(document.title) ||
-      'veritas-question-set';
+    const label = inferSetLabel() || usableTitle();
+    const title = label || 'veritas-question-set';
     const navItems = findQuestionNavItems().slice(0, maxQuestions);
     const questions = [];
 
@@ -200,15 +275,11 @@
       count: questions.length,
       questions,
     };
-    const safeTitle = title.replace(/[^\w\u4e00-\u9fff.-]+/g, '-').slice(0, 80) || 'veritas-question-bank';
-    downloadJson(payload, `${safeTitle}.json`);
-    console.table(questions.map((q) => ({
-      number: q.number,
-      options: q.options.length,
-      answer: q.answerLetter || '',
-      images: q.images.length,
-      hasQuestion: Boolean(q.question),
-    })));
+    const base = toFileName(title) || 'veritas-question-set';
+    const stamp = new Date().toISOString().slice(0, 16).replace(/[:T]/g, '');
+    downloadJson(payload, label ? `${base}.json` : `${base}-${stamp}.json`);
+    console.log(`\u5df2\u4e0b\u8f7d\uff1a${label || '(\u672a\u8bc6\u522b\u51fa\u5957\u9898\u540d)'} \u00b7 ${questions.length} \u9898`);
+    printHealth(healthReport(questions));
     return payload;
   };
 
