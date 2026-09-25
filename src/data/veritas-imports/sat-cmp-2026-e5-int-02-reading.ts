@@ -202,7 +202,8 @@ export const importedMockTest = {
             "the rate of damage to the pears was approximately 7% in the area with the repeller attached to a neural network and approximately 13% in the area where no repeller was used.",
             "the rate of damage to the pears was approximately 6% in the area with the repeller attached to a neural network and approximately 7% in the area with the repeller not attached to a neural network."
           ],
-          "answer": 3
+          "answer": 3,
+          "image": "/sat-cmp-2026-e5-int-02-m1-q12.svg"
         },
         {
           "id": 13,

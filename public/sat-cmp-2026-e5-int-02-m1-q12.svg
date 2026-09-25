@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 660" role="img" aria-label="Comparison of Bird Pecking Rates between Treatments: repeller with webcam 6.2 percent, continuous repeller 7.4 percent, control 13.1 percent of pears damaged">
+  <rect width="520" height="660" fill="#ffffff"/>
+  <g font-family="Georgia, 'Times New Roman', serif" fill="#1f2937">
+    <text x="260" y="34" text-anchor="middle" font-size="17">Comparison of Bird Pecking Rates</text>
+    <text x="260" y="58" text-anchor="middle" font-size="17">between Treatments</text>
+
+    <g stroke="#c8c8c8" stroke-width="1">
+      <line x1="110" y1="90" x2="470" y2="90"/>
+      <line x1="110" y1="117.1" x2="470" y2="117.1"/>
+      <line x1="110" y1="144.3" x2="470" y2="144.3"/>
+      <line x1="110" y1="171.4" x2="470" y2="171.4"/>
+      <line x1="110" y1="198.6" x2="470" y2="198.6"/>
+      <line x1="110" y1="225.7" x2="470" y2="225.7"/>
+      <line x1="110" y1="252.9" x2="470" y2="252.9"/>
+      <line x1="110" y1="280" x2="470" y2="280"/>
+      <line x1="110" y1="307.1" x2="470" y2="307.1"/>
+      <line x1="110" y1="334.3" x2="470" y2="334.3"/>
+      <line x1="110" y1="361.4" x2="470" y2="361.4"/>
+      <line x1="110" y1="388.6" x2="470" y2="388.6"/>
+      <line x1="110" y1="415.7" x2="470" y2="415.7"/>
+      <line x1="110" y1="442.9" x2="470" y2="442.9"/>
+    </g>
+
+    <g font-size="13" text-anchor="end">
+      <text x="100" y="94">14</text>
+      <text x="100" y="121.1">13</text>
+      <text x="100" y="148.3">12</text>
+      <text x="100" y="175.4">11</text>
+      <text x="100" y="202.6">10</text>
+      <text x="100" y="229.7">9</text>
+      <text x="100" y="256.9">8</text>
+      <text x="100" y="284">7</text>
+      <text x="100" y="311.1">6</text>
+      <text x="100" y="338.3">5</text>
+      <text x="100" y="365.4">4</text>
+      <text x="100" y="392.6">3</text>
+      <text x="100" y="419.7">2</text>
+      <text x="100" y="446.9">1</text>
+      <text x="100" y="474">0</text>
+    </g>
+
+    <line x1="110" y1="470" x2="470" y2="470" stroke="#1f2937" stroke-width="1.5"/>
+
+    <g fill="#d9d9d9" stroke="#8a8a8a" stroke-width="1">
+      <rect x="133" y="301.7" width="74" height="168.3"/>
+      <rect x="238" y="269.2" width="74" height="200.8"/>
+      <rect x="343" y="114.5" width="74" height="355.5"/>
+    </g>
+
+    <g font-size="13">
+      <text x="170" y="492" text-anchor="end" transform="rotate(-45 170 492)">Repeller with webcam</text>
+      <text x="275" y="492" text-anchor="end" transform="rotate(-45 275 492)">Continuous repeller</text>
+      <text x="380" y="492" text-anchor="end" transform="rotate(-45 380 492)">Control</text>
+    </g>
+
+    <text x="42" y="280" text-anchor="middle" font-size="15" transform="rotate(-90 42 280)">Damaged pears (percentage of total)</text>
+    <text x="290" y="576" text-anchor="middle" font-size="15">Areas of orchard</text>
+
+    <rect x="168" y="600" width="184" height="42" fill="none" stroke="#8a8a8a" stroke-width="1"/>
+    <rect x="188" y="613" width="16" height="16" fill="#d9d9d9" stroke="#8a8a8a" stroke-width="1"/>
+    <text x="212" y="626" font-size="13">pears damaged</text>
+  </g>
+</svg>
