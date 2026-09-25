@@ -75,7 +75,7 @@ export const importedMockTest = {
         {
           "id": 6,
           "passage": "In 2015 Floriana Lai and colleagues published a study concluding that ocean acidification has a strong effect on the behavior of Gasterosteus aculeatus, a species of fish. However, Lai and colleagues' study relied on a mean sample size of only 12 fish. In a 2022 review of various scientists' conclusions about the impacts of ocean acidification on fish behavior, Jeff C. Clements and colleagues caution that relying on such a relatively small sample size can increase the potential for biased analysis. Such analysis, in turn, can contribute to reports of exaggerated effects.",
-          "question": "Which choice best describes the function of the underlined sentence in the text as",
+          "question": "Which choice best describes the function of the underlined sentence in the text as a whole?",
           "options": [
             "It elaborates on a potential consequence of Lai and colleagues' reliance on a relatively small sample size.",
             "It summarizes a shift in scientists' understanding of how Gasterosteus aculeatus has responded to ocean acidification.",
@@ -99,7 +99,7 @@ export const importedMockTest = {
         {
           "id": 8,
           "passage": "Through the Urban Wildlife Information Network, citizen scientists systematically document animals they observe in metropolitan areas. Participants record not just which species they see but also the species' behaviors and nearby urban features, such as artificial lighting, buildings, and green spaces. The resulting database helps researchers understand how animals adapt to human-dominated landscapes and informs city planning and conservation efforts that benefit both people and wildlife.",
-          "question": "What does the text indicate is",
+          "question": "What does the text indicate is a benefit of the information collected by participants in the Urban Wildlife Information Network?",
           "options": [
             "It identifies which animal species are becoming extinct.",
             "It informs city planning and conservation efforts.",
@@ -349,7 +349,7 @@ export const importedMockTest = {
         {
           "id": 25,
           "passage": "· Antonio Stradivari (1644-1737) was an Italian instrument maker. · He made about 1,000 violins in his lifetime. · Musicians prize his Stradivarius violins for their famed sound quality. · The Ole Bull Stradivarius is named for former owner Ole Bull, a Norwegian violinist.",
-          "question": "Which choice most effectively uses information from the given sentences to introduce Ole Bull to",
+          "question": "Which choice most effectively uses information from the given sentences to introduce Ole Bull to a new audience?",
           "options": [
             "Ole Bull was a Norwegian violinist who once owned a Stradivarius violin.",
             "The Ole Bull Stradivarius is named after Ole Bull.",
@@ -361,7 +361,7 @@ export const importedMockTest = {
         {
           "id": 26,
           "passage": "While researching a topic, a student has taken the following notes: • In a 2021 study, researchers showed participants an unaltered image of a popular character or logo alongside two slightly altered versions. • Snoopy is a cartoon dog with a black patch on its ear. • In the first alteration, the dog's ear had no pattern. • In the second alteration, the dog's ear had black spots. • Participants were asked to identify the correct version. • 84% of participants selected the unaltered image.",
-          "question": "The student wants to present",
+          "question": "The student wants to present a finding from the study. Which choice most effectively uses relevant information from the notes to accomplish this goal?",
           "options": [
             "In a 2021 study, researchers asked participants to identify the correct version of Snoopy.",
             "Participants were asked to identify the correct version of Snoopy, who is a cartoon dog with a black patch on its ear.",
@@ -452,7 +452,7 @@ export const importedMockTest = {
         {
           "id": 6,
           "passage": "When favorable environmental conditions trigger population blooms in the Wadden Sea intertidal zone, the single-celled foraminifer Ammonia confutestita reaches exceptionally high densities of over 400 individuals per cubic centimeter in surface sediments. Each organism stores approximately 413 picomoles of phosphate internally. Scientists calculated that across the entire Wadden Sea coastal area (11,500 square kilometers), this one species collectively holds about 1,880 tons of phosphate in the top centimeter of sediment—roughly 5% of Germany's yearly phosphorous fertilizer usage. Similar measurements from other regions show comparable storage by various foraminifera species.",
-          "question": "Which choice best describes the function of the underlined portion in the text as",
+          "question": "Which choice best describes the function of the underlined portion in the text as a whole?",
           "options": [
             "It notes the extent of A. confutestita's phosphate storage to highlight the importance of the Wadden Sea intertidal zone in meeting Germany's phosphorous needs.",
             "It quantifies phosphate storage by A. confutestita in the Wadden Sea intertidal zone to emphasize that the species has an exceptionally high impact for a foraminifer.",
@@ -612,7 +612,7 @@ export const importedMockTest = {
         {
           "id": 13,
           "passage": "Ballet Nepantla of New York City is one of the many dance companies in the United States devoted to baile folklórico, a style of dance that has flourished in Mexico and in Mexican American communities alike. Although it represents the hybridization of the Indigenous dance traditions of Mexico with dances brought there by Spanish colonizers beginning in the 1500s, baile folklórico emerged with its present array of formal attributes only in the 1950s, when choreographer Amalia Hernández adapted the traditionally participatory dances of Mexico for performance before a passive audience in a theater setting, interpolating into them elements of the staging and elaborate choreography of modern dance and classical ballet.",
-          "question": "Which quotation from",
+          "question": "Which quotation from a dance scholar would best support the text's claim about the role of Amalia Hernández in the evolution of baile folklórico?",
           "options": [
             "\"The influence that modern dance and classical ballet exerted on Hernández can be seen in the complex and precisely orchestrated movements and spectator-focused orientation that continue to define baile folklórico.\"",
             "\"By reaffirming baile folklórico as a hybrid of Indigenous and colonial Spanish traditions, Hernández's choreography had broad societal implications, fostering a sense of collective identity in Mexico and, later, in Mexican American communities.\"",
@@ -744,7 +744,7 @@ export const importedMockTest = {
         {
           "id": 24,
           "passage": "While researching a topic, a student has taken the following notes: • Merle Oberon (1911-1979) was an actress born in Mumbai (then known as Bombay), India. • She was of Indian, Maori, and Irish heritage. • She was the first Indian-born actress to be nominated for an Academy Award. • Early in her career, she played many nameless, uncredited roles, such as her role in The Three Passions (1928). • Later, she played many named, credited roles, such as Empress Josephine in Désirée (1954)",
-          "question": "The student wants to emphasize",
+          "question": "The student wants to emphasize a similarity between the two films. Which choice most effectively uses relevant information from the notes to accomplish this goal?",
           "options": [
             "The Three Passions and Désirée are both films that include Merle Oberon, the first Indian-born actress to be nominated for an Academy Award.",
             "The Three Passions (1928) was released early in actress Merle Oberon's career, whereas Désirée (1954) came out later.",
@@ -780,7 +780,7 @@ export const importedMockTest = {
         {
           "id": 27,
           "passage": "While researching a topic, a student has taken the following notes: •Prehistoric rock art in the Kimberley region of Australia consists of several distinct styles across various time periods. •Irregular Infill Animal Period (IIAP) rock art from 13,000 to 17,000 years ago consists of naturalistic animal figures showing detailed features and a variety of poses. • Gwion rock art from 12,000 to 14,000 years ago features elaborately ornamented anthropomorphic figures. •Wanjina rock art from up to 5,000 years ago features human ancestor figures along with animal motifs. • A 2025 study of Kimberley rock art by Ana Paula Motta et al. identified 98 figures depicting outlines of animal forms with simple anatomical details and posed predominantly in profile. • The study's superimposition analysis showed that these Linear Naturalistic Figures (LNF) consistently appear on top of Gwion and underneath Wanjina figures.",
-          "question": "The student wants to make and support",
+          "question": "The student wants to make and support a claim about the LNF rock art style based on Motta et al.'s study. Which choice most effectively uses relevant information from the notes to accomplish this goal?",
           "options": [
             "The distinct style displayed by the LNF rock art forms a bridge between the styles of the earlier IIAP animal figures and the later Gwion representations of humans.",
             "The study by Motta et al. showed that the LNF figures were clearly layered in between anthropomorphic figures of distinct styles that took place millennia apart.",

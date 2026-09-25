@@ -75,7 +75,7 @@ export const importedMockTest = {
         {
           "id": 6,
           "passage": "In 2013 Fredrik Jutfelt and Maria Hedgärde published a study concluding that ocean acidification has a strong effect on the behavior of Gadus morhua, a species of fish. However, Jutfelt and Hedgärde's study relied on a mean sample size of only about 16 fish. In a 2022 review of various scientists' conclusions about the impacts of ocean acidification on fish behavior, Josefin Sundin and colleagues caution that relying on such a relatively small sample size can increase the potential for biased analysis. Such analysis, in turn, can contribute to reports of exaggerated effects.",
-          "question": "Which choice best describes the function of the underlined sentence in the text as",
+          "question": "Which choice best describes the function of the underlined sentence in the text as a whole?",
           "options": [
             "It counters the objection of Sundin and colleagues to studies that rely on relatively small sample sizes.",
             "It elaborates on a potential consequence of Jutfelt and Hedgärde's reliance on a relatively small sample size.",
@@ -87,7 +87,7 @@ export const importedMockTest = {
         {
           "id": 7,
           "passage": "In 1958, Jim Dine and several other emerging artists founded the Judson Gallery in New York City, a nurturing space where artists produced and exhibited works that were radically new at the time—from assemblages (mixed-media pieces with found objects) to \"Happenings\" (performance art experiences designed to be irreplicable). The gallery is still remembered for its links to artists who helped drive experimental movements, such as the pop artist Red Grooms, and for the remarkable freedom it offered artists in their explorations.",
-          "question": "Which choice best describes the purpose of the underlined portion in the text as",
+          "question": "Which choice best describes the purpose of the underlined portion in the text as a whole?",
           "options": [
             "To clarify why assemblages and \"Happenings\" were considered groundbreaking types of art in 1958",
             "To illustrate that the Judson Gallery shifted from exhibiting traditional artworks to experimental ones",
@@ -317,7 +317,7 @@ export const importedMockTest = {
         {
           "id": 26,
           "passage": "While researching a topic, a student has taken the following notes: • The Brussels Flower Carpet is a biennial large-scale temporary floral art installation. • Street artist Océane Cornille designed the 2024 Brussels Flower Carpet installation, entitled Rhizome. • The design incorporated influences from Art Nouveau, Street Art, youth culture, and Surrealism. • Unlike previous editions celebrating guest countries, Rhizome was designed specifically to reflect the complexity and interconnectedness of the city of Brussels, Belgium, itself. • According to Cornille, the design's \"lines represent the rhizome of plants\" (an interconnected root system) as \"a metaphor for the urban rhizome.\" • Cornille: Rhizome \"invites us to contemplate urban breathing\" and \"to admire momentary beauty.\"",
-          "question": "The student wants to explain what the design of Rhizome symbolizes, using",
+          "question": "The student wants to explain what the design of Rhizome symbolizes, using a quotation from Cornille. Which choice most effectively uses relevant information from the notes to accomplish this goal?",
           "options": [
             "Cornille's design compares the complexity and interconnectedness of Brussels to the temporary floral art installation's \"momentary beauty.\"",
             "Cornille notes that her design incorporates influences from Art Nouveau, Street Art, and Surrealism to \"represent the rhizome of plants.\"",
@@ -384,7 +384,7 @@ export const importedMockTest = {
         {
           "id": 4,
           "passage": "In what is now Minnesota, the Shakopee Mdewakanton Sioux Community operates the Hoċokata Ti, a cultural center. Relying on traditional knowledge to guide the design of exhibits, this institution presents Dakota history and culture to the tribe's citizens. The Bois Forte Band of Chippewa, a tribe in Minnesota, employs a similar strategy in its own cultural center. Both centers contrast with museums that aren't Indigenous-led; when displaying Indigenous artifacts, such museums tend to anticipate mainly non-Indigenous audiences and rely on Euro-centric strategies for designing exhibits.",
-          "question": "Which choice best describes the function of the underlined portion in the text as",
+          "question": "Which choice best describes the function of the underlined portion in the text as a whole?",
           "options": [
             "It marks a transition from a discussion of Indigenous forms of knowledge to non-Indigenous forms of knowledge.",
             "It introduces a discussion of differences between tribal cultural centers and non-Indigenous institutions.",
@@ -683,7 +683,7 @@ export const importedMockTest = {
         {
           "id": 25,
           "passage": "While researching a topic, a student has taken the following notes: • Tapio Lehtinen is a Finnish sailor who completed a true circumnavigation of the globe in 2019. • One of the requirements of a true circumnavigation is that the journey must begin and end in the same port. • Lehtinen's circumnavigation began and ended in the port of Les Sables d' Olonne, France. • On his journey, Lehtinen passed the three great capes of the Southern Ocean. • His journey took 322 days.",
-          "question": "The student wants to provide evidence that Lehtinen's journey was",
+          "question": "The student wants to provide evidence that Lehtinen's journey was a true circumnavigation. Which choice most effectively uses relevant information from the notes to accomplish this goal?",
           "options": [
             "Lehtinen began and ended his trip in the same port (Les Sables d' Olonne France), one of the requirements for a true circumnavigation.",
             "To be considered a true circumnavigation, a journey must begin and end in the same port, and Lehtinen's lasted 322 days.",
@@ -707,7 +707,7 @@ export const importedMockTest = {
         {
           "id": 27,
           "passage": "While researching a topic, a student has taken the following notes: • A 2022 study analyzed geotagged social media posts to assess the effect of parks on happiness in 25 US cities. • The happiness benefit of a city's parks was the numeric difference between the calculated happiness scores of posts made in parks and posts made elsewhere. • A benefit above 0 indicates a positive effect. • The park happiness benefit in San Francisco, California, was greater than 0.10. • The park happiness benefit in Columbus, Ohio, was greater than 0 but less than 0.10. • The average happiness benefit of parks across all cities was 0.10.",
-          "question": "The student wants to make",
+          "question": "The student wants to make a generalization based on the study's findings. Which choice most effectively uses relevant information from the notes to accomplish this goal?",
           "options": [
             "Geotagged social media posts were analyzed for expressed happiness in both San Francisco and Columbus.",
             "Though it can vary from city to city, the overall effect of parks on happiness is a positive one.",

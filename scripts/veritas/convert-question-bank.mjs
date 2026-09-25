@@ -32,8 +32,28 @@ const stripOptionPrefix = (value) =>
     .replace(/\s+/g, ' ')
     .trim();
 
+// Veritas wraps long stems, and the DOM read only captured the first line, so a
+// recorded question can be a fragment ending mid-sentence. When it lacks closing
+// punctuation, recover the full stem from the page text: locate the fragment,
+// then take everything up to the first option marker (a sentence end followed by
+// an option letter).
+const recoverTruncatedQuestion = (fragment, record) => {
+  const flat = String(record.rawText || '').replace(/\s+/g, ' ');
+  const needle = String(fragment).replace(/\s+/g, ' ').trim();
+  const start = flat.indexOf(needle);
+  if (start < 0) return fragment;
+  const after = flat.slice(start + needle.length);
+  const boundary = after.match(/[?.!]\s[A-D]\s/);
+  if (!boundary) return fragment;
+  const recovered = (needle + after.slice(0, boundary.index + 1)).trim();
+  return recovered.replace(/([.!?]\s+)([a-z])/g, (_, gap, ch) => gap + ch.toUpperCase());
+};
+
 const inferQuestion = (record) => {
-  if (record.question) return record.question;
+  const recorded = String(record.question || '');
+  if (recorded) {
+    return /[?.!:"”]\s*$/.test(recorded) ? recorded : recoverTruncatedQuestion(recorded, record);
+  }
   const raw = String(record.rawText || '');
   const withoutHeader = raw.replace(/^.*?Question\s*\d+/i, '').trim();
   const optionStart = withoutHeader.search(/\bA[\s).:：]/);

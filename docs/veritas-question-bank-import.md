@@ -70,6 +70,10 @@ node scripts/veritas/convert-question-bank.mjs \
 
 The converter writes a TypeScript staging file under `src/data/veritas-imports/`.
 
+⚠️ **Never regenerate a set that is already committed.** The files under `src/data/veritas-imports/` carry post-processing the converter does not reproduce: structured `table` objects, images downloaded to local `public/` paths, and hand-corrected stems. Re-running the converter overwrites all of it. To correct a field on an existing set, patch it in place — the files round-trip losslessly through `JSON.parse` → `JSON.stringify(obj, null, 2)` (verified for the I9-INT-01 and I9-NA-01 sets).
+
+The converter recovers stems that Veritas wrapped onto a second line: a captured `record.question` can be just the first line, so when it lacks closing punctuation the converter pulls the full stem out of `rawText`. If a stem still ends mid-sentence after conversion, the page text itself was captured incompletely — re-collect rather than hand-edit.
+
 ## Review Checklist
 
 Before publishing imported questions in SATPrep, review:
