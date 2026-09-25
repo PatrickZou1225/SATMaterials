@@ -9,6 +9,8 @@
 
 import { importedMockTest as satCmp2026I9Int01Reading } from './veritas-imports/sat-cmp-2026-i9-int-01-reading'
 import { importedMockTest as satCmp2026I9Na01Reading } from './veritas-imports/sat-cmp-2026-i9-na-01-reading'
+import { importedMockTest as satCmp2026H8Na01Reading } from './veritas-imports/sat-cmp-2026-h8-na-01-reading'
+import { importedMockTest as satCmp2026H8Int02Reading } from './veritas-imports/sat-cmp-2026-h8-int-02-reading'
 
 export interface MockTestTable {
   title?: string // 可选：表格标题
@@ -342,6 +344,8 @@ A splash of light from the late-afternoon sun lingered at the foot of Nariman's 
 export const allMockTests: MockTestSet[] = [
   satCmp2026I9Int01Reading,
   satCmp2026I9Na01Reading,
+  satCmp2026H8Na01Reading,
+  satCmp2026H8Int02Reading,
   {
     id: '2505as-1',
     title: '2505AS 第一套',
