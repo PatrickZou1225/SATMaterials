@@ -83,7 +83,8 @@ export const importedMockTest = {
             "It explains that humans use tools for many different tasks.",
             "It argues that boxer crabs use tools more often than other animals do."
           ],
-          "answer": 1
+          "answer": 1,
+          "underline": ["Boxer crabs use stinging anemones to defend against attack."]
         },
         {
           "id": 7,
@@ -460,7 +461,8 @@ export const importedMockTest = {
             "It highlights a controversy among historians that Williams criticizes.",
             "It raises a question about the practice of history that Williams regards as unresolved."
           ],
-          "answer": 1
+          "answer": 1,
+          "underline": ["It is concerned only with the one thing: to say everything is dead."]
         },
         {
           "id": 7,

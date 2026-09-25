@@ -35,47 +35,63 @@ function escapeHtml(text: string): string {
     .replace(/'/g, '&#39;')
 }
 
+type Segment = { text: string; marked: boolean }
+
+const HIGHLIGHT_CLASS =
+  'rounded-sm bg-amber-200 px-0.5 text-inherit dark:bg-amber-300/40 dark:text-inherit'
+
 // SAT marks the target of some questions in the passage itself: the word a
 // vocabulary question asks about, or the sentence a function question calls
-// "the underlined portion". Veritas strips that styling, so each set carries the
-// phrases in an `underline` list and we re-apply it here. Matching runs on the
-// raw text (first occurrence only) so escaping stays inside each fragment.
-function applyUnderlines(text: string, underlines: string[]): string {
-  let segments: Array<{ text: string; marked: boolean }> = [{ text, marked: false }]
+// "the underlined portion". We re-apply that marking as a highlight — easier to
+// spot than a rule, which the surrounding prose hides. Two sources feed it: the
+// imported sets list the phrases in `underline`, while the older hand-written
+// sets carry the exam's own markup inline as "<u>…</u>". Normalize both to
+// marked segments so everything downstream is escaped exactly once.
+function markedSegments(text: string, underlines: string[]): Segment[] {
+  const segments: Segment[] = []
+  const inline = /<u>([\s\S]*?)<\/u>/g
+  let cursor = 0
+
+  for (const match of text.matchAll(inline)) {
+    if (match.index > cursor) segments.push({ text: text.slice(cursor, match.index), marked: false })
+    segments.push({ text: match[1], marked: true })
+    cursor = match.index + match[0].length
+  }
+
+  segments.push({ text: text.slice(cursor), marked: false })
 
   for (const phrase of underlines) {
     if (!phrase) continue
 
-    const next: typeof segments = []
+    for (let i = 0; i < segments.length; i++) {
+      const segment = segments[i]
 
-    for (const segment of segments) {
-      if (segment.marked) {
-        next.push(segment)
-        continue
-      }
+      if (segment.marked) continue
 
       const at = segment.text.indexOf(phrase)
 
-      if (at === -1) {
-        next.push(segment)
-        continue
-      }
+      if (at === -1) continue
 
-      next.push(
+      segments.splice(
+        i,
+        1,
         { text: segment.text.slice(0, at), marked: false },
         { text: phrase, marked: true },
         { text: segment.text.slice(at + phrase.length), marked: false },
       )
+      i += 2
     }
-
-    segments = next
   }
 
   return segments
+}
+
+function applyUnderlines(text: string, underlines: string[]): string {
+  return markedSegments(text, underlines)
     .filter(segment => segment.text)
     .map(segment =>
       segment.marked
-        ? `<u class="underline decoration-2 underline-offset-2 decoration-purple-500 dark:decoration-purple-400">${escapeHtml(segment.text)}</u>`
+        ? `<mark class="${HIGHLIGHT_CLASS}">${escapeHtml(segment.text)}</mark>`
         : escapeHtml(segment.text),
     )
     .join('')
