@@ -38,7 +38,7 @@ function escapeHtml(text: string): string {
 type Segment = { text: string; marked: boolean }
 
 const HIGHLIGHT_CLASS =
-  'rounded-sm bg-amber-200 px-0.5 text-inherit dark:bg-amber-300/40 dark:text-inherit'
+  'rounded-sm bg-amber-200 px-0.5 text-inherit underline decoration-amber-600/70 decoration-2 underline-offset-2 dark:bg-amber-300/40 dark:text-inherit dark:decoration-amber-300/70'
 
 // SAT marks the target of some questions in the passage itself: the word a
 // vocabulary question asks about, or the sentence a function question calls
