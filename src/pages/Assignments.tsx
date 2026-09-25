@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useState, type FormEvent } from 'react'
+import { useCallback, useEffect, useMemo, useState, type FormEvent } from 'react'
 import { useAccount } from '../context/account'
 import { supabase } from '../lib/supabase'
+import { buildQuestionBank } from '../lib/questionBank'
 
 type Student = { id: string; display_name: string; email: string }
 type Assignment = {
@@ -23,6 +24,10 @@ export default function Assignments() {
   const [dueAt, setDueAt] = useState('')
   const [message, setMessage] = useState('')
   const [saving, setSaving] = useState(false)
+  const bank = useMemo(() => buildQuestionBank(), [])
+  const [selectedKeys, setSelectedKeys] = useState<string[]>([])
+  const [openSets, setOpenSets] = useState<Set<string>>(new Set())
+  const [openModules, setOpenModules] = useState<Set<string>>(new Set())
 
   const loadAssignments = useCallback(async () => {
     if (!supabase) return { data: [] as Assignment[], error: null }
@@ -49,6 +54,27 @@ export default function Assignments() {
       })
   }, [isTeacher])
 
+  const setKeys = (setId: string) => {
+    const set = bank.sets.find(s => s.id === setId)
+    return set ? set.modules.flatMap(module => module.questions.map(q => q.key)) : []
+  }
+  const moduleKeys = (setId: string, moduleNum: number) => {
+    const set = bank.sets.find(s => s.id === setId)
+    const module = set?.modules.find(m => m.moduleNum === moduleNum)
+    return module ? module.questions.map(q => q.key) : []
+  }
+  const toggleKeys = (keys: string[], selectAll: boolean) => {
+    setSelectedKeys(prev => {
+      const next = new Set(prev)
+      keys.forEach(key => { if (selectAll) next.add(key); else next.delete(key) })
+      return [...next]
+    })
+  }
+  const toggleOne = (key: string) => {
+    setSelectedKeys(prev => prev.includes(key) ? prev.filter(k => k !== key) : [...prev, key])
+  }
+  const allSelected = (keys: string[]) => keys.length > 0 && keys.every(key => selectedKeys.includes(key))
+
   const createAssignment = async (event: FormEvent) => {
     event.preventDefault()
     if (!supabase || !account || selectedStudents.length === 0) {
@@ -66,23 +92,43 @@ export default function Assignments() {
 
     if (error || !data) {
       setMessage(error?.message ?? '创建作业失败。')
-    } else {
-      const { error: recipientError } = await supabase.from('assignment_recipients').insert(
-        selectedStudents.map(studentId => ({ assignment_id: data.id, student_id: studentId })),
+      setSaving(false)
+      return
+    }
+
+    const { error: recipientError } = await supabase.from('assignment_recipients').insert(
+      selectedStudents.map(studentId => ({ assignment_id: data.id, student_id: studentId })),
+    )
+    if (recipientError) {
+      await supabase.from('assignments').delete().eq('id', data.id)
+      setMessage('分配学生失败，作业未保存。')
+      setSaving(false)
+      return
+    }
+
+    const orderedKeys = bank.sets
+      .flatMap(set => set.modules.flatMap(module => module.questions.map(q => q.key)))
+      .filter(key => selectedKeys.includes(key))
+    if (orderedKeys.length > 0) {
+      const { error: questionError } = await supabase.from('assignment_questions').insert(
+        orderedKeys.map((key, index) => ({ assignment_id: data.id, position: index + 1, question_key: key })),
       )
-      if (recipientError) {
+      if (questionError) {
         await supabase.from('assignments').delete().eq('id', data.id)
-        setMessage('分配学生失败，作业未保存。')
-      } else {
-        setTitle('')
-        setInstructions('')
-        setDueAt('')
-        setSelectedStudents([])
-        setMessage('作业已发布。')
-        const refreshed = await loadAssignments()
-        if (!refreshed.error) setAssignments(refreshed.data)
+        setMessage('保存题目失败，作业未保存。')
+        setSaving(false)
+        return
       }
     }
+
+    setTitle('')
+    setInstructions('')
+    setDueAt('')
+    setSelectedStudents([])
+    setSelectedKeys([])
+    setMessage('作业已发布。')
+    const refreshed = await loadAssignments()
+    if (!refreshed.error) setAssignments(refreshed.data)
     setSaving(false)
   }
 
@@ -103,6 +149,47 @@ export default function Assignments() {
       <label className="block text-sm">截止时间
         <input type="datetime-local" value={dueAt} onChange={event => setDueAt(event.target.value)} className="mt-1 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2" />
       </label>
+      <fieldset>
+        <legend className="text-sm mb-2">从题库选题（可选）</legend>
+        <p className="text-sm text-slate-500 dark:text-slate-400">已选 {selectedKeys.length} 题。</p>
+        <div className="mt-3 rounded-xl border border-slate-200 dark:border-slate-700 divide-y divide-slate-200 dark:divide-slate-700 overflow-hidden">
+          {bank.sets.map(set => {
+            const keys = setKeys(set.id)
+            const setOpen = openSets.has(set.id)
+            return <div key={set.id}>
+              <div className="flex items-center gap-2 px-4 py-3 bg-slate-50 dark:bg-slate-800/50">
+                <button type="button" onClick={() => setOpenSets(prev => { const next = new Set(prev); setOpen ? next.delete(set.id) : next.add(set.id); return next })} className="flex-1 text-left text-sm font-medium">{setOpen ? '▾' : '▸'} {set.title}</button>
+                <label className="flex items-center gap-1.5 text-sm text-slate-600 dark:text-slate-300">
+                  <input type="checkbox" checked={allSelected(keys)} onChange={event => toggleKeys(keys, event.target.checked)} />
+                  整套 {set.questionCount} 题
+                </label>
+              </div>
+              {setOpen && <div className="px-4 py-3 space-y-3">
+                {set.modules.map(module => {
+                  const mKeys = moduleKeys(set.id, module.moduleNum)
+                  const mKey = `${set.id}:${module.moduleNum}`
+                  const mOpen = openModules.has(mKey)
+                  return <div key={mKey}>
+                    <div className="flex items-center gap-2">
+                      <button type="button" onClick={() => setOpenModules(prev => { const next = new Set(prev); mOpen ? next.delete(mKey) : next.add(mKey); return next })} className="flex-1 text-left text-sm font-medium">{mOpen ? '▾' : '▸'} {module.name}</button>
+                      <label className="flex items-center gap-1.5 text-sm text-slate-600 dark:text-slate-300">
+                        <input type="checkbox" checked={allSelected(mKeys)} onChange={event => toggleKeys(mKeys, event.target.checked)} />
+                        全选 {module.questions.length} 题
+                      </label>
+                    </div>
+                    {mOpen && <ul className="mt-2 space-y-1 pl-4">
+                      {module.questions.map(q => <li key={q.key} className="flex items-start gap-2 text-sm">
+                        <input type="checkbox" className="mt-1" checked={selectedKeys.includes(q.key)} onChange={() => toggleOne(q.key)} />
+                        <span className="text-slate-600 dark:text-slate-300">第 {q.question.id} 题 · {truncate(q.question.question)}</span>
+                      </li>)}
+                    </ul>}
+                  </div>
+                })}
+              </div>}
+            </div>
+          })}
+        </div>
+      </fieldset>
       <fieldset>
         <legend className="text-sm mb-2">分配学生</legend>
         <div className="grid sm:grid-cols-2 gap-2">
@@ -136,3 +223,5 @@ export default function Assignments() {
 function PageMessage({ text }: { text: string }) {
   return <div className="min-h-[50vh] grid place-items-center text-slate-500">{text}</div>
 }
+
+const truncate = (text: string, max = 60) => (text.length > max ? text.slice(0, max) + '…' : text)

@@ -12,6 +12,7 @@ import MockTestList from './pages/MockTestList'
 import MockTest from './pages/MockTest'
 import Search from './pages/Search'
 import Assignments from './pages/Assignments'
+import QuestionBank from './pages/QuestionBank'
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path="/mock-test" element={<MockTestList />} />
             <Route path="/search" element={<Search />} />
             <Route path="/assignments" element={<Assignments />} />
+            <Route path="/bank" element={<QuestionBank />} />
           </Route>
         </Routes>
       </BrowserRouter>

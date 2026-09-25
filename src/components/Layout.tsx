@@ -5,6 +5,7 @@ import { useAccount } from '../context/account'
 
 export default function Layout() {
   const account = useAccount()
+  const isTeacher = account?.profile?.role === 'teacher'
   const [menuOpen, setMenuOpen] = useState(false)
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     if (typeof window === 'undefined') return 'light'
@@ -50,6 +51,7 @@ export default function Layout() {
               <NavLink to="/practice" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>练习</NavLink>
               <NavLink to="/mock-test" className={({ isActive }) => isActive ? 'text-purple-600 dark:text-purple-300' : 'hover:text-purple-600 dark:hover:text-purple-300 transition-colors'}>模拟测试</NavLink>
               {account && <NavLink to="/assignments" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>作业</NavLink>}
+              {isTeacher && <NavLink to="/bank" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>题库</NavLink>}
               <NavLink to="/faq" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>常见问题</NavLink>
               <NavLink to="/search" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>
                 <Search size={16} className="inline mr-1" />
@@ -78,6 +80,7 @@ export default function Layout() {
             <NavLink to="/practice" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">练习</NavLink>
             <NavLink to="/mock-test" onClick={() => setMenuOpen(false)} className="hover:text-purple-600 dark:hover:text-purple-300">模拟测试</NavLink>
             {account && <NavLink to="/assignments" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">作业</NavLink>}
+            {isTeacher && <NavLink to="/bank" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">题库</NavLink>}
             <NavLink to="/faq" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">常见问题</NavLink>
             <NavLink to="/search" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">搜索</NavLink>
             <NavLink to="/practice" onClick={() => setMenuOpen(false)} className="px-4 py-2 bg-blue-600 text-white rounded-lg text-center">开始练习</NavLink>
