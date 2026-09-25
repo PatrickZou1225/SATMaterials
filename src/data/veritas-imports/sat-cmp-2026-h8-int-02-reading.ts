@@ -122,7 +122,7 @@ export const importedMockTest = {
         },
         {
           "id": 10,
-          "passage": "Film name Visible light allowed through Glare reduction No film used 90% 14% GlowGuard 33% 52% ShieldView 22% 65% BronzeShine 16% 77% ShadeBlock 7% 82% A restaurant is installing window film to create a more comfortable indoor atmosphere. This is because during dinner service, the sunlight gets in people's eyes while they eat. The restaurant owner wants to reduce the glare but still let customers enjoy the sunset. To help meet these goals, a window‑film technician recommends selecting a film that reduces glare as much as possible while still allowing more than 15% of visible light to pass through the windows. The table shows the performance data for several different films.",
+          "passage": "A restaurant is installing window film to create a more comfortable indoor atmosphere. This is because during dinner service, the sunlight gets in people's eyes while they eat. The restaurant owner wants to reduce the glare but still let customers enjoy the sunset. To help meet these goals, a window‑film technician recommends selecting a film that reduces glare as much as possible while still allowing more than 15% of visible light to pass through the windows. The table shows the performance data for several different films.",
           "question": "Based on the window‑film technician's recommendation and the data in the table, which film should the restaurant owner choose?",
           "options": [
             "BronzeShine",
@@ -130,7 +130,41 @@ export const importedMockTest = {
             "ShadeBlock",
             "GlowGuard"
           ],
-          "answer": 0
+          "answer": 0,
+          "table": {
+            "headers": [
+              "Film name",
+              "Visible light allowed through",
+              "Glare reduction"
+            ],
+            "rows": [
+              [
+                "No film used",
+                "90%",
+                "14%"
+              ],
+              [
+                "GlowGuard",
+                "33%",
+                "52%"
+              ],
+              [
+                "ShieldView",
+                "22%",
+                "65%"
+              ],
+              [
+                "BronzeShine",
+                "16%",
+                "77%"
+              ],
+              [
+                "ShadeBlock",
+                "7%",
+                "82%"
+              ]
+            ]
+          }
         },
         {
           "id": 11,

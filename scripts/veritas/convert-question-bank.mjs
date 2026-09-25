@@ -213,3 +213,15 @@ console.log(`Questions: ${questions.length}`);
 if (weakRecords.length) {
   console.log(`Needs review: ${weakRecords.map((q) => q.id).join(', ')}`);
 }
+
+// Veritas renders some tables as divs, so findTable() misses them and the rows
+// arrive flattened into the passage ("No film used 90% 14% ..."). They need a
+// hand-built table object, so surface them instead of writing them out silently.
+const flatTables = questions.filter(
+  (q) =>
+    !q.table &&
+    /table shows|data in the table|the table below|shown in the table/i.test(`${q.passage} ${q.question}`),
+);
+if (flatTables.length) {
+  console.log(`Flattened tables (need a hand-built table object): ${flatTables.map((q) => q.id).join(', ')}`);
+}
