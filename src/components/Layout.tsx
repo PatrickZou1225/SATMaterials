@@ -64,6 +64,7 @@ export default function Layout() {
               {account && <NavLink to="/assignments" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>作业</NavLink>}
               {isTeacher && <NavLink to="/bank" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>题库</NavLink>}
               {isTeacher && <NavLink to="/students" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>学生</NavLink>}
+              {isTeacher && <NavLink to="/monitor" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>学习情况</NavLink>}
               {isOwner && <NavLink to="/teachers" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>老师</NavLink>}
               <NavLink to="/faq" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>常见问题</NavLink>
               <NavLink to="/search" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>
@@ -95,6 +96,7 @@ export default function Layout() {
             {account && <NavLink to="/assignments" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">作业</NavLink>}
             {isTeacher && <NavLink to="/bank" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">题库</NavLink>}
             {isTeacher && <NavLink to="/students" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">学生</NavLink>}
+            {isTeacher && <NavLink to="/monitor" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">学习情况</NavLink>}
             {isOwner && <NavLink to="/teachers" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">老师</NavLink>}
             <NavLink to="/faq" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">常见问题</NavLink>
             <NavLink to="/search" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">搜索</NavLink>

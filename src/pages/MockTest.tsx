@@ -4,6 +4,9 @@ import { ArrowLeft, ChevronLeft, ChevronRight, RotateCcw, Flag, Clock, AlertTria
 import { getTestSet, type MockTestQuestion } from '../data/mockTestQuestions'
 import { formatPassageHtml } from '../lib/passage'
 import { priceLabel, useYearAccess } from '../lib/access'
+import { questionKey, moduleNumber } from '../lib/questionBank'
+import { supabase } from '../lib/supabase'
+import { useAccount } from '../context/account'
 import UnlockDialog from '../components/UnlockDialog'
 
 const OPTION_LABELS = ['A', 'B', 'C', 'D']
@@ -103,6 +106,8 @@ function MockTestRunner() {
   const [remainingSeconds, setRemainingSeconds] = useState(totalTime)
   const [timerRunning, setTimerRunning] = useState(false)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const persistedRef = useRef(false)
+  const account = useAccount()
 
   const clearTimer = useCallback(() => {
     if (timerRef.current) {
@@ -183,7 +188,58 @@ function MockTestRunner() {
     setMobileView('passage')
     setRemainingSeconds(totalTime)
     setTimerRunning(false)
+    persistedRef.current = false
   }
+
+  // Record the finished run so teachers can see it (学习情况页 / 正确率列). Only
+  // real students count — a teacher previewing a paper must not write a row.
+  //
+  // The schema forces the order below: attempt_answers rows are only writable
+  // while the attempt is in_progress, and correct_count is update-only (see the
+  // column grants in 20260926000001_attempts.sql), so the attempt is opened first,
+  // answered, then closed out.
+  useEffect(() => {
+    if (phase !== 'finished' && phase !== 'timeup') return
+    if (persistedRef.current) return
+    if (!supabase || !account?.user || !account.profile || account.profile.role !== 'student') return
+    persistedRef.current = true
+
+    const client = supabase
+    const studentId = account.user.id
+    const score = questions.filter(q => selected[q.id] === q.answer).length
+
+    const record = async () => {
+      const { data: attempt, error: attemptError } = await client
+        .from('attempts')
+        .insert({
+          student_id: studentId,
+          set_id: testSet.id,
+          module_num: moduleNumber(moduleData.name, modIdx),
+          total_questions: questions.length,
+          status: 'in_progress',
+        })
+        .select('id')
+        .single()
+      if (attemptError || !attempt) return
+
+      const rows = questions
+        .filter(q => selected[q.id] !== undefined)
+        .map(q => ({
+          attempt_id: attempt.id as string,
+          question_key: questionKey(testSet.id, moduleData.name, modIdx, q.id),
+          selected_answer: selected[q.id],
+          is_correct: selected[q.id] === q.answer,
+        }))
+      if (rows.length) await client.from('attempt_answers').insert(rows)
+
+      await client
+        .from('attempts')
+        .update({ correct_count: score, status: 'submitted', submitted_at: new Date().toISOString() })
+        .eq('id', attempt.id)
+    }
+
+    void record()
+  }, [phase, account, questions, selected, testSet.id, moduleData.name, modIdx])
 
   const toggleFlag = () => {
     if (!current) return

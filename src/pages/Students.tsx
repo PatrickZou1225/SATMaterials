@@ -9,8 +9,8 @@ type Entitlement = { id: string; student_id: string; year: number }
 type Invite = { code: string; created_at: string }
 
 // Teacher-side roster: see every student and which real-paper years they own.
-// Unlocking is manual for now (no payment integration); this page is also where
-// the phase-⑤ monitoring views will live later.
+// Unlocking is manual for now (no payment integration). Learning-record
+// monitoring lives on its own page (src/pages/Monitor.tsx).
 export default function Students() {
   const account = useAccount()
   const isTeacher = account?.profile?.role === 'teacher'
