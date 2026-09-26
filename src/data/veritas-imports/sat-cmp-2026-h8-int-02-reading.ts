@@ -23,7 +23,9 @@ export const importedMockTest = {
             "differentiated from",
             "explored by"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 2,
@@ -35,7 +37,9 @@ export const importedMockTest = {
             "loath",
             "prone"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 3,
@@ -47,7 +51,9 @@ export const importedMockTest = {
             "overshadow",
             "interpret"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 4,
@@ -59,7 +65,9 @@ export const importedMockTest = {
             "reprimanded",
             "refrained from"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 5,
@@ -71,7 +79,9 @@ export const importedMockTest = {
             "To explain the science behind keeping different foods preserved with and without refrigeration",
             "To convince readers that modern conveniences such as refrigeration have led to a loss of critical skills"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 6,
@@ -83,7 +93,9 @@ export const importedMockTest = {
             "It names different cells in human eyes and then states how they work with cells in a different part of the body.",
             "It explains what the color olio is and then explains how that color was discovered."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Text Structure",
         },
         {
           "id": 7,
@@ -95,7 +107,9 @@ export const importedMockTest = {
             "It has some evidential support, but it should not be regarded as universally applicable.",
             "It may be true for some predators but only because those predators share certain physical characteristics."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose",
         },
         {
           "id": 8,
@@ -107,7 +121,9 @@ export const importedMockTest = {
             "The ecological relationships in city parks may not be readily apparent without systematic observation and documentation efforts.",
             "There are many beautiful parks in cities, but they often remain unseen because of poor urban planning decisions."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Interpreting Implied Meanings",
         },
         {
           "id": 9,
@@ -119,7 +135,9 @@ export const importedMockTest = {
             "Marine foraminifera maintain similar phosphate concentrations across different ocean environments, suggesting that while this trait plays a role in offsetting low oxygen levels, that is not its only function.",
             "Marine foraminifera counterbalance the effects of reduced oxygen levels by storing phosphate at high concentrations, matching or in some cases even slightly exceeding the phosphate concentration in the surrounding seawater."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Main Ideas",
         },
         {
           "id": 10,
@@ -132,6 +150,8 @@ export const importedMockTest = {
             "GlowGuard"
           ],
           "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "table": {
             "headers": [
               "Film name",
@@ -178,6 +198,8 @@ export const importedMockTest = {
             "4:30-7:30 p.m. for previously restricted roads."
           ],
           "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "image": "/sat-cmp-2026-h8-int-02-m1-q11.jpg"
         },
         {
@@ -190,7 +212,9 @@ export const importedMockTest = {
             "Modern critics generally regard the first episode as the best installment of The Shadow of the Eagle.",
             "The 12th episode of The Shadow of the Eagle was viewed by more people than was any previous episode in the series."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
         },
         {
           "id": 13,
@@ -202,7 +226,9 @@ export const importedMockTest = {
             "\"If it were dusk, then [Fern's eyes would] wait for the search-light of the evening train which you could see miles up the track before it flared across the Dixie Pike, close to her home.\"",
             "\"I leave the men around the stove to follow [Carma] with my eyes down the red dust road.\""
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
         },
         {
           "id": 14,
@@ -214,7 +240,9 @@ export const importedMockTest = {
             "the music choices of listeners who use streaming services would likely be more varied than those of listeners who do not use streaming services.",
             "listeners who prefer to purchase compact discs rather than use a service such as iHeartRadio or Tidal would tend to listen to older music."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 15,
@@ -226,7 +254,9 @@ export const importedMockTest = {
             "the edition of Miss Macintosh, My Darling has more words per page than the edition of Don Quixote.",
             "Don Quixote likely has a lower word count in its original Spanish edition."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 16,
@@ -238,7 +268,9 @@ export const importedMockTest = {
             "distinguish",
             "to distinguish"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 17,
@@ -250,7 +282,9 @@ export const importedMockTest = {
             "goal; catching",
             "goal. Catching"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 18,
@@ -262,7 +296,9 @@ export const importedMockTest = {
             "butterfly belonging",
             "butterfly, belonging"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries",
         },
         {
           "id": 19,
@@ -274,7 +310,9 @@ export const importedMockTest = {
             "challenging",
             "challenged"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense",
         },
         {
           "id": 20,
@@ -286,7 +324,9 @@ export const importedMockTest = {
             "realizing",
             "to realize"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense",
         },
         {
           "id": 21,
@@ -298,7 +338,9 @@ export const importedMockTest = {
             "paintings",
             "paintings."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 22,
@@ -310,7 +352,9 @@ export const importedMockTest = {
             "Nevertheless,",
             "By contrast,"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 23,
@@ -322,7 +366,9 @@ export const importedMockTest = {
             "Last time,",
             "Besides,"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 24,
@@ -334,7 +380,9 @@ export const importedMockTest = {
             "Next,",
             "As a result,"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 25,
@@ -346,7 +394,9 @@ export const importedMockTest = {
             "rather,",
             "still,"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions",
         },
         {
           "id": 26,
@@ -358,7 +408,9 @@ export const importedMockTest = {
             "Ralph Rolle played drums on singer and songwriter India Arie's 2001 album, Acoustic Soul.",
             "\"Always in My Head,\" a song by singer and songwriter India Arie, is featured on the album Acoustic Soul."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         },
         {
           "id": 27,
@@ -370,7 +422,9 @@ export const importedMockTest = {
             "If you are looking for a new hiking challenge, consider joining the Highpointers Club, as did In Suk Han, a hiker who successfully reached the highest point in every US state.",
             "On November 15, 2013, In Suk Han finally completed the feat of reaching the highest point in all fifty US states, including Spruce Knob in West Virginia and Mount Elbert in Colorado."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         }
       ]
     },
@@ -389,7 +443,9 @@ export const importedMockTest = {
             "unresponsive",
             "amenable"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 2,
@@ -401,7 +457,9 @@ export const importedMockTest = {
             "corrective",
             "hypothesis"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 3,
@@ -413,7 +471,9 @@ export const importedMockTest = {
             "supersede",
             "supplement"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 4,
@@ -425,7 +485,9 @@ export const importedMockTest = {
             "misrepresented",
             "preceded"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context",
         },
         {
           "id": 5,
@@ -437,7 +499,9 @@ export const importedMockTest = {
             "vulnerability",
             "insolvency"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 6,
@@ -449,7 +513,9 @@ export const importedMockTest = {
             "To present the finding that three different pricing strategies are used broadly across cultures",
             "To identify a research gap regarding potential cultural influences on price endings"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Determining Author's Purpose",
         },
         {
           "id": 7,
@@ -461,7 +527,9 @@ export const importedMockTest = {
             "It contrasts various astronomical measurement systems, analyzes the advantages and limitations of each method, evaluates their accuracy for different cosmic scales, and demonstrates how they complement each other.",
             "It chronicles the historical evolution of astronomical measurement techniques, describes how earlier distance calculations were performed, explains how the light‑year concept was developed by scientists, and gives two examples of distances measured in light‑years."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Text Structure",
         },
         {
           "id": 8,
@@ -473,7 +541,9 @@ export const importedMockTest = {
             "They would caution that the seeming difference in prevalence may be an artifact of researchers' tendency to study birdsong among temperate species more frequently than among tropical species.",
             "They would concede that the geographic difference in prevalence is real but argue that the frequency with which male tropical birds sing has been overstated by previous researchers."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose",
         },
         {
           "id": 9,
@@ -485,7 +555,9 @@ export const importedMockTest = {
             "It helped the researchers test whether participants would embrace an outcome they thought was consistent with their own choices even when it was truly contradictory.",
             "It allowed the researchers to measure the willingness of participants to change their positions when presented with persuasive counterarguments."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 10,
@@ -497,7 +569,9 @@ export const importedMockTest = {
             "In the course of its varied history, St. Ogg's has undergone such extensive transformations that its current incarnation would scarcely be recognizable to its earliest settlers.",
             "As a result of its extreme antiquity, St. Ogg's tends to strike observers as dilapidated and haphazardly constructed."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Summary",
         },
         {
           "id": 11,
@@ -510,6 +584,8 @@ export const importedMockTest = {
             "shows evidence of increasing continental crust material in later forming minerals."
           ],
           "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "table": {
             "title": "Strontium Isotope Ratios for an Igneous Rock Sample",
             "headers": [
@@ -542,7 +618,9 @@ export const importedMockTest = {
             "\"The irrigation system developed by the Hohokam people in what is now central Arizona in the 7th century CE was simple but made use of hydraulic engineering design principles that are still utilized by today's engineers.\"",
             "\"Sprinkler irrigation systems, which were developed in the late 20th century, are a convenient technique of irrigating that makes use of machinery in order to spray water in all directions. Many areas of the Southwestern United States are currently irrigated by this method.\""
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (illustration/quotation)",
         },
         {
           "id": 13,
@@ -554,7 +632,9 @@ export const importedMockTest = {
             "\"[Liberty] scorns to disdain / Her righteous cause with carnage, and resigns / To Fraud and Anarchy the infuriate crowd.\" (Charlotte Smith)",
             "\"Reason has, at last, shown her captivating face, beaming with benevolence; and it will be impossible for the dark hand of despotism again to obscure its radiance.\" (Mary Wollstonecraft)"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (illustration/quotation)",
         },
         {
           "id": 14,
@@ -566,7 +646,9 @@ export const importedMockTest = {
             "the use of mud bricks is a reliable indicator that a structure had been used either as a dwelling or for nonresidential purposes.",
             "the number of buildings at Çatalhöyük would have been sufficient to accommodate a population that expanded from 8,000 to 10,000 inhabitants by 5950 BCE."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 15,
@@ -578,7 +660,9 @@ export const importedMockTest = {
             "didn't go extinct suddenly but rather experienced a slow decline over its last several generations.",
             "reached a size similar to that of nearby mammoth populations that were not isolated and thus had fewer genetic mutations."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 16,
@@ -590,7 +674,9 @@ export const importedMockTest = {
             "sculpture. The",
             "sculpture, as the"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 17,
@@ -602,7 +688,9 @@ export const importedMockTest = {
             "would popularize",
             "popularizing"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense",
         },
         {
           "id": 18,
@@ -614,7 +702,9 @@ export const importedMockTest = {
             "however and her",
             "however, her"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 19,
@@ -626,7 +716,9 @@ export const importedMockTest = {
             "invents",
             "invented"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 20,
@@ -638,7 +730,9 @@ export const importedMockTest = {
             "uptake. For instance, while",
             "uptake, for instance,"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 21,
@@ -650,7 +744,9 @@ export const importedMockTest = {
             "modest, compared to peer nation South Korea. A",
             "modest compared to peer nation South Korea, a"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 22,
@@ -662,7 +758,9 @@ export const importedMockTest = {
             "as a result,",
             "however,"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 23,
@@ -674,7 +772,9 @@ export const importedMockTest = {
             "Likewise,",
             "Nevertheless,"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 24,
@@ -686,7 +786,9 @@ export const importedMockTest = {
             "however;",
             "in other words;"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions",
         },
         {
           "id": 25,
@@ -698,7 +800,9 @@ export const importedMockTest = {
             "One thing that carrots and cabbage have in common is that they both contain vitamin C.",
             "Humans cannot make vitamin C in their bodies so they must get this essential nutrient from vegetables, such as carrots."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis",
         },
         {
           "id": 26,
@@ -710,7 +814,9 @@ export const importedMockTest = {
             "Nakatsu discovered that the kingfisher's beak structure eliminated sonic booms, and the redesign improved the train's transition between tunnel and open‑air environments.",
             "By redesigning the train's nose to imitate the kingfisher's gradually widening beak shape, engineers improved the train's transition between tunnels and open air, eliminating sonic booms."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         },
         {
           "id": 27,
@@ -722,7 +828,9 @@ export const importedMockTest = {
             "Used in France from 1793 to 1805, the French Republican calendar includes the months of Germinal and Fructidor (the seventh and twelfth months of the year).",
             "The third and eighth months of the Gregorian calendar are March and August, respectively."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis",
         }
       ]
     }

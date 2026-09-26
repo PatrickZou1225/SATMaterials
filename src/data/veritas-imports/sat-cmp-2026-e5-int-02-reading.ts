@@ -23,7 +23,9 @@ export const importedMockTest = {
             "promote",
             "withdraw"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 2,
@@ -35,7 +37,9 @@ export const importedMockTest = {
             "utilized",
             "decelerated"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 3,
@@ -47,7 +51,9 @@ export const importedMockTest = {
             "efficiency of",
             "limitation on"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Distinguishing Among Nuanced Synonyms",
         },
         {
           "id": 4,
@@ -60,6 +66,8 @@ export const importedMockTest = {
             "Delay"
           ],
           "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Distinguishing Among Nuanced Synonyms",
           "underline": [
             "end"
           ]
@@ -74,7 +82,9 @@ export const importedMockTest = {
             "To praise the actors who starred in the original version of Mean Girls",
             "To criticize the cost of making movies in the United States"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Determining Author's Purpose",
         },
         {
           "id": 6,
@@ -86,7 +96,9 @@ export const importedMockTest = {
             "It presents the subject of a biography, describes some major developments in that subject's life, then suggests that the biography's account of that life made some careless omissions.",
             "It describes a surprising feature of a biography, offers a summary of events in the subject's life, and then quotes an expert who defends that feature."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Text Structure",
         },
         {
           "id": 7,
@@ -98,7 +110,9 @@ export const importedMockTest = {
             "To describe a general trend in the swim depths of certain species that explains why those species are more efficient swimmers than are other semiaquatic species",
             "To summarize a theory that accounts for why most air-breathing marine animals swim at the same depth regardless of their size"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Determining Author's Purpose",
         },
         {
           "id": 8,
@@ -110,7 +124,9 @@ export const importedMockTest = {
             "It operated as a formal network for maintaining cultural practices.",
             "It served as the central authority for governing society."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Details",
         },
         {
           "id": 9,
@@ -122,7 +138,9 @@ export const importedMockTest = {
             "Best possible self and positive experience recall",
             "Best possible self and fostering a positive mindset"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Details",
         },
         {
           "id": 10,
@@ -134,7 +152,9 @@ export const importedMockTest = {
             "Her garden",
             "Her heart"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Details",
         },
         {
           "id": 11,
@@ -147,6 +167,8 @@ export const importedMockTest = {
             "number of passengers who traveled between Hanoi and Ho Chi Minh City in 2017 with the number who traveled between Hong Kong and Seoul–Incheon during that same year."
           ],
           "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "table": {
             "title": "Highly Traveled Commercial Airline Routes in 2017-2018",
             "headers": [
@@ -204,6 +226,8 @@ export const importedMockTest = {
             "the rate of damage to the pears was approximately 6% in the area with the repeller attached to a neural network and approximately 7% in the area with the repeller not attached to a neural network."
           ],
           "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "image": "/sat-cmp-2026-e5-int-02-m1-q12.svg"
         },
         {
@@ -217,6 +241,8 @@ export const importedMockTest = {
             "Dogs in feral populations in the Southeastern United States have a set of genes also found in East Asian breeds imported in recent decades."
           ],
           "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
           "underline": [
             "the precolonial breeds developed by Indigenous peoples descend from dogs that migrated from Asia in the last ice age"
           ]
@@ -231,7 +257,9 @@ export const importedMockTest = {
             "“The irrigation system developed by the Hohokam people in the 7th century CE in what is now Arizona was simple but applied hydraulic engineering design features that are still used today in both Arizona and California.”",
             "“Competition for scarce water resources in Southern California inspired the development of sprinkler irrigation systems, a manner of irrigating that requires less use of water than traditional surface irrigation methods.”"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
         },
         {
           "id": 15,
@@ -243,7 +271,9 @@ export const importedMockTest = {
             "is largely unchanged from how it was performed in the ninth century.",
             "focuses on the specifically Indonesian aspects of the art form."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 16,
@@ -255,7 +285,9 @@ export const importedMockTest = {
             "it is difficult to exclusively study the role of M cones in human vision under natural conditions because M cones can't be activated without simultaneously activating the L and S cones.",
             "the brain more easily interprets colors in the range both L and M cones react to than those only one type responds to."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 17,
@@ -267,7 +299,9 @@ export const importedMockTest = {
             "preventing and treated",
             "to prevent and treat"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Conventional Expression",
         },
         {
           "id": 18,
@@ -279,7 +313,9 @@ export const importedMockTest = {
             "Both are",
             "It is"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Subject-Verb Agreement",
         },
         {
           "id": 19,
@@ -291,7 +327,9 @@ export const importedMockTest = {
             "is",
             "were"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 20,
@@ -303,7 +341,9 @@ export const importedMockTest = {
             "will present",
             "presents"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 21,
@@ -315,7 +355,9 @@ export const importedMockTest = {
             "one’s",
             "its"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Pronoun-Antecedent Agreement and Clarity",
         },
         {
           "id": 22,
@@ -327,7 +369,9 @@ export const importedMockTest = {
             "To note an exception,",
             "Given these differences,"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Cohesion and Coherence Between Sentences",
         },
         {
           "id": 23,
@@ -339,7 +383,9 @@ export const importedMockTest = {
             "First,",
             "However,"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 24,
@@ -351,7 +397,9 @@ export const importedMockTest = {
             "Before their Salon des Refusés debut,",
             "In response to their Paris Salon rejection,"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 25,
@@ -363,7 +411,9 @@ export const importedMockTest = {
             "Each firefly species has its own unique flashing pattern.",
             "Fireflies produce flashing lights to attract mates."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         },
         {
           "id": 26,
@@ -375,7 +425,9 @@ export const importedMockTest = {
             "The artist spreads wax, resin, and pigment onto the encaustic medium (often wood), then applies heat so that they soften and fuse to the previous layers.",
             "Using various tools, the artist mixes the wax and resin, which fuse together in layers."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         },
         {
           "id": 27,
@@ -387,7 +439,9 @@ export const importedMockTest = {
             "Developed during the Heian and Edo periods, respectively, the Kurumeki and Tenjinkoba tanada were shaped out of steep hillsides.",
             "As was true for the Kurumeki tanada, the Tenjinkoba tanada was developed during a period of economic stability and peace."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         }
       ]
     },
@@ -406,7 +460,9 @@ export const importedMockTest = {
             "convert",
             "impede"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 2,
@@ -418,7 +474,9 @@ export const importedMockTest = {
             "cluster",
             "promote"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Distinguishing Among Nuanced Synonyms",
         },
         {
           "id": 3,
@@ -430,7 +488,9 @@ export const importedMockTest = {
             "digresses from",
             "compensates for"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Rhetorical Word Choice",
         },
         {
           "id": 4,
@@ -442,7 +502,9 @@ export const importedMockTest = {
             "options",
             "compromises"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 5,
@@ -454,7 +516,9 @@ export const importedMockTest = {
             "supersedes",
             "isolates"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 6,
@@ -466,7 +530,9 @@ export const importedMockTest = {
             "It introduces an imaging technique that served as the precursor to a newer technique, describes how the older imaging technique was modified to create the newer technique, and then explains a key benefit of the newer technique.",
             "It describes the role of an innovative technique that is used in studying DNA samples, notes that this technique can also be used in analysis of cellular structures, and then emphasizes this technique’s superiority to conventional microscope imaging."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Text Structure",
         },
         {
           "id": 7,
@@ -478,7 +544,9 @@ export const importedMockTest = {
             "To identify the systemic errors associated with flux-tower estimates of GPP that prompted scientists to investigate alternate methods for gathering carbon flux data",
             "To evaluate the potential of two types of scientific instruments typically used for tracking GPP to also reliably measure SIF"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Determining Author's Purpose",
         },
         {
           "id": 8,
@@ -491,6 +559,8 @@ export const importedMockTest = {
             "By noting that there are other benefits to being named a City of Gastronomy besides increased tourism"
           ],
           "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Cross-Text Connections-Analyzing How One Text Relates to Another",
           "underline": [
             "The honor is well known among both residents of the city and tourists who visit."
           ]
@@ -506,6 +576,8 @@ export const importedMockTest = {
             "“The millennial whoop is worth talking about, but other musical patterns are more interesting.”"
           ],
           "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Cross-Text Connections-Comparing and Contrasting Authors' Perspectives",
           "underline": [
             "The whoop showed up so frequently that some musicians and critics felt it had grown irritating."
           ]
@@ -520,7 +592,9 @@ export const importedMockTest = {
             "Although Malta, Sardinia, and Sicily all show evidence of lithic industry in the sixth and seventh millennia BCE, the characteristics of the stone tools in each location suggest three distinct levels of technological sophistication.",
             "Maltese stone tools from the sixth and seventh millennia BCE are notable for their relative simplicity and their similarity with stone tools produced in Sicily."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Main Ideas",
         },
         {
           "id": 11,
@@ -532,7 +606,9 @@ export const importedMockTest = {
             "His early success in identifying rare birds",
             "His general ambition to become a great scientist in any field"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Details",
         },
         {
           "id": 12,
@@ -545,6 +621,8 @@ export const importedMockTest = {
             "The treatment with just newsprint pulp was associated with the highest weed biomass and was not one of the two treatments associated with the highest fruit yields."
           ],
           "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "underline": [
             "there was not a predictable association between treatment effectiveness and fruit yield"
           ],
@@ -560,7 +638,9 @@ export const importedMockTest = {
             "Lexical reconstructions indicate that the earliest Bantu speakers’ words for yams, starchy tubers that are today an agricultural staple throughout sub-Saharan Africa, were inherited from languages predating the arrival of Bantu ancestral groups in their homeland.",
             "Among the earliest archaeobotanical evidence of plant farming in East Africa, which Bantu-speaking peoples may have reached as early as 3,500 ya, are traces of cowpea (Vigna unguiculata), a legume crop believed to have originated in West Africa, which were discovered in the Kakapel Rockshelter in present-day Kenya."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (illustration/quotation)",
         },
         {
           "id": 14,
@@ -573,6 +653,8 @@ export const importedMockTest = {
             "The sample at 100% RH for 24 hours/day contained a higher proportion of fungi than bacteria."
           ],
           "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "image": "/sat-cmp-2026-e5-int-02-m3-q14.jpg"
         },
         {
@@ -585,7 +667,9 @@ export const importedMockTest = {
             "misrepresent Dandelion Wine as being more widely read than it actually is.",
             "fail to appreciate how much creativity Bradbury shows in the book."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 16,
@@ -597,7 +681,9 @@ export const importedMockTest = {
             "“flourish”)—",
             "“flourish”),"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 17,
@@ -609,7 +695,9 @@ export const importedMockTest = {
             "photograph;",
             "photograph:"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 18,
@@ -621,7 +709,9 @@ export const importedMockTest = {
             "has become",
             "would become"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 19,
@@ -633,7 +723,9 @@ export const importedMockTest = {
             "length; the khar, a unit of volume;",
             "length the khar, a unit of volume"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 20,
@@ -645,7 +737,9 @@ export const importedMockTest = {
             "it's",
             "they're"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Pronoun-Antecedent Agreement and Clarity",
         },
         {
           "id": 21,
@@ -657,7 +751,9 @@ export const importedMockTest = {
             "Chesnutt’s and Dunbar’s",
             "Chesnutts and Dunbars’"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 22,
@@ -669,7 +765,9 @@ export const importedMockTest = {
             "To correct this misconception,",
             "To determine where they went wrong,"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 23,
@@ -681,7 +779,9 @@ export const importedMockTest = {
             "By contrast,",
             "Therefore,"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 24,
@@ -693,7 +793,9 @@ export const importedMockTest = {
             "Furthermore, Strachey’s portrait exemplifies the museum’s bias in favor of autoportraiture:",
             "Consequently, such portraits reinforce the museum’s curatorial philosophy:"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 25,
@@ -705,7 +807,9 @@ export const importedMockTest = {
             "Additionally,",
             "Likewise,"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 26,
@@ -717,7 +821,9 @@ export const importedMockTest = {
             "Fruit jam becomes thinner when stirred, while oobleck becomes thicker.",
             "Oobleck has a much lower resting viscosity than fruit jam but becomes thicker under shear."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         },
         {
           "id": 27,
@@ -729,7 +835,9 @@ export const importedMockTest = {
             "FDM printing technology has many uses, from creating uniquely shaped pasta from semolina and water dough to constructing cake molds from silicone.",
             "Barilla and Kasko have developed different uses for FDM printing, a 3D printing technology also known as material extrusion."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         }
       ]
     }

@@ -23,7 +23,9 @@ export const importedMockTest = {
             "lighthearted about",
             "adept at"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 2,
@@ -35,7 +37,9 @@ export const importedMockTest = {
             "wit",
             "Popularity"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Distinguishing Among Nuanced Synonyms",
         },
         {
           "id": 3,
@@ -47,7 +51,9 @@ export const importedMockTest = {
             "convention",
             "idiosyncrasy"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 4,
@@ -59,7 +65,9 @@ export const importedMockTest = {
             "elemental",
             "empirical"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 5,
@@ -71,7 +79,9 @@ export const importedMockTest = {
             "probed",
             "disputed"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 6,
@@ -84,6 +94,8 @@ export const importedMockTest = {
             "It emphasizes the magnitude of the effect reported by Jutfelt and Hedgärde of ocean acidification on Gadus morhua."
           ],
           "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Determining Author's Purpose",
           "underline": ["Such analysis, in turn, can contribute to reports of exaggerated effects."]
         },
         {
@@ -97,6 +109,8 @@ export const importedMockTest = {
             "To shift the discussion to two types of art that were associated with the pop art movement"
           ],
           "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Determining Author's Purpose",
           "underline": ["from assemblages (mixed-media pieces with found objects) to \"Happenings\" (performance art experiences designed to be irreplicable)"]
         },
         {
@@ -109,7 +123,9 @@ export const importedMockTest = {
             "To describe a natural phenomenon that may seem implausible to others but is deeply familiar to the author",
             "To discuss different impressions the author has retained of the area where she grew up"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Details",
         },
         {
           "id": 9,
@@ -121,7 +137,9 @@ export const importedMockTest = {
             "Some North American tree species are developing resistance to fungal partnerships at the northern boundaries of their ranges.",
             "The ranges of sand post oaks and Engelmann spruces are expanding more rapidly than climate models predicted."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Details",
         },
         {
           "id": 10,
@@ -134,6 +152,8 @@ export const importedMockTest = {
             "2017/18 season."
           ],
           "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "image": "/sat-cmp-2026-i9-na-01-m1-q10.png"
         },
         {
@@ -147,6 +167,8 @@ export const importedMockTest = {
             "\"Since community art efforts installed a new sculpture garden in our town, we have seen an increase in visitors, and our hotels, stores, and restaurants are reporting higher revenues from tourism."
           ],
           "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (illustration/quotation)",
           "underline": ["These projects often greatly benefit the local economy, drawing residents and visitors to shop at businesses in the community."]
         },
         {
@@ -159,7 +181,9 @@ export const importedMockTest = {
             "\"May herself could not understand [Newland's] obscure reluctance to fall in with so reasonable and pleasant a way of spending the summer.\"",
             "\"[Newland] had the feeling of unexplained excitement with which, on half-holidays at school, he used to start off into the unknown.\""
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (illustration/quotation)",
         },
         {
           "id": 13,
@@ -172,6 +196,8 @@ export const importedMockTest = {
             "Over the five years after El Salvador joined CAFTA-DR, agricultural exports from El Salvador grew at a rate of about 21.8 percent, which is higher than the rate over the five years before El Salvador joined the agreement."
           ],
           "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "image": "/sat-cmp-2026-i9-na-01-m1-q13.png"
         },
         {
@@ -184,7 +210,9 @@ export const importedMockTest = {
             "ultrasound production is only one of a diverse range of effective strategies moths employ to evade bat attacks.",
             "some genera of large-bodied moths may use ultrasonic signaling for purposes other than avoiding capture by predators such as Allen's big-eared bat."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 15,
@@ -196,7 +224,9 @@ export const importedMockTest = {
             "basking shark and the salmon shark remain fixed even as ambient water temperature changes, while the body temperature of the Pacific halibut changes with variations in the ambient water temperature.",
             "basking shark and the Albacore tuna remain fixed even if the ambient water temperature changes, while the body temperature of the broadnose sevengill shark varies even if the ambient temperature is stable."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 16,
@@ -208,7 +238,9 @@ export const importedMockTest = {
             "work",
             "have worked"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 17,
@@ -220,7 +252,9 @@ export const importedMockTest = {
             "to contain",
             "contains"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 18,
@@ -232,7 +266,9 @@ export const importedMockTest = {
             "the C-type classification applies to asteroids 93 Minerva and 45 Eugenia, which",
             "93 Minerva and 45 Eugenia are classified as C-type asteroids, and asteroids"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Conventional Expression",
         },
         {
           "id": 19,
@@ -244,7 +280,9 @@ export const importedMockTest = {
             "goal of",
             "goal,"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 20,
@@ -256,7 +294,9 @@ export const importedMockTest = {
             "couples",
             "have coupled"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 21,
@@ -268,7 +308,9 @@ export const importedMockTest = {
             "Finally,",
             "Similarly,"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 22,
@@ -280,7 +322,9 @@ export const importedMockTest = {
             "With this in mind,",
             "Nevertheless,"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 23,
@@ -292,7 +336,9 @@ export const importedMockTest = {
             "Therefore,",
             "For instance,"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 24,
@@ -304,7 +350,9 @@ export const importedMockTest = {
             "In addition to keeping readers engaged,",
             "Regardless of this format,"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Cohesion and Coherence Between Sentences",
         },
         {
           "id": 25,
@@ -316,7 +364,9 @@ export const importedMockTest = {
             "That said, the plant may not always be able to remove all of the pollutant;",
             "For this reason, the plant has useful applications in soil quality restoration;"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Cohesion and Coherence Between Sentences",
         },
         {
           "id": 26,
@@ -328,7 +378,9 @@ export const importedMockTest = {
             "Cornille designed Rhizome to invite viewers \"to contemplate urban breathing,\" using \"a metaphor for the urban rhizome\" that symbolizes the character of Brussels.",
             "Cornille explains that her design's \"lines represent the rhizome of plants\" as \"a metaphor for the urban rhizome,\" reflecting the complexity and interconnectedness of Brussels."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         },
         {
           "id": 27,
@@ -340,7 +392,9 @@ export const importedMockTest = {
             "Researchers determined that when both fibers were twisted, the surface temperature of single-ply NiTi wire increased more than that of natural rubber.",
             "A 2019 study researched whether torsional cooling could be used as a refrigeration method."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Revising for Effective Introductions/Conclusions",
         }
       ]
     },
@@ -359,7 +413,9 @@ export const importedMockTest = {
             "indifference",
             "endurance"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 2,
@@ -371,7 +427,9 @@ export const importedMockTest = {
             "defamed",
             "eluded"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 3,
@@ -383,7 +441,9 @@ export const importedMockTest = {
             "paradigmatic of",
             "attenuated by"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 4,
@@ -396,6 +456,8 @@ export const importedMockTest = {
             "It examines the relationship between the size of certain institutions and their ability to attract their intended audiences."
           ],
           "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Determining Author's Purpose",
           "underline": ["Both centers contrast with museums that aren't Indigenous-led"]
         },
         {
@@ -408,7 +470,9 @@ export const importedMockTest = {
             "To compare two experiments addressing the same questions",
             "To explain how to get rid of certain plants"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Main Ideas",
         },
         {
           "id": 6,
@@ -421,6 +485,8 @@ export const importedMockTest = {
             "By asserting that the nature of the conflict between Luttrell and Sempringham Priory makes it dificult to determine why Luttrell acted as he did"
           ],
           "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Cross-Text Connections-Comparing and Contrasting Authors' Perspectives",
           "underline": ["So Luttrell's reputation should be regarded as questionable at best."]
         },
         {
@@ -433,7 +499,9 @@ export const importedMockTest = {
             "H.R. \"Bob\" Haldeman and charles \"Bebe\" Rebozo were significant figures in the presidency of Richard Nixon.",
             "Richard Nixon's reputation is primarily due to the actions of his associates."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Details",
         },
         {
           "id": 8,
@@ -445,7 +513,9 @@ export const importedMockTest = {
             "Clothing made with awls at sites like Sunghir could likely be made more quickly than clothing made with needles at sites like Khayrgas Cave.",
             "Clothing made with awls at sites like Sunghir likely had coarser seams than clothing made with needles at sites like Khayrgas Cave did."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Details",
         },
         {
           "id": 9,
@@ -457,7 +527,9 @@ export const importedMockTest = {
             "They show more variation across polities in their relationship to economic development than some theories suggest.",
             "They cannot be explained simply as either a precondition of capitalist growth or a consequence of capitalist growth."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Details",
         },
         {
           "id": 10,
@@ -470,6 +542,8 @@ export const importedMockTest = {
             "Yes, because frontation angles are lower for canid species than for felid species regardless of habitat or preferred substrate, with values for species from the same taxonomic family clustering in a relatively narrow range"
           ],
           "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "table": {
             "title": "Average Frontation Angle for Five Species, by Family, Habitat, and Preferred Substrate",
             "headers": [
@@ -528,7 +602,9 @@ export const importedMockTest = {
             "Domestic dogs are descended from populations of wild canids in which the C allele was more prevalent than the T allele.",
             "The C allele but not the T allele is found in both bears and ferrets, which share a relatively recent common ancestor with canids."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (illustration/quotation)",
         },
         {
           "id": 12,
@@ -540,7 +616,9 @@ export const importedMockTest = {
             "the studies of mammals and the studies of birds were conducted using very similar kinds of noise.",
             "the effects of noise on some species of birds could be much stronger than the effects on some species of mammals."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 13,
@@ -552,7 +630,9 @@ export const importedMockTest = {
             "may fail to make valid claims about the social and historical contexts within which popular periodicals were created and disseminated.",
             "is in danger of being unable to justify continued scholarly attention to a literary form that is characterized mainly by its transience."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 14,
@@ -564,7 +644,9 @@ export const importedMockTest = {
             "having contributed",
             "which contributed"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 15,
@@ -576,7 +658,9 @@ export const importedMockTest = {
             "1959, Harbour; developed by Antonio Linares in 1999; and clojure,",
             "1959; Harbour, developed by Antonio Linares in 1999; and clojure,"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 16,
@@ -588,7 +672,9 @@ export const importedMockTest = {
             "framework. For these projections, it uses",
             "framework: for these projections using"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 17,
@@ -600,7 +686,9 @@ export const importedMockTest = {
             "motion; finding",
             "motion. Finding"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 18,
@@ -612,7 +700,9 @@ export const importedMockTest = {
             "dates, that",
             "dates that—"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 19,
@@ -624,7 +714,9 @@ export const importedMockTest = {
             "Replacing",
             "It replaces"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 20,
@@ -636,7 +728,9 @@ export const importedMockTest = {
             "has pledged",
             "pledges"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 21,
@@ -648,7 +742,9 @@ export const importedMockTest = {
             "argument and posits",
             "argument, it posits"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 22,
@@ -660,7 +756,9 @@ export const importedMockTest = {
             "As a result,",
             "In addition,"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 23,
@@ -672,7 +770,9 @@ export const importedMockTest = {
             "Eventually, Edwards made a name for himself in prominent blues circles;",
             "More specifically, Edwards was born in the municipality of shaw;"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 24,
@@ -684,7 +784,9 @@ export const importedMockTest = {
             "Nevertheless,",
             "Thus,"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 25,
@@ -696,7 +798,9 @@ export const importedMockTest = {
             "A true circumnavigation, Lehtinen's journey also passed the three great capes of the Southern Ocean.",
             "Lehtinen is a Finnish sailor who completed a true circumnavigation that ended in Les Sables d' Olonne, France."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Evaluating Relevance of Information (Add/Delete)",
         },
         {
           "id": 26,
@@ -708,7 +812,9 @@ export const importedMockTest = {
             "When shown an image set of Winnie the Pooh, 63.9% of the participants selected the correct version.",
             "In forty of the forty-seven image sets, the majority of participants selected the correct version of the character or logo, however, in seven sets, the majority selected an altered version."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Evaluating Relevance of Information (Add/Delete)",
         },
         {
           "id": 27,
@@ -720,7 +826,9 @@ export const importedMockTest = {
             "By comparing the happiness scores of posts made in parks and posts made elsewhere, the study determined the effect of parks on happiness.",
             "San Francisco's parks had a positive effect on happiness, but this was not true of Columbus's parks, which had a below-average effect."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Evaluating Relevance of Information (Add/Delete)",
         }
       ]
     }

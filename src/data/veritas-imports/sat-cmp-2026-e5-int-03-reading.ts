@@ -23,7 +23,9 @@ export const importedMockTest = {
             "anticipation",
             "gratification"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 2,
@@ -35,7 +37,9 @@ export const importedMockTest = {
             "appalled",
             "comfortable"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 3,
@@ -47,7 +51,9 @@ export const importedMockTest = {
             "an ordinary",
             "an exhausting"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 4,
@@ -59,7 +65,9 @@ export const importedMockTest = {
             "It compares Earth’s atmosphere to the atmospheres found on other planets.",
             "It narrates step by step how Earth’s atmosphere has changed over time."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Text Structure",
         },
         {
           "id": 5,
@@ -71,7 +79,9 @@ export const importedMockTest = {
             "To describe two ways in which comic book narratives centered on women have demonstrated that great power must be handled with great care",
             "To explain how representations of female superheroes changed during a certain period"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Determining Author's Purpose",
         },
         {
           "id": 6,
@@ -83,7 +93,9 @@ export const importedMockTest = {
             "As seen in a work by Soyinka and in the greatly differing approaches taken in anthologies, prose poems vary widely in length.",
             "The ideal length for prose poems remains a contested subject among scholars and practitioners of the form."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Main Ideas",
         },
         {
           "id": 7,
@@ -95,7 +107,9 @@ export const importedMockTest = {
             "New types of musical instruments used by country music performers",
             "How AM radio helped country music rise in popularity"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Main Ideas",
         },
         {
           "id": 8,
@@ -107,7 +121,9 @@ export const importedMockTest = {
             "Types of jobs available in the US",
             "The weather in Philadelphia, Pennsylvania"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Main Ideas",
         },
         {
           "id": 9,
@@ -119,7 +135,9 @@ export const importedMockTest = {
             "More frequent blinking has also been found to be a reliable indication of attention.",
             "Pupil size typically increases when a stimulus captures a person's attention."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
         },
         {
           "id": 10,
@@ -132,6 +150,8 @@ export const importedMockTest = {
             "the floats recorded data from about 500 different locations worldwide."
           ],
           "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "image": "/sat-cmp-2026-e5-int-03-m1-q10.jpg"
         },
         {
@@ -145,6 +165,8 @@ export const importedMockTest = {
             "graphite and graphite."
           ],
           "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "image": "/sat-cmp-2026-e5-int-03-m1-q11.jpg"
         },
         {
@@ -157,7 +179,9 @@ export const importedMockTest = {
             "the sphingid moths likely exemplify a phenomenon in which palatable species gain protection from predators by resembling or mimicking unpalatable or otherwise well-defended species.",
             "in both noxious and palatable moths, acoustic aposematic signaling may be more prevalent than previous studies of defenses against bat predation had suggested."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 13,
@@ -169,7 +193,9 @@ export const importedMockTest = {
             "The Trans Bhutan Trail fell into disuse after modern highways were built across Bhutan in the 1950s.",
             "modern highways were built across Bhutan in the 1950s, making the Trans Bhutan Trail fall into disuse."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Conventional Expression",
         },
         {
           "id": 14,
@@ -181,7 +207,9 @@ export const importedMockTest = {
             "Nautilus, Verne’s",
             "Nautilus. Verne’s"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Sentence Completeness",
         },
         {
           "id": 15,
@@ -193,7 +221,9 @@ export const importedMockTest = {
             "1961 there",
             "1961, and there"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Sentence Completeness",
         },
         {
           "id": 16,
@@ -205,7 +235,9 @@ export const importedMockTest = {
             "continue",
             "continued"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 17,
@@ -217,7 +249,9 @@ export const importedMockTest = {
             "find:",
             "find—"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 18,
@@ -229,7 +263,9 @@ export const importedMockTest = {
             "is it often called “the nation’s first superhighway”?",
             "is it often called “the nation’s first superhighway.”"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Sentence Completeness",
         },
         {
           "id": 19,
@@ -241,7 +277,9 @@ export const importedMockTest = {
             "for example.",
             "of course."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 20,
@@ -253,7 +291,9 @@ export const importedMockTest = {
             "Then,",
             "Likewise,"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 21,
@@ -265,7 +305,9 @@ export const importedMockTest = {
             "For this reason,",
             "Here,"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 22,
@@ -277,7 +319,9 @@ export const importedMockTest = {
             "Additionally,",
             "Similarly,"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 23,
@@ -289,7 +333,9 @@ export const importedMockTest = {
             "The MCTU helps its members across Malawi improve their working conditions.",
             "ITUC-Africa is a regional union federation."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         },
         {
           "id": 24,
@@ -301,7 +347,9 @@ export const importedMockTest = {
             "Both the Ile Aux Galets and North Point lighthouses were built on the shores of Lake Michigan.",
             "The North Point Lighthouse in Wisconsin was deactivated in 1994."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         }
       ]
     },
@@ -320,7 +368,9 @@ export const importedMockTest = {
             "foregrounded",
             "contrived"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 2,
@@ -332,7 +382,9 @@ export const importedMockTest = {
             "misconstrue",
             "accentuate"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 3,
@@ -345,6 +397,8 @@ export const importedMockTest = {
             "It explains why Nariman likes his bedroom."
           ],
           "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Part-Whole Relationships",
           "underline": [
             "It was almost six."
           ]
@@ -359,7 +413,9 @@ export const importedMockTest = {
             "Hackberry trees can provide shade that protects tepary beans from high-intensity heat and light.",
             "Hackberry trees grow best when planted in shaded areas, while tepary beans do not require shade to thrive."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Cross-Text Connections-Comparing and Contrasting Authors' Perspectives",
         },
         {
           "id": 5,
@@ -371,7 +427,9 @@ export const importedMockTest = {
             "The Latin origins of weather terms",
             "How weather forecasters predict rainfall"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Main Ideas",
         },
         {
           "id": 6,
@@ -383,7 +441,9 @@ export const importedMockTest = {
             "“The Dixie Pike has grown from a goat path in Africa.”",
             "“From down the railroad track, the chug-chug of a gas engine announces that the repair gang is coming home.”"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (illustration/quotation)",
         },
         {
           "id": 7,
@@ -396,6 +456,8 @@ export const importedMockTest = {
             "more filed Form 4720 because they failed to meet the minimum charitable distribution requirement than did so in the following year."
           ],
           "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "image": "/sat-cmp-2026-e5-int-03-m3-q7.jpg"
         },
         {
@@ -408,7 +470,9 @@ export const importedMockTest = {
             "“Of my mind so weary and sick and wild, / Of my heart too sad to sing.”",
             "“And heard well up from the deep dark wood / A mocking-bird’s passionate song.”"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (illustration/quotation)",
         },
         {
           "id": 10,
@@ -420,7 +484,9 @@ export const importedMockTest = {
             "places: that",
             "places that"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Sentence Completeness",
         },
         {
           "id": 11,
@@ -432,7 +498,9 @@ export const importedMockTest = {
             "their",
             "its"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Pronoun-Antecedent Agreement and Clarity",
         },
         {
           "id": 12,
@@ -444,7 +512,9 @@ export const importedMockTest = {
             "constituted",
             "had constituted"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 13,
@@ -456,7 +526,9 @@ export const importedMockTest = {
             "poets. Challenging",
             "poets challenging"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 14,
@@ -468,7 +540,9 @@ export const importedMockTest = {
             "For example,",
             "Instead,"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 16,
@@ -480,7 +554,9 @@ export const importedMockTest = {
             "in fact,",
             "in turn,"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 17,
@@ -492,7 +568,9 @@ export const importedMockTest = {
             "It was in 1994 that Raj Reddy won the A.M. Turing Award.",
             "Generally, the prestigious A.M. Turing Award is given for “major contributions of lasting importance to computing.”"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         },
         {
           "id": 18,
@@ -504,7 +582,9 @@ export const importedMockTest = {
             "Magma chambers need over 35% liquid rock to potentially erupt, refuting the assumption that volcanoes dormant for thousands of years have melted rock below.",
             "By tracking earthquake waves, Pang found that magma reservoirs sit 3 to 9 miles below the Cascade Range volcanoes' surface and need over 35% liquid magma to potentially erupt."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         },
         {
           "id": 19,
@@ -516,7 +596,9 @@ export const importedMockTest = {
             "The Fruit of the Loom logo and the Disney logo were both included in a 2021 study.",
             "In a 2021 study, researchers showed participants sets of images containing unaltered versions of popular characters or logos, such as the Disney logo, alongside two altered versions."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         }
       ]
     }

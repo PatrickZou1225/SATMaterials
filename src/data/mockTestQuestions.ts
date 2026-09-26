@@ -8,6 +8,9 @@
 // ============================================================
 
 import { importedMockTest as satCmp2026I9Int01Reading } from './veritas-imports/sat-cmp-2026-i9-int-01-reading'
+import { importedMockTest as satCmp2026C3Int01Reading } from './veritas-imports/sat-cmp-2026-c3-int-01-reading'
+import { importedMockTest as satCmp2026C3Int02Reading } from './veritas-imports/sat-cmp-2026-c3-int-02-reading'
+import { importedMockTest as satCmp2026C3Int03Reading } from './veritas-imports/sat-cmp-2026-c3-int-03-reading'
 import { importedMockTest as satCmp2026I9Na01Reading } from './veritas-imports/sat-cmp-2026-i9-na-01-reading'
 import { importedMockTest as satCmp2026H8Na01Reading } from './veritas-imports/sat-cmp-2026-h8-na-01-reading'
 import { importedMockTest as satCmp2026H8Int02Reading } from './veritas-imports/sat-cmp-2026-h8-int-02-reading'
@@ -30,6 +33,8 @@ export interface MockTestQuestion {
   question: string
   options: string[]
   answer: number // 0-indexed (A=0, B=1, C=2, D=3)
+  domain?: string // 可选：知识点一级分类（SAT 阅读与文法四大领域之一）
+  skill?: string // 可选：知识点（二级，如 "Words in Context-Precise Word Meanings"）
   image?: string // 可选：图表/表格图片 URL（放在 public/ 目录下）
   table?: MockTestTable // 可选：结构化表格（数据类题目）
   underline?: string[] // 可选：原文中需要划线的词/句（词汇题的词、underlined portion 的句子）
@@ -58,28 +63,36 @@ const q_2505as1_m2: MockTestQuestion[] = [
     passage: `The geographic distribution of animal characters in traditional stories typically ______ current distributions of corresponding species, likely because such stories often serve to transmit information cautioning about local wildlife. Folktales from the British Isles featuring bears are an apparent exception, persisting as culturally significant long after wild bears had gone extinct there.`,
     question: "Which choice completes the text with the most logical and precise word or phrase?",
     options: ["aligns with", "acquiesces to", "digresses from", "compensates for"],
-    answer: 0 // A
+    answer: 0, // A
+    domain: 'Craft and Structure',
+    skill: 'Words in Context-Precise Word Meanings',
   },
   {
     id: 2,
     passage: `In an analysis of over 50,000 records of pollinators visiting flowers, botanists determined that flowers with bilateral symmetry (zygomorphs) are visited by a smaller subset of pollinators than the subset that visits flowers with radial symmetry (actinomorphs), thus ______ anecdotal observations that zygomorphic flowers exclude many potential pollinators.`,
     question: "Which choice completes the text with the most logical and precise word or phrase?",
     options: ["supplanting", "allocating", "substantiating", "transposing"],
-    answer: 2 // C
+    answer: 2, // C
+    domain: 'Craft and Structure',
+    skill: 'Words in Context-Precise Word Meanings',
   },
   {
     id: 3,
     passage: `Artists affiliated with the Judson Dance Theater in the 1960s were dancers (including Sally Gross) and creators from other fields (such as painter Alex Hay) interested in redefining the concept of dance. Rejecting formal techniques, the group ______ everyday movements: many pieces were built around ordinary actions, like walking.`,
     question: "Which choice completes the text with the most logical and precise word or phrase?",
     options: ["amended", "repudiated", "foregrounded", "contrived"],
-    answer: 2 // C
+    answer: 2, // C
+    domain: 'Craft and Structure',
+    skill: 'Words in Context-Precise Word Meanings',
   },
   {
     id: 4,
     passage: `Quantitative analysis of vast historical data sets and other tools of abstraction allow historians to examine broad phenomena, but such methods ______ the particularity of individual actors. By focusing on singular individuals and incidents in exhaustive detail, Emmanuel Le Roy Ladurie's Montaillou and other microhistories aim to show how broader phenomena were experienced at a human level.`,
     question: "Which choice completes the text with the most logical and precise word or phrase?",
     options: ["preempt", "efface", "misconstrue", "accentuate"],
-    answer: 1 // B
+    answer: 1, // B
+    domain: 'Craft and Structure',
+    skill: 'Words in Context-Precise Word Meanings',
   },
   {
     id: 5,
@@ -91,7 +104,9 @@ const q_2505as1_m2: MockTestQuestion[] = [
       "To identify the systemic errors associated with flux-tower estimates of GPP that prompted scientists to investigate alternate methods for gathering carbon flux data",
       "To evaluate the potential of two types of scientific instruments typically used for tracking GPP to also reliably measure SIF"
     ],
-    answer: 0 // A
+    answer: 0, // A
+    domain: 'Craft and Structure',
+    skill: "Text Structure and Purpose-Determining Author's Purpose",
   },
   {
     id: 6,
@@ -105,7 +120,9 @@ A splash of light from the late-afternoon sun lingered at the foot of Nariman's 
       "It states what time it is.",
       "It explains why Nariman likes his bedroom."
     ],
-    answer: 2 // C — "It was almost six." states the time
+    answer: 2, // C — "It was almost six." states the time
+    domain: 'Craft and Structure',
+    skill: 'Text Structure and Purpose-Part-Whole Relationships',
   },
   {
     id: 7,
@@ -117,7 +134,9 @@ A splash of light from the late-afternoon sun lingered at the foot of Nariman's 
       "To describe a general trend in the swim depths of certain species that explains why those species are more efficient swimmers than are other semiaquatic species",
       "To summarize a theory that accounts for why most air-breathing marine animals swim at the same depth regardless of their size"
     ],
-    answer: 0 // A
+    answer: 0, // A
+    domain: 'Craft and Structure',
+    skill: "Text Structure and Purpose-Determining Author's Purpose",
   },
   {
     id: 8,
@@ -129,7 +148,9 @@ A splash of light from the late-afternoon sun lingered at the foot of Nariman's 
       "As seen in a work by Soyinka and in the greatly differing approaches taken in anthologies, prose poems vary widely in length.",
       "The ideal length for prose poems remains a contested subject among scholars and practitioners of the form."
     ],
-    answer: 2 // C
+    answer: 2, // C
+    domain: 'Information and Ideas',
+    skill: 'Central Ideas and Details-Main Ideas',
   },
   {
     id: 9,
@@ -141,7 +162,9 @@ A splash of light from the late-afternoon sun lingered at the foot of Nariman's 
       "The Latin origins of weather terms",
       "How weather forecasters predict rainfall"
     ],
-    answer: 1 // B
+    answer: 1, // B
+    domain: 'Information and Ideas',
+    skill: 'Central Ideas and Details-Main Ideas',
   },
   {
     id: 10,
@@ -154,6 +177,8 @@ A splash of light from the late-afternoon sun lingered at the foot of Nariman's 
       "The 10% SSA mixture's compressive strength was greater than that of the control mixture on day 7, but by day 28 the 10% SSA mixture's compressive strength had decreased while that of the control mixture had increased."
     ],
     answer: 1, // B
+    domain: 'Information and Ideas',
+    skill: 'Command of Evidence-Quantitative Evidence',
     image: '/202605AS-第一套-Q10.png'
   },
   {
@@ -167,6 +192,8 @@ A splash of light from the late-afternoon sun lingered at the foot of Nariman's 
       "The sample at 100% RH for 24 hours/day contained a higher proportion of fungi than bacteria."
     ],
     answer: 3, // D
+    domain: 'Information and Ideas',
+    skill: 'Command of Evidence-Quantitative Evidence',
     image: '/202605AS-第一套-Q11.png'
   },
   {
@@ -179,7 +206,9 @@ A splash of light from the late-afternoon sun lingered at the foot of Nariman's 
       "Additional DNA testing confirms that the Inuit dog and the Carolina dog share a rare set of genes not found in any East Asian breeds.",
       "Dogs in feral populations in the Southeastern United States have a set of genes also found in East Asian breeds imported in recent decades."
     ],
-    answer: 0 // A
+    answer: 0, // A
+    domain: 'Information and Ideas',
+    skill: 'Command of Evidence-Textual Evidence (strengthen/weaken)',
   },
   {
     id: 13,
@@ -191,7 +220,9 @@ A splash of light from the late-afternoon sun lingered at the foot of Nariman's 
       "Lexical reconstructions indicate that the earliest Bantu speakers' words for yams, starchy tubers that are today an agricultural staple throughout sub-Saharan Africa, were inherited from languages predating the arrival of Bantu ancestral groups in their homeland.",
       "Among the earliest archaeobotanical evidence of plant farming in East Africa, which Bantu-speaking peoples may have reached as early as 3,500 ya, are traces of cowpea (Vigna unguiculata), a legume crop believed to have originated in West Africa, which were discovered in the Kakapel Rockshelter in present-day Kenya."
     ],
-    answer: 0 // A
+    answer: 0, // A
+    domain: 'Information and Ideas',
+    skill: 'Command of Evidence-Textual Evidence (strengthen/weaken)',
   },
   {
     id: 14,
@@ -203,7 +234,9 @@ A splash of light from the late-afternoon sun lingered at the foot of Nariman's 
       "\"Of my mind so weary and sick and wild, / Of my heart too sad to sing.\"",
       "\"And heard well up from the deep dark wood / A mocking-bird's passionate song.\""
     ],
-    answer: 1 // B
+    answer: 1, // B
+    domain: 'Information and Ideas',
+    skill: 'Command of Evidence-Textual Evidence (illustration/quotation)',
   },
   {
     id: 15,
@@ -215,28 +248,36 @@ A splash of light from the late-afternoon sun lingered at the foot of Nariman's 
       "far fewer gold objects dating to earlier than 1500 BCE have been recovered from sites in the Caucasus than have been recovered from comparably old sites outside the region.",
       "there is a positive relationship between the number of gold objects found at Caucasus sites and the sites' respective distances from nearby sources of gold, such as gold ore deposits."
     ],
-    answer: 1 // B
+    answer: 1, // B
+    domain: 'Information and Ideas',
+    skill: 'Inferences-Making Logical Inferences',
   },
   {
     id: 16,
     passage: `Though they are in different countries, the towns of Sofifi, Indonesia, and Mevang, Gabon, do have something in common. They are among the rare ______ sit almost directly on the equator.`,
     question: "Which choice completes the text so that it conforms to the conventions of Standard English?",
     options: ["places in that", "places. That", "places: that", "places that"],
-    answer: 3 // D
+    answer: 3, // D
+    domain: 'Standard English Conventions',
+    skill: 'Boundaries-Sentence Completeness',
   },
   {
     id: 17,
     passage: `The state of Kentucky stretches across two time zones. While ______ eastern half is in the Eastern time zone, the rest of the state is in the Central time zone, one hour behind.`,
     question: "Which choice completes the text so that it conforms to the conventions of Standard English?",
     options: ["it's", "they're", "their", "its"],
-    answer: 3 // D
+    answer: 3, // D
+    domain: 'Standard English Conventions',
+    skill: 'Form, Structure, and Sense-Pronoun-Antecedent Agreement and Clarity',
   },
   {
     id: 18,
     passage: `The perception that a project has no precedent or comparable examples ______ called uniqueness bias. This flawed thinking has the potential to affect project performance significantly, with research showing that uniqueness bias correlates with budget overruns.`,
     question: "Which choice completes the text so that it conforms to the conventions of Standard English?",
     options: ["are", "being", "is", "were"],
-    answer: 2 // C
+    answer: 2, // C
+    domain: 'Standard English Conventions',
+    skill: 'Form, Structure, and Sense-Subject-Verb Agreement',
   },
   {
     id: 19,
@@ -248,14 +289,18 @@ A splash of light from the late-afternoon sun lingered at the foot of Nariman's 
       "Chesnutt's and Dunbar's",
       "Chesnutts and Dunbars'"
     ],
-    answer: 2 // C
+    answer: 2, // C
+    domain: 'Standard English Conventions',
+    skill: 'Boundaries-Punctuation',
   },
   {
     id: 20,
     passage: `The economies of "The Four Asian Tigers"—Hong Kong, Singapore, South Korea, and Taiwan—saw tremendous growth in the late 20th century. Scholars ______ cultural explanations for this phenomenon, likely recalling Weber's association of capitalism with religion in Reformation-era northern Europe, posited that Confucianism's emphasis on hard work, discipline, education, and respect for authority laid the groundwork for the Tigers' economic success.`,
     question: "Which choice completes the text so that it conforms to the conventions of Standard English?",
     options: ["had considered", "considered", "considering", "were considering"],
-    answer: 2 // C
+    answer: 2, // C
+    domain: 'Standard English Conventions',
+    skill: 'Form, Structure, and Sense-Verb Tense, Aspect, and Mood',
   },
   {
     id: 21,
@@ -267,7 +312,9 @@ A splash of light from the late-afternoon sun lingered at the foot of Nariman's 
       "does, impedance matching,",
       "does. Impedance matching,"
     ],
-    answer: 3 // D
+    answer: 3, // D
+    domain: 'Standard English Conventions',
+    skill: 'Boundaries-Punctuation',
   },
   {
     id: 22,
@@ -279,7 +326,9 @@ A splash of light from the late-afternoon sun lingered at the foot of Nariman's 
       "The book's title alludes to an example of this social shift:",
       "This argument, though valid, may overlook other forms of group participation:"
     ],
-    answer: 2 // C
+    answer: 2, // C
+    domain: 'Expression of Ideas',
+    skill: 'Transitions-Logical Transition Words and Phrases',
   },
   {
     id: 23,
@@ -291,7 +340,9 @@ A splash of light from the late-afternoon sun lingered at the foot of Nariman's 
       "Furthermore, Strachey's portrait exemplifies the museum's bias in favor of autoportraiture:",
       "Consequently, such portraits reinforce the museum's curatorial philosophy:"
     ],
-    answer: 1 // B
+    answer: 1, // B
+    domain: 'Expression of Ideas',
+    skill: 'Transitions-Logical Transition Words and Phrases',
   },
   {
     id: 24,
@@ -303,14 +354,18 @@ A splash of light from the late-afternoon sun lingered at the foot of Nariman's 
       "To correct this misconception,",
       "To determine where they went wrong,"
     ],
-    answer: 0 // A
+    answer: 0, // A
+    domain: 'Expression of Ideas',
+    skill: 'Transitions-Logical Transition Words and Phrases',
   },
   {
     id: 25,
     passage: `In Kazakhstan, the Parliament is elected via a proportional representation (PR) system. In PR elections, votes are cast (not for specific candidates, as they are in single-member plurality systems, but for political parties) and then tabulated; each qualifying party, ______ is awarded a number of seats proportional to the number of votes it received.`,
     question: "Which choice completes the text with the most logical transition?",
     options: ["by contrast,", "second of all,", "in fact,", "in turn,"],
-    answer: 3 // D
+    answer: 3, // D
+    domain: 'Expression of Ideas',
+    skill: 'Transitions-Logical Transition Words and Phrases',
   },
   {
     id: 26,
@@ -325,7 +380,9 @@ A splash of light from the late-afternoon sun lingered at the foot of Nariman's 
       "It was in 1994 that Raj Reddy won the A.M. Turing Award.",
       "Generally, the prestigious A.M. Turing Award is given for \"major contributions of lasting importance to computing.\""
     ],
-    answer: 0 // A
+    answer: 0, // A
+    domain: 'Expression of Ideas',
+    skill: 'Rhetorical Synthesis-Logical Combination of Information',
   },
   {
     id: 27,
@@ -342,7 +399,9 @@ A splash of light from the late-afternoon sun lingered at the foot of Nariman's 
       "FDM printing technology has many uses, from creating uniquely shaped pasta from semolina and water dough to constructing cake molds from silicone.",
       "Barilla and Kasko have developed different uses for FDM printing, a 3D printing technology also known as material extrusion."
     ],
-    answer: 1 // B
+    answer: 1, // B
+    domain: 'Expression of Ideas',
+    skill: 'Rhetorical Synthesis-Logical Combination of Information',
   }
 ]
 
@@ -351,6 +410,9 @@ A splash of light from the late-afternoon sun lingered at the foot of Nariman's 
 // ──────────────────────────────────────────────
 export const allMockTests: MockTestSet[] = [
   satCmp2026I9Int01Reading,
+  satCmp2026C3Int01Reading,
+  satCmp2026C3Int02Reading,
+  satCmp2026C3Int03Reading,
   satCmp2026I9Na01Reading,
   satCmp2026H8Na01Reading,
   satCmp2026H8Int02Reading,

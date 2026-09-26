@@ -24,6 +24,8 @@ export const importedMockTest = {
             "Presentation"
           ],
           "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Distinguishing Among Nuanced Synonyms",
           "underline": [
             "projection"
           ]
@@ -38,7 +40,9 @@ export const importedMockTest = {
             "observation",
             "documentation"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 3,
@@ -50,7 +54,9 @@ export const importedMockTest = {
             "reveals",
             "challenges"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 4,
@@ -62,7 +68,9 @@ export const importedMockTest = {
             "imposed on",
             "unique to"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 5,
@@ -75,6 +83,8 @@ export const importedMockTest = {
             "It offers details about one of Brown’s works that support the claims made in the first and last sentences."
           ],
           "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Part-Whole Relationships",
           "underline": [
             "In her exhibition Strike Gulf, she interrogated the impact of the oil and gas industry on southern Louisiana (where she grew up), incorporating core samples from deep seabeds off the Louisiana coast, oil well data, archival information about oil boycotts, and video she took in New Orleans."
           ]
@@ -89,7 +99,9 @@ export const importedMockTest = {
             "To explain a conflict",
             "To introduce a character"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Determining Author's Purpose",
         },
         {
           "id": 7,
@@ -101,7 +113,9 @@ export const importedMockTest = {
             "He acknowledges to the noblemen that his tolerance of their conduct has undermined their respect for him, and he resolves to display his genuine nature, which is more forceful and compels deference.",
             "He declares that he has judged the noblemen’s conduct in an impartial manner, and that despite their attempts to regain his trust through professions of submissiveness, they have irrevocably lost his respect."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Details",
         },
         {
           "id": 8,
@@ -114,6 +128,8 @@ export const importedMockTest = {
             "The volume of locally grown tea and the volume of imported tea were both substantially greater in 2024 than in 2012, suggesting a rapid rise in the popularity of tea among Azerbaijanis."
           ],
           "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "image": "/sat-cmp-2026-e5-int-01-m1-q8.jpg"
         },
         {
@@ -126,7 +142,9 @@ export const importedMockTest = {
             "Residents of Oceanside, California, are much less likely to use public transit on rainy days than on clear days.",
             "The enforcement of posted speed limits in the neighborhood that the light rail stop will service has increased substantially in the last ten years."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
         },
         {
           "id": 10,
@@ -138,7 +156,9 @@ export const importedMockTest = {
             "Ag-NP concentrations in L. rubellus show no reliable correlation with Ag-NP concentrations in M. musculus when the two species are exposed to similar levels of Ag-NPs.",
             "Compared with M. musculus, L. rubellus can accumulate detectable Ag-NP concentrations with significantly fewer negative effects."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
         },
         {
           "id": 11,
@@ -150,7 +170,9 @@ export const importedMockTest = {
             "\"Imagine a vast sheet of paper on which straight Lines, Triangles, Squares, Pentagons, Hexagons, and other figures, instead of remaining fixed in their places, move freely about, on or in the surface, but without the power of rising above or sinking below it… and you will then have a pretty correct notion of my country.\"",
             "\"The sizes of the [figures'] sides would of course depend upon the age of the individual... A tall adult Woman might extend to a foot. As to the Males of every class, it may be roughly said that the length of an adult's size, when added together, is two feet or a little more. But the size of our sides is not under consideration.\""
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (illustration/quotation)",
         },
         {
           "id": 12,
@@ -162,7 +184,9 @@ export const importedMockTest = {
             "should be most beneficial for restoring reefs that predominantly consist of elkhorn coral colonies.",
             "should be able to simulate healthy reef signals even more closely when it is applied in combination with the existing transplant method."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 13,
@@ -174,7 +198,9 @@ export const importedMockTest = {
             "the earliest undisputed evidence of eukaryotes is much more recent than 3.5 billion years ago.",
             "Earth’s oxygen levels were very low until the Great Oxidation Event approximately 2.4 billion years ago."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 14,
@@ -186,7 +212,9 @@ export const importedMockTest = {
             "emitting the defensive compound allowed plants to compensate for stomata closure by fixing carbon more efficiently.",
             "there may have been underlying genetic differences between the plants that strengthened the correlation between compound emission and photosynthesis efficiency."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 15,
@@ -198,7 +226,9 @@ export const importedMockTest = {
             "populations,",
             "populations, which"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 16,
@@ -210,7 +240,9 @@ export const importedMockTest = {
             "does, impedance matching,",
             "does. Impedance matching,"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Sentence Completeness",
         },
         {
           "id": 17,
@@ -222,7 +254,9 @@ export const importedMockTest = {
             "leading",
             "which led"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Conventional Expression",
         },
         {
           "id": 18,
@@ -234,7 +268,9 @@ export const importedMockTest = {
             "Muses; the",
             "Muses, the"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 19,
@@ -246,7 +282,9 @@ export const importedMockTest = {
             "concludes",
             "has concluded"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 20,
@@ -258,7 +296,9 @@ export const importedMockTest = {
             "were",
             "are"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Subject-Verb Agreement",
         },
         {
           "id": 21,
@@ -270,7 +310,9 @@ export const importedMockTest = {
             "Conversely,",
             "For instance,"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 22,
@@ -282,7 +324,9 @@ export const importedMockTest = {
             "Instead,",
             "For instance,"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 23,
@@ -294,7 +338,9 @@ export const importedMockTest = {
             "That said, recent US presidents have stuck to more conventional choices;",
             "Ultimately, Adams’s uncommon pet choice had little bearing on his political legacy;"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 24,
@@ -306,7 +352,9 @@ export const importedMockTest = {
             "In other words,",
             "For example,"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 25,
@@ -318,7 +366,9 @@ export const importedMockTest = {
             "Eventually, the event concluded as expected.",
             "In fact, such phenomena are fairly common."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 26,
@@ -330,7 +380,9 @@ export const importedMockTest = {
             "Dotted blue butterflies eat nectar from flowers.",
             "Dotted blue butterflies are most active during the day."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         },
         {
           "id": 27,
@@ -342,7 +394,9 @@ export const importedMockTest = {
             "Cranberry juice and grapefruit juice have pH values of approximately 3.4.",
             "Some acidic substances have pH values of approximately 4.0."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         }
       ]
     },
@@ -361,7 +415,9 @@ export const importedMockTest = {
             "evolving",
             "entrenched"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 2,
@@ -373,7 +429,9 @@ export const importedMockTest = {
             "diminution",
             "dearth"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 3,
@@ -385,7 +443,9 @@ export const importedMockTest = {
             "intermittent",
             "inverted"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 4,
@@ -397,7 +457,9 @@ export const importedMockTest = {
             "substantiating",
             "transposing"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Rhetorical Word Choice",
         },
         {
           "id": 5,
@@ -409,7 +471,9 @@ export const importedMockTest = {
             "a beneficiary",
             "an antithesis"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 6,
@@ -421,7 +485,9 @@ export const importedMockTest = {
             "To address the question of why the use of exact prices is less common in some parts of the world than in others",
             "To explain why exact prices present greater cognitive friction for some consumers than whole-number prices or easily rounded prices do"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Determining Author's Purpose",
         },
         {
           "id": 7,
@@ -434,6 +500,8 @@ export const importedMockTest = {
             "It introduces the specific geographic locations where the researchers conducted their study, which the authors believe are uniquely suited to observing the lack of signaling between hummingbirds and plants."
           ],
           "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Argument Development and Logical Organization",
           "underline": [
             "while some studies have suggested that petal length may indicate nectar volume"
           ]
@@ -449,6 +517,8 @@ export const importedMockTest = {
             "They provide evidence from different Middle Eastern cave formations that substantiates the claim that the region has experienced a consistent increase in total annual rainfall over the same period."
           ],
           "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Argument Development and Logical Organization",
           "underline": [
             "transparent columnar calcite, indicative of an underground water system regularly replenished by rainfall",
             "branching, opaque (and sometimes colorful) material, often with more frequent growth interruptions, indicating an intermittent water supply"
@@ -464,7 +534,9 @@ export const importedMockTest = {
             "Experiments have shown that properties of Fl do not precisely align with existing classifications of elements.",
             "Although Fl forms chemical bonds with gold surfaces in experiments, it does not react with volatile metals or noble gases."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Main Ideas",
         },
         {
           "id": 10,
@@ -476,7 +548,9 @@ export const importedMockTest = {
             "It inadvertently resulted in the courts taking a more cautious, incremental approach to advancing subsequent civil rights cases.",
             "It led courts to focus more on clarifying existing civil rights laws than on making modifications to them."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Details",
         },
         {
           "id": 11,
@@ -489,6 +563,8 @@ export const importedMockTest = {
             "Lake Baikal, which had more days of ice in the winter of 2005–06 than it did in the winter of 1980–81."
           ],
           "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "image": "/sat-cmp-2026-e5-int-01-m3-q11.jpg"
         },
         {
@@ -502,6 +578,8 @@ export const importedMockTest = {
             "The 10% SSA mixture’s compressive strength was greater than that of the control mixture on day 7, but by day 28 the 10% SSA mixture’s compressive strength had decreased while that of the control mixture had increased."
           ],
           "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "image": "/sat-cmp-2026-e5-int-01-m3-q12.jpg"
         },
         {
@@ -514,7 +592,9 @@ export const importedMockTest = {
             "“I noticed the state of a dessert on a table in the scene, but I tend to look closely at such details in films.”",
             "“I was paying attention to Faith when the state of a dessert on a table changed in the scene, which I found distracting.”"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
         },
         {
           "id": 14,
@@ -526,7 +606,9 @@ export const importedMockTest = {
             "When bonobos paired grunts with other calls, they did not use rules of syntax as humans do to combine groups of sounds into even larger units of meaning.",
             "Bonobos used a single yelp or a single peep as an imperative, but a yelp appeared to be closer to a command, while a peep tended to function as a suggestion."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
         },
         {
           "id": 15,
@@ -538,7 +620,9 @@ export const importedMockTest = {
             "the current methods of collecting and tracking Mammillaria species throughout Mexico may cause an overestimation of the number of species in this genus.",
             "the dense vegetation and high annual precipitation levels in eastern and western Coahuila impede the ability of Mammillaria species to survive."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 16,
@@ -550,7 +634,9 @@ export const importedMockTest = {
             "far fewer gold objects dating to earlier than 1500 BCE have been recovered from sites in the Caucasus than have been recovered from comparably old sites outside the region.",
             "there is a positive relationship between the number of gold objects found at Caucasus sites and the sites’ respective distances from nearby sources of gold, such as gold ore deposits."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 17,
@@ -562,7 +648,9 @@ export const importedMockTest = {
             "to continue",
             "has continued"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Subject-Verb Agreement",
         },
         {
           "id": 18,
@@ -574,7 +662,9 @@ export const importedMockTest = {
             "malleability—could",
             "malleability, could"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 19,
@@ -586,7 +676,9 @@ export const importedMockTest = {
             "have been",
             "is"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Subject-Verb Agreement",
         },
         {
           "id": 20,
@@ -598,7 +690,9 @@ export const importedMockTest = {
             "deploys",
             "deploy"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Subject-Verb Agreement",
         },
         {
           "id": 21,
@@ -610,7 +704,9 @@ export const importedMockTest = {
             "goods that,",
             "goods. That"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 22,
@@ -622,7 +718,9 @@ export const importedMockTest = {
             "Consequently,",
             "Additionally,"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 23,
@@ -634,7 +732,9 @@ export const importedMockTest = {
             "Challenging the accuracy of Suriname’s population data,",
             "Reinforcing the importance of Simpson’s population criterion,"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 24,
@@ -646,7 +746,9 @@ export const importedMockTest = {
             "As a result, owners expect significant financial returns from their decorated vehicles:",
             "Indeed, owners prize their vehicles as canvases for creative expression:"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 25,
@@ -658,7 +760,9 @@ export const importedMockTest = {
             "By restricting plankton functional types to phytoplankton and zooplankton, the model used in Danielsdottir et al.’s study of planktonic ecosystems overlooks the many mixotrophic species that combine phototrophic and phagotrophic nutrition.",
             "Stoecker et al. (2017) note that NPZ models rely on the differentiation of planktonic communities into phytoplankton or zooplankton functional types, which is exactly the approach used in Danielsdottir et al.’s 2007 study."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         },
         {
           "id": 26,
@@ -670,7 +774,9 @@ export const importedMockTest = {
             "The New York Citizen-Call was one of many Black newspapers to spring up in the nineteenth and twentieth centuries, debuting in 1960 and later followed by the Syracuse Gazette in 1976.",
             "The New York Citizen-Call and the Syracuse Gazette were both based in cities within the same state—New York City and Syracuse, respectively—and thus served Black communities in New York rather than in any other state."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         },
         {
           "id": 27,
@@ -682,7 +788,9 @@ export const importedMockTest = {
             "Among the many botanical samples Ynés Mexía collected in Brazil in 1930 was Porophyllum ruderale of the Asteraceae family.",
             "Between 1917 and 1938, Ynés Mexía collected samples of the plants Porophyllum ruderale and Brickellia diffusa, among many other species."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis",
         }
       ]
     }

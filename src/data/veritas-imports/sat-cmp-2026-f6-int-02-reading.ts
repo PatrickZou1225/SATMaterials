@@ -23,7 +23,9 @@ export const importedMockTest = {
             "infrequent",
             "hazardous"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Distinguishing Among Nuanced Synonyms",
         },
         {
           "id": 2,
@@ -36,6 +38,8 @@ export const importedMockTest = {
             "That Agee is frustrated with the progress he is making through the large, wooded area"
           ],
           "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
           "underline": ["infrequent"]
         },
         {
@@ -48,7 +52,9 @@ export const importedMockTest = {
             "controversial among",
             "dependent on"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 4,
@@ -60,7 +66,9 @@ export const importedMockTest = {
             "interaction",
             "analogy"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 5,
@@ -72,7 +80,9 @@ export const importedMockTest = {
             "It explains what constellations are and then gives examples of how some were named.",
             "It lists the names of some stars and then states how far away they are from Earth."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Text Structure",
         },
         {
           "id": 6,
@@ -84,7 +94,9 @@ export const importedMockTest = {
             "To discuss a collection of works by a contemporary artist",
             "To explain the philosophy that inspired an ancient artistic practice"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Determining Author's Purpose",
         },
         {
           "id": 7,
@@ -97,6 +109,8 @@ export const importedMockTest = {
             "It appears to offer an explanation for the behavior of the character who is the topic of conversation in the text."
           ],
           "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Part-Whole Relationships",
           "underline": ["to smile at the jest which plants a thorn on another's breast is to become a principal in the mischief"]
         },
         {
@@ -109,7 +123,9 @@ export const importedMockTest = {
             "How division of labor increases efficiency",
             "The invention of the pencil eraser"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Determining Author's Purpose",
         },
         {
           "id": 9,
@@ -121,7 +137,9 @@ export const importedMockTest = {
             "Hammer orchids have developed the ability to mimic the characteristics of thynnid wasps.",
             "Unlike species pollinated by hummingbirds, hammer orchids use deception to improve their chances of being pollinated."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Main Ideas",
         },
         {
           "id": 10,
@@ -133,7 +151,9 @@ export const importedMockTest = {
             "As the landscape gets covered in snow, it no longer seems threatening to the Mole.",
             "The Mole prefers warm and dry weather to cold and snowy weather."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Main Ideas",
         },
         {
           "id": 11,
@@ -145,7 +165,9 @@ export const importedMockTest = {
             "\"Over and over the task was set,/ Over and over I slighted the work.\" (from \"The Purpose\")",
             "\"Then gird up your courage, and say \"I am strong,' / And keep going.\" (from \"Keep Going\")"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (illustration/quotation)",
         },
         {
           "id": 12,
@@ -158,6 +180,8 @@ export const importedMockTest = {
             "the geographic size of Mali (1,240,000 square kilometers) with its relatively high population of 17,600,000 inhabitants."
           ],
           "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
             "table": {
               "title": "Population and Population Density of African Countries in 2015",
               "headers": [
@@ -204,7 +228,9 @@ export const importedMockTest = {
             "Although Riddle 69 appears to be solvable when read on its own or in conjunction with Riddle 68, with “iceberg” 10 or “icicle” having been presented as likely solutions, Riddle 68, whose imagery and sonic patterns are consistent with those of Riddle 69, has been deemed unsolvable given its overly generic clues, unless read in conjunction with Riddle 69.",
             "缺D"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
         },
         {
           "id": 14,
@@ -216,7 +242,9 @@ export const importedMockTest = {
             "small clouds tend to have little effect on the accuracy of weather forecasts.",
             "existing forecasting systems already account for shallow cumulus clouds."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 15,
@@ -228,7 +256,9 @@ export const importedMockTest = {
             "does not arise from the musician having a clinically significant reduction in hearing ability as a result of lifetime noise exposure.",
             "shows that both the musician and the nonmusician have lower hearing ability than would be expected of clinically typical individuals with typical levels of lifetime noise exposure."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 16,
@@ -240,7 +270,9 @@ export const importedMockTest = {
             "faces",
             "will face"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 17,
@@ -252,7 +284,9 @@ export const importedMockTest = {
             "countries' resident's,",
             "country's resident's,"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 18,
@@ -264,7 +298,9 @@ export const importedMockTest = {
             "writing, it was",
             "writing;"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 19,
@@ -276,7 +312,9 @@ export const importedMockTest = {
             "University, George Starks a professor at Drexel University,",
             "University; George Starks, a professor at Drexel University;"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 20,
@@ -288,7 +326,9 @@ export const importedMockTest = {
             "are",
             "was"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 21,
@@ -300,7 +340,9 @@ export const importedMockTest = {
             "There,",
             "Later,"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 22,
@@ -312,7 +354,9 @@ export const importedMockTest = {
             "Later,",
             "Previously,"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 23,
@@ -324,7 +368,9 @@ export const importedMockTest = {
             "In addition,",
             "Earlier,"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 24,
@@ -336,7 +382,9 @@ export const importedMockTest = {
             "by contrast,",
             "for instance,"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 25,
@@ -348,7 +396,9 @@ export const importedMockTest = {
             "At the Community Solar System Trail in Boston, Massachusetts, the model Sun is 350 cm in diameter.",
             "The Community Solar System Trail in Boston, Massachusetts, is true to scale."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         },
         {
           "id": 26,
@@ -360,7 +410,9 @@ export const importedMockTest = {
             "Giant reed is an invasive species that crowds out native plants and reduces wildlife habitat, causing environmental harm.",
             "The harm to ecosystems caused by giant reed and quack grass has led both species to be considered invasive in the US."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         },
         {
           "id": 27,
@@ -372,7 +424,9 @@ export const importedMockTest = {
             "One specific example of a type of urban natural area is ruderal areas, which are vacant lots that are overrun with wild vegetation.",
             "The spaces in European cities that feature natural elements are known as urban natural areas."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         }
       ]
     },
@@ -391,7 +445,9 @@ export const importedMockTest = {
             "perfunctory",
             "resolute"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 2,
@@ -403,7 +459,9 @@ export const importedMockTest = {
             "discrepancies",
             "endorsements"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 3,
@@ -415,7 +473,9 @@ export const importedMockTest = {
             "indicative of the practitioner's ingenuity",
             "controversial within the practitioner's specialty"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 4,
@@ -427,7 +487,9 @@ export const importedMockTest = {
             "discontinuous",
             "iterative"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 5,
@@ -440,6 +502,8 @@ export const importedMockTest = {
             "It questions the extent to which the methodologies of film studies informed methodologies in the emerging field of television studies."
           ],
           "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Part-Whole Relationships",
           "underline": ["though media scholar Horace Newcomb notes that tools borrowed from that field often proved inadequate when applied to TV's distinct characteristics"]
         },
         {
@@ -453,6 +517,8 @@ export const importedMockTest = {
             "It presents a metaphor that the text indicates inspired Vertov to structure the film as he did."
           ],
           "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Part-Whole Relationships",
           "underline": ["it also has as a central idea that the camera itself is a character in the film"]
         },
         {
@@ -465,7 +531,9 @@ export const importedMockTest = {
             "They would caution that the seeming difference in prevalence may be an artifact of researchers' tendency to study birdsong among temperate species more frequently than among tropical species.",
             "They would raise the possibility that the difference in prevalence may be due to differences in the timing of the mating season among temperate and tropical bird species."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Cross-Text Connections-Comparing and Contrasting Authors' Perspectives",
         },
         {
           "id": 8,
@@ -477,7 +545,9 @@ export const importedMockTest = {
             "It reflects an overemphasis on relationship longevity in researchers' evaluations of the relative importance of various connections in an individual's social network.",
             "It emphasizes distinctions among types of close connections that aren't adequately represented in social relations research, since most studies categorize relationships as either close or casual."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Cross-Text Connections-Comparing and Contrasting Authors' Perspectives",
         },
         {
           "id": 9,
@@ -489,7 +559,9 @@ export const importedMockTest = {
             "Neither butterfly color nor weather conditions",
             "Both butterfly color and weather conditions"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Details",
         },
         {
           "id": 10,
@@ -502,6 +574,8 @@ export const importedMockTest = {
             "The average rating for the substitute condition was higher than the average rating for the supplement condition."
           ],
           "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "image": "/sat-cmp-2026-f6-int-02-m3-q10.jpg"
         },
         {
@@ -515,6 +589,8 @@ export const importedMockTest = {
             "No, because not enough information has been provided to allow a comparison of different construction methods' efficiency"
           ],
           "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
             "table": {
               "title": "Number of Days to Construct Modular Retail Facilities",
               "headers": [
@@ -562,6 +638,8 @@ export const importedMockTest = {
             "Indonesia, since the estimated electricity needed for green hydrogen production in 2050 is expected to be the same as it was in 2020."
           ],
           "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
             "table": {
               "headers": [
                 "Country/Region",
@@ -612,7 +690,9 @@ export const importedMockTest = {
             "starlings' movements are likely less predictable when a peregrine falcon poses an imminent threat to the flock than when other types of avian predators do.",
             "starlings differ from both smaller birds like larks and larger birds like buzzards in that starlings engage in flocking behaviors primarily when predators are present."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 14,
@@ -624,7 +704,9 @@ export const importedMockTest = {
             "conditions in the Arabian Peninsula were likely more conducive to fossilization before 7.7 million years ago and after 500,000 years ago than they were in the intervening period.",
             "the absence of any evidence for African-Eurasian faunal exchange between 7.7 million years ago and 500,000 years ago should not be taken as evidence that the Arabian Peninsula formed a barrier to such exchange."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 15,
@@ -637,6 +719,8 @@ export const importedMockTest = {
             "As the modeled cell lifetime decreases, plant operating costs increase, and thus the LCOE for plants using new cells diverges from that of plants using recycled cells."
           ],
           "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
           "underline": ["the LCOE differential grew from 18.8% to 31.3% when the modeled cell lifetime was reduced by two-thirds."]
         },
         {
@@ -649,7 +733,9 @@ export const importedMockTest = {
             "being given",
             "are being given"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 17,
@@ -661,7 +747,9 @@ export const importedMockTest = {
             "considering",
             "were considering"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 18,
@@ -673,7 +761,9 @@ export const importedMockTest = {
             "populations",
             "populations:"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 19,
@@ -685,7 +775,9 @@ export const importedMockTest = {
             "floor and",
             "floor"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 20,
@@ -697,7 +789,9 @@ export const importedMockTest = {
             "highlighting",
             "is highlighting"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 21,
@@ -709,7 +803,9 @@ export const importedMockTest = {
             "becomes",
             "become"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 22,
@@ -721,7 +817,9 @@ export const importedMockTest = {
             "There,",
             "However,"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 23,
@@ -733,7 +831,9 @@ export const importedMockTest = {
             "To that end,",
             "In other words,"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 24,
@@ -745,7 +845,9 @@ export const importedMockTest = {
             "The book’s title alludes to an example of this social shift:",
             "This argument, though valid, may overlook other forms of group participation:"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Cohesion and Coherence Between Sentences",
         },
         {
           "id": 25,
@@ -757,7 +859,9 @@ export const importedMockTest = {
             "Granted,",
             "Therefore,"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 26,
@@ -769,7 +873,9 @@ export const importedMockTest = {
             "Indeed,",
             "For example,"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 27,
@@ -781,7 +887,9 @@ export const importedMockTest = {
             "Valosik claims that, by writing De Arte Natandi, \"Digby hoped to revive swimming... and elevate it from a crude, mechanical function... to an artful science.\"",
             "As Valosik claims, with De Arte Natandi, Digby developed the first modern swimming manual in order to illustrate why \"a once revered skill... had all but died out during Europe's Dark Ages.\""
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         }
       ]
     }

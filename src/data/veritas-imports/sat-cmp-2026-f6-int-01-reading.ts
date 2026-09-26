@@ -23,7 +23,9 @@ export const importedMockTest = {
             "The chair's lack of appeal to the rest of the family",
             "The idea that the chair is unnoticeable"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 2,
@@ -35,7 +37,9 @@ export const importedMockTest = {
             "discovered",
             "reflected"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 3,
@@ -47,7 +51,9 @@ export const importedMockTest = {
             "erasure",
             "underappreciation"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 4,
@@ -59,7 +65,9 @@ export const importedMockTest = {
             "trade-off",
             "analogy"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 5,
@@ -72,6 +80,8 @@ export const importedMockTest = {
             "It lists the features of Anderson's and Cochrane's inventions that contributed most to their usefulness."
           ],
           "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Part-Whole Relationships",
           "underline": ["creative thinking, strong problem-solving skills, and persistence"]
         },
         {
@@ -85,6 +95,8 @@ export const importedMockTest = {
             "It identifies how consumers usually react to prices ending in 9 while acknowledging that some consumers react differently."
           ],
           "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Part-Whole Relationships",
           "underline": ["However, studies have found that some consumers connect these prices with lower-quality goods and even see them as misleading—an attempt to make a $7.99 item seem like it costs $7 rather than $8, which is closer to the truth."]
         },
         {
@@ -98,6 +110,8 @@ export const importedMockTest = {
             "It presents a position that seems to support the stance of one character and undermine that of another."
           ],
           "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Part-Whole Relationships",
           "underline": ["Lord Arthur is a wit and a poet."]
         },
         {
@@ -110,7 +124,9 @@ export const importedMockTest = {
             "Certain gardening methods can lead to more weeds.",
             "North America is home to many plant species."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Main Ideas",
         },
         {
           "id": 9,
@@ -122,7 +138,9 @@ export const importedMockTest = {
             "How division of labor improves efficiency",
             "The future of the backpack industry"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Main Ideas",
         },
         {
           "id": 10,
@@ -134,7 +152,9 @@ export const importedMockTest = {
             "After being found by his companion, the Mole feels embarrassed about getting lost.",
             "The Mole is saddened that his time wandering in the forest has ended."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Main Ideas",
         },
         {
           "id": 11,
@@ -147,6 +167,8 @@ export const importedMockTest = {
             "The proposed model has the highest total revenue, LCFS revenue, and total cost among the three models."
           ],
           "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
             "table": {
               "title": "Estimated Annual Costs and Profits for Biofuel Profit Models (in dollars)",
               "headers": [
@@ -191,7 +213,9 @@ export const importedMockTest = {
             "\"Newland Archer, leaning against the wall at the back of the club box [where his seat was], turned his eyes from the stage and scanned the opposite side of the house.\"",
             "\"But, in the first place, New York was a metropolis, and perfectly aware that in metropolises it was 'not the thing' to arrive early at the opera.\""
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
         },
         {
           "id": 13,
@@ -203,7 +227,9 @@ export const importedMockTest = {
             "The enforcement of posted speed limits in the neighborhood that the streetcar stop will serve has increased substantially in the last ten years.",
             "Current riders of the Burnside Corridor Streetcar are satisfied with the number of stops along the line."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
         },
         {
           "id": 14,
@@ -215,7 +241,9 @@ export const importedMockTest = {
             "overall, there are more Cantonese and Fuzhounese speakers among Chinese immigrants in New York than there are Mandarin speakers.",
             "Chinese immigrants regularly move between Queens and Manhattan after emigrating rather than remaining in one borough."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 15,
@@ -227,7 +255,9 @@ export const importedMockTest = {
             "does not arise from the musician having a clinically significant reduction in hearing ability as a result of lifetime noise exposure.",
             "cannot be explained as resulting from the musician's relatively greater musical expertise."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 16,
@@ -239,7 +269,9 @@ export const importedMockTest = {
             "is facing",
             "will face"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 17,
@@ -251,7 +283,9 @@ export const importedMockTest = {
             "are",
             "have been"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 18,
@@ -263,7 +297,9 @@ export const importedMockTest = {
             "less computational power is required for the RetinaNet algorithm to achieve high accuracy",
             "high accuracy while requiring less computational power is the RetinaNet algorithm's achievement"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Subject-Verb Agreement",
         },
         {
           "id": 19,
@@ -275,7 +311,9 @@ export const importedMockTest = {
             "seafloor",
             "seafloor and"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 20,
@@ -287,7 +325,9 @@ export const importedMockTest = {
             "analysts access to countries'",
             "analysts access to countries"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 21,
@@ -299,7 +339,9 @@ export const importedMockTest = {
             "Later,",
             "First,"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 22,
@@ -311,7 +353,9 @@ export const importedMockTest = {
             "For example,",
             "In other words,"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 23,
@@ -323,7 +367,9 @@ export const importedMockTest = {
             "For example,",
             "However,"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 24,
@@ -335,7 +381,9 @@ export const importedMockTest = {
             "By contrast with that model,",
             "Designed with much the same purpose,"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Cohesion and Coherence Between Sentences",
         },
         {
           "id": 25,
@@ -347,7 +395,9 @@ export const importedMockTest = {
             "The harm to ecosystems caused by water hyacinth and leafy spurge has led both species to be considered invasive in the US.",
             "Leafy spurge is an invasive species of aquatic plant, and water hyacinth was first introduced accidentally through contaminated seed."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         },
         {
           "id": 26,
@@ -359,7 +409,9 @@ export const importedMockTest = {
             "One specific example of a kind of urban natural area is home gardens, which are private gardens on residential properties throughout a city.",
             "Spaces in cities that include natural features are called urban natural areas."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         },
         {
           "id": 27,
@@ -371,7 +423,9 @@ export const importedMockTest = {
             "The songs \"Thula Bane\" and \"Here Comes the Sun\" can both be found on albums recorded by the South African singer Nandi Khumalo.",
             "Nandi Khumalo recorded many songs over her lifetime, including \"Thula Bane,\" which appears on her 1962 album Nandi Khumalo."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         }
       ]
     },
@@ -390,7 +444,9 @@ export const importedMockTest = {
             "prevent",
             "ignore"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 2,
@@ -402,7 +458,9 @@ export const importedMockTest = {
             "exchange",
             "refurbish"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 3,
@@ -414,7 +472,9 @@ export const importedMockTest = {
             "obscurity",
             "shallowness"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 4,
@@ -426,7 +486,9 @@ export const importedMockTest = {
             "simulations",
             "auxiliaries"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 5,
@@ -439,6 +501,8 @@ export const importedMockTest = {
             "Surrenders"
           ],
           "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Distinguishing Among Nuanced Synonyms",
           "underline": [
             "breathes"
           ]
@@ -453,7 +517,9 @@ export const importedMockTest = {
             "It presents a scientific prediction, describes evidence that contradicts that prediction, and then offers an explanation for the contradiction.",
             "It describes an environmental problem, discusses several attempted solutions, and then proposes a new solution."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Text Structure",
         },
         {
           "id": 7,
@@ -466,6 +532,8 @@ export const importedMockTest = {
             "It introduces an expert opinion that establishes the impetus for a change in scholarly methods of studying television."
           ],
           "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Part-Whole Relationships",
           "underline": ["though media scholar Jane Feuer observed that concepts borrowed from that discipline often fell short when applied to television's distinctive features"]
         },
         {
@@ -478,7 +546,9 @@ export const importedMockTest = {
             "It emphasizes distinctions among types of close relationships that aren't adequately represented in social-ties research, since most studies classify relationships as either close or casual.",
             "It accounts for researchers' observations that people usually expect interactions with familiar individuals to be more positive than interactions with unfamiliar individuals."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Cross-Text Connections-Comparing and Contrasting Authors' Perspectives",
         },
         {
           "id": 9,
@@ -491,6 +561,8 @@ export const importedMockTest = {
             "The average DOC concentrations are higher in the stemflow and throughfall samples than in the regular samples, whereas the average TDN concentrations are slightly lower than in the regular samples, which weakly supports the conclusion."
           ],
           "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
             "table": {
               "title": "Average DOC and TDN Concentrations in Rainwater Samples",
               "headers": [
@@ -538,6 +610,8 @@ export const importedMockTest = {
             "The substitute condition and the control condition both received an average rating of about 4."
           ],
           "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "image": "/sat-cmp-2026-f6-int-01-m3-q10.jpg"
         },
         {
@@ -551,6 +625,8 @@ export const importedMockTest = {
             "Cells can be recycled multiple times without a substantial drop in power-conversion efficiency, and thus recycling cells more frequently does not affect the LCOE for plants using recycled cells."
           ],
           "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
           "underline": ["Furthermore, when the assumed cell lifetime was reduced by two-thirds, the LCOE difference increased from 18.8% to 31.3%."]
         },
         {
@@ -564,6 +640,8 @@ export const importedMockTest = {
             "Haplotype B217 is present in precontact remains recovered from Arctic North America, where the Qimmiq originated, as well as in remains from other regions outside the Gulf Coast."
           ],
           "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
           "underline": ["precontact breeds in the Americas descend from dogs that accompanied human migration from Asia during the last ice age"]
         },
         {
@@ -576,7 +654,9 @@ export const importedMockTest = {
             "In Indian Ocean reefs, higher concentrations of lipids and other metabolites released by local CCA are linked to larger colonies of Pocillopora eydouxi and greater overall diversity of coral species.",
             "When CCA are present and releasing lipids and other metabolites, larvae settlement rates improve nearly as much in damaged reefs with Porites lutea as they do in healthy reefs containing that coral."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
         },
         {
           "id": 14,
@@ -588,7 +668,9 @@ export const importedMockTest = {
             "brand-related price premiums for bottled iced tea are more likely to be maintained during economic contractions than are such premiums for cookies.",
             "brands of bottled iced tea will likely have higher brand equity than brands of cookies will during economic contractions but not during economic expansions."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Inferring Author's Tone, Attitude, or Purpose",
         },
         {
           "id": 15,
@@ -600,7 +682,9 @@ export const importedMockTest = {
             "the notion that authors should have control over the reprinting of their works was a contested issue in nineteenth-century literary culture.",
             "the literary characteristics of works disseminated through commercial venues are influenced by the circumstances of publication as well as by authorial choices."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 16,
@@ -612,7 +696,9 @@ export const importedMockTest = {
             "4,000 galaxies can be measured simultaneously by this impressive instrument, tracking how matter is distributed throughout the cosmos.",
             "researchers track how matter is distributed throughout the cosmos with this impressive instrument that can measure 4,000 galaxies simultaneously."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Conventional Expression",
         },
         {
           "id": 17,
@@ -624,7 +710,9 @@ export const importedMockTest = {
             "Celsius;",
             "Celsius"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 18,
@@ -636,7 +724,9 @@ export const importedMockTest = {
             "purpose: celebrating",
             "purpose; celebrating"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 19,
@@ -648,7 +738,9 @@ export const importedMockTest = {
             "was",
             "are"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Sentence Completeness",
         },
         {
           "id": 20,
@@ -660,7 +752,9 @@ export const importedMockTest = {
             "asserts",
             "asserting"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Sentence Completeness",
         },
         {
           "id": 21,
@@ -672,7 +766,9 @@ export const importedMockTest = {
             "is highlighting",
             "highlights"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Sentence Completeness",
         },
         {
           "id": 22,
@@ -684,7 +780,9 @@ export const importedMockTest = {
             "In addition,",
             "Nevertheless,"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 23,
@@ -696,7 +794,9 @@ export const importedMockTest = {
             "Granted,",
             "As a result,"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 24,
@@ -708,7 +808,9 @@ export const importedMockTest = {
             "For example,",
             "In other words,"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 25,
@@ -720,7 +822,9 @@ export const importedMockTest = {
             "In other words,",
             "In addition,"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 26,
@@ -732,7 +836,9 @@ export const importedMockTest = {
             "From the time manga's layout first started changing in the late 1800s until manga adopted dynamic panel sizing in the late 1980s, Taiwanese manhua kept a structured layout.",
             "Although Taiwanese manhua artists initially rejected manga's growing genre range and narrative complexity, they adopted those features in the early 1900s."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Evaluating Relevance of Information (Add/Delete)",
         },
         {
           "id": 27,
@@ -744,7 +850,9 @@ export const importedMockTest = {
             "Like wolves, dog breeds with upright ears can produce the \"ears rotator\" facial action, while those with drooped or partly drooped ears cannot.",
             "One difference between dog breeds with wolf-like ears and dog breeds without them is that wolf-like breeds cannot produce the \"ears rotator\" facial action."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Evaluating Relevance of Information (Add/Delete)",
         }
       ]
     }

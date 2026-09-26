@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
+import { inferSkill } from './skills.mjs';
 
 const [, , ...args] = process.argv;
 
@@ -65,6 +66,11 @@ const inferQuestion = (record) => {
 
 const ZERO_WIDTH = /[\u200b\u200c\u200d\ufeff]/g;
 
+// Veritas alternates between "\u2022" and "\u25cf" for note-list bullets depending on the
+// capture run; the renderer (src/lib/passage.ts) splits on "\u2022". Normalize so
+// note lists render as real lists either way.
+const BULLET = /\u25cf/g;
+
 // The preview DOM renders some passages twice, so the captured text ends with a
 // near-copy of itself. Drop the trailing copy (only when it runs to the end).
 const dedupeRepeatedTail = (text, minBlock = 100) => {
@@ -94,7 +100,7 @@ const inferPassage = (record) => {
   const match =
     raw.match(/阅读材料\s+(.+?)\s+题目\s+.*?Question\s*\d+/i) ||
     raw.match(/Passage\s+(.+?)\s+Question\s*\d+/i);
-  let passage = (match?.[1] || '').replace(ZERO_WIDTH, '').replace(/\s+/g, ' ').trim();
+  let passage = (match?.[1] || '').replace(ZERO_WIDTH, '').replace(BULLET, '•').replace(/\s+/g, ' ').trim();
   passage = dedupeRepeatedTail(passage);
   // When a structured table was captured, drop its flattened copy from the passage.
   const flat = flattenTable(record.table);
@@ -152,6 +158,9 @@ const parseModule = async (inputPath) => {
     const hasAnswer = answer >= 0;
     const image = candidateImages(record).find((src) => imageCounts.get(src) === 1);
     const question = inferQuestion(record);
+    // Knowledge point, recovered from the 添加知识点 blob. Drives assignment by
+    // skill (see scripts/veritas/skills.mjs).
+    const skill = inferSkill(record);
 
     return {
       id: Number(record.number) || index + 1,
@@ -159,6 +168,8 @@ const parseModule = async (inputPath) => {
       question,
       options,
       answer: hasAnswer ? answer : null,
+      domain: skill?.domain,
+      skill: skill?.skill,
       // Vocabulary stems name the target word in quotes; the exam underlines that
       // word in the passage but Veritas drops the styling, so recover it here.
       underline: inferUnderlines(question),

@@ -24,6 +24,8 @@ export const importedMockTest = {
             "Illustrations"
           ],
           "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Distinguishing Among Nuanced Synonyms",
           "underline": ["devices"]
         },
         {
@@ -36,7 +38,9 @@ export const importedMockTest = {
             "authoritative",
             "moving"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 3,
@@ -48,7 +52,9 @@ export const importedMockTest = {
             "incongruous with",
             "indicative of"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 4,
@@ -60,7 +66,9 @@ export const importedMockTest = {
             "unremittingly",
             "reactively"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 5,
@@ -72,7 +80,9 @@ export const importedMockTest = {
             "theoretical",
             "preliminary"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 6,
@@ -85,6 +95,8 @@ export const importedMockTest = {
             "It argues that boxer crabs use tools more often than other animals do."
           ],
           "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Determining Author's Purpose",
           "underline": ["Boxer crabs use stinging anemones to defend against attack."]
         },
         {
@@ -97,7 +109,9 @@ export const importedMockTest = {
             "To provide an overview of the history of Billboard's year-end singles charts",
             "To discuss research that reveals a change over time in US popular music"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Details",
         },
         {
           "id": 8,
@@ -110,6 +124,8 @@ export const importedMockTest = {
             "It identifies the specific ways in which the Lindy Hop is similar to the contemporary dance styles discussed in the text."
           ],
           "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Determining Author's Purpose",
           "underline": ["Inspired by Barnes's curiosity about the similarities between the Lindy Hop and these seemingly unrelated dance styles"]
         },
         {
@@ -122,7 +138,9 @@ export const importedMockTest = {
             "The demand for methane follows a predictable annual cycle.",
             "Companies involved in methane distribution are not affected by the demand for methane."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Details",
         },
         {
           "id": 10,
@@ -134,7 +152,9 @@ export const importedMockTest = {
             "“Green meadows make rifts in [the woods] here and there, so do little patches of cultivation. But these do not amount to much, for the magnificent woods devour everything. As a result, this lovely region is atrociously poor, and its few scattered farms provide just the requisite number of red roofs to set off the velvety green of the woods.”",
             "“If I had a Mamma, I know very well that she would not have let me stay [in Montigny] twenty-four hours. But Papa—he doesn’t notice anything and doesn’t bother about me.”"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (illustration/quotation)",
         },
         {
           "id": 11,
@@ -147,6 +167,8 @@ export const importedMockTest = {
             "capacity for multiple broods, number of parental incubators, and incubation duration are equally associated with the use of broken-wing display."
           ],
           "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "table": {
             "title": "Defensive Behavior and Reproductive Traits of Select Bird Species",
             "headers": [
@@ -203,7 +225,9 @@ export const importedMockTest = {
             "Infants in the study had no familiarity with either the Selk'nam language or the melody of the Ona lullaby.",
             "More frequent blinking has also been found to be a reliable indication of attention."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
         },
         {
           "id": 13,
@@ -215,7 +239,9 @@ export const importedMockTest = {
             "A sampling of house mice captured in natural settings shows that individual mice can differ from one another in the level of expression of Cartpt.",
             "Some wild-type mice were very similar to the knockout mice with regard to reward responsiveness but showed a wide variety of levels of expression of Cartpt."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
         },
         {
           "id": 14,
@@ -227,7 +253,9 @@ export const importedMockTest = {
             "the apparent discrepancy between the studies' results may be partly attributable to the 1958 study using different criteria when assessing hand dominance than were used in the 1963 study.",
             "the number of individuals in the study of captive gorillas is insufficient for a robust claim regarding evidence of PLRH."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 15,
@@ -239,7 +267,9 @@ export const importedMockTest = {
             "addressing the effects of noise on birds is likely to help mitigate some of the effects on mammals.",
             "the severity of the effect of noise on some species of birds could be much higher than the average effect."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 16,
@@ -251,7 +281,9 @@ export const importedMockTest = {
             "are growing",
             "had grown"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 17,
@@ -263,7 +295,9 @@ export const importedMockTest = {
             "English. On",
             "English—on"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 18,
@@ -275,7 +309,9 @@ export const importedMockTest = {
             "the limits of measurability were expanded by chemist Ahmed Zewail who introduced a new scientific discipline",
             "the introduction of a new scientific discipline by chemist Ahmed Zewail led to the expansion of the limits of measurability"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 19,
@@ -287,7 +323,9 @@ export const importedMockTest = {
             "happens:",
             "happens that"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 20,
@@ -299,7 +337,9 @@ export const importedMockTest = {
             "it borrows it's",
             "they borrow their"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Pronoun-Antecedent Agreement and Clarity",
         },
         {
           "id": 21,
@@ -311,7 +351,9 @@ export const importedMockTest = {
             "transpiration; for instance,",
             "transpiration, for instance,"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 22,
@@ -323,7 +365,9 @@ export const importedMockTest = {
             "As a result,",
             "Likewise,"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 23,
@@ -335,7 +379,9 @@ export const importedMockTest = {
             "However,",
             "Likewise,"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 24,
@@ -347,7 +393,9 @@ export const importedMockTest = {
             "For example,",
             "Previously,"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 25,
@@ -359,7 +407,9 @@ export const importedMockTest = {
             "The 2015 play There's the Moon and Then There's You tells the story of Christina Ying, a Filipina American playwright.",
             "Ying's play premiered in 2015 at the Bindlestiff Studio, which is located in San Francisco."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         },
         {
           "id": 26,
@@ -371,7 +421,9 @@ export const importedMockTest = {
             "While the Tyrannosaurus fossil specimen Sue is in Chicago, Illinois, the Triceratops fossil specimen Doyle is in New York, New York.",
             "Dinosaur fossil specimens can be found at science museums all over the world, including in Chicago, Illinois, and New York, New York."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         },
         {
           "id": 27,
@@ -383,7 +435,9 @@ export const importedMockTest = {
             "The timelines for the months of the two calendars don't match; for example, the fourth month of the French Republican calendar begins during the twelfth month of the Gregorian calendar.",
             "The twelfth and seventh months of the Gregorian calendar are December and July, respectively."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         }
       ]
     },
@@ -402,7 +456,9 @@ export const importedMockTest = {
             "imbue",
             "regale"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 2,
@@ -414,7 +470,9 @@ export const importedMockTest = {
             "extricate",
             "exacerbate"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 3,
@@ -426,7 +484,9 @@ export const importedMockTest = {
             "nominal",
             "derivative"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 4,
@@ -438,7 +498,9 @@ export const importedMockTest = {
             "Contrasting",
             "Supplanting"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 5,
@@ -450,7 +512,9 @@ export const importedMockTest = {
             "It describes one popular technique of positive expressive writing and then names the techniques researchers have found to be most useful.",
             "It introduces a study about positive expressive writing and then explains that the researchers are planning a follow-up study."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Text Structure",
         },
         {
           "id": 6,
@@ -463,6 +527,8 @@ export const importedMockTest = {
             "It raises a question about the practice of history that Williams regards as unresolved."
           ],
           "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Determining Author's Purpose",
           "underline": ["It is concerned only with the one thing: to say everything is dead."]
         },
         {
@@ -475,7 +541,9 @@ export const importedMockTest = {
             "By suggesting that Squire and team's conclusions were undermined by a failure to accurately distinguish diurnal pollinator visits from nocturnal pollinator visits in their data",
             "By criticizing the study for failing to account for the foraging behavior of vertebrate animals that pollinate R. fruticosus"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Cross-Text Connections-Comparing and Contrasting Authors' Perspectives",
         },
         {
           "id": 8,
@@ -487,7 +555,9 @@ export const importedMockTest = {
             "are largely based on hearsay",
             "may underestimate their subject's insatiability"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 9,
@@ -499,7 +569,9 @@ export const importedMockTest = {
             "A floral trait found to influence which plant species hummingbirds prefer may result in certain hummingbird species visiting flowers with relatively low nectar rewards over those with higher nectar rewards.",
             "Physical compatibility between flower corollas and hummingbird bills becomes an important factor that influences hummingbird preferences when hummingbirds are uncertain about which plants produce high-reward nectar."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 10,
@@ -512,6 +584,8 @@ export const importedMockTest = {
             "843 to 1."
           ],
           "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "table": {
             "title": "Orientation of Paired Leaves in Grapevines and Related Species",
             "headers": [
@@ -564,6 +638,8 @@ export const importedMockTest = {
             "Although the data suggest a pattern in which species' resistance to xylem embolisms tends to increase with decreasing elevation and rainforest occupancy, Hedycarya parvifolia is an exception to this trend; the hypothesis is therefore moderately supported."
           ],
           "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "table": {
             "title": "P50 Value, Mean Elevation, and Rainforest Occupancy for Five New Caledonian Woody Species",
             "headers": [
@@ -616,7 +692,9 @@ export const importedMockTest = {
             "Biochemical interactions between plant roots and adjacent soil can considerably alter soil chemistry, including soil pH.",
             "Plant species vary considerably in how deeply their root systems extend beyond the topsoil layer, where soil pH and metal concentrations are typically measured."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
         },
         {
           "id": 13,
@@ -628,7 +706,9 @@ export const importedMockTest = {
             "less-affluent citizens were reluctant to risk incurring a fine and thus voluntarily complied with the laws even in the absence of regular enforcement.",
             "authorities focused enforcement on the wealthiest offenders, recognizing that pursuing offenders who were unable to pay the fines could weaken fines' effectiveness as a deterrent."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
         },
         {
           "id": 14,
@@ -640,7 +720,9 @@ export const importedMockTest = {
             "declining local aridity after 60,000 years ago facilitated the shift in groundwater reservoir levels.",
             "changes in the mineral composition of groundwater reservoirs were independent of local precipitation patterns."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 15,
@@ -652,7 +734,9 @@ export const importedMockTest = {
             "Americans who won election’s",
             "Americans who won elections"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 16,
@@ -664,7 +748,9 @@ export const importedMockTest = {
             "B. digitata and identifying",
             "B. digitata. Identifying"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 17,
@@ -676,7 +762,9 @@ export const importedMockTest = {
             "goal: catching",
             "goal; catching"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 18,
@@ -688,7 +776,9 @@ export const importedMockTest = {
             "(EgSC), with RSC classification. For",
             "(EgSC), with RSC classification; for"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Sentence Completeness",
         },
         {
           "id": 19,
@@ -700,7 +790,9 @@ export const importedMockTest = {
             "compounds propylene and thymol",
             "compounds propylene and thymol,"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 20,
@@ -712,7 +804,9 @@ export const importedMockTest = {
             "meteoroids; their",
             "meteoroids. Their"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Pronoun-Antecedent Agreement and Clarity",
         },
         {
           "id": 21,
@@ -724,7 +818,9 @@ export const importedMockTest = {
             "As such,",
             "Even so,"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 22,
@@ -736,7 +832,9 @@ export const importedMockTest = {
             "Likewise,",
             "As a result,"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 23,
@@ -748,7 +846,9 @@ export const importedMockTest = {
             "Kwame Alexander's The Crossover and Toni Morrison's Jazz are both NYT best sellers, but the former is a children's book, whereas the latter is a novel.",
             "The novel Jazz became an NYT best seller in 1992; The Crossover, a children's book, joined this list as well, but in 2017."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (illustration/quotation)",
         },
         {
           "id": 24,
@@ -760,7 +860,9 @@ export const importedMockTest = {
             "The Country Music Highway was selected as an NSB for its noteworthy cultural features, but other NSBs could be significant for natural or archaeological reasons.",
             "The Illinois River Road provides access to noteworthy natural features but not cultural areas."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (illustration/quotation)",
         },
         {
           "id": 25,
@@ -772,7 +874,9 @@ export const importedMockTest = {
             "Nkrumah reorganized the IAS in the early 1960s to reflect an interdisciplinary, African-centered vision, aligning with a broader post-1945 movement to challenge colonial systems in Africa.",
             "Nkrumah's changes to African Studies reflected faculty concerns that the field should move beyond colonial frameworks and include areas like history, politics, and economics."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (illustration/quotation)",
         },
         {
           "id": 26,
@@ -784,7 +888,9 @@ export const importedMockTest = {
             "New Hampshire, a poetry collection by Robert Frost, entered the public domain in 2019, unlike A.A. Milne's children's book When We Were Very Young.",
             "Robert Frost and A.A. Milne are two authors whose works recently entered the public domain."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (illustration/quotation)",
         },
         {
           "id": 27,
@@ -796,7 +902,9 @@ export const importedMockTest = {
             "Although the butchered mammoth bones found at Shaffert are older than the stone tools found at Saltville, both clearly predate the arrival of the Clovis population.",
             "The Clovis First hypothesis proposes that the Clovis, arriving around 13,000 years ago, were the first humans in North America."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (illustration/quotation)",
         }
       ]
     }

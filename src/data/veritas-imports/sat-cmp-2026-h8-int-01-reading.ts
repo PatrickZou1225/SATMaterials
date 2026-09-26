@@ -23,7 +23,9 @@ export const importedMockTest = {
             "sustain",
             "offset"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 2,
@@ -35,7 +37,9 @@ export const importedMockTest = {
             "analyses",
             "enhancements"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 3,
@@ -47,7 +51,9 @@ export const importedMockTest = {
             "quantifies",
             "transcends"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 4,
@@ -59,7 +65,9 @@ export const importedMockTest = {
             "invariable",
             "malicious"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 5,
@@ -72,6 +80,8 @@ export const importedMockTest = {
             "Talented"
           ],
           "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
           "underline": ["good"]
         },
         {
@@ -84,7 +94,9 @@ export const importedMockTest = {
             "It states an assumption about children and then considers the ways in which Clara differs from others.",
             "It makes a claim about children and then illustrates it with a description of Clara’s experience."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Text Structure",
         },
         {
           "id": 7,
@@ -96,7 +108,9 @@ export const importedMockTest = {
             "To explain how a specific project fosters intellectual humility",
             "To identify a particular mistake made by scientists in a research project"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Determining Author's Purpose",
         },
         {
           "id": 8,
@@ -109,6 +123,8 @@ export const importedMockTest = {
             "It identifies the motivation for Rhythm Lineage’s choreographic approach that is described earlier in the text."
           ],
           "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Part-Whole Relationships",
           "underline": ["Inspired by Johnson’s curiosity about the similarities between the Lindy Hop and these seemingly unrelated dance styles"]
         },
         {
@@ -121,7 +137,9 @@ export const importedMockTest = {
             "Its openness to experimentation is evident in its diverse influences and refusal to adhere to a single conceptual frame.",
             "Its adherence to certain dichotomies sets it apart from the work of most abstract artists based in the United States."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
         },
         {
           "id": 10,
@@ -134,6 +152,8 @@ export const importedMockTest = {
             "hazelnuts."
           ],
           "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "image": "/sat-cmp-2026-h8-int-01-m1-q10.png"
         },
         {
@@ -147,6 +167,8 @@ export const importedMockTest = {
             "In late 1776, Benjamin Franklin traveled to France to seek French support for the American cause, eventually leading to France providing both military and financial aid to the Americans."
           ],
           "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
           "underline": ["the Declaration was only one of several significant works published during 1776, a remarkable year for political thought"]
         },
         {
@@ -160,6 +182,8 @@ export const importedMockTest = {
             "Goats expend energy grazing and therefore tend to produce less milk than goats fed silage or fresh-cut grass; moreover, grazing goats’ diets are heterogeneous and seasonally variable, so milk production could decline when the nutritional value of available vegetation is poor."
           ],
           "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "table": {
             "title": "Economic Indicators of Goat Farms in Spain by Feeding System in 2019",
             "headers": [
@@ -211,7 +235,9 @@ export const importedMockTest = {
             "According to the data, auroral temperatures in 2018 were higher than those in 2019, although in both years the highest observed temperatures were harbored in auroral zones.",
             "The 2019 data viewed in time-lapse appear to show the oval of elevated temperature drifting slightly away from the area of auroral heating over a period of several hours."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
         },
         {
           "id": 14,
@@ -223,7 +249,9 @@ export const importedMockTest = {
             "the number of individuals in the study of captive bonobos is insufficient for a robust claim regarding evidence of PLRH.",
             "the greater exposure to humans among the captive bonobos induced them to acquire more right-handed behaviors."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 15,
@@ -235,7 +263,9 @@ export const importedMockTest = {
             "having their own hindsight bias explicitly pointed out to them may not prevent people from applying that same bias to their peers.",
             "a form of hindsight bias may occur even when it does not directly enable people to exaggerate their own past knowledge."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 16,
@@ -247,7 +277,9 @@ export const importedMockTest = {
             "Those",
             "These"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Pronoun-Antecedent Agreement and Clarity",
         },
         {
           "id": 17,
@@ -259,7 +291,9 @@ export const importedMockTest = {
             "will have reflected",
             "reflected"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 18,
@@ -271,7 +305,9 @@ export const importedMockTest = {
             "radius that",
             "radius;"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Sentence Completeness",
         },
         {
           "id": 19,
@@ -283,7 +319,9 @@ export const importedMockTest = {
             "the name comes from the Latin word for “cutting,” and the caesura’s etymology reflects its",
             "the caesura takes its name from the Latin word for “cutting,” an etymology that reflects its"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Sentence Completeness",
         },
         {
           "id": 20,
@@ -295,7 +333,9 @@ export const importedMockTest = {
             "race. For instance, while",
             "race, for instance,"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 21,
@@ -307,7 +347,9 @@ export const importedMockTest = {
             "Mount Kilimanjaro, a peak located in Tanzania, is ranked by geographers as the world’s 4th most prominent mountain.",
             "the ranking given by geographers to Mount Kilimanjaro, a peak located in Tanzania, is 4th most prominent mountain in the world."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Sentence Completeness",
         },
         {
           "id": 22,
@@ -319,7 +361,9 @@ export const importedMockTest = {
             "As a result,",
             "In other words,"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 23,
@@ -331,7 +375,9 @@ export const importedMockTest = {
             "Despite these failures,",
             "Most notably among these efforts,"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Cohesion and Coherence Between Sentences",
         },
         {
           "id": 24,
@@ -343,7 +389,9 @@ export const importedMockTest = {
             "Both sponges and sea squirts have two openings through which water flows.",
             "Both sponges and sea squirts stay attached to one spot for most of their lives."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         },
         {
           "id": 25,
@@ -355,7 +403,9 @@ export const importedMockTest = {
             "It was in 1971 that John McCarthy won the A.M. Turing Award.",
             "John McCarthy won the A.M. Turing Award in 1971; Frances E. Allen won it later, in 2006."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         },
         {
           "id": 26,
@@ -367,7 +417,9 @@ export const importedMockTest = {
             "Abigail Burgess Grant and Georgia Stebbins both played crucial roles in ensuring safe navigation for watercraft in past centuries.",
             "As the lighthouse keeper at Point Sur Light, Georgia Stebbins helped watercraft navigate at night."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         },
         {
           "id": 27,
@@ -379,7 +431,9 @@ export const importedMockTest = {
             "Both New Hampshire and Mrs. Dalloway are in the public domain; however, one is a poetry collection and the other a novel.",
             "Robert Frost and Virginia Woolf are two authors whose works recently entered the public domain."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         }
       ]
     },
@@ -398,7 +452,9 @@ export const importedMockTest = {
             "prescient",
             "accessible"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 2,
@@ -410,7 +466,9 @@ export const importedMockTest = {
             "detangling",
             "bracing"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 3,
@@ -422,7 +480,9 @@ export const importedMockTest = {
             "Reconciling",
             "Instituting"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 4,
@@ -434,7 +494,9 @@ export const importedMockTest = {
             "To expose a contradiction underlying a particular methodology",
             "To introduce an approach while acknowledging that it wasn’t fully successful"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Determining Author's Purpose",
         },
         {
           "id": 5,
@@ -446,7 +508,9 @@ export const importedMockTest = {
             "To clarify why a geographically restricted study invalidated the finding that angiosperm species exhibit a trade-off between wood density and water-stress resistance",
             "To indicate that wood density and water-stress resistance correlations in angiosperms vary significantly depending on the geographic region and climate conditions studied"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Determining Author's Purpose",
         },
         {
           "id": 6,
@@ -458,7 +522,9 @@ export const importedMockTest = {
             "Both texts imply that global issues are equally relevant to all people living today, but Text 1 focuses on the idea that such issues will remain broadly relevant for the foreseeable future and Text 2 focuses on the idea that certain issues may soon become less relevant.",
             "Both texts suggest that embracing commonalities can be beneficial when it comes to urging people to collective action to address global issues, but Text 1 focuses on the broadest scope of connection and Text 2 focuses on connections more limited in scope."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Cross-Text Connections-Analyzing How One Text Relates to Another",
         },
         {
           "id": 7,
@@ -470,7 +536,9 @@ export const importedMockTest = {
             "Martin will come with Tom to the Long Field.",
             "Martin is a poor judge of the weather."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Details",
         },
         {
           "id": 8,
@@ -482,7 +550,9 @@ export const importedMockTest = {
             "Hummingbirds consistently prefer plant species whose flowers have physical traits that are compatible with their bills but offer relatively low nectar rewards.",
             "Hummingbirds’ preferences are primarily driven by trait-matching between their bills and flower corollas, though nectar qualities are a secondary factor driving their preferences."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
         },
         {
           "id": 9,
@@ -494,7 +564,9 @@ export const importedMockTest = {
             "The two earliest known sets of skeletal dingo remains in Australia date to around 3,400 years ago at a site in the west and around 3,300 years ago at a site in the east.",
             "New Guinea singing dogs, a closely related species, began interbreeding with dingoes in southeast Australia 2,200–2,600 years ago and with dingoes in northwest Australia in the same period."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
         },
         {
           "id": 10,
@@ -507,6 +579,8 @@ export const importedMockTest = {
             "Ashford Hoard and Glenmore Hoard were both discovered in the 1900s."
           ],
           "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "table": {
             "title": "Examples of Hoards found in Scotland and Wales",
             "headers": [
@@ -547,7 +621,9 @@ export const importedMockTest = {
             "Throughout the study, the 87Sr/86Sr ratio of dust collected at the Pine Creek Experimental Range was consistently higher than the 87Sr/ 86Sr ratios of dust collected at Bear Meadow and Alder Ridge.",
             "As the study went on, the 87Sr/86Sr ratios of dust collected at Bear Meadow and Alder Ridge grew closer to the 87Sr/ 86Sr ratio of dust from Asia, whereas the 87Sr/86Sr ratio of dust collected at the Pine Creek Experimental Range grew closer to the 87Sr/ 86Sr ratio of dust from the Central Valley."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
         },
         {
           "id": 12,
@@ -560,6 +636,8 @@ export const importedMockTest = {
             "The distribution of Ge/Si ratios of the cements and grains is largely inconsistent with the cements having precipitated via high-pressure reactions, which implicitly lends support to the idea that the organisms at the site were quickly preserved by cement precipitation from a silica-rich ocean."
           ],
           "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Summary",
           "image": "/sat-cmp-2026-h8-int-01-m3-q12.png"
         },
         {
@@ -572,7 +650,9 @@ export const importedMockTest = {
             "“Scientists who support the development of lab-grown meat argue that it is safer than conventional meat because it doesn’t come from animals kept in conditions that can make them more susceptible to disease.”",
             "“Consumers often think that reducing the amount of packaging used to sell meat products in supermarkets would have a meaningful impact on the environment.”"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (illustration/quotation)",
         },
         {
           "id": 14,
@@ -584,7 +664,9 @@ export const importedMockTest = {
             "suggesting that figurative forms of art may be ill-suited to portraying tribally specific content.",
             "casting doubt on the feasibility of developing a new style of painting grounded in traditionally figurative art forms."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 15,
@@ -596,7 +678,9 @@ export const importedMockTest = {
             "the sodium evaporite concentrations on Leto may have once been similar to those on recovered chondrites, but exposure to Earth’s atmospheric humidity affected Leto’s evaporites and led to new compound formation.",
             "the discrepancy between sodium evaporite concentrations on recovered chondrites and those initially observed on the Leto material may be attributable to the chondrites’ exposure to atmospheric humidity typical of many Earth environments."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 16,
@@ -608,7 +692,9 @@ export const importedMockTest = {
             "it’s",
             "its"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Pronoun-Antecedent Agreement and Clarity",
         },
         {
           "id": 17,
@@ -620,7 +706,9 @@ export const importedMockTest = {
             "France,",
             "France:"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 18,
@@ -632,7 +720,9 @@ export const importedMockTest = {
             "paleogeneticist, Jonas Bergström,",
             "paleogeneticist Jonas Bergström,"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 19,
@@ -644,7 +734,9 @@ export const importedMockTest = {
             "harmony, in contemporary iterations, the",
             "harmony in contemporary iterations. The"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 20,
@@ -656,7 +748,9 @@ export const importedMockTest = {
             "has popularized",
             "had popularized"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 21,
@@ -668,7 +762,9 @@ export const importedMockTest = {
             "plates; each being",
             "plates; each"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Sentence Completeness",
         },
         {
           "id": 22,
@@ -680,7 +776,9 @@ export const importedMockTest = {
             "Similarly,",
             "In many cases,"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 23,
@@ -692,7 +790,9 @@ export const importedMockTest = {
             "Specifically,",
             "Instead,"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 24,
@@ -704,7 +804,9 @@ export const importedMockTest = {
             "Similarly,",
             "Moreover,"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 25,
@@ -716,7 +818,9 @@ export const importedMockTest = {
             "Redbird’s compositions synthesize Western classical music with elements of various Native musical traditions, such as a Lakota hymn.",
             "Redbird’s Songs for the River features a Lakota hymn, and Moonlit Cedar incorporates a Tlingit box drum; as such, both synthesize Western classical music with elements of Native musical traditions."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         },
         {
           "id": 26,
@@ -728,7 +832,9 @@ export const importedMockTest = {
             "Moreno, a food scientist and World Food Prize winner, has made scientific advancements with cassava plants, while Mensah, an economist, has promoted African agricultural infrastructure.",
             "Though one is a food scientist and the other an economist, Moreno and Mensah have both been recognized with World Food Prizes for contributions toward improving the world food supply."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         },
         {
           "id": 27,
@@ -740,7 +846,9 @@ export const importedMockTest = {
             "Leila Morgan’s story begins in Chennai (then known as Madras), India, in 1912.",
             "Leila Morgan was an Indian-born actress who performed in many films, including Harbor Lights (1931) and A Day in a Woman’s Life (1953)."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         }
       ]
     }

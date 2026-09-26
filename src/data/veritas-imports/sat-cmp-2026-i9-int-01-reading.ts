@@ -23,7 +23,9 @@ export const importedMockTest = {
             "deny",
             "avoid"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 2,
@@ -35,7 +37,9 @@ export const importedMockTest = {
             "obviating",
             "necessitating"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 3,
@@ -47,7 +51,9 @@ export const importedMockTest = {
             "comprehensive",
             "inadequate"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 4,
@@ -59,7 +65,9 @@ export const importedMockTest = {
             "shield",
             "recover"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 5,
@@ -71,7 +79,9 @@ export const importedMockTest = {
             "It describes a trend among cultural institutions in the United States, then identifies an institution that rejects that trend.",
             "It discusses one cultural institution, then discusses a more recently founded cultural institution."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Determining Author's Purpose",
         },
         {
           "id": 6,
@@ -84,6 +94,8 @@ export const importedMockTest = {
             "It counters the objection of Clements and colleagues to studies that rely on relatively small sample sizes."
           ],
           "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Argument Development and Logical Organization",
           "underline": ["Such analysis, in turn, can contribute to reports of exaggerated effects."]
         },
         {
@@ -96,7 +108,9 @@ export const importedMockTest = {
             "By asserting that people often work full-time jobs in order to afford the professional training described in Text 2.",
             "By indicating that those poets who publish in major poetry journals are most likely to be able to earn a living by writing poetry."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Cross-Text Connections-Analyzing How One Text Relates to Another",
         },
         {
           "id": 8,
@@ -108,7 +122,9 @@ export const importedMockTest = {
             "It ranks the popularity of green spaces with city residents.",
             "It inspires tourists to visit metropolitan areas."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Details",
         },
         {
           "id": 9,
@@ -120,7 +136,9 @@ export const importedMockTest = {
             "He is prepared to escape the pen immediately if the horses begin to approach him.",
             "His self-assured demeanor falters when subjected to the chaos in the pen."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Details",
         },
         {
           "id": 10,
@@ -132,7 +150,9 @@ export const importedMockTest = {
             "The ranges of sand post oaks and limber pines are expanding more rapidly than climate models predicted.",
             "Some North American tree species are developing resistance to fungal partnerships at the northern boundaries of their ranges."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Details",
         },
         {
           "id": 11,
@@ -145,6 +165,8 @@ export const importedMockTest = {
             "number of passengers who traveled between Jakarta and Singapore in 2018 with the number who traveled between Mexico City and Monterrey during that same year."
           ],
           "answer": 3,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "table": {
             "title": "Highly Traveled Commercial Airline Routes in 2017-18",
             "headers": [
@@ -201,7 +223,9 @@ export const importedMockTest = {
             "\"Let me make the songs for the people, / Songs for the old and young; / Songs to stir like a battle-cry / Wherever they are sung.\" (from \"Songs for the People\")",
             "\"Our world, so worn and weary, / Needs music, pure and strong, / To hush the jangle and discords / Of sorrow, pain, and wrong.\" (from \"Songs for the People\")"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
         },
         {
           "id": 13,
@@ -214,6 +238,8 @@ export const importedMockTest = {
             "Over the five years after El Salvador joined CAFTA-DR, agricultural exports from El Salvador grew at a rate of about 21.8 percent, which is higher than the rate over the five years before El Salvador joined the agreement."
           ],
           "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "image": "/sat-cmp-2026-i9-int-01-m1-q13.png"
         },
         {
@@ -227,6 +253,8 @@ export const importedMockTest = {
             "Jansson resigned from creating a daily Moomin comic strip in 1959 after working on it for seven years, and her brother Lars took her place."
           ],
           "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
           "underline": ["A student who is researching children's literature asserts that even though this outcome wasn't what Jansson had intended, she committed to the role she found herself in."]
         },
         {
@@ -239,7 +267,9 @@ export const importedMockTest = {
             "ensuring that organic products are clearly distinguished from nonorganic products in terms of messaging, placement, and price.",
             "combining in-store promotional messaging with social media messaging to ensure customers are aware of certain features of organic products."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 16,
@@ -251,7 +281,9 @@ export const importedMockTest = {
             "are working",
             "have worked"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 17,
@@ -263,7 +295,9 @@ export const importedMockTest = {
             "Sereysothea but the",
             "Sereysothea, the"
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 18,
@@ -275,7 +309,9 @@ export const importedMockTest = {
             "Mo—",
             "Mo,"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 19,
@@ -287,7 +323,9 @@ export const importedMockTest = {
             "the dictionary's preservation of knowledge of the Hopi language was considered a model for future lexicographers.",
             "the dictionary preserved knowledge of the Hopi language and was considered a model for future lexicographers."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 20,
@@ -299,7 +337,9 @@ export const importedMockTest = {
             "tip and mimicking",
             "tip. Mimicking"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 21,
@@ -311,7 +351,9 @@ export const importedMockTest = {
             "Instead,",
             "For example,"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 22,
@@ -323,7 +365,9 @@ export const importedMockTest = {
             "specifically,",
             "in sum,"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 23,
@@ -335,7 +379,9 @@ export const importedMockTest = {
             "In other words,",
             "In reality,"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 24,
@@ -347,7 +393,9 @@ export const importedMockTest = {
             "Indeed,",
             "Additionally,"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 25,
@@ -359,7 +407,9 @@ export const importedMockTest = {
             "Of the 1,000 or so violins Antonio Stradivari made, only about 500 exist today.",
             "Born in 1644, Antonio Stradivari was an Italian instrument maker whose violins are famous for their quality."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Evaluating Relevance of Information (Add/Delete)",
         },
         {
           "id": 26,
@@ -371,7 +421,9 @@ export const importedMockTest = {
             "Snoopy is a cartoon dog with a black patch on its ear, but in one of the altered versions, the dog's ear had no pattern.",
             "When participants were asked to identify the correct version of Snoopy, 84% selected the unaltered image."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Evaluating Relevance of Information (Add/Delete)",
         },
         {
           "id": 27,
@@ -383,7 +435,9 @@ export const importedMockTest = {
             "Examples of Lazarus species can be found in Catagonus wagneri as well as Medusagyne oppositifolia.",
             "A living specimen of Catagonus wagneri, once believed to be extinct, was identified in 1974."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Evaluating Relevance of Information (Add/Delete)",
         }
       ]
     },
@@ -402,7 +456,9 @@ export const importedMockTest = {
             "populated",
             "sanitized"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 2,
@@ -414,7 +470,9 @@ export const importedMockTest = {
             "monotonous",
             "byzantine"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 3,
@@ -426,7 +484,9 @@ export const importedMockTest = {
             "ambivalent",
             "pragmatic"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
         },
         {
           "id": 4,
@@ -439,6 +499,8 @@ export const importedMockTest = {
             "Regret"
           ],
           "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Distinguishing Among Nuanced Synonyms",
           "underline": ["lament"]
         },
         {
@@ -451,7 +513,9 @@ export const importedMockTest = {
             "To discuss an ongoing experiment.",
             "To describe difficulties associated with preserving seeds."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Details",
         },
         {
           "id": 6,
@@ -464,6 +528,8 @@ export const importedMockTest = {
             "It introduces a point of comparison to illustrate the scale of the phosphate storage by A. confutestita in the Wadden Sea intertidal zone."
           ],
           "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Determining Author's Purpose",
           "underline": ["roughly 5% of Germany's yearly phosphorous fertilizer usage"]
         },
         {
@@ -476,7 +542,9 @@ export const importedMockTest = {
             "Nabhan's team's method could be refined to more actively prevent soil moisture from evaporating.",
             "Mesquite trees can provide shade that protects agaves from high-intensity heat and light."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Argument Development and Logical Organization",
         },
         {
           "id": 8,
@@ -488,7 +556,9 @@ export const importedMockTest = {
             "Clothing made with awls at sites like Kamenka A could likely be made more quickly than clothing made with needles at sites like Xiaogushan.",
             "Clothing made at sites like Kamenka A was likely made with needles, while clothing made at sites like Xiaogushan was likely made with awls."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Central Ideas and Details-Details",
         },
         {
           "id": 9,
@@ -501,6 +571,8 @@ export const importedMockTest = {
             "MSX sold approximately 18,600,000 units, whereas the Intellivision sold only approximately 2,000,000 units."
           ],
           "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "table": {
             "title": "Home Video Game Systems of the 1970s and 1980s",
             "headers": [
@@ -548,6 +620,8 @@ export const importedMockTest = {
             "Although leaves emit the compound in response to insect feeding, it does not appear to significantly reduce leaf consumption by hornworms."
           ],
           "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "image": "/sat-cmp-2026-i9-int-01-m3-q10.png"
         },
         {
@@ -561,6 +635,8 @@ export const importedMockTest = {
             "the average monthly low temperature was lower in May than in June."
           ],
           "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
           "table": {
             "title": "Monthly Temperatures and Wing Centroid Sizes of Fruit Fly Specimens",
             "headers": [
@@ -612,7 +688,9 @@ export const importedMockTest = {
             "Other bird species than C. cinerascens also showed a tendency to freeze in place or scatter into vegetation when Martínez and colleagues played T. caesius alarm calls.",
             "In some instances, C. cinerascens froze in place or scattered into vegetation when Martínez and colleagues approached but before they began playing sounds."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
         },
         {
           "id": 13,
@@ -624,7 +702,9 @@ export const importedMockTest = {
             "\"Hernández's reliance on classical ballet and modern dance has been exaggerated; the subject matter and gestural vocabulary of baile folklórico as popularized by her company remain rooted in the communal dances of Indigenous and colonial Spanish societies.\"",
             "\"Certain dances popularized by Hernández beginning in the 1950s appear in the repertoires of dance companies throughout Mexico and the United States but are nonetheless associated with specific Indigenous groups, specific colonial Spanish dances, or both.\""
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
         },
         {
           "id": 14,
@@ -636,7 +716,9 @@ export const importedMockTest = {
             "lowest among participants who were fans of the Steve Miller Band.",
             "highest among participants who were fans of Sam & Dave."
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 15,
@@ -648,7 +730,9 @@ export const importedMockTest = {
             "probate inventories from 1600 to 1750 that have been analyzed by scholars exaggerated the number of consumer goods that relatively prosperous individuals possessed.",
             "advocates of the consumer-revolution argument may have failed to account for the possibility that the increased acquisition of consumer goods in England between 1600 and 1750 was attributable to an increase in the proportion of wealthy individuals in the period."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences",
         },
         {
           "id": 16,
@@ -660,7 +744,9 @@ export const importedMockTest = {
             "flights at Austin-Bergstrom International Airport were boarded by a total of 8,506,262 departing passengers.",
             "employees at Austin-Bergstrom International Airport boarded a total of 8,506,262 departing passengers."
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 17,
@@ -672,7 +758,9 @@ export const importedMockTest = {
             "handwriting",
             "handwriting;"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 18,
@@ -684,7 +772,9 @@ export const importedMockTest = {
             "example, with",
             "example and with"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 19,
@@ -696,7 +786,9 @@ export const importedMockTest = {
             "Polynesia, among",
             "Polynesia. Among"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Standard English Conventions",
+          "skill": "Boundaries-Punctuation",
         },
         {
           "id": 20,
@@ -708,7 +800,9 @@ export const importedMockTest = {
             "can indicate",
             "indicating"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 21,
@@ -720,7 +814,9 @@ export const importedMockTest = {
             "forming",
             "form"
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense-Verb Tense, Aspect, and Mood",
         },
         {
           "id": 22,
@@ -732,7 +828,9 @@ export const importedMockTest = {
             "in contrast,",
             "that is,"
           ],
-          "answer": 3
+          "answer": 3,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 23,
@@ -744,7 +842,9 @@ export const importedMockTest = {
             "similarly,",
             "however,"
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Transitions-Logical Transition Words and Phrases",
         },
         {
           "id": 24,
@@ -756,7 +856,9 @@ export const importedMockTest = {
             "In The Three Passions (1928), actress Merle Oberon played a nameless, uncredited role; however, in Désirée (1954), she played a credited role—that of Empress Josephine.",
             "Early in her career, Merle Oberon wasn't listed in some film credits, such as the credits for the film The Three Passions, where she played a nameless, uncredited role."
           ],
-          "answer": 0
+          "answer": 0,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         },
         {
           "id": 25,
@@ -768,7 +870,9 @@ export const importedMockTest = {
             "In contending with the truth-maker objection ersatz presentism diverges from Lucretianism's use of past-tensed properties by positing an \"ersatz\" time-outside-time capable of representing past things.",
             "In 2006, Bourne proposed ersatz presentism, disagreeing with Bigelow's earlier hypothesis that only present things exist."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         },
         {
           "id": 26,
@@ -780,7 +884,9 @@ export const importedMockTest = {
             "Hein argues that syncopated rhythms are more exciting than unsyncopated ones, and indeed, Keller and Schubert's subjects assessed syncopated rhythms for happiness, enjoyment, and complexity, among other qualities.",
             "Happiness ratings were correlated with enjoyment in Keller and Schubert's study of syncopated and unsyncopated rhythms, suggesting that syncopated rhythms are, in Hein's words, \"where the fun starts.\""
           ],
-          "answer": 1
+          "answer": 1,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         },
         {
           "id": 27,
@@ -792,7 +898,9 @@ export const importedMockTest = {
             "The LNF rock art should be considered its own distinct style because its depictions of animal forms reveal a categorical departure from the art of the previous period.",
             "The differences between the LNF rock art and earlier IIAP depictions of animals show a notable increase in detail and variety, proving that rock art figures became more detailed over time."
           ],
-          "answer": 2
+          "answer": 2,
+          "domain": "Expression of Ideas",
+          "skill": "Rhetorical Synthesis-Logical Combination of Information",
         }
       ]
     }

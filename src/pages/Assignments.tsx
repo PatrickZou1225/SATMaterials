@@ -4,6 +4,7 @@ import { ChevronDown, ChevronRight, Plus, Search, Trash2 } from 'lucide-react'
 import { useAccount } from '../context/account'
 import { supabase } from '../lib/supabase'
 import { buildQuestionBank, type BankModule } from '../lib/questionBank'
+import { DOMAIN_ORDER, domainLabel, skillLabel } from '../lib/skills'
 import { TEACHER_PRICE_YEAR, useTeacherStatus } from '../lib/teacher'
 
 type Student = { id: string; display_name: string; email: string }
@@ -18,7 +19,7 @@ type Assignment = {
 type ClassRow = { id: string; name: string; memberIds: string[] }
 type ModuleStat = { students: Set<string>; correct: number; total: number }
 
-type DeployMode = 'compose' | 'fullset'
+type DeployMode = 'compose' | 'fullset' | 'skill'
 type SubjectFilter = 'all' | '阅读与文法' | '数学'
 type TeacherTab = 'create' | 'classes' | 'list'
 
@@ -27,8 +28,9 @@ const PAGE_SIZE = 15
 const statKey = (setId: string, moduleNum: number) => `${setId}:${moduleNum}`
 const accuracy = (correct: number, total: number) => (total > 0 ? Math.round((correct / total) * 100) : null)
 
-// One selectable row in the right-hand bank panel: either a whole set (整套 mode)
-// or a single module (组卷 mode). `keys` are the question_keys it contributes.
+// One selectable row in the right-hand bank panel: a whole set (整套 mode), a
+// single module (组卷 mode), or a knowledge point (知识点 mode). `keys` are the
+// question_keys it contributes.
 type PickerRow = {
   id: string
   title: string
@@ -38,6 +40,9 @@ type PickerRow = {
   students: number
   accuracy: number | null
   subject?: string
+  // Knowledge-point rows aggregate across sets, so per-module accuracy doesn't
+  // apply; this carries their coverage line instead.
+  note?: string
 }
 
 export default function Assignments() {
@@ -144,6 +149,39 @@ export default function Assignments() {
   const rows: PickerRow[] = useMemo(() => {
     const matchesQuery = (text: string) => text.toLowerCase().includes(query.trim().toLowerCase())
     const keepModule = (module: BankModule) => subjectFilter === 'all' || module.subject === subjectFilter
+
+    if (mode === 'skill') {
+      // One row per knowledge point, pooling its questions across every set so a
+      // teacher can drill a single skill.
+      const groups = new Map<string, { domain: string; keys: string[]; sets: Set<string>; modules: Set<string> }>()
+      for (const set of bank.sets) {
+        for (const module of set.modules) {
+          for (const q of module.questions) {
+            const skill = q.question.skill
+            if (!skill) continue
+            const group = groups.get(skill) ?? { domain: q.question.domain ?? '', keys: [], sets: new Set<string>(), modules: new Set<string>() }
+            group.keys.push(q.key)
+            group.sets.add(set.id)
+            group.modules.add(statKey(set.id, module.moduleNum))
+            groups.set(skill, group)
+          }
+        }
+      }
+      return [...groups.entries()]
+        .map(([skill, group]) => ({ skill, group, rank: DOMAIN_ORDER.indexOf(group.domain) }))
+        .sort((a, b) => (a.rank - b.rank) || a.skill.localeCompare(b.skill))
+        .map(({ skill, group }) => ({
+          id: `skill:${skill}`,
+          title: skillLabel(skill),
+          parent: domainLabel(group.domain),
+          questionCount: group.keys.length,
+          keys: group.keys,
+          students: 0,
+          accuracy: null,
+          note: `覆盖 ${group.sets.size} 套 / ${group.modules.size} 个模块 · ${skill}`,
+        }))
+        .filter((row) => matchesQuery(`${row.parent} ${row.title} ${row.note}`))
+    }
 
     if (mode === 'fullset') {
       return bank.sets.map((set) => {
@@ -342,7 +380,7 @@ export default function Assignments() {
 
   return <div className="max-w-6xl mx-auto px-4 py-10">
     <h1 className="text-3xl font-bold">作业管理</h1>
-    <p className="mt-2 text-slate-500 dark:text-slate-400">从题库组卷，布置给班级或指定学生。</p>
+    <p className="mt-2 text-slate-500 dark:text-slate-400">从题库按整套题、单个 Module 或知识点组卷，布置给班级或指定学生。</p>
 
     <div className="mt-6 flex gap-1 border-b border-slate-200 dark:border-slate-700">
       {([['create', '布置作业'], ['classes', '班级管理'], ['list', '作业列表']] as [TeacherTab, string][]).map(([key, label]) =>
@@ -418,18 +456,26 @@ export default function Assignments() {
         <section className="rounded-2xl border border-slate-200 dark:border-slate-700 p-5 space-y-4">
           <div>
             <p className="text-sm font-medium mb-2">布置方式</p>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               <Toggle active={mode === 'compose'} onClick={() => { setMode('compose'); setPage(1) }} label="组卷" />
               <Toggle active={mode === 'fullset'} onClick={() => { setMode('fullset'); setPage(1) }} label="整套" />
+              <Toggle active={mode === 'skill'} onClick={() => { setMode('skill'); setPage(1) }} label="知识点" />
             </div>
+            <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
+              {mode === 'compose' ? '按单个 Module 选题。'
+                : mode === 'fullset' ? '整套题一起布置。'
+                  : '按知识点布置，跨套题汇总同一考点的题目。'}
+            </p>
           </div>
-          <div>
+          {/* Knowledge points only exist for 阅读与文法 questions, so the subject
+              split is meaningless in that mode. */}
+          {mode !== 'skill' && <div>
             <p className="text-sm font-medium mb-2">分项</p>
             <div className="flex flex-wrap gap-2">
               {(['all', '阅读与文法', '数学'] as SubjectFilter[]).map((s) =>
                 <Toggle key={s} active={subjectFilter === s} onClick={() => { setSubjectFilter(s); setPage(1) }} label={s === 'all' ? '全部' : s} />)}
             </div>
-          </div>
+          </div>}
         </section>
       </div>
 
@@ -523,8 +569,12 @@ function PickerRowView({ row, checked, onToggle }: { row: PickerRow; checked: bo
       <span className="block truncate font-medium">{row.parent && `${row.parent} / `}{row.title}</span>
       <span className="mt-1 flex flex-wrap items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
         <span>{row.questionCount} 题</span>
-        <span>正确率 {row.accuracy === null ? '—' : `${row.accuracy}%`}</span>
-        <span>已作答 {row.students} 人</span>
+        {row.note
+          ? <span className="truncate">{row.note}</span>
+          : <>
+            <span>正确率 {row.accuracy === null ? '—' : `${row.accuracy}%`}</span>
+            <span>已作答 {row.students} 人</span>
+          </>}
       </span>
     </span>
   </label>
