@@ -7,7 +7,8 @@
 -- Like can_manage_student, but without the is_teacher_active() gate: a teacher
 -- whose subscription lapsed keeps access to the data they already collected
 -- (reads use is_teacher() elsewhere for the same reason).
-create function public.owns_student(target_student_id uuid)
+-- Depends on 20260926000001_attempts.sql having created public.attempts.
+create or replace function public.owns_student(target_student_id uuid)
 returns boolean
 language sql stable security definer
 set search_path = ''
@@ -24,8 +25,13 @@ $$;
 revoke all on function public.owns_student(uuid) from public, anon;
 grant execute on function public.owns_student(uuid) to authenticated;
 
-drop policy "Teachers view all attempts" on public.attempts;
-drop policy "Teachers view attempt answers" on public.attempt_answers;
+drop policy if exists "Teachers view all attempts" on public.attempts;
+drop policy if exists "Teachers view attempt answers" on public.attempt_answers;
+
+-- Policy names below are unique, so re-running the script after a partial failure
+-- would otherwise trip over them.
+drop policy if exists "Teachers view own students' attempts" on public.attempts;
+drop policy if exists "Teachers view own students' attempt answers" on public.attempt_answers;
 
 create policy "Teachers view own students' attempts"
 on public.attempts for select to authenticated
