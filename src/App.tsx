@@ -15,6 +15,8 @@ import Assignments from './pages/Assignments'
 import AssignmentWork from './pages/AssignmentWork'
 import QuestionBank from './pages/QuestionBank'
 import Students from './pages/Students'
+import Teachers from './pages/Teachers'
+import TeacherGate from './components/TeacherGate'
 
 function App() {
   return (
@@ -35,8 +37,9 @@ function App() {
             <Route path="/search" element={<Search />} />
             <Route path="/assignments" element={<Assignments />} />
             <Route path="/assignments/:assignmentId" element={<AssignmentWork />} />
-            <Route path="/bank" element={<QuestionBank />} />
-            <Route path="/students" element={<Students />} />
+            <Route path="/bank" element={<TeacherGate><QuestionBank /></TeacherGate>} />
+            <Route path="/students" element={<TeacherGate><Students /></TeacherGate>} />
+            <Route path="/teachers" element={<Teachers />} />
           </Route>
         </Routes>
       </BrowserRouter>

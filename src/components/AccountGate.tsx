@@ -14,8 +14,31 @@ export default function AccountGate({ children }: { children: ReactNode }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [displayName, setDisplayName] = useState('')
+  const [inviteCode, setInviteCode] = useState(() =>
+    typeof window === 'undefined' ? '' : new URLSearchParams(window.location.search).get('invite') ?? '')
   const [message, setMessage] = useState('')
   const [submitting, setSubmitting] = useState(false)
+
+  // Invite codes arrive via a ?invite= link. The code is redeemable only once the
+  // account is authenticated, which may be after email confirmation, so stash it
+  // and consume it on the next sign-in.
+  useEffect(() => {
+    if (!supabase || !user) return
+    const pending = window.localStorage.getItem('sat_pending_invite')
+    if (!pending) return
+    window.localStorage.removeItem('sat_pending_invite')
+    void supabase.rpc('redeem_invite', { invite_code: pending }).then(({ data }) => {
+      if (data === 'teacher') {
+        window.localStorage.setItem('sat_flash', '老师账号已开通，欢迎使用后台。')
+        setProfileAttempt(attempt => attempt + 1)
+      } else if (data === 'student') {
+        window.localStorage.setItem('sat_flash', '已加入你的老师。')
+        setProfileAttempt(attempt => attempt + 1)
+      } else {
+        window.localStorage.setItem('sat_flash', '邀请码无效或已被使用，请向老师确认后重试。')
+      }
+    })
+  }, [user])
 
   useEffect(() => {
     if (!supabase) return
@@ -37,7 +60,7 @@ export default function AccountGate({ children }: { children: ReactNode }) {
     if (!supabase || !user) return
     let active = true
     setProfileState('loading')
-    supabase.from('profiles').select('display_name, role').eq('id', user.id).single()
+    supabase.from('profiles').select('display_name, role, is_owner').eq('id', user.id).single()
       .then(({ data, error }) => {
         if (!active) return
         setProfile(error ? null : data as Profile | null)
@@ -53,6 +76,9 @@ export default function AccountGate({ children }: { children: ReactNode }) {
     if (!supabase) return
     setSubmitting(true)
     setMessage('')
+    if (mode === 'register' && inviteCode.trim()) {
+      window.localStorage.setItem('sat_pending_invite', inviteCode.trim())
+    }
     const result = mode === 'register'
       ? await supabase.auth.signUp({
           email: email.trim(), password,
@@ -88,6 +114,11 @@ export default function AccountGate({ children }: { children: ReactNode }) {
           <label className="block text-sm text-slate-700 dark:text-slate-200">密码
             <input required type="password" minLength={6} autoComplete={mode === 'login' ? 'current-password' : 'new-password'} value={password} onChange={event => setPassword(event.target.value)} className="mt-1 w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2" />
           </label>
+          {mode === 'register' && <label className="block text-sm text-slate-700 dark:text-slate-200">邀请码（老师提供，可选）
+            <input value={inviteCode} onChange={event => setInviteCode(event.target.value)} placeholder="没有可不填"
+              className="mt-1 w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2" />
+            {inviteCode.trim() && <span className="mt-1 block text-xs text-blue-600 dark:text-blue-400">已带邀请码，注册后将自动开通。</span>}
+          </label>}
           {message && <p role="status" className="text-sm text-slate-600 dark:text-slate-300">{message}</p>}
           <button disabled={submitting} className="w-full rounded-lg bg-blue-600 px-4 py-2.5 font-medium text-white hover:bg-blue-700 disabled:opacity-60">{submitting ? '请稍候…' : mode === 'login' ? '登录' : '注册'}</button>
         </form>

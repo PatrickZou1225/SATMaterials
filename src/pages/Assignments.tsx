@@ -4,6 +4,7 @@ import { ChevronDown, ChevronRight, Plus, Search, Trash2 } from 'lucide-react'
 import { useAccount } from '../context/account'
 import { supabase } from '../lib/supabase'
 import { buildQuestionBank, type BankModule } from '../lib/questionBank'
+import { TEACHER_PRICE_YEAR, useTeacherStatus } from '../lib/teacher'
 
 type Student = { id: string; display_name: string; email: string }
 type Assignment = {
@@ -42,6 +43,7 @@ type PickerRow = {
 export default function Assignments() {
   const account = useAccount()
   const isTeacher = account?.profile?.role === 'teacher'
+  const { loading: teacherLoading, active: teacherActive } = useTeacherStatus()
   const bank = useMemo(() => buildQuestionBank(), [])
 
   const [tab, setTab] = useState<TeacherTab>('create')
@@ -323,6 +325,18 @@ export default function Assignments() {
         {assignments.map((assignment) => <StudentAssignmentCard key={assignment.id} assignment={assignment} status={mySubmissions.get(assignment.id) ?? null} />)}
         {assignments.length === 0 && <p className="text-slate-500">暂时没有作业。</p>}
       </section>
+    </div>
+  }
+
+  if (teacherLoading) return <PageMessage text="正在检查订阅…" />
+  if (!teacherActive) {
+    return <div className="min-h-[60vh] grid place-items-center px-4">
+      <div className="max-w-md text-center">
+        <h1 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-2">订阅已到期</h1>
+        <p className="text-slate-500 dark:text-slate-400 mb-1">作业管理已暂停，你的班级、作业和学生数据都还在。</p>
+        <p className="text-sm text-slate-400 dark:text-slate-500 mb-6">续费 ¥{TEACHER_PRICE_YEAR}/年即可恢复，请联系站长。</p>
+        <Link to="/" className="inline-block px-5 py-2.5 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700">返回首页</Link>
+      </div>
     </div>
   }
 

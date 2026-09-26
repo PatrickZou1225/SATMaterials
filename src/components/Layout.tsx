@@ -6,13 +6,24 @@ import { useAccount } from '../context/account'
 export default function Layout() {
   const account = useAccount()
   const isTeacher = account?.profile?.role === 'teacher'
+  const isOwner = account?.profile?.is_owner === true
   const [menuOpen, setMenuOpen] = useState(false)
+  // One-shot message left by AccountGate (e.g. invite redemption result).
+  const [flash, setFlash] = useState('')
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     if (typeof window === 'undefined') return 'light'
     const stored = window.localStorage.getItem('sat_theme')
     if (stored === 'dark' || stored === 'light') return stored
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
   })
+
+  useEffect(() => {
+    const stored = window.localStorage.getItem('sat_flash')
+    if (stored) {
+      window.localStorage.removeItem('sat_flash')
+      setFlash(stored)
+    }
+  }, [])
 
   useEffect(() => {
     if (theme === 'dark') {
@@ -53,6 +64,7 @@ export default function Layout() {
               {account && <NavLink to="/assignments" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>作业</NavLink>}
               {isTeacher && <NavLink to="/bank" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>题库</NavLink>}
               {isTeacher && <NavLink to="/students" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>学生</NavLink>}
+              {isOwner && <NavLink to="/teachers" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>老师</NavLink>}
               <NavLink to="/faq" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>常见问题</NavLink>
               <NavLink to="/search" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>
                 <Search size={16} className="inline mr-1" />
@@ -83,6 +95,7 @@ export default function Layout() {
             {account && <NavLink to="/assignments" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">作业</NavLink>}
             {isTeacher && <NavLink to="/bank" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">题库</NavLink>}
             {isTeacher && <NavLink to="/students" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">学生</NavLink>}
+            {isOwner && <NavLink to="/teachers" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">老师</NavLink>}
             <NavLink to="/faq" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">常见问题</NavLink>
             <NavLink to="/search" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">搜索</NavLink>
             <NavLink to="/practice" onClick={() => setMenuOpen(false)} className="px-4 py-2 bg-blue-600 text-white rounded-lg text-center">开始练习</NavLink>
@@ -91,6 +104,13 @@ export default function Layout() {
           </div>
         )}
       </header>
+
+      {flash && <div className="max-w-6xl mx-auto px-4 pt-4">
+        <div className="flex items-center justify-between gap-3 rounded-xl border border-blue-300 dark:border-blue-700 bg-blue-50 dark:bg-blue-950/40 px-4 py-3 text-sm text-blue-800 dark:text-blue-200">
+          <span>{flash}</span>
+          <button type="button" onClick={() => setFlash('')} className="text-blue-500 hover:text-blue-700 dark:hover:text-blue-300" aria-label="关闭提示">×</button>
+        </div>
+      </div>}
 
       <main>
         <Outlet />
