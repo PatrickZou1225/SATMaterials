@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Clock, FileText, ArrowRight, Construction, Lock } from 'lucide-react'
 import { allMockTests, type MockTestSet } from '../data/mockTestQuestions'
 import { YEAR_PRICE, priceLabel, useYearAccess } from '../lib/access'
+import UnlockDialog from '../components/UnlockDialog'
 
 const subjectColors: Record<string, string> = {
   '阅读与文法': 'border-purple-300 bg-purple-50 text-purple-700 dark:border-purple-700 dark:bg-purple-900/30 dark:text-purple-300',
@@ -10,6 +12,7 @@ const subjectColors: Record<string, string> = {
 
 export default function MockTestList() {
   const { canAccess } = useYearAccess()
+  const [payYear, setPayYear] = useState<number | null>(null)
 
   // 按年份倒序分组（2026 → 2023）
   const years = [...new Set(allMockTests.map((test) => test.year))].sort((a, b) => b - a)
@@ -43,13 +46,16 @@ export default function MockTestList() {
               <section key={year}>
                 <div className="flex items-center gap-3 mb-4">
                   <h2 className="text-xl font-bold text-gray-900 dark:text-slate-100">{year} 年真题</h2>
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold border ${
-                    unlocked
-                      ? 'border-green-300 bg-green-50 text-green-700 dark:border-green-700 dark:bg-green-900/30 dark:text-green-300'
-                      : 'border-amber-300 bg-amber-50 text-amber-700 dark:border-amber-700 dark:bg-amber-900/30 dark:text-amber-300'
-                  }`}>
-                    {unlocked ? priceLabel(year) : `${priceLabel(year)} 解锁`}
-                  </span>
+                  {unlocked ? (
+                    <span className="px-3 py-1 rounded-full text-xs font-bold border border-green-300 bg-green-50 text-green-700 dark:border-green-700 dark:bg-green-900/30 dark:text-green-300">
+                      {priceLabel(year)}
+                    </span>
+                  ) : (
+                    <button type="button" onClick={() => setPayYear(year)}
+                      className="px-3 py-1 rounded-full text-xs font-bold border border-amber-300 bg-amber-50 text-amber-700 dark:border-amber-700 dark:bg-amber-900/30 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/50">
+                      {priceLabel(year)} 解锁
+                    </button>
+                  )}
                 </div>
 
                 {!unlocked && (
@@ -107,9 +113,10 @@ export default function MockTestList() {
                                   <Construction size={15} /> 敬请期待
                                 </span>
                               ) : (
-                                <span className="shrink-0 inline-flex items-center gap-1.5 px-4 py-2 bg-gray-100 dark:bg-slate-800 text-gray-400 dark:text-slate-500 rounded-lg text-sm font-semibold cursor-not-allowed">
-                                  <Lock size={15} /> 已锁定
-                                </span>
+                                <button type="button" onClick={() => setPayYear(test.year)}
+                                  className="shrink-0 inline-flex items-center gap-1.5 px-4 py-2 bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 border border-amber-300 dark:border-amber-700 rounded-lg text-sm font-semibold hover:bg-amber-100 dark:hover:bg-amber-900/50">
+                                  <Lock size={15} /> 解锁
+                                </button>
                               )}
                             </div>
                           )
@@ -160,6 +167,8 @@ export default function MockTestList() {
           </div>
         </div>
       </div>
+
+      {payYear !== null && <UnlockDialog year={payYear} onClose={() => setPayYear(null)} />}
     </div>
   )
 }

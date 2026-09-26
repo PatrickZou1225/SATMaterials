@@ -4,6 +4,7 @@ import { ArrowLeft, ChevronLeft, ChevronRight, RotateCcw, Flag, Clock, AlertTria
 import { getTestSet, type MockTestQuestion } from '../data/mockTestQuestions'
 import { formatPassageHtml } from '../lib/passage'
 import { priceLabel, useYearAccess } from '../lib/access'
+import UnlockDialog from '../components/UnlockDialog'
 
 const OPTION_LABELS = ['A', 'B', 'C', 'D']
 
@@ -34,21 +35,31 @@ export default function MockTest() {
       </div>
     )
   }
-  if (!canAccess(testSet.year)) {
-    return (
-      <div className="min-h-screen bg-gray-50 dark:bg-slate-950 flex items-center justify-center px-4">
-        <div className="max-w-md text-center">
-          <h1 className="text-xl font-bold text-gray-900 dark:text-slate-100 mb-2">该年份真题已锁定</h1>
-          <p className="text-gray-500 dark:text-slate-400 mb-1">{testSet.year} 年真题需要 {priceLabel(testSet.year)} 解锁。</p>
-          <p className="text-sm text-gray-400 dark:text-slate-500 mb-6">请联系老师开通，或等待老师布置作业。</p>
-          <Link to="/mock-test" className="inline-block px-5 py-2.5 bg-purple-600 text-white rounded-lg text-sm font-semibold hover:bg-purple-700">
+  if (!canAccess(testSet.year)) return <LockedPage year={testSet.year} />
+  return <MockTestRunner />
+}
+
+function LockedPage({ year }: { year: number }) {
+  const [showPay, setShowPay] = useState(false)
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 flex items-center justify-center px-4">
+      <div className="max-w-md text-center">
+        <h1 className="text-xl font-bold text-gray-900 dark:text-slate-100 mb-2">该年份真题已锁定</h1>
+        <p className="text-gray-500 dark:text-slate-400 mb-1">{year} 年真题需要 {priceLabel(year)} 解锁。</p>
+        <p className="text-sm text-gray-400 dark:text-slate-500 mb-6">付费解锁，或等待老师布置作业。</p>
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <button type="button" onClick={() => setShowPay(true)}
+            className="px-5 py-2.5 bg-purple-600 text-white rounded-lg text-sm font-semibold hover:bg-purple-700">
+            {priceLabel(year)} 解锁
+          </button>
+          <Link to="/mock-test" className="px-5 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg text-sm font-semibold hover:border-purple-400">
             ← 返回真题列表
           </Link>
         </div>
       </div>
-    )
-  }
-  return <MockTestRunner />
+      {showPay && <UnlockDialog year={year} onClose={() => setShowPay(false)} />}
+    </div>
+  )
 }
 
 function MockTestRunner() {
