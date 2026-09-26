@@ -45,6 +45,7 @@ export interface MockTestModule {
 export interface MockTestSet {
   id: string
   title: string
+  year: number // 真题年份，用于按年份分档解锁（见 src/lib/access.ts）
   modules: MockTestModule[]
 }
 
@@ -362,6 +363,7 @@ export const allMockTests: MockTestSet[] = [
   {
     id: '2505as-1',
     title: '2505AS 第一套',
+    year: 2025,
     modules: [
       // Module 1 — 待补充题目
       {

@@ -5,6 +5,7 @@ import type { MockTestSet } from '../mockTestQuestions'
 
 export const importedMockTest = {
   "id": "sat-cmp-2026-f6-int-02",
+  "year": 2026,
   "title": "SAT CMP 2026-F6-INT-02",
   "modules": [
     {

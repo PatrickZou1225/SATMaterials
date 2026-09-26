@@ -194,6 +194,10 @@ const testId = sourceTitle
   .replace(/^-|-$/g, '')
   .slice(0, 80);
 
+// Year drives the per-year paid gate (src/lib/access.ts). Titles look like
+// "SAT CMP 2026-I9-INT-01", so the first 4-digit run is the year.
+const year = Number(sourceTitle.match(/\b(20\d{2})\b/)?.[1]) || new Date().getFullYear();
+
 const output = `// Generated from ${inputPaths.map((inputPath) => path.basename(inputPath)).join(', ')}
 // Review answers and images before publishing.
 
@@ -203,6 +207,7 @@ export const importedMockTest = ${JSON.stringify(
   {
     id: testId || 'veritas-import',
     title: sourceTitle,
+    year,
     modules: parsedModules.map((item) => item.module),
   },
   null,

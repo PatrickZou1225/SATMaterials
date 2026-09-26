@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom'
 import { ArrowLeft, ChevronLeft, ChevronRight, RotateCcw, Flag, Clock, AlertTriangle, Send } from 'lucide-react'
 import { getTestSet, type MockTestQuestion } from '../data/mockTestQuestions'
 import { formatPassageHtml } from '../lib/passage'
+import { priceLabel, useYearAccess } from '../lib/access'
 
 const OPTION_LABELS = ['A', 'B', 'C', 'D']
 
@@ -18,7 +19,39 @@ function formatTime(totalSeconds: number) {
 //  模拟测试页面 — 计时真题模拟（无逐题反馈，交卷后统一出分）
 //  URL: /mock-test/:testId/:moduleIndex
 // ============================================================
+// Gate: real papers are sold per year. This wrapper blocks direct URLs to a
+// locked year before the runner (which owns all the exam state) ever mounts.
 export default function MockTest() {
+  const { testId } = useParams<{ testId: string }>()
+  const { loading, canAccess } = useYearAccess()
+  const testSet = getTestSet(testId ?? '')
+
+  if (!testSet) return <MockTestRunner />
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-slate-950 grid place-items-center text-gray-500 dark:text-slate-400">
+        正在检查权限…
+      </div>
+    )
+  }
+  if (!canAccess(testSet.year)) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-slate-950 flex items-center justify-center px-4">
+        <div className="max-w-md text-center">
+          <h1 className="text-xl font-bold text-gray-900 dark:text-slate-100 mb-2">该年份真题已锁定</h1>
+          <p className="text-gray-500 dark:text-slate-400 mb-1">{testSet.year} 年真题需要 {priceLabel(testSet.year)} 解锁。</p>
+          <p className="text-sm text-gray-400 dark:text-slate-500 mb-6">请联系老师开通，或等待老师布置作业。</p>
+          <Link to="/mock-test" className="inline-block px-5 py-2.5 bg-purple-600 text-white rounded-lg text-sm font-semibold hover:bg-purple-700">
+            ← 返回真题列表
+          </Link>
+        </div>
+      </div>
+    )
+  }
+  return <MockTestRunner />
+}
+
+function MockTestRunner() {
   const { testId, moduleIndex } = useParams<{ testId: string; moduleIndex: string }>()
   const navigate = useNavigate()
   const modIdx = parseInt(moduleIndex ?? '0', 10)

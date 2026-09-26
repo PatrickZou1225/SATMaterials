@@ -14,6 +14,7 @@ import Search from './pages/Search'
 import Assignments from './pages/Assignments'
 import AssignmentWork from './pages/AssignmentWork'
 import QuestionBank from './pages/QuestionBank'
+import Students from './pages/Students'
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
             <Route path="/assignments" element={<Assignments />} />
             <Route path="/assignments/:assignmentId" element={<AssignmentWork />} />
             <Route path="/bank" element={<QuestionBank />} />
+            <Route path="/students" element={<Students />} />
           </Route>
         </Routes>
       </BrowserRouter>
