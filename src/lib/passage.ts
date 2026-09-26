@@ -137,9 +137,20 @@ function formatParagraphs(text: string, underlines: string[]): string {
     .join('')
 }
 
+// Veritas sets a passage's opening letter as a drop cap in its own element, and
+// the capture serializes that element as "[P]" — so the first word arrives as
+// "[P]eople". Unhandled it leaks into the text and hides the paragraph boundary,
+// which makes splitIntroduction keep scanning past the provenance sentence and
+// swallow the excerpt's first sentence, taking any vocabulary highlight with it.
+// Restore the initial and the break. A bracket followed directly by a lowercase
+// letter is always this marker: real bracketed content ("the [gun] fired") is
+// spaced and never runs straight into a word.
+const DROP_CAP = /\s*\[([A-Z])\](?=[a-z])/g
+
 // One passage body: an optional provenance line, then the text itself.
-function formatBody(text: string, underlines: string[]): string {
-  const split = splitIntroduction(text.trim())
+function formatBody(rawText: string, underlines: string[]): string {
+  const text = rawText.replace(DROP_CAP, '\n\n$1').trim()
+  const split = splitIntroduction(text)
 
   if (!split) {
     return formatParagraphs(text, underlines)
