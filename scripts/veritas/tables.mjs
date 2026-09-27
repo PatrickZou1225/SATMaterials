@@ -580,6 +580,164 @@ export const tableOverrides = {
       bodyStart: "Interested in how differences in the color of dogs' irises",
     },
   },
+
+  // ── 2025-08 (H8) ────────────────────────────────────────────────────────────
+  'sat-cmp-2025-h8-int-01-module-1': {
+    10: {
+      table: {
+        title: 'Cumulative Counts of Fish in Three Taiwanese Tide Pools, 1999-2018',
+        headers: ['Species', 'Station 1', 'Station 2', 'Station 3'],
+        rows: [
+          ['barred flagtail', '249', '64', '16'],
+          ['streaky rockskipper', '125', '139', '610'],
+          ['blackpotted rockskipper', '83', '74', '31'],
+          ['Cocos frillgoby', '50', '64', '90'],
+        ],
+      },
+      bodyStart: 'Lin-Tai Ho and colleagues tracked fish populations',
+    },
+    11: {
+      table: {
+        title: 'Numbers of the 23 Non-native Tree Species Reported and the Insect and Fungus Threats to Them',
+        headers: ['Country', 'Trees', 'Fungi', 'Insects'],
+        rows: [
+          ['Austria', '13', '51', '50'],
+          ['Belgium', '4', '13', '11'],
+          ['Bulgaria', '9', '14', '16'],
+        ],
+      },
+      bodyStart: 'Elisabeth Pötzelsberger and colleagues gathered data',
+    },
+  },
+  'sat-cmp-2025-h8-int-01-module-2': {
+    10: {
+      table: {
+        title: 'Home Video Game Systems of the 1970s and 1980s',
+        headers: ['System', 'Manufacturer', 'System type', 'Approximate number of units sold worldwide'],
+        rows: [
+          ['ColecoVision', 'Coleco', 'console', '2,000,000'],
+          ['Intellivision', 'Mattel', 'console', '3,000,000'],
+          ['MSX', 'ASCII Corp.', 'computer', '4,000,000'],
+          ['Game & Watch', 'Nintendo', 'handheld', '18,600,000'],
+        ],
+      },
+      bodyStart: 'A student is writing a research paper',
+    },
+    12: {
+      table: {
+        title: 'Observed Traits in a Population of Broadleaf Arrowhead, by Flowering Date',
+        headers: ['Trait', 'Day 5', 'Day 10', 'Day 15', 'Day 20'],
+        rows: [
+          ['Total number of open male and female flowers per growth unit', '25', '65', '110', '45'],
+          ['Estimated reproductive success rate of male flowers', '0.29', '0.29', '0.29', '0.29'],
+          ['Proportion of male flowers', '0.45', '0.50', '0.48', '0.13'],
+        ],
+      },
+      bodyStart: 'The mating environment hypothesis predicts',
+    },
+  },
+  'sat-cmp-2025-h8-int-02-module-1': {
+    8: {
+      table: {
+        title: 'Examples of Hoards found in Ireland and Northern Ireland',
+        headers: ['Hoard name', 'Date of contents', 'Year of discovery', 'Description'],
+        rows: [
+          ['Carrick-on-Suir Hoard', '17th century CE', '2013', 'gold coins'],
+          ['Ardagh Hoard', '10th century CE', '1868', 'silver and bronze pieces'],
+          ['Balline Hoard', '4th century CE', '1940', 'silver pieces'],
+        ],
+      },
+      bodyStart: 'Deposits of valuable objects, or hoards',
+    },
+  },
+  'sat-cmp-2025-h8-int-02-module-2': {
+    11: {
+      table: {
+        title: 'Examples of Hoards found in Ireland and Northern Ireland',
+        headers: ['Hoard name', 'Date of contents', 'Year of discovery', 'Description'],
+        rows: [
+          ['Broighter Hoard', '1st century BCE', '1896', 'gold pieces'],
+          ['Balline Hoard', '4th century CE', '1940', 'silver pieces'],
+          ['Dooyork Hoard', '3rd century BCE-2nd century CE', '2001', 'gold, bronze, and beads'],
+        ],
+      },
+      bodyStart: 'Deposits of valuable objects, or hoards',
+    },
+    12: {
+      table: {
+        title: 'Fiber Characteristics of Mouflon, Navajo-Churro, and Spanish Merino Sheep',
+        headers: ['Type of sheep', 'Diameter of outer coat fibers (in microns)', 'Diameter of inner coat fibers (in microns)'],
+        rows: [
+          ['Spanish Merino', '19-24', '17-21'],
+          ['Navajo-Churro', '35 or higher', '10-35'],
+          ['Mouflon', '150', '15'],
+        ],
+      },
+      bodyStart: "Domestic sheep's wild ancestor, the mouflon",
+    },
+  },
+  'sat-cmp-2025-h8-na-01-module-1': {
+    9: {
+      table: {
+        title: 'Cumulative Counts of Fish in Three Taiwanese Tide Pools, 1999-2018',
+        headers: ['Species', 'Station 1', 'Station 2', 'Station 3'],
+        rows: [
+          ['spotted frillgoby', '40', '42', '9'],
+          ['blackspot sergeant', '338', '261', '136'],
+          ['cheekscaled frillgoby', '38', '45', '36'],
+          ['triplefin blenny', '149', '65', '78'],
+        ],
+      },
+      bodyStart: 'Lin-Tai Ho and colleagues tracked fish populations',
+    },
+    12: {
+      table: {
+        title: 'Myoglobin (Mb) Levels in the Cardiac Tissue of Three Teleost Species',
+        headers: [
+          'Species',
+          'Heart tissue color',
+          'Average Mb level',
+          'Standard deviation of Mb level',
+          'Number of healthy fish observed',
+        ],
+        rows: [
+          ['Anguilla anguilla', 'red', '33.30', '11.39', '3'],
+          ['Bunocephalus coracoideus', 'red', '18.02', '0.59', '3'],
+          ['Pantodon buchholzi', 'white', '0.02', '0.01', '4'],
+        ],
+      },
+      bodyStart: 'Myoglobin (Mb) is a protein that primarily aids',
+    },
+  },
+  'sat-cmp-2025-h8-na-02-module-2': {
+    10: {
+      table: {
+        title: 'Highest-Grossing Films in a Language Other than English at US Box Office',
+        headers: [
+          'Title',
+          'Lifetime gross earnings',
+          'Opening weekend box office gross earnings',
+          'US release date',
+          'Director',
+          'Oscar nominated?',
+        ],
+        rows: [
+          ['Eat Drink Man Woman', '$7,294,403', '$155,512', 'August 3, 1994', 'Ang Lee', 'Yes'],
+          [
+            "Huevos: Little Rooster's Egg-cellent Adventure",
+            '$9,080,818',
+            '$3,424,702',
+            'September 4, 2015',
+            'Gabriel Riva Palacio Alatriste and Rodolfo Riva Palacio Alatriste',
+            'No',
+          ],
+          ['Instructions Not Included', '$44,467,206', '$7,846,426', 'August 30, 2013', 'Eugenio Derbez', 'No'],
+          ['Crouching Tiger, Hidden Dragon', '$128,078,872', '$663,205', 'December 8, 2000', 'Ang Lee', 'Yes'],
+        ],
+      },
+      bodyStart: 'Few of the most commercially successful films in US movie theaters',
+    },
+  },
 }
 
 export function applyTableOverride(passage, override) {
