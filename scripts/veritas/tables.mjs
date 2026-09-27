@@ -738,6 +738,154 @@ export const tableOverrides = {
       bodyStart: 'Few of the most commercially successful films in US movie theaters',
     },
   },
+
+  // ── 2025-09 (I9) ────────────────────────────────────────────────────────────
+  'sat-cmp-2025-i9-int-01-module-1': {
+    11: {
+      table: {
+        title: 'Average Hours Worked per Person per Year in 1950 and 2017',
+        headers: ['Country', '1950', '2017', 'Change in hours', 'Percent change in hours'],
+        rows: [
+          ['United Kingdom', '2,184', '1,670', '-514', '-24%'],
+          ['Australia', '2,178', '1,731', '-447', '-21%'],
+          ['Germany', '2,427', '1,354', '-1,074', '-44%'],
+          ['Mexico', '2,432', '2,255', '-177', '-7%'],
+        ],
+      },
+      bodyStart: 'A student in an economics course',
+    },
+    12: {
+      table: {
+        title: 'Impact of Three Key Industries on Oklahoma Economy in 2017',
+        headers: [
+          'Industry',
+          'Approximate total contribution by industry',
+          'Number of people employed by industry',
+          'Average contribution per employee by industry',
+        ],
+        rows: [
+          ['Construction', '$6,797,300,000', '77,247', '$87,994'],
+          ['Professional services', '$7,694,000,000', '69,846', '$110,157'],
+          ['Tribal economic activity', '$7,312,400,000', '51,674', '$141,510'],
+        ],
+      },
+      bodyStart: 'The nearly forty tribes located in Oklahoma',
+    },
+  },
+  'sat-cmp-2025-i9-int-02-module-2': {
+    8: {
+      table: {
+        title: 'Broken-Wing Display in Various Bird Species',
+        headers: ['Species name', 'Common name', 'Order', 'Performs broken-wing display?'],
+        rows: [
+          ['Gallinago paraguaiae', 'South American snipe', 'Charadriiformes', 'No'],
+          ['Grus canadensis', 'sandhill crane', 'Gruiforms', 'Yes'],
+          ['Zenaida meloda', 'West Peruvian dove', 'Columbiformes', 'No'],
+          ['Actitis hypoleucos', 'common sandpiper', 'Charadriiforms', 'Yes'],
+          ['Coccyzus americanus', 'yellow-billed cuckoo', 'Cuculiformes', 'Yes'],
+        ],
+      },
+      bodyStart: 'While observing birds for a biology class',
+    },
+    9: {
+      table: {
+        title: 'Organic Compounds Detected in Sequential Extracts from A0106',
+        headers: ['Solvent (sequence #)', 'Alkanes', 'Dimethyl sulfides', 'Naphthalene'],
+        rows: [
+          ['Hexane (1)', 'present', 'absent', 'absent'],
+          ['Dichloromethane only (2)', 'present', 'absent', 'present'],
+          ['Methanol only (3)', 'absent', 'present', 'present'],
+          ['Dichloromethane and methanol (4)', 'present', 'absent', 'present'],
+        ],
+      },
+      bodyStart: 'After sample A0106 was retrieved from the asteroid Ryugu',
+    },
+  },
+  'sat-cmp-2025-i9-na-01-module-1': {
+    11: {
+      table: {
+        title: 'Examples of Hoards found in Ireland and Northern Ireland',
+        headers: ['Hoard name', 'Date of contents', 'Year of discovery', 'Description'],
+        rows: [
+          ['Broighter Hoard', '1st century BCE', '1896', 'gold pieces'],
+          ['Balline Hoard', '4th century CE', '1940', 'silver pieces'],
+          ['Dooyork Hoard', '3rd century BCE–2nd century CE', '2001', 'gold, bronze, and beads'],
+        ],
+      },
+      bodyStart: 'Deposits of valuable objects, or hoards',
+    },
+  },
+  'sat-cmp-2025-i9-na-01-module-2': {
+    9: {
+      table: {
+        title: 'Studies of Cougar Population Density',
+        headers: [
+          'Study authors',
+          'Location',
+          'Methods',
+          'Study area (square kilometers)',
+          'Maximum density (cougars per 100 square kilometers)',
+        ],
+        rows: [
+          ['Linda L. Sweanor et al.', 'New Mexico (United States)', 'radio-collar tracking', '2,059', '2.00'],
+          ['Gregory A. Davidson et al.', 'Oregon (United States)', 'scat-detecting dogs', '1,225', '5.50'],
+          ['A.J. Noss et al.', 'Bolivia', 'regular camera trapping', '215', '7.99'],
+          ['David M. Choate et al.', 'Utah (United States)', 'helicopter surveying', '1,300', '10.24'],
+        ],
+      },
+      bodyStart: 'Studies of the population density of cougars',
+    },
+  },
+  'sat-cmp-2025-i9-na-02-module-1': {
+    12: {
+      table: {
+        title: 'Numbers of the 23 Non-native Tree Species Reported and the Insect and Fungus Threats to Them',
+        headers: ['Country', 'Trees', 'Fungi', 'Insects'],
+        rows: [
+          ['Great Britain', '18', '290', '120'],
+          ['Belgium', '4', '13', '11'],
+          ['Poland', '10', '25', '105'],
+        ],
+      },
+      bodyStart: 'Elisabeth Pötzelsberger and colleagues gathered data',
+    },
+    14: {
+      table: {
+        title: 'Average Ratings of Perceived Personality Traits of Dogs and Human Willingness to Keep or Interact with Them',
+        headers: [
+          'Image ID number',
+          'Irises',
+          'Not friendly (0)–Friendly (5)',
+          'Immature (0)–Mature (5)',
+          'Would not keep (0)–Would keep (3)',
+          'Would not interact with (0)–Would interact with (3)',
+        ],
+        rows: [
+          ['24', 'light', '2.67', '4.03', '1.4', '1.7'],
+          ['14', 'light', '2.11', '3.27', '1.55', '1.85'],
+          ['6', 'dark', '4.03', '2.95', '1.85', '2.15'],
+          ['3', 'dark', '3.88', '2.51', '2.35', '2.65'],
+        ],
+      },
+      bodyStart: 'Studies have found that when looking at other people',
+    },
+  },
+  'sat-cmp-2025-i9-na-02-module-2': {
+    9: {
+      table: {
+        title: 'Broken-Wing Display in Various Bird Species',
+        headers: ['Species name', 'Common name', 'Order', 'Performs broken-wing display?'],
+        rows: [
+          ['Coccyzus americanus', 'yellow-billed cuckoo', 'Cuculiformes', 'Yes'],
+          ['Actitis hypoleucos', 'common sandpiper', 'Charadriiformes', 'Yes'],
+          ['Cinclosoma ajax', 'painted quail-thrush', 'Passeriformes', 'No'],
+          ['Calidris maritima', 'purple sandpiper', 'Charadriiformes', 'No'],
+          ['Dendroica pinus', 'pine warbler', 'Passeriformes', 'Yes'],
+        ],
+      },
+      bodyStart: 'While observing birds for a biology class',
+    },
+  },
 }
 
 export function applyTableOverride(passage, override) {
