@@ -1262,6 +1262,135 @@ export const tableOverrides = {
       bodyStart: 'Working in Ghana, Emmanuel Hanyabui and colleagues',
     },
   },
+
+  // ── 2025-12 (L12) ───────────────────────────────────────────────────────────
+  'sat-cmp-2025-l12-int-01-module-1': {
+    13: {
+      table: {
+        title: 'Percent Change in Average Global Market Prices by Commodity in Two Agricultural Trade-Reform Scenarios',
+        headers: ['Commodity', 'Percent change in TFA scenario', 'Percent change in tariff-removal scenario'],
+        rows: [
+          ['Fruits and vegetables', '-1.50', '+0.04'],
+          ['Processed foods', '-1.76', '-1.00'],
+          ['Rice', '-0.37', '+1.36'],
+          ['Wheat', '-1.35', '+0.45'],
+        ],
+      },
+      bodyStart: 'Ratified in 2017 by two-thirds of World Trade Organization',
+    },
+  },
+  'sat-cmp-2025-l12-int-01-module-3': {
+    10: {
+      table: {
+        title: 'Examples of Hoards Found in Ireland and Northern Ireland',
+        headers: ['Hoard name', 'Date of contents', 'Year of discovery', 'Description'],
+        rows: [
+          ['Coggalbeg Hoard', '24th-19th century BCE', '1945', 'gold pieces'],
+          ['Balline Hoard', '4th century CE', '1940', 'silver pieces'],
+          ['Ardagh Hoard', '10th century CE', '1868', 'silver and bronze pieces'],
+        ],
+      },
+      bodyStart: 'An anthropologist is recording the metal contents',
+    },
+  },
+  'sat-cmp-2025-l12-int-02-module-1': {
+    11: {
+      table: {
+        title: 'Minimum and Maximum Depths of Stony Coral Species in Caribbean and Indo-Pacific Waters',
+        headers: ['Species', 'Location', 'Minimum depth (meters)', 'Maximum depth (meters)'],
+        rows: [
+          ['Agaricia grahamae', 'Caribbean', '20', '115'],
+          ['Acropora bushyensis', 'Indo-Pacific', '0', '5'],
+          ['Mussa angulosa', 'Caribbean', '5', '30'],
+          ['Indophyllia macassarensis', 'Indo-Pacific', '20', '25'],
+        ],
+      },
+      bodyStart: 'A marine biologist is researching four stony coral species',
+    },
+    12: {
+      table: {
+        title: 'Myoglobin (Mb) Levels in the Cardiac Tissue of Three Teleost Species',
+        headers: [
+          'Species',
+          'Heart tissue color',
+          'Average Mb level',
+          'Standard deviation of Mb level',
+          'Number of healthy fish observed',
+        ],
+        rows: [
+          ['Anguilla anguilla', 'red', '33.30', '11.39', '3'],
+          ['Bunocephalus coracoideus', 'red', '18.02', '0.59', '3'],
+          ['Pantodon buchholzi', 'white', '0.02', '0.01', '4'],
+        ],
+      },
+      bodyStart: 'Myoglobin (Mb) is a protein that primarily aids',
+    },
+  },
+  'sat-cmp-2025-l12-int-02-module-2': {
+    10: {
+      table: {
+        title: 'Bird Species by Average Mass',
+        headers: ['Common name', 'Average mass (kg)', 'Capable of flight?'],
+        rows: [
+          ['Great bustard', '10.6', 'Yes'],
+          ['Trumpeter swan', '12.7', 'Yes'],
+          ['Emperor penguin', '31.5', 'No'],
+          ['Common ostrich', '104.0', 'No'],
+        ],
+      },
+      bodyStart: 'Most bird species that are capable of flight weigh less than a kilogram',
+    },
+    12: {
+      table: {
+        title: 'Monthly Temperatures and Wing Centroid Sizes of Fruit Fly Specimens',
+        headers: [
+          'Month',
+          'Average high (°F)',
+          'Average low (°F)',
+          'Average male wing centroid size (mm)',
+          'Average female wing centroid size (mm)',
+        ],
+        rows: [
+          ['June', '80', '56', '2.01', '2.31'],
+          ['July', '87', '62', '2.02', '2.31'],
+          ['October', '67', '44', '1.98', '2.29'],
+          ['May', '73', '50', '1.98', '2.27'],
+        ],
+      },
+      bodyStart: 'Drosophila (fruit flies) have generation times',
+    },
+  },
+  'sat-cmp-2025-l12-na-01-module-1': {
+    12: {
+      table: {
+        title: 'Four European High-Speed Rail Hubs',
+        headers: ['Hub', 'Country', 'Hub type'],
+        rows: [
+          ['København H', 'Denmark', 'existing hub (urban)'],
+          ['Lille Europe', 'France', 'peripheral replacement (urban periphery)'],
+          ['Reggio Emilia AV Mediopadana', 'Italy', 'distributed services (urban periphery)'],
+          ['Stuttgart Hbf', 'Germany', 'existing hub (urban)'],
+        ],
+      },
+      bodyStart: 'Installing a new high-speed rail (HSR) hub in an area',
+    },
+  },
+  'sat-cmp-2025-l12-na-01-module-2': {
+    10: {
+      table: {
+        title: 'Sewing Technology Found at Pleistocene Sites, by Latitude',
+        headers: ['Site', 'Region', 'Technology', 'Years before present(BP)', 'Latitude (°N)'],
+        rows: [
+          ['Khayrgas Cave', 'Siberia', 'eyed needles', '25,000', '60'],
+          ['Malaya Syia', 'Europe', 'awls', '36,000', '54'],
+          ['Stajnia Cave', 'Europe', 'awls', '42,000', '37'],
+          ['Shizitan', 'East Asia', 'eyed needles', '26,000-23,000', '36'],
+          ['Yafteh Cave', 'Southwest Asia', 'awls', '40,000', '33'],
+        ],
+      },
+      bodyStart: 'During the Pleistocene, people began using sharpened bone awls',
+    },
+  },
 }
 
 export function applyTableOverride(passage, override) {
