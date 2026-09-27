@@ -47,6 +47,10 @@ import { importedMockTest as satCmp2025I9Na02Reading } from './veritas-imports/s
 import { importedMockTest as satCmp2025J10Int01Reading } from './veritas-imports/sat-cmp-2025-j10-int-01-reading'
 import { importedMockTest as satCmp2025J10Int02Reading } from './veritas-imports/sat-cmp-2025-j10-int-02-reading'
 import { importedMockTest as satCmp2025J10Na01Reading } from './veritas-imports/sat-cmp-2025-j10-na-01-reading'
+import { importedMockTest as satCmp2025K11Int01Reading } from './veritas-imports/sat-cmp-2025-k11-int-01-reading'
+import { importedMockTest as satCmp2025K11Int02Reading } from './veritas-imports/sat-cmp-2025-k11-int-02-reading'
+import { importedMockTest as satCmp2025K11Int03Reading } from './veritas-imports/sat-cmp-2025-k11-int-03-reading'
+import { importedMockTest as satCmp2025K11Na01Reading } from './veritas-imports/sat-cmp-2025-k11-na-01-reading'
 
 export interface MockTestTable {
   title?: string // 可选：表格标题
@@ -476,6 +480,10 @@ export const allMockTests: MockTestSet[] = [
   satCmp2025J10Int01Reading,
   satCmp2025J10Int02Reading,
   satCmp2025J10Na01Reading,
+  satCmp2025K11Int01Reading,
+  satCmp2025K11Int02Reading,
+  satCmp2025K11Int03Reading,
+  satCmp2025K11Na01Reading,
   {
     id: '2505as-1',
     title: '2505AS 第一套',

@@ -1111,6 +1111,157 @@ export const tableOverrides = {
       bodyStart: 'In the 1980s and 1990s, many countries began allowing foreign investors',
     },
   },
+
+  // ── 2025-11 (K11) ───────────────────────────────────────────────────────────
+  'sat-cmp-2025-k11-int-01-module-1': {
+    10: {
+      table: {
+        title: 'Home Console and Computer Games of the 1980s',
+        headers: ['Title', 'Approximate number of units sold worldwide', 'Genre', 'Developer'],
+        rows: [
+          ['Super Mario Brothers 2', '7,460,000', 'platformer', 'Nintendo EAD'],
+          ['Ice Hockey', '2,420,000', 'sports', 'Nintendo R&D2'],
+          ['Where in the World Is Carmen Sandiego?', '4,000,000', 'education', 'Broderbund'],
+          ['Tetris', '43,000,000', 'puzzle', 'Nintendo R&D1'],
+        ],
+      },
+      bodyStart: 'A student is writing a paper on the global rise of the home video game industry',
+    },
+    12: {
+      table: {
+        title: 'Effect of Various Soil Treatments on Mean Pineapple Fruit Weight and Size',
+        headers: ['Soil treatment', 'Weight (grams)', 'Length (centimeters)', 'Diameter (centimeters)'],
+        rows: [
+          ['Control', '825.9', '6.14', '13.63'],
+          ['Biochar', '915.7', '6.56', '13.63'],
+          ['Compost', '864.8', '6.15', '13.22'],
+          ['Biochar and compost', '979.3', '6.76', '13.68'],
+          ['Biochar and NPK fertilizer', '1032.1', '6.78', '13.96'],
+        ],
+      },
+      bodyStart: 'Working in Ghana, Emmanuel Hanyabui and colleagues',
+    },
+  },
+  'sat-cmp-2025-k11-int-01-module-2': {
+    14: {
+      table: {
+        title: 'Highest Major Summits in India',
+        headers: ['Summit', 'Elevation (meters)', 'Mountain range', 'Prominence (meters)'],
+        rows: [
+          ['Kangto', '7,060', 'Assam Himalaya', '2,195'],
+          ['Saser Kangri III', '7,495', 'Saser Karakoram', '850'],
+          ['Langpo', '6,965', 'Sikkim Himalaya', '560'],
+          ['Sri Kailash', '6,932', 'Garhwal Himalaya', '1,092'],
+          ['Mount Lakshmi', '6,983', 'Rimo Karakoram', '800'],
+        ],
+      },
+      bodyStart: 'Mountain summits are often described',
+    },
+  },
+  'sat-cmp-2025-k11-int-02-module-1': {
+    10: {
+      table: {
+        title: 'Millions of Metric Tons of Copper Mined in 1995 and 2020',
+        headers: ['Country', '1995', '2020'],
+        rows: [
+          ['Indonesia', '0.44', '0.51'],
+          ['Mexico', '0.33', '0.73'],
+          ['Peru', '0.38', '2.15'],
+          ['United States', '1.85', '1.20'],
+        ],
+      },
+      bodyStart: 'While doing research for a paper about metal exports',
+    },
+  },
+  'sat-cmp-2025-k11-int-02-module-2': {
+    9: {
+      table: {
+        title: 'Effect of Various Soil Treatments on Mean Pineapple Fruit Weight and Size',
+        headers: ['Soil treatment', 'Weight (grams)', 'Length (centimeters)', 'Diameter (centimeters)'],
+        rows: [
+          ['Control', '825.9', '6.14', '13.63'],
+          ['Biochar', '915.7', '6.56', '13.63'],
+          ['Compost', '864.8', '6.15', '13.22'],
+          ['Biochar and compost', '979.3', '6.76', '13.68'],
+          ['Biochar and NPK fertilizer', '1032.1', '6.78', '13.96'],
+        ],
+      },
+      bodyStart: 'Working in Ghana, Emmanuel Hanyabui and colleagues',
+    },
+    10: {
+      table: {
+        title: "Percentages of New Year's Resolution Makers Who Make Certain Kinds of Resolutions",
+        headers: ['Type of resolution', 'Age 18-29', 'Age 30-49', 'Age 50-64', 'Age 65+'],
+        rows: [
+          ['Health and exercise', '79', '80', '79', '76'],
+          ['Finances', '68', '63', '56', '47'],
+          ['Personal relationships', '63', '53', '58', '52'],
+          ['Hobbies', '65', '53', '51', '45'],
+        ],
+      },
+      bodyStart: 'A Pew Research Center survey conducted in January 2024',
+    },
+  },
+  'sat-cmp-2025-k11-int-03-module-1': {
+    11: {
+      table: {
+        title: 'Members of the Girl Scouts of America, by Age Category, 1992–1995 (in thousands)',
+        headers: ['Category', '1992', '1993', '1994', '1995'],
+        rows: [
+          ['Ambassadors (older than 17)', '863', '826', '802', '784'],
+          ['Seniors (14–17 years)', '50', '43', '45', '52'],
+          ['Daisies (5–6 years)', '207', '191', '190', '195'],
+          ['Brownies (6–8 years)', '1,319', '1,225', '1,181', '1,142'],
+        ],
+      },
+      bodyStart: 'The Girl Scouts of America is an organization famous',
+    },
+  },
+  'sat-cmp-2025-k11-int-03-module-2': {
+    9: {
+      table: {
+        title: 'Ranking of Environmental and Sociocultural Benefits of Urban Agriculture (scale of 1 to 25; 1 = highest)',
+        headers: ['Social or ecological service', 'Project leaders', 'Stakeholders', 'General public'],
+        rows: [
+          ['improvement of social cohesion', '17', '10', '9'],
+          ['prevention of soil erosion', '13', '11', '23'],
+          ['conservation of genetic variability', '5', '18', '16'],
+          ['improvement of urban aesthetics and art inspiration', '8', '4', '6'],
+          ['enhancement of pollination', '1', '7', '12'],
+        ],
+      },
+      bodyStart: 'Esther Sanyé-Mengual',
+    },
+    10: {
+      table: {
+        title: "Percentages of New Year's Resolution Makers Who Make Certain Kinds of Resolutions",
+        headers: ['Type of resolution', 'Age 18-29', 'Age 30-49', 'Age 50-64', 'Age 65+'],
+        rows: [
+          ['Health and exercise', '79', '80', '79', '76'],
+          ['Finances', '68', '63', '56', '47'],
+          ['Personal relationships', '63', '53', '58', '52'],
+          ['Hobbies', '65', '53', '51', '45'],
+        ],
+      },
+      bodyStart: 'A Pew Research Center survey conducted in January 2024',
+    },
+  },
+  'sat-cmp-2025-k11-na-01-module-1': {
+    10: {
+      table: {
+        title: 'Effect of Various Soil Treatments on Mean Pineapple Fruit Weight and Size',
+        headers: ['Soil treatment', 'Weight (grams)', 'Length (centimeters)', 'Diameter (centimeters)'],
+        rows: [
+          ['Control', '825.9', '6.14', '13.63'],
+          ['Biochar', '915.7', '6.56', '13.63'],
+          ['Compost', '864.8', '6.15', '13.22'],
+          ['Biochar and compost', '979.3', '6.76', '13.68'],
+          ['Biochar and NPK fertilizer', '1032.1', '6.78', '13.96'],
+        ],
+      },
+      bodyStart: 'Working in Ghana, Emmanuel Hanyabui and colleagues',
+    },
+  },
 }
 
 export function applyTableOverride(passage, override) {
