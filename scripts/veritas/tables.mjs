@@ -886,6 +886,231 @@ export const tableOverrides = {
       bodyStart: 'While observing birds for a biology class',
     },
   },
+
+  // ── 2025-10 (J10) ───────────────────────────────────────────────────────────
+  'sat-cmp-2025-j10-int-01-module-1': {
+    11: {
+      table: {
+        title: 'Bird Species by Average Mass',
+        headers: ['Common name', 'Average mass (kg)', 'Capable of flight?'],
+        rows: [
+          ['Lesser rhea', '19.6', 'No'],
+          ['Dalmatian pelican', '11.5', 'Yes'],
+          ['Andean condor', '11.3', 'Yes'],
+          ['Northern cassowary', '44.0', 'No'],
+        ],
+      },
+      bodyStart: 'Most bird species that are capable of flight weigh less than a kilogram',
+    },
+  },
+  'sat-cmp-2025-j10-int-01-module-2': {
+    8: {
+      table: {
+        title: "Orbital Period in Earth Days of Three of Jupiter's Moons",
+        headers: ['Moon', 'Orbital period (days)'],
+        rows: [
+          ['Europa', '3.6'],
+          ['Leda', '240.9'],
+          ['Arche', '723.9'],
+        ],
+      },
+      bodyStart: 'The orbital period of a moon is the time it takes',
+    },
+    9: {
+      table: {
+        title: 'Years That RSRs Were Implemented in Four US States',
+        headers: ['Year', 'State'],
+        rows: [
+          ['2002', 'Wisconsin'],
+          ['2003', 'Virginia'],
+          ['2006', 'New Jersey'],
+          ['2009', 'Washington'],
+        ],
+      },
+      bodyStart: 'Regulations called RSRs prevent insurance companies',
+    },
+    10: {
+      table: {
+        title: 'Reported Annual Travel Distances in Four Studies of Migrating Animal Populations',
+        headers: ['Species', 'Continent', 'Distance (km)', 'Measurement method'],
+        rows: [
+          ['Mule deer', 'North America', '772', 'RTD'],
+          ['Caribou', 'North America', '3,807', 'GPS'],
+          ['Gray wolf', 'North America', '2,155', 'GPS'],
+          ['White-eared kob', 'Africa', '400', 'RTD'],
+        ],
+      },
+      bodyStart: 'Some studies of migrating animals measure',
+    },
+    11: {
+      table: {
+        title: 'Millions of Metric Tons of Copper Mined in 1995 and 2020',
+        headers: ['Country', '1995', '2020'],
+        rows: [
+          ['Poland', '0.38', '0.39'],
+          ['Kazakhstan', '0.26', '0.55'],
+          ['Chile', '2.49', '5.73'],
+          ['United States', '1.85', '1.20'],
+        ],
+      },
+      bodyStart: 'A student is researching copper mining',
+    },
+  },
+  'sat-cmp-2025-j10-int-01-module-3': {
+    8: {
+      table: {
+        title: 'Examples of Hoards found in Ireland and Northern Ireland',
+        headers: ['Hoard name', 'Date of contents', 'Year of discovery', 'Description'],
+        rows: [
+          ['Carrick-on-Suir Hoard', '17th century CE', '2013', 'gold coins'],
+          ['Ardagh Hoard', '10th century CE', '1868', 'silver and bronze pieces'],
+          ['Balline Hoard', '4th century CE', '1940', 'silver pieces'],
+        ],
+      },
+      bodyStart: 'Deposits of valuable objects, called hoards',
+    },
+    9: {
+      table: {
+        title: 'Impact of Four Key Industries on Oklahoma Economy in 2017',
+        headers: [
+          'Industry',
+          'Approximate total contribution by industry',
+          'Number of people employed by industry',
+          'Average contribution per employee by industry',
+        ],
+        rows: [
+          ['Retail', '$10,738,800,000', '179,208', '$59,924'],
+          ['Tribal economic activity', '$7,312,400,000', '51,674', '$141,510'],
+          ['Health care', '$13,727,300,000', '193,514', '$70,937'],
+          ['Accommodation/food services', '$5,242,100,000', '150,373', '$34,861'],
+        ],
+      },
+      bodyStart: 'The nearly forty tribes located in Oklahoma',
+    },
+    10: {
+      table: {
+        title: 'Average Ratings of Perceived Personality Traits of Dogs and Human Willingness to Keep or Interact with Them',
+        headers: [
+          'Image ID number',
+          'Irises',
+          'Not friendly (0)-Friendly (5)',
+          'Immature (0)-Mature (5)',
+          'Would not keep (0)-Would keep (3)',
+          'Would not interact with (0)-Would interact with (3)',
+        ],
+        rows: [
+          ['20', 'light', '2.08', '4.06', '1.5', '1.75'],
+          ['16', 'light', '1.61', '3.64', '1.3', '1.6'],
+          ['11', 'dark', '3.18', '2.94', '1.85', '2.05'],
+          ['3', 'dark', '3.88', '2.51', '2.35', '2.65'],
+        ],
+      },
+      bodyStart: 'Studies have found that when looking at other people',
+    },
+  },
+  'sat-cmp-2025-j10-int-02-module-1': {
+    13: {
+      table: {
+        title: 'Mean Body Mass of Birds Known to Perform Broken-Wing Display',
+        headers: ['Bird', 'Mean body mass (grams)'],
+        rows: [
+          ['ruddy turnstone', '137'],
+          ['swamp palm bulbul', '61'],
+          ['blue-winged teal', '398'],
+        ],
+      },
+      bodyStart: 'One antipredator defense that the masked lapwing uses',
+    },
+  },
+  'sat-cmp-2025-j10-int-02-module-2': {
+    8: {
+      table: {
+        title: 'Studies of Cougar Population Density',
+        headers: [
+          'Study authors',
+          'Location',
+          'Methods',
+          'Study area (square kilometers)',
+          'Maximum density (cougars per 100 square kilometers)',
+        ],
+        rows: [
+          ['Randy D. Johnson', 'North Dakota (United States)', 'radio-collar tracking', '6,467', '2.78'],
+          ['Gregory A. Davidson et al.', 'Oregon (United States)', 'scat-detecting dogs', '1,225', '5.50'],
+          ['Juan I. Zanón-Martinez et al.', 'Argentina', 'regular camera trapping', '1,179', '4.90'],
+          ['David M. Choate et al.', 'Utah (United States)', 'helicopter surveying', '1,300', '10.24'],
+        ],
+      },
+      bodyStart: 'Studies of the population density of cougars',
+    },
+    10: {
+      table: {
+        title: 'Projected Percent Change in Agricultural Production and Market Price under Tariff-Elimination Scenario',
+        headers: ['Country', 'Percent change in total production', 'Percent change in market prices'],
+        rows: [
+          ['Argentina', '+0.90', '+1.02'],
+          ['India', '-1.34', '-1.98'],
+          ['Russia', '-3.48', '-0.99'],
+          ['United States', '+1.76', '+0.44'],
+        ],
+      },
+      bodyStart: 'A tariff is a tax on imported goods',
+    },
+    13: {
+      table: {
+        title: 'Reported Annual Travel Distances in Four Studies of Migrating Animal Populations',
+        headers: ['Species', 'Continent', 'Distance (km)', 'Measurement method'],
+        rows: [
+          ['Mule deer', 'North America', '772', 'RTD'],
+          ['Caribou', 'North America', '3,807', 'GPS'],
+          ['Gray wolf', 'North America', '2,155', 'GPS'],
+          ['White-eared kob', 'Africa', '400', 'RTD'],
+        ],
+      },
+      bodyStart: 'Some studies of migrating animals measure',
+    },
+  },
+  'sat-cmp-2025-j10-na-01-module-1': {
+    12: {
+      table: {
+        title: 'Average Hours Worked per Person per Year in 1950 and 2017',
+        headers: ['Country', '1950', '2017', 'Change in hours', 'Percent change in hours'],
+        rows: [
+          ['Brazil', '2,042', '1,709', '-333', '-16%'],
+          ['Japan', '2,030', '1,738', '-292', '-14%'],
+          ['Switzerland', '2,040', '1,590', '-450', '-22%'],
+          ['Germany', '2,427', '1,354', '-1,074', '-44%'],
+        ],
+      },
+      bodyStart: 'A student in an economics course',
+    },
+  },
+  'sat-cmp-2025-j10-na-01-module-2': {
+    10: {
+      table: {
+        title: 'Brown Bears in Katmai National Park, Alaska',
+        headers: ['Bear identification number', 'Sex', 'Age (years)', 'Approximate weight (pounds)'],
+        rows: [
+          ['122', 'male', '3', '200'],
+          ['117', 'female', '6', '325'],
+          ['157', 'male', '7', '450'],
+          ['123', 'female', '11', '350'],
+        ],
+      },
+      bodyStart: 'Scientists collected information about brown bears',
+    },
+    11: {
+      table: {
+        title: 'Year That Foreign Investors Were First Allowed to Purchase Shares',
+        headers: ['Country', 'Year'],
+        rows: [
+          ['India', '1986'],
+          ['Morocco', '1988'],
+          ['Indonesia', '1989'],
+        ],
+      },
+      bodyStart: 'In the 1980s and 1990s, many countries began allowing foreign investors',
+    },
+  },
 }
 
 export function applyTableOverride(passage, override) {
