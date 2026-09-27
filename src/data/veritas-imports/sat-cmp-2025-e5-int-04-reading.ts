@@ -4,8 +4,8 @@
 import type { MockTestSet } from '../mockTestQuestions'
 
 export const importedMockTest = {
-  "id": "sat-cmp-2025-e5-int-04-module-1-routing",
-  "title": "SAT CMP 2025-E5-INT-04 / Module 1 (Routing)",
+  "id": "sat-cmp-2025-e5-int-04",
+  "title": "SAT CMP 2025-E5-INT-04",
   "year": 2025,
   "modules": [
     {

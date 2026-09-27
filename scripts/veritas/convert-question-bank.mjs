@@ -220,10 +220,10 @@ const parseModule = async (inputPath) => {
 
 const parsedModules = await Promise.all(inputPaths.map(parseModule));
 const firstTitle = parsedModules[0]?.sourceTitle || path.basename(inputPaths[0], path.extname(inputPaths[0]));
-const sourceTitle =
-  parsedModules.length > 1
-    ? firstTitle.replace(/\s*\/\s*Module\s*\d+(?:\s*\([^)]+\))?/i, '')
-    : firstTitle;
+// A set imported from a single module file still carries that module in its
+// title ("... / Module 1 (Routing)"); strip it in every case, or the set id
+// keeps the module suffix.
+const sourceTitle = firstTitle.replace(/\s*\/\s*Module\s*\d+(?:\s*\([^)]+\))?/i, '');
 // Titles can carry CJK annotations, but the id becomes the set
 // half of every question_key, which the database constrains to [a-z0-9_-]. Drop
 // anything outside that alphabet rather than emitting an unusable key. The
