@@ -436,7 +436,8 @@ export const importedMockTest = {
           "options": [
             "The team of researchers tested the germination of 300 Ficus grevei seeds that had been ingested by Madagascan flying-fox bats and 300 Ficus grevei seeds that had not been ingested.",
             "In the study, a higher percentage of Ficus grevei seeds ingested by bats germinated than those that had not been ingested by bats.",
-            "Research by R. Oleksy et al. revealed that 180 of 300—that is, 60%—of the Ficus grevei seeds that had been ingested by the bats germinated."
+            "Research by R. Oleksy et al. revealed that 180 of 300—that is, 60%—of the Ficus grevei seeds that had been ingested by the bats germinated.",
+            "R. Oleksy et al. wanted to explore the effects of Madagascan flying-fox bats' ingestion on Ficus grevei seed germination."
           ],
           "answer": 0,
           "domain": "Expression of Ideas",

@@ -54,6 +54,29 @@ const recoverTruncatedQuestion = (fragment, record) => {
   return recovered.replace(/([.!?]\s+)([a-z])/g, (_, gap, ch) => gap + ch.toUpperCase());
 };
 
+// The DOM read occasionally drops the letter marker from the final option, so
+// record.options comes back with three while the fourth option's text still
+// sits in rawText between the previous option's "N% 选择" marker and 知识点.
+const recoverTrailingOption = (options, record) => {
+  if (options.length !== 3) return options;
+  const flat = String(record.rawText || '');
+  const last = options[options.length - 1];
+  const at = flat.lastIndexOf(last);
+  if (at < 0) return options;
+  const after = flat.slice(at + last.length);
+  const marker = after.match(/\s*\d+(?:\.\d+)?%\s*选择\s*/);
+  if (!marker) return options;
+  const rest = after.slice(marker.index + marker[0].length);
+  const stop = rest.indexOf('知识点');
+  if (stop < 0) return options;
+  const text = rest
+    .slice(0, stop)
+    .replace(/\s*\d+(?:\.\d+)?%\s*选择\s*$/, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  return text ? [...options, text] : options;
+};
+
 const inferQuestion = (record) => {
   const recorded = String(record.question || '');
   if (recorded) {
@@ -150,7 +173,10 @@ const parseModule = async (inputPath) => {
   };
 
   const questions = (raw.questions || []).map((record, index) => {
-    const options = (record.options || []).map(stripOptionPrefix).filter(Boolean);
+    const options = recoverTrailingOption(
+      (record.options || []).map(stripOptionPrefix).filter(Boolean),
+      record,
+    );
     const answer =
       Number.isInteger(record.answer) && record.answer >= 0 && record.answer <= 3
         ? record.answer
