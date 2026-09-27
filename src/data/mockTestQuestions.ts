@@ -20,6 +20,14 @@ import { importedMockTest as satCmp2026F6Int02Reading } from './veritas-imports/
 import { importedMockTest as satCmp2026E5Int01Reading } from './veritas-imports/sat-cmp-2026-e5-int-01-reading'
 import { importedMockTest as satCmp2026E5Int02Reading } from './veritas-imports/sat-cmp-2026-e5-int-02-reading'
 import { importedMockTest as satCmp2026E5Int03Reading } from './veritas-imports/sat-cmp-2026-e5-int-03-reading'
+import { importedMockTest as satCmp2025C3Int01Reading } from './veritas-imports/sat-cmp-2025-c3-int-01-reading'
+import { importedMockTest as satCmp2025C3Int02Reading } from './veritas-imports/sat-cmp-2025-c3-int-02-reading'
+import { importedMockTest as satCmp2025C3Int03Reading } from './veritas-imports/sat-cmp-2025-c3-int-03-reading'
+import { importedMockTest as satCmp2025C3Int04Reading } from './veritas-imports/sat-cmp-2025-c3-int-04-reading'
+import { importedMockTest as satCmp2025C3Int05Reading } from './veritas-imports/sat-cmp-2025-c3-int-05-reading'
+import { importedMockTest as satCmp2025C3Na01Reading } from './veritas-imports/sat-cmp-2025-c3-na-01-reading'
+import { importedMockTest as satCmp2025C3Na02Reading } from './veritas-imports/sat-cmp-2025-c3-na-02-reading'
+import { importedMockTest as satCmp2025C3Na03Reading } from './veritas-imports/sat-cmp-2025-c3-na-03-reading'
 
 export interface MockTestTable {
   title?: string // 可选：表格标题
@@ -422,6 +430,14 @@ export const allMockTests: MockTestSet[] = [
   satCmp2026E5Int01Reading,
   satCmp2026E5Int02Reading,
   satCmp2026E5Int03Reading,
+  satCmp2025C3Int01Reading,
+  satCmp2025C3Int02Reading,
+  satCmp2025C3Int03Reading,
+  satCmp2025C3Int04Reading,
+  satCmp2025C3Int05Reading,
+  satCmp2025C3Na01Reading,
+  satCmp2025C3Na02Reading,
+  satCmp2025C3Na03Reading,
   {
     id: '2505as-1',
     title: '2505AS 第一套',

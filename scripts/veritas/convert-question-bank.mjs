@@ -2,6 +2,7 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import { inferSkill } from './skills.mjs';
+import { applyTableOverride, tableOverrides } from './tables.mjs';
 
 const [, , ...args] = process.argv;
 
@@ -156,7 +157,14 @@ const parseModule = async (inputPath) => {
         : answerLetters.indexOf(String(record.answerLetter || '').toUpperCase());
 
     const hasAnswer = answer >= 0;
-    const image = candidateImages(record).find((src) => imageCounts.get(src) === 1);
+    // The question's figure is the image it alone uses; page chrome repeats for
+    // every question and so is excluded by that test. But one figure can serve two
+    // questions (the same data asked two ways), and then neither is unique — fall
+    // back to an image used by at most two questions, which is still a figure and
+    // never the chrome (that repeats for all ~27).
+    const image =
+      candidateImages(record).find((src) => imageCounts.get(src) === 1) ||
+      candidateImages(record).find((src) => imageCounts.get(src) <= 2);
     const question = inferQuestion(record);
     // Knowledge point, recovered from the 添加知识点 blob. Drives assignment by
     // skill (see scripts/veritas/skills.mjs).
@@ -173,10 +181,30 @@ const parseModule = async (inputPath) => {
       // Vocabulary stems name the target word in quotes; the exam underlines that
       // word in the passage but Veritas drops the styling, so recover it here.
       underline: inferUnderlines(question),
-      image: image && imageCounts.get(image) === 1 ? image : undefined,
+      image: image && imageCounts.get(image) <= 2 ? image : undefined,
       table: record.table,
     };
   });
+
+  // Tables Veritas renders as divs arrive flattened into the passage; the
+  // hand-built table (scripts/veritas/tables.mjs) replaces that text.
+  const overrideKey = path.basename(inputPath, path.extname(inputPath));
+  const overrides = tableOverrides[overrideKey] || {};
+  const usedOverrideIds = new Set();
+  for (const question of questions) {
+    const override = overrides[question.id];
+    if (override) usedOverrideIds.add(question.id);
+    const applied = applyTableOverride(question.passage, override);
+    question.passage = applied.passage;
+    if (applied.table) question.table = applied.table;
+  }
+  // A key that matches nothing means a typo'd question id or file name, which
+  // would silently ship the flattened table.
+  for (const key of Object.keys(overrides)) {
+    if (!usedOverrideIds.has(Number(key))) {
+      console.warn(`Unused table override: ${overrideKey} q${key}`);
+    }
+  }
 
   return {
     sourceTitle,
@@ -198,8 +226,11 @@ const sourceTitle =
     : firstTitle;
 // Titles can carry CJK annotations, but the id becomes the set
 // half of every question_key, which the database constrains to [a-z0-9_-]. Drop
-// anything outside that alphabet rather than emitting an unusable key.
+// anything outside that alphabet rather than emitting an unusable key. The
+// annotation is also dropped before that, so "2025-J10-INT-01(读写3个Module)"
+// yields "sat-cmp-2025-j10-int-01" rather than a "-3-module" suffix.
 const testId = sourceTitle
+  .replace(/\([^)]*[一-鿿][^)]*\)/g, '')
   .toLowerCase()
   .replace(/[^a-z0-9]+/g, '-')
   .replace(/^-|-$/g, '')

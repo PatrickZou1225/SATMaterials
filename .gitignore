@@ -21,6 +21,9 @@ dist-ssr
 # Generated artifacts (not source)
 tmp/
 output/
+# Raw Veritas captures (~1MB each) — the generated .ts imports are the committed
+# artifact; these are only the converter's input.
+data/veritas-imports/raw-2025/
 *.pyc
 __pycache__/
 大师之书*.pdf
