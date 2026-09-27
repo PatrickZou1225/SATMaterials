@@ -145,7 +145,8 @@ export const importedMockTest = {
           ],
           "answer": 3,
           "domain": "Information and Ideas",
-          "skill": "Command of Evidence-Quantitative Evidence"
+          "skill": "Command of Evidence-Quantitative Evidence",
+          "image": "/sat-cmp-2025-c3-na-02-m1-q10.jpg"
         },
         {
           "id": 11,
@@ -159,7 +160,8 @@ export const importedMockTest = {
           ],
           "answer": 1,
           "domain": "Information and Ideas",
-          "skill": "Command of Evidence-Quantitative Evidence"
+          "skill": "Command of Evidence-Quantitative Evidence",
+          "image": "/sat-cmp-2025-c3-na-02-m1-q11.svg"
         },
         {
           "id": 12,

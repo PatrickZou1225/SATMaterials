@@ -571,7 +571,8 @@ export const importedMockTest = {
           ],
           "answer": 3,
           "domain": "Information and Ideas",
-          "skill": "Command of Evidence-Quantitative Evidence"
+          "skill": "Command of Evidence-Quantitative Evidence",
+          "image": "/sat-cmp-2025-i9-na-02-m2-q8.jpg"
         },
         {
           "id": 9,

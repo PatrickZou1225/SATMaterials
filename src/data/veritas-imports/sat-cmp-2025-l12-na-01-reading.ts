@@ -223,7 +223,8 @@ export const importedMockTest = {
           ],
           "answer": 3,
           "domain": "Information and Ideas",
-          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)"
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)",
+          "image": "/sat-cmp-2025-l12-na-01-m1-q13.svg"
         },
         {
           "id": 14,
