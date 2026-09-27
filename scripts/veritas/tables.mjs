@@ -426,6 +426,160 @@ export const tableOverrides = {
       bodyStart: 'Issuing a one-dollar coin yields positive seigniorage',
     },
   },
+
+  // ── 2025-06 (F6) ────────────────────────────────────────────────────────────
+  'sat-cmp-2025-f6-int-01-module-1': {
+    11: {
+      table: {
+        title: 'US Hydroelectric Power Plants, 2019',
+        headers: ['Plant', 'State', 'Mode', 'Generators in plant', 'Average power generation (MWh/yr)', 'Water source'],
+        rows: [
+          ['J. Woodruff', 'Florida', 'peaking', '3', '193,864', 'Lake Seminole Reservoir'],
+          ['Superior Falls', 'Michigan', 'run-of-river', '2', '10,693', 'Montreal River'],
+          ['Norway', 'Indiana', 'run-of-river', '4', '19,751', 'Tippecanoe River'],
+          ['White River', 'Wisconsin', 'run-of-river', '2', '3,999', 'White River'],
+        ],
+      },
+      bodyStart: 'In 2021, Rocío Uría-Martínez',
+    },
+    13: {
+      table: {
+        title: 'Peering at Adult Orangutans by Immature Orangutans',
+        headers: [
+          'Individual',
+          'Site',
+          'Sex',
+          'Total number of peering events observed',
+          "Proportion of peering events directed at permanent residents of immature orangutan's home region",
+        ],
+        rows: [
+          ['1', 'Suaq', 'female', '17', '0.59'],
+          ['13', 'Tuanan', 'male', '27', '0.15'],
+          ['15', 'Tuanan', 'male', '15', '0.00'],
+          ['6', 'Tuanan', 'female', '6', '0.67'],
+        ],
+      },
+      bodyStart: 'One way that young orangutans acquire foraging skills',
+    },
+  },
+  'sat-cmp-2025-f6-int-01-module-2': {
+    11: {
+      table: {
+        title: 'Electricity Capacity Trends (in megawatts) for Four Renewable Technologies in Indonesia (2017—2020)',
+        headers: ['Energy', '2017', '2018', '2019', '2020'],
+        rows: [
+          ['Geothermal', '1,808', '1,948', '2,131', '2,131'],
+          ['Renewable hydropower', '5,703', '5,773', '5,976', '6,141'],
+          ['Solar', '97.4', '65.5', '155', '185.3'],
+          ['Wind', '1.5', '143.5', '154.3', '154.3'],
+        ],
+      },
+      bodyStart: 'Indonesia is trying to increase its electricity capacity',
+    },
+  },
+  'sat-cmp-2025-f6-int-02-module-1': {
+    11: {
+      table: {
+        title: 'Total Areas of Five Tribal Nations around the United States',
+        headers: ['Tribal nation', 'Location', 'Area (square miles)'],
+        rows: [
+          ['White Mountain Apache Tribe', 'Arizona', '2,631'],
+          ['Crow Tribe', 'Montana', '3,606'],
+          ['Leech Lake Band of Ojibwe', 'Minnesota', '1,311'],
+          ['Chickasaw Nation', 'Oklahoma', '7,648'],
+          ['Cheyenne River Sioux Tribe', 'South Dakota', '4,419'],
+        ],
+      },
+      bodyStart: 'A citizen of the Leech Lake Band of Ojibwe',
+    },
+  },
+  'sat-cmp-2025-f6-int-02-module-2': {
+    12: {
+      table: {
+        headers: [
+          'Termite cape type the spiders looked at first',
+          'Percentage of spider attacks on termites with solid black capes',
+          'Percentage of spider attacks on termites with solid white capes',
+          'Percentage of attacks on termites with black-and-white striped capes',
+        ],
+        rows: [
+          ['solid black cape', '60%', '26%', '13%'],
+          ['solid white cape', '14%', '86%', '0%'],
+          ['black-and-white striped cape', '25%', '50%', '25%'],
+        ],
+      },
+      bodyStart: 'Some animals evade predation with the help of contrasting markings',
+    },
+  },
+  'sat-cmp-2025-f6-na-01-module-1': {
+    9: {
+      table: {
+        title: 'Average Hours Worked per Person per Year in 1950 and 2017',
+        headers: ['Country', '1950', '2017', 'Change in hours', 'Percent change in hours'],
+        rows: [
+          ['Peru', '2,157', '1,932', '-225', '-10%'],
+          ['Canada', '2,209', '1,696', '-513', '-23%'],
+          ['Denmark', '2,049', '1,400', '-649', '-32%'],
+          ['Finland', '2,053', '1,659', '-394', '-19%'],
+        ],
+      },
+      bodyStart: 'A student in an economics course',
+    },
+    10: {
+      table: {
+        title: 'Percent Change in Average Global Market Prices by Commodity in Two Agricultural Trade-Reform Scenarios',
+        headers: ['Commodity', 'Percent change in TFA scenario', 'Percent change in tariff-removal scenario'],
+        rows: [
+          ['Fruits and vegetables', '-1.50', '+0.04'],
+          ['Processed foods', '-1.76', '-1.00'],
+          ['Rice', '-0.37', '+1.36'],
+          ['Wheat', '-1.35', '+0.45'],
+        ],
+      },
+      bodyStart: 'Ratified in 2017 by two-thirds of World Trade Organization',
+    },
+    11: {
+      table: {
+        title: 'Value, Cost, and Seigniorage of US Coins by Denomination, 2023',
+        headers: [
+          'Denomination',
+          'Total value of units produced (in millions of dollars)',
+          'Gross cost (in millions of dollars)',
+          'Seigniorage (in millions of dollars)',
+          'Seigniorage per $1 issued (dollars)',
+        ],
+        rows: [
+          ['One-cent', '41.4', '127.4', '-86.0', '-2.08'],
+          ['Five-cent', '70.8', '163.4', '-92.6', '-1.31'],
+          ['Ten-cent', '266.6', '141.1', '125.5', '0.47'],
+          ['Quarter-dollar', '568.4', '264.4', '304.0', '0.53'],
+        ],
+      },
+      bodyStart: 'Issuing a one-dollar coin yields positive seigniorage',
+    },
+  },
+  'sat-cmp-2025-f6-na-01-module-2': {
+    14: {
+      table: {
+        title: 'Average Ratings of Perceived Personality Traits of Dogs and Human Willingness to Keep or Interact with Them',
+        headers: [
+          'Image ID number',
+          'Irises',
+          'Not friendly (0)–Friendly (5)',
+          'Immature (0)–Mature (5)',
+          'Would not keep (0)–Would keep (3)',
+          'Would not interact with (0)–Would interact with (3)',
+        ],
+        rows: [
+          ['24', 'light', '2.67', '4.03', '1.4', '1.7'],
+          ['14', 'light', '2.11', '3.27', '1.55', '1.85'],
+          ['8', 'dark', '3.52', '2.91', '1.9', '2.45'],
+          ['3', 'dark', '3.88', '2.51', '2.35', '2.65'],
+        ],
+      },
+      bodyStart: "Interested in how differences in the color of dogs' irises",
+    },
+  },
 }
 
 export function applyTableOverride(passage, override) {
