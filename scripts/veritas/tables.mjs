@@ -1391,6 +1391,23 @@ export const tableOverrides = {
       bodyStart: 'During the Pleistocene, people began using sharpened bone awls',
     },
   },
+
+  // ── 2026-09 (I9) ────────────────────────────────────────────────────────────
+  'sat-cmp-2026-i9-int-02-module-1': {
+    11: {
+      table: {
+        title: "Emoji Users' Agreement with Statements About Emoji Use at Work",
+        headers: ['Statement', 'Agreement (% of users)'],
+        rows: [
+          ['boosts creativity', '58'],
+          ['improves efficiency of team decision-making', '62'],
+          ['improves sense of connection with others', '63'],
+          ['makes new tasks seem more appealing', '79'],
+        ],
+      },
+      bodyStart: 'Emojis are small images',
+    },
+  },
 }
 
 export function applyTableOverride(passage, override) {

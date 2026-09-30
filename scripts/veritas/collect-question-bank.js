@@ -11,6 +11,13 @@
 
   const textOf = (node) => (node?.innerText || node?.textContent || '').replace(/\s+/g, ' ').trim();
   const clean = (value) => String(value || '').replace(/\s+/g, ' ').trim();
+
+  // The homework result page prints "Question 1-27 are based on the following
+  // passage" above the live stem. Both the number and the stem are read out of
+  // the page text, so drop that header first: otherwise every question reports
+  // number 1 and every stem keeps the header's tail glued to its front.
+  const HEADER = /Question\s*\d+\s*[-–]\s*\d+\s+are based on the following passage\s*/gi;
+  const stripHeaders = (value) => String(value || '').replace(HEADER, '');
   const isVisible = (el) => {
     if (!el || !(el instanceof Element)) return false;
     const rect = el.getBoundingClientRect();
@@ -64,6 +71,27 @@
     }
     return Array.from(seen.values()).sort((a, b) => a.number - b.number);
   };
+
+  // A page can stack one nav strip per module: the homework result page lists
+  // Module 1/2/3, each numbered 1..27. Deduping by number across the whole page
+  // (findQuestionNavItems above) collapses all three into the first one, so
+  // capture in page order instead and let the caller split the strips apart.
+  const findQuestionNavSequence = () =>
+    visibleElements('button, li, [role="button"], [class*="question"], [class*="num"], [class*="item"]')
+      .map((el) => {
+        const text = textOf(el);
+        const match = text.match(/^\(?0?(\d{1,2})\)?(?:\s|$)/) || text.match(/^(\d{1,2})$/);
+        if (!match) return null;
+        const number = Number(match[1]);
+        if (!Number.isInteger(number) || number < 1 || number > 60) return null;
+        // A wrapper holding a whole strip reads as "(01) 0 S - (02) 0 S - …" and
+        // matches the same pattern as a single item; only its length tells them apart.
+        if (text.length > 40) return null;
+        return { el, number, text };
+      })
+      .filter(Boolean)
+      // Nested elements (a <li> and its <button>) read as the same item twice.
+      .filter((item, index, all) => index === 0 || item.number !== all[index - 1].number);
 
   const inferActiveNumber = (rootText) => {
     const match =
@@ -128,7 +156,7 @@
 
   const extractCurrentQuestion = () => {
     const root = findQuestionRoot();
-    const text = textOf(root);
+    const text = stripHeaders(textOf(root));
     const optionNodes = visibleElements('button, label, li, .option, [class*="option"], [class*="answer"]', root);
     const options = dedupe(optionNodes.map(textOf).filter(looksLikeOption)).slice(0, 8);
     const optionBodies = options.map(stripOptionPrefix);
@@ -247,10 +275,12 @@
     URL.revokeObjectURL(url);
   };
 
-  const collect = async ({ delayMs = 900, maxQuestions = 60 } = {}) => {
+  // A result page can hold three module strips (81 questions), so the default
+  // cap has to clear that; single-module pages are unaffected.
+  const collect = async ({ delayMs = 900, maxQuestions = 200 } = {}) => {
     const label = inferSetLabel() || usableTitle();
     const title = label || 'veritas-question-set';
-    const navItems = findQuestionNavItems().slice(0, maxQuestions);
+    const navItems = findQuestionNavSequence().slice(0, maxQuestions);
     const questions = [];
 
     if (navItems.length === 0) {

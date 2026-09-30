@@ -8,6 +8,7 @@
 // ============================================================
 
 import { importedMockTest as satCmp2026I9Int01Reading } from './veritas-imports/sat-cmp-2026-i9-int-01-reading'
+import { importedMockTest as satCmp2026I9Int02Reading } from './veritas-imports/sat-cmp-2026-i9-int-02-reading'
 import { importedMockTest as satCmp2026C3Int01Reading } from './veritas-imports/sat-cmp-2026-c3-int-01-reading'
 import { importedMockTest as satCmp2026C3Int02Reading } from './veritas-imports/sat-cmp-2026-c3-int-02-reading'
 import { importedMockTest as satCmp2026C3Int03Reading } from './veritas-imports/sat-cmp-2026-c3-int-03-reading'
@@ -444,6 +445,7 @@ A splash of light from the late-afternoon sun lingered at the foot of Nariman's 
 // ──────────────────────────────────────────────
 export const allMockTests: MockTestSet[] = [
   satCmp2026I9Int01Reading,
+  satCmp2026I9Int02Reading,
   satCmp2026C3Int01Reading,
   satCmp2026C3Int02Reading,
   satCmp2026C3Int03Reading,

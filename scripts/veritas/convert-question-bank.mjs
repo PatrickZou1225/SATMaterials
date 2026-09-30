@@ -77,8 +77,15 @@ const recoverTrailingOption = (options, record) => {
   return text ? [...options, text] : options;
 };
 
+// The 作业 result page prints the header "Question 1-27 are based on the
+// following passage" before the live stem, and the collector's stem regex starts
+// matching at that header, so every stem arrives with the header's tail glued to
+// its front ("-27 are based on the following passage Question 11 Which ...").
+const stripStemHeader = (value) =>
+  String(value || '').replace(/^.*?are based on the following passage\s+Question\s*\d+\s*/i, '');
+
 const inferQuestion = (record) => {
-  const recorded = String(record.question || '');
+  const recorded = stripStemHeader(record.question);
   if (recorded) {
     return /[?.!:"”]\s*$/.test(recorded) ? recorded : recoverTruncatedQuestion(recorded, record);
   }
@@ -172,6 +179,16 @@ const parseModule = async (inputPath) => {
     return match ? [match[1]] : undefined;
   };
 
+  // The same result-page header makes the collector read every question's number
+  // off it, so a module arrives with 27 records that all claim to be number 1.
+  // Ids feed question_key, which must be unique per question, so trust the
+  // recorded numbers only while they still ascend and fall back to capture order.
+  const recordedNumbers = (raw.questions || []).map((record) => Number(record.number));
+  const numbersUsable = recordedNumbers.every(
+    (number, index) =>
+      Number.isInteger(number) && (index === 0 || number > recordedNumbers[index - 1]),
+  );
+
   const questions = (raw.questions || []).map((record, index) => {
     const options = recoverTrailingOption(
       (record.options || []).map(stripOptionPrefix).filter(Boolean),
@@ -197,7 +214,7 @@ const parseModule = async (inputPath) => {
     const skill = inferSkill(record);
 
     return {
-      id: Number(record.number) || index + 1,
+      id: numbersUsable ? recordedNumbers[index] : index + 1,
       passage: inferPassage(record),
       question,
       options,

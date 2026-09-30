@@ -97,7 +97,9 @@ const BASE_ORDERED = BASE.flatMap(([tag, domain, skill]) =>
   ]),
 ).sort((a, b) => b[0].length - a[0].length)
 
-const BLOB = /添加知识点\s+(.+?)\s+题目信息/
+// The 题库 detail page ends the blob with 题目信息; the 作业 result page ends it
+// with 题目解析, so accept either.
+const BLOB = /添加知识点\s+(.+?)\s+(?:题目信息|题目解析)/
 
 // Returns { domain, skill } for a raw Veritas record, or null when untagged.
 export const inferSkill = (record) => {
