@@ -62,7 +62,7 @@
 | 触发词 | 执行内容 |
 |--------|----------|
 | **"出题"** | 按 Patrick 指定的题型、难度、数量生成题目 |
-| **"加题目到网站"** | 在 `ReadingDetail.tsx` 的对应 `topicData` 数组中追加题目对象 |
+| **"加题目到网站"** | 专项题 → 追加到 `src/data/readingQuestions.ts` 的 `topicData` 数组；套题 → 放 `src/data/veritas-imports/` 并在 `mockTestQuestions.ts` 注册 |
 
 ### 文件处理
 
@@ -184,7 +184,10 @@
 | 样式 | Tailwind CSS 3 |
 | 路由 | React Router DOM 7 |
 | 图标 | Lucide React |
+| 后端 | Supabase（账号 / 作业 / 班级 / 成绩，见 `supabase/migrations/`） |
 | 部署 | Vercel（自动，连接 GitHub main 分支） |
+
+**本地连后端**：`.env.local` 放 `VITE_SUPABASE_URL` 和 `VITE_SUPABASE_PUBLISHABLE_KEY`（文件名含 `.local`，已被 git 忽略）。**不填就自动降级**成访问密码模式，账号/作业/监控都用不了。
 
 ---
 
@@ -193,37 +196,60 @@
 ```
 sat-prep/
 ├── src/
-│   ├── App.tsx            # 路由配置
-│   ├── main.tsx           # 入口
+│   ├── App.tsx                # 路由配置（17 条路由）
+│   ├── main.tsx               # 入口
 │   ├── components/
-│   │   └── Layout.tsx     # 全局导航栏 + 页脚
-│   ├── pages/
-│   │   ├── Home.tsx       # 首页
-│   │   ├── Subjects.tsx   # 学习科目（数学 / 阅读）
-│   │   ├── Knowledge.tsx  # 专项知识点（文法/阅读/数学三个 tab）
-│   │   ├── ReadingDetail.tsx  # 阅读专项做题页（一页一题 SAT 机考模式）
-│   │   ├── Practice.tsx   # 综合练习（按科目/难度筛选）
-│   │   └── FAQ.tsx        # 常见问题
+│   │   ├── Layout.tsx         # 全局导航栏 + 页脚（含移动端菜单）
+│   │   ├── AccountGate.tsx    # 账号门禁：学生邮箱注册/登录；未配置 Supabase 时降级为密码
+│   │   ├── PasswordGate.tsx   # 降级路径的访问密码门禁
+│   │   ├── TeacherGate.tsx    # 老师端页面守卫（含订阅检查）
+│   │   └── UnlockDialog.tsx   # 付费年份解锁弹窗
+│   ├── context/account.ts     # 当前账号 Context（user / profile）
+│   ├── lib/
+│   │   ├── supabase.ts        # Supabase 客户端（未配置 env 时为 null）
+│   │   ├── questionBank.ts    # 把 allMockTests 拍平成"套题→模块→题"并生成稳定题键
+│   │   ├── skills.ts          # 知识点英文标签 → 中文标签
+│   │   ├── teacher.ts         # 老师订阅状态（老师端功能开关）
+│   │   ├── access.ts          # 学生按年份解锁真题（2023 免费，2024/25/26 付费）
+│   │   └── passage.ts         # formatPassageHtml：还原 Veritas 拍平文本的版式
+│   ├── pages/                 # 17 个页面，见下方路由表
 │   └── data/
-│       └── questions.ts   # 题库数据（数学 + 阅读）
-├── package.json
-├── tailwind.config.js
-├── tsconfig.json
-└── CLAUDE.md              # ← 你正在读的这个文件
+│       ├── mockTestQuestions.ts   # 真题套题数据（题目 + 答案 + 模块）
+│       ├── veritas-imports/       # 从 Veritas 转换来的套题导入文件（每套一个）
+│       ├── readingQuestions.ts    # 专项知识点题库（topicData）
+│       ├── questions.ts           # 综合练习题库（数学 + 阅读）
+│       ├── vocabQuestions.ts      # 词汇题
+│       ├── searchIndex.ts         # 全站搜索索引
+│       └── knowledgeBaseSearch.ts # 知识库搜索
+├── supabase/migrations/       # 数据库迁移（账号 / 作业 / 班级 / 付费 / 老师）
+├── scripts/veritas/           # 把 Veritas 抓取结果转成本站数据的脚本
+├── docs/                      # 后台蓝图、PRD、题库导入说明
+├── .env.local                 # Supabase 连接（不进 git，被 *.local 忽略）
+└── CLAUDE.md                  # ← 你正在读的这个文件
 ```
 
 ---
 
 ## 路由
 
-| 路径 | 页面 |
-|------|------|
-| `/` | 首页 |
-| `/subjects` | 学习科目 |
-| `/knowledge` | 专项知识点 |
-| `/knowledge/reading/:topic/:level` | 阅读专项做题（如 `/knowledge/reading/zhuzhi/level1`） |
-| `/practice` | 综合练习 |
-| `/faq` | 常见问题 |
+| 路径 | 页面 | 说明 |
+|------|------|------|
+| `/` | Home.tsx | 首页 |
+| `/subjects` | Subjects.tsx | 学习科目 |
+| `/practice` | Practice.tsx | 综合练习 |
+| `/faq` | FAQ.tsx | 常见问题 |
+| `/knowledge` | Knowledge.tsx | 专项知识点（文法/阅读/数学三个 tab） |
+| `/knowledge/reading/:topic/:level` | ReadingDetail.tsx | 阅读专项做题（如 `/knowledge/reading/zhuzhi/level1`） |
+| `/hard-problems`、`/hard-problems/:className` | HardProblems.tsx | 难题集（按题型分类） |
+| `/mock-test` | MockTestList.tsx | 真题套题列表 |
+| `/mock-test/:testId/:moduleIndex` | MockTest.tsx | 机考模拟（一页一题，交卷后记入成绩） |
+| `/search` | Search.tsx | 全站搜索 |
+| `/assignments` | Assignments.tsx | **老师**：布置作业 / 班级管理 / 作业列表；**学生**：我的作业 |
+| `/assignments/:assignmentId` | AssignmentWork.tsx | 学生答题页 |
+| `/bank` | QuestionBank.tsx | 题库浏览（老师端，TeacherGate 守卫） |
+| `/students` | Students.tsx | 学员档案（老师端，TeacherGate 守卫） |
+| `/monitor` | Monitor.tsx | 学员监控：完成情况 / 成绩 / 错题（老师端，TeacherGate 守卫） |
+| `/teachers` | Teachers.tsx | 老师端入口与邀请码 |
 
 ---
 
@@ -237,11 +263,13 @@ sat-prep/
 - 支持标记（Flag）功能
 - 做完所有题后显示总结页
 
-**题目数据**在 ReadingDetail.tsx 文件内部的 `topicData` 对象里：
-- `zhuzhi` → 主旨与细节题（目前有 Level 1，10 道题）
-- 新增 topic 只需要：添加题目数组 → 在 `topicData` 中注册 → 在 `topicNames` 中添加中文名
+**题目数据**在 `src/data/readingQuestions.ts`（**不在** ReadingDetail.tsx 内部），导出三样东西：
+- `topicData` → `topicData[题型][level]` 是题目数组
+- `topicNames` → 题型英文键 → 中文名
+- `levelNames` → level 键 → 中文名
 
-**Knowledge.tsx** 里的 `topicRouteKeys` 控制哪些题型有可点击的链接。
+新增题型只需要：在 `topicData` 加题目数组 → 在 `topicNames` 登记中文名。
+**Knowledge.tsx** 里的 `topicRouteKeys` 控制哪些题型显示成可点击的链接。
 
 ---
 
@@ -251,11 +279,26 @@ sat-prep/
 
 ---
 
+## 机考模拟与题库
+
+**MockTest.tsx** 用 `src/data/mockTestQuestions.ts` 的 `allMockTests`（48 套 SAT 真题），一页一题、可标记、交卷后自动判分并写入 Supabase 的 `attempts`。
+
+**题库统一入口**是 `src/lib/questionBank.ts` 的 `buildQuestionBank()`，把套题拍平成"套题 → 模块 → 题"，并为每题生成**稳定题键**（格式 `set:<套题id>-m<模块号>-q<题号>`，受数据库 check 约束限制）。作业就是靠这个题键指向具体题目的。
+
+> ⚠️ 目前 `buildQuestionBank()` **只读 `allMockTests`**，专项题库（`readingQuestions.ts`、`questions.ts`）还没并进去，所以老师暂时无法布置"专项练习"。
+
+---
+
 ## 改动历史
 
-| 日期 | 改动内容 |
-|------|----------|
-| 2025-05-17 | 将 ReadingDetail 页面从"所有题目在一页"改为一页一题 SAT 机考模式 |
+> 早期逐条记录已不再维护（会过期）。**要看真实改动请用 `git log --oneline -30`**。几个大阶段：
+
+| 阶段 | 内容 |
+|------|------|
+| 2025-05-17 | ReadingDetail 改为"一页一题"机考模式 |
+| 2026-09 上旬 | 题库建设：导入 9 个月份的 SAT 套题（48 套） |
+| 2026-09-18 ~ 09-19 | 账号体系、作业数据模型与页面（第一批 + 第二批后台） |
+| 2026-09-25 ~ 09-27 | 班级、付费解锁、老师邀请码、老师监控与跨老师隔离 |
 
 ---
 
@@ -296,7 +339,7 @@ Patrick 的知识库在 iCloud AI文件夹/知识库/，包含多个领域（SAT
 
 **部署上线**: VS Code 左边 Git 面板 → 写备注 → Commit → Sync
 
-**添加新题目**: 在 ReadingDetail.tsx 的对应数组里添加题目对象（包含 id、passage、question、options、answer）
+**添加新题目**: 专项题放在 `src/data/readingQuestions.ts`（`topicData`），综合练习放在 `src/data/questions.ts`，套题放 `src/data/veritas-imports/`
 
 ---
 
@@ -424,7 +467,10 @@ git config --global https.proxy http://127.0.0.1:7891
 
 ## 下一步可能做的事
 
-- 给其他阅读题型（FSP目的题、文学文本题等）添加题目
-- 添加 Level 2、Level 3 难度的题目
-- 文法和数学的专项做题页面
-- 做题历史记录与错题本功能
+> 对照上面的「教学后台开发优先级」7 步，当前缺口（2026-09-30 体检结论）：
+
+- **第 6 步还差「专项练习」粒度**：题表面板目前只有"整套 / 单个 Module / 知识点"三种，且只能整块勾选，不能挑单题。
+- **第 7 步**：班级/作业维度的统计汇总（完成率、平均分、错题 Top N）、老师给学生写反馈 —— 都还没有。
+- **待修问题**：模拟考成绩可被学生伪造（见 `supabase/migrations/20260926000001_attempts.sql:66,69`）；`due_at` 截止时间全代码库未生效；答题提交不检查错误。
+- 题库检索只能在单个 Module 内搜索，不是题库级检索；且**目前没有任何数学题**（Home 页面却在宣传数学专项）。
+- 其他阅读题型（FSP目的题、文学文本题等）与 Level 2/3 难度的专项题仍可继续补。

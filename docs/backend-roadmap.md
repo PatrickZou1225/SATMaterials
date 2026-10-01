@@ -35,3 +35,26 @@
 2026-09-19 已查看 Veritas 教师后台的信息架构，确认目标应从单一作业页扩展为“学员档案、班级、题库、作业、提交、统计”的教学闭环。详细范围和实施顺序见 `docs/veritas-backend-blueprint.md`。下一步优先补班级和成员模型，再改造作业发布器支持按班级布置。
 
 Veritas 目前只作为流程参考。直接同步其数据需要正式接口及相应授权，尚未验证。
+
+## 2026-09-30：模拟考改为服务端判分（安全修复）
+
+学生端原本自己算分，并把结果直接写进 `correct_count` / `is_correct`；而 `supabase/migrations/20260926000001_attempts.sql:66,69` 恰好把这两列授予了 `authenticated`。任何登录学生只要发一条 REST 请求就能伪造满分，老师在「学员监控」看到的成绩因此不可信。
+
+现在判分全部在数据库里完成：
+
+- 新增 `public.answer_keys`（2567 题 / 48 套）。无策略、无授权，客户端读不到。
+- 写入 `attempt_answers` 时由触发器推导 `is_correct`，客户端的值会被覆盖。
+- 交卷时由触发器计算 `correct_count`；分母 `total_questions` 取自答案键而不是客户端上报，所以**跳题不会拉高正确率**（之前上报 `total=1` 可造出 100%）。
+- 收回客户端对 `correct_count`、`is_correct`、`total_questions` 的写权限。
+
+### 上线步骤（必须做，否则模拟考不再记分）
+
+1. Supabase 控制台 → **SQL Editor** → 粘贴 `supabase/migrations/20260930000000_attempt_grading.sql` 全文并执行。
+2. 然后推送前端代码（Vercel 自动部署）。**两者之间约 1-2 分钟内模拟考成绩会写入失败，属正常**。
+3. 验证：用学生账号做一套模考 → 老师端 `/monitor` 应显示分数，且分数等于实际答对题数。
+
+### 已知残留
+
+正确答案仍然随前端 bundle 一起下发（`src/data/mockTestQuestions.ts` 的 `answer` 字段），所以有心的学生仍可先读答案再提交。要做到真正防作弊，需要把 `answer` 从客户端数据里拿掉、改为交卷后通过 RPC 取回解析（结果页本来就在交卷后才展示对错，改动是可行的，只是要重排 `MockTest.tsx` 的结果页）。留作后续。
+
+答案键由 `node scripts/generate-answer-key.mjs` 生成（用 Vite 的 SSR 加载器读 TS 数据）。**新增套题后必须重新运行该脚本并重新应用迁移**，否则新题在判分时会被当作答错。

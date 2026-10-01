@@ -17,6 +17,21 @@ cd ~/sat-prep
 npm install
 ```
 
+## 2b. 配置 Supabase 连接（要用账号 / 作业 / 监控就必须做）
+
+在项目根目录新建 `.env.local`：
+
+```
+VITE_SUPABASE_URL=https://vboynzourmrlmgnscrcw.supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=<你的 publishable key>
+```
+
+- 两个值从 **Supabase 控制台 → 项目 → Connect** 取。
+- 只用 **publishable key**，**绝不**把 service role key 放进 `VITE_` 变量（它会被打进前端产物公开）。
+- 懒得找？这两个变量本来就会打包进线上前端，打开 https://www.satpreppatrick.com 检索 JS 里的 `supabase.co` 也能拿到。
+- **不建这个文件也能跑**：网站会自动降级成"访问密码"模式（密码在 `.env` 的 `VITE_SITE_PASSWORD`），但**账号、作业、班级、监控全部用不了**。
+- 文件名含 `.local`，`.gitignore` 的 `*.local` 规则已忽略它，不会被提交。
+
 ## 3. 配置 Git 代理（国内访问 GitHub 必需）
 
 如果在中国大陆，git push/pull 会连不上 GitHub，需要让 Git 走代理：
@@ -72,7 +87,7 @@ rm -rf ~/.claude/projects && ln -s "/Users/patrickzou/Library/Mobile Documents/c
 
 ## 7. 安装 `img2txt`（截图 OCR 工具，macOS 专用）
 
-> DeepSeek 模型不支持图片输入，所以用 macOS 自带 Vision OCR 把截图里的文字瞬间提取出来，AI 再分析文字。
+> 现在的模型（DeepSeek V4 Flash 等）**能直接读图**。`img2txt` 仍是备用手段：`Read` 工具只能读**文件**，读不了剪贴板；遇到剪贴板截图、或切换到不支持图片的模型时才用它。
 > 使用前提：macOS 10.15+，自带 Vision 框架，无需任何第三方依赖。
 
 ```bash

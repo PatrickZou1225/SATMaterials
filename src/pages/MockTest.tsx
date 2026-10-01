@@ -195,9 +195,10 @@ function MockTestRunner() {
   // real students count — a teacher previewing a paper must not write a row.
   //
   // The schema forces the order below: attempt_answers rows are only writable
-  // while the attempt is in_progress, and correct_count is update-only (see the
-  // column grants in 20260926000001_attempts.sql), so the attempt is opened first,
-  // answered, then closed out.
+  // while the attempt is in_progress, so the attempt is opened first, answered,
+  // then closed out. The score is not sent: total_questions, is_correct and
+  // correct_count are all derived in the database (see the grading migration),
+  // because a client that reports its own marks cannot be trusted.
   useEffect(() => {
     if (phase !== 'finished' && phase !== 'timeup') return
     if (persistedRef.current) return
@@ -206,7 +207,6 @@ function MockTestRunner() {
 
     const client = supabase
     const studentId = account.user.id
-    const score = questions.filter(q => selected[q.id] === q.answer).length
 
     const record = async () => {
       const { data: attempt, error: attemptError } = await client
@@ -215,7 +215,6 @@ function MockTestRunner() {
           student_id: studentId,
           set_id: testSet.id,
           module_num: moduleNumber(moduleData.name, modIdx),
-          total_questions: questions.length,
           status: 'in_progress',
         })
         .select('id')
@@ -228,13 +227,12 @@ function MockTestRunner() {
           attempt_id: attempt.id as string,
           question_key: questionKey(testSet.id, moduleData.name, modIdx, q.id),
           selected_answer: selected[q.id],
-          is_correct: selected[q.id] === q.answer,
         }))
       if (rows.length) await client.from('attempt_answers').insert(rows)
 
       await client
         .from('attempts')
-        .update({ correct_count: score, status: 'submitted', submitted_at: new Date().toISOString() })
+        .update({ status: 'submitted', submitted_at: new Date().toISOString() })
         .eq('id', attempt.id)
     }
 
