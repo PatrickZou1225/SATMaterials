@@ -59,6 +59,8 @@ const SKILL_LABELS: Record<string, string> = {
   'Transitions': '逻辑连接',
   'Boundaries': '句子边界',
   'Form, Structure, and Sense': '形式与意义',
+  'Inferences': '推断',
+  'Command of Evidence': '循证',
 }
 
 export const domainLabel = (domain?: string) => (domain ? DOMAIN_LABELS[domain] ?? domain : '未分类')

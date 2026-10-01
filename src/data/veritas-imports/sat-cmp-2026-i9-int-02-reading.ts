@@ -1,4 +1,4 @@
-// Generated from sat-cmp-2026-i9-int-02-module-1.json
+// Generated from sat-cmp-2026-i9-int-02-module-1.json, sat-cmp-2026-i9-int-02-module-3.json
 // Review answers and images before publishing.
 
 import type { MockTestSet } from '../mockTestQuestions'
@@ -415,6 +415,439 @@ export const importedMockTest = {
           "answer": 3,
           "domain": "Expression of Ideas",
           "skill": "Rhetorical Synthesis-Logical Combination of Information"
+        }
+      ]
+    },
+    {
+      "name": "Module 3 (Harder)",
+      "subject": "阅读与文法",
+      "timeMinutes": 32,
+      "questions": [
+        {
+          "id": 1,
+          "passage": "Maintaining thorough network documentation may seem like a poor use of information technology specialists' time. After all, aren't there vulnerabilities to fix and outages to prevent? In the absence of ______ documentation, however, teams facing a service disruption can waste critical time figuring out system configurations instead of remedying the situation.",
+          "question": "Which choice completes the text with the most logical and precise word or phrase?",
+          "options": [
+            "engaging",
+            "innovative",
+            "comprehensive",
+            "inadequate"
+          ],
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings"
+        },
+        {
+          "id": 2,
+          "passage": "Gardening handbooks outline standard care routines for common situations, but older orchards, unusual soil conditions, and rare plant varieties necessitate the application of considerable ______ on the part of horticulturists. Indeed, knowing when to deviate from standard approaches based on situational factors is part of what distinguishes experts from novices.",
+          "question": "Which choice completes the text with the most logical and precise word or phrase?",
+          "options": [
+            "hesitancy",
+            "resolve",
+            "discretion",
+            "guardedness"
+          ],
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings"
+        },
+        {
+          "id": 3,
+          "passage": "The following text is adapted from Virginia Woolf's 1919 novel Night and Day. In times gone by, Mrs. Ashburn had known all the poets, all the novelists. These being now either dead or secluded in their infirm glory, she made her house a meeting-place for her own relations, to whom she would lament the passing of the great days of the nineteenth century, when every department of letters and art was represented in England by two or three illustrious names.",
+          "question": "As used in the text, what does the word \"lament\" most nearly mean?",
+          "options": [
+            "Repudiate",
+            "Enumerate",
+            "Regret",
+            "Await"
+          ],
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
+          "underline": [
+            "lament"
+          ]
+        },
+        {
+          "id": 4,
+          "passage": "The first metro trip in Paris occurred in 1900, taking passengers the six miles from Porte de Vincennes to Porte Maillot in about thirty minutes and ______ a new era in public transport in the city. This single metro line would eventually expand into the city's massive transportation network that millions of people rely on daily to navigate the metropolis.",
+          "question": "Which choice completes the text with the most logical and precise word or phrase?",
+          "options": [
+            "premiering",
+            "inaugurating",
+            "enlightening",
+            "ratifying"
+          ],
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings"
+        },
+        {
+          "id": 5,
+          "passage": "The following text is adapted from the 1895 poem Ojistoh by Emily Pauline Johnson, a Kanien'kehàka (Mohawk) writer also known as Tekahionwake. I am Ojistoh, I am she, the wife Of him whose name breathes bravery and life And courage to the tribe who calls him chief. I am Ojistoh, his white star, and he Is land, and lake, and sky—and soul to me.",
+          "question": "As used in the text, what does the word \"breathes\" most nearly mean?",
+          "options": [
+            "Imparts",
+            "Renounces",
+            "Assents",
+            "Absorbs"
+          ],
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Precise Word Meanings",
+          "underline": [
+            "breathes"
+          ]
+        },
+        {
+          "id": 6,
+          "passage": "Engineers have traditionally identified improved materials for technological applications through a combination of educated guessing and manual testing. While contemporary rapid assessment techniques have advanced this process by allowing numerous candidates to be tested quickly, these methods remain confined to examining known substances. The most extensive investigations have scrutinized only 106–107 crystalline arrangements, a large absolute number but only a small subset of theoretically possible stable chemical combinations. Additionally, these assessment-based methods lack efficient ways to find substances with prespecified characteristics.",
+          "question": "Which choice best states the main purpose of the text?",
+          "options": [
+            "To summarize the role of educated guessing and manual testing in improving the materials used in technological applications",
+            "To discuss the drawbacks of assessment-based methods of evaluating the crystalline arrangements of novel materials",
+            "To explain the limitations of the current means of discovering better substances for use in technological applications",
+            "To describe the weaknesses of the common approach to identifying improved materials with prespecified characteristics"
+          ],
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Inferring Author's Tone, Attitude, or Purpose"
+        },
+        {
+          "id": 7,
+          "passage": "For many years, the earliest evidence for Homo sapiens occupying tropical forests came from Asia and Oceania and placed that occupation around 45,000 years ago, while the earliest evidence from Africa showed occupation around 18,000 years ago. H. sapiens emerged in Africa around 300,000 years ago and could much more easily access tropical forests in Africa than those in Asia and Oceania. Tropical forests across the globe provide similar preservation conditions, so in all likelihood, this rather perplexing timeline simply reflected geographic differences in the extent of paleoanthropological research.",
+          "question": "Which choice best describes the function of the underlined portion in the text as a whole?",
+          "options": [
+            "It bolsters the text's explanation for the geographic difference in the earliest dates of tropical forest occupation by H. sapiens by showing that tropical forests in Africa have been less researched than those in Asia and Oceania.",
+            "It supports the text's conclusion by eliminating a potential competing explanation for the relatively late date of the earliest evidence of African tropical forest occupation by H. sapiens.",
+            "It acknowledges a limitation of the text's argument for why the earliest evidence of tropical forest occupation by H. sapiens is later in Africa than in Asia and Oceania.",
+            "It presents an observation that is crucial to the text's conclusion that tropical forest occupation by H. sapiens occurred significantly later in Africa than in Asia and Oceania."
+          ],
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Inferences-Making Logical Inferences"
+        },
+        {
+          "id": 8,
+          "passage": "Researchers created data set J72T12G24 to train a machine learning model to select the best existing algorithm for determining manufacturers' optimal production quantities while considering capacity constraints and other limiting factors. Comprising 7,200 simulated production planning instances, each involving seventy-two products across twelve time periods, the data set systematically varies three critical factors: product demand patterns (six scenarios, including fluctuating demand), production capacity utilization rates (high and low), and the balance between set-up and inventory holding costs (three scenarios).",
+          "question": "Which statement about data set J72T12G24 is best supported by the text?",
+          "options": [
+            "The data set consists primarily of real manufacturing data collected from industrial settings, supplemented with simulated scenarios to fill gaps in production patterns.",
+            "The data set was structured to primarily target unusual manufacturing conditions, including low production capacity utilization and fluctuating demand patterns.",
+            "The data set was designed to ensure coverage of a range of hypothetical manufacturing situations in order to effectively teach the machine learning model.",
+            "The data set represents the most frequently encountered manufacturing scenarios, assigning more significance to the most commonly occurring combinations of demand patterns, capacity utilization, and cost balances."
+          ],
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Inferences"
+        },
+        {
+          "id": 9,
+          "passage": "High-reward flowers that produce nectar with relatively high sugar concentrations are thought to be especially attractive to scaly-breasted hummingbirds and other hummingbird species. But when María A. Maglianesi and team monitored hummingbird visits to flowering plants, including Heliconia irrasa, at Los Cusingos Bird Sanctuary and other sites in Costa Rica, they found that visit frequencies weren't influenced by nectar traits. Rather, physical compatibility of flower corollas (collections of petals) and hummingbird bills more strongly predicted hummingbird-plant interaction patterns.",
+          "question": "Which statement about hummingbird preferences is most strongly supported by the text?",
+          "options": [
+            "Hummingbirds' preferences are primarily driven by trait-matching between their bills and flower corollas, though nectar qualities are a secondary factor driving their preferences.",
+            "Hummingbirds consistently prefer plant species whose flowers have physical traits that are compatible with their bills but offer relatively low nectar rewards.",
+            "A floral trait found to influence which plant species hummingbirds prefer may result in certain hummingbird species visiting flowers with relatively low nectar rewards over those with higher nectar rewards.",
+            "Physical compatibility between flower corollas and hummingbird bills becomes an important factor that influences hummingbird preferences when hummingbirds are uncertain about which plants produce high-reward nectar."
+          ],
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Inferences"
+        },
+        {
+          "id": 10,
+          "passage": "In their chapter of Advancing U.S. Latino Entrepreneurship (2020), Michael J. Pisani and his coauthor analyze data on the Latino population share and the share of Latino-owned businesses (LOBs) in US metropolitan areas with Latino populations that are among the largest in the country. The authors note for nearly all the metropolitan areas included in their analysis, the Latino population share is larger than the share of LOBs. The exception is ______",
+          "question": "Which choice most effectively uses data from the table to complete the statement?",
+          "options": [
+            "Chicago–Naperville–Elgin.",
+            "Dallas–Fort Worth–Arlington.",
+            "Miami–Fort Lauderdale–West Palm Beach.",
+            "Los Angeles–Long Beach–Anaheim."
+          ],
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
+          "table": {
+            "title": "Latino Population Share and Share of LOBs in Four US Metropolitan Areas",
+            "headers": [
+              "Metropolitan area",
+              "Latino population",
+              "Latino population share",
+              "Number of LOBs",
+              "Share of LOBs"
+            ],
+            "rows": [
+              [
+                "Los Angeles–Long Beach–Anaheim",
+                "5,979,000",
+                "45.1%",
+                "393,051",
+                "26.5%"
+              ],
+              [
+                "Miami–Fort Lauderdale–West Palm Beach",
+                "2,554,000",
+                "43.3%",
+                "423,163",
+                "47.0%"
+              ],
+              [
+                "Chicago–Naperville–Elgin",
+                "2,070,000",
+                "21.8%",
+                "89,523",
+                "9.9%"
+              ],
+              [
+                "Dallas–Fort Worth-Arlington",
+                "1,943,000",
+                "28.4%",
+                "117,582",
+                "18.3%"
+              ]
+            ]
+          }
+        },
+        {
+          "id": 11,
+          "passage": "In tomato plants, herbivory induces defensive production of jasmonic acid, while microbial infection induces defensive production of salicylic acid; plants also emit airborne chemicals to initiate the appropriate defense in nearby tomato plants. Researchers investigated the poor resistance tomato plants show to whitefly herbivory by exposing some plants to airborne chemicals from whitefly-free plants and others to chemicals from whitefly-infested plants, then infecting both groups of plants with whiteflies. The researchers concluded that whiteflies induce tomato plants to emit chemicals that cause other tomato plants to preferentially defend against microbial infection even when under herbivorous attack.",
+          "question": "Which choice best describes data from the graph that support the researchers' conclusion?",
+          "options": [
+            "When plants exposed to air from whitefly-free plants were infested, they produced more jasmonic acid than did control plants, whereas when plants exposed to air from whitefly-infested plants were infested, they produced less jasmonic acid and more salicylic acid than did control plants.",
+            "When plants exposed to air from whitefly-infested plants were infested, they produced less jasmonic acid than salicylic acid, whereas when plants exposed to air from whitefly-free plants were infested, they produced about the same amount of jasmonic acid and salicylic acid.",
+            "When plants exposed to air from whitefly-free plants were infested, they produced both jasmonic acid and salicylic acid, whereas when plants exposed to air from whitefly-infested plants were infested, they exclusively produced salicylic acid.",
+            "When plants exposed to air from whitefly-infested plants were infested, they produced less jasmonic acid than did control plants, whereas when plants exposed to air from whitefly-free plants were infested, they produced more jasmonic acid and salicylic acid than did control plants."
+          ],
+          "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
+          "image": "/sat-cmp-2026-i9-int-02-m3-q11.png"
+        },
+        {
+          "id": 12,
+          "passage": "Vegetation has two primary mechanisms by which it reduces air pollution: deposition (absorption of pollutants) and, the more effective, dispersion (dilution of pollutants by ventilation). Accordingly, establishment of green space to reduce major air pollutants such as fine particulate matter in urban areas receives considerable attention. Research by Zander S. Venter et al. comprised data from air-quality monitoring stations in Austria, the US state of California, and thousands of other global locations over a ten-year span, coupled with aerial imagery of those locations from the same period. The researchers ultimately recommended that reducing anthropogenic emissions remain the primary focus of urban air-quality improvement efforts.",
+          "question": "Which finding from the study, if true, would most directly account for the recommendation by Venter et al.?",
+          "options": [
+            "The association between levels of fine particulate matter and green space is strongly negative for locations containing or in close proximity to major cities but becomes insignificant for more rural locations.",
+            "The association between green space and fine particulate matter levels is moderately negative for locations containing or in close proximity to major cities but becomes slightly negative and sometimes positive when consideration is limited to busy streets with tree cover heavy enough to hinder ventilation.",
+            "There is a predictable relationship between a location's typical climate conditions and the efficacy of green spaces in that location, but anomalous local weather events have an outsized effect on deposition and dispersion of fine particulate matter.",
+            "Ambient levels of fine particulate matter are comparable across locations with comparable local infrastructure (e.g., typical building shape) but vary considerably depending on the predominant type of vegetation present."
+          ],
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)"
+        },
+        {
+          "id": 13,
+          "passage": "Compressing hydrogen for storage in standard tanks involves extreme pressures (>350 bar) and high energy costs. Hayden A. Evans et al. therefore explored aluminum formate (ALF), an inexpensive material with a porous molecular structure that enables gas storage by adsorption, as an alternative storage medium. They compared ALF's hydrogen volumetric capacity when using a pressure-temperature swing adsorption (PTSA) process—in which gas is subjected to high pressure and low temperature, allowing its adsorption for storage, and is released by decompression and heating (to 5 bar and 296 K, respectively, in Evans et al.'s study)—to the volumetric capacity of tanks using a standard hydrogen-compression process under 100 bar and 25 bar of pressure and various minimum temperatures.",
+          "question": "Which conclusion about ALF is best supported by information in the text and the graph?",
+          "options": [
+            "For most minimum temperatures, ALF's volumetric capacity in the low-pressure condition is approximately equal to that of standard tanks in the high-pressure condition.",
+            "In both the low- and high-pressure conditions, using higher minimum temperatures results in increased volumetric capacities for both ALF and standard tanks, but more so for ALF.",
+            "ALF has a greater volumetric capacity advantage over standard tanks in the low-pressure condition than in the high-pressure condition, especially when relatively low minimum temperatures are involved in the PTSA and standard compression processes.",
+            "ALF has a volumetric capacity advantage over standard tanks in both the low- and high-pressure conditions regardless of the magnitude of the change in temperature involved in the PTSA and standard compression processes."
+          ],
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence-Quantitative Evidence",
+          "image": "/sat-cmp-2026-i9-int-02-m3-q13.png"
+        },
+        {
+          "id": 14,
+          "passage": "Countries whose electricity grids are heavily dependent on renewable energy—Costa Rica, for instance, obtains over 95% of its electricity from such sources—often struggle to meet consumer demand during peak hours (times of the day when electricity use is very high). Concerns about electrical supply limitations have led some nations to utilize demand-response systems (DRS) that motivate consumers to change habits through lower electricity prices during off-peak hours. These efforts reflect an assumption that ______",
+          "question": "Which choice most logically completes the text?",
+          "options": [
+            "the success of DRS will prompt other nations to develop renewable energy sources.",
+            "increased reliance on renewable energy will be possible in the future.",
+            "patterns of electricity use are shaped in part by consumer discretion.",
+            "the use of DRS will guarantee that the supply of electricity remains sufficient."
+          ],
+          "answer": 2,
+          "domain": "Information and Ideas",
+          "skill": "Inferences"
+        },
+        {
+          "id": 15,
+          "passage": "To combat predation by Daubenton's bats (Myotis daubentonii) and other insectivorous bats, some moth species—including Daphnis nerii, a moth native to parts of Africa, Asia, and Europe—have evolved the ability to produce ultrasonic pulses that, for instance, disrupt the echolocation bats rely on to forage in low-light conditions or, alternatively, serve as aposematic signals (warning of toxicity or distastefulness). Maria L. Kendall et al. found that Yponomeuta padella, a species of small-bodied moths that produces noxious substances, emits ultrasonic pulses that closely resemble the acoustic aposematic signals of Arctia villica, a noxious moth species in the large-bodied Arctiinae family whose distribution overlaps with that of Y. padella. The researchers therefore concluded that ______",
+          "question": "Which choice most logically completes the text?",
+          "options": [
+            "Y. padella and A. villica likely exhibit a form of protective mimicry in which distinct species with chemical defenses develop a nearly identical signal to repel predators.",
+            "in both small-bodied and large-bodied moths, acoustic aposematic signaling is more prevalent than previous studies of defenses against bat predation had suggested.",
+            "Y. padella is an example of a phenomenon in which palatable species gain protection from predators by resembling or mimicking unpalatable or otherwise well-defended species.",
+            "like certain moths in the Arctiinae family, several species of moths belonging to the genus Yponomeuta produce ultrasonic pulses to communicate noxiousness rather than to disrupt bat echolocation."
+          ],
+          "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Inferences"
+        },
+        {
+          "id": 16,
+          "passage": "While ______ a study that focused on how dogs respond to other dogs' facial expressions, researchers monitored the dogs' heart rates to ensure the dogs were not distressed by the experiments. The researchers reported that the dogs' heart rates remained stable, suggesting they were relaxed during the experiment.",
+          "question": "Which choice completes the text so that it conforms to the conventions of Standard English?",
+          "options": [
+            "conducting",
+            "to conduct",
+            "conducts",
+            "conducted"
+          ],
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Determining Author's Purpose"
+        },
+        {
+          "id": 17,
+          "passage": "Marianne Ellis, artistic director of the Harbor Playhouse Bristol in England, defends the value of her profession, despite a number of high-profile artistic directors resigning their posts amid a growing trend of UK theaters forgoing the role completely. Ellis's dissent is not without ______ the Harbor previously tried operating without an artistic director, but the decision resulted in a theater that lacked a clear vision.",
+          "question": "Which choice completes the text so that it conforms to the conventions of Standard English?",
+          "options": [
+            "justification; though,",
+            "justification, though;",
+            "justification, though",
+            "justification. Though,"
+          ],
+          "answer": 1,
+          "domain": "Standard English Conventions",
+          "skill": "Form, Structure, and Sense"
+        },
+        {
+          "id": 18,
+          "passage": "Physicist Wolfgang Rindler is credited with coining the term \"event ______ used to refer to the limits of a black hole, the term is defined more generally as a point beyond which cosmic phenomena have no effect on a person observing them.",
+          "question": "Which choice completes the text so that it conforms to the conventions of Standard English?",
+          "options": [
+            "horizon,\" commonly",
+            "horizon\" commonly",
+            "horizon\" commonly,",
+            "horizon.\" Commonly"
+          ],
+          "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Rhetorical Word Choice"
+        },
+        {
+          "id": 19,
+          "passage": "Computational models can be used to analyze biological mechanisms, complementing the findings of direct experimentation. In a 2017 study, chronobiologists ______ to better understand the competitive advantage circadian clocks provide certain strains of cyanobacteria employed a mathematical model that simulated the bacteria's circadian oscillations.",
+          "question": "Which choice completes the text so that it conforms to the conventions of Standard English?",
+          "options": [
+            "had sought",
+            "were seeking",
+            "sought",
+            "seeking"
+          ],
+          "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Rhetorical Word Choice"
+        },
+        {
+          "id": 20,
+          "passage": "Research has shown that dogs use various visual signals, from tail wagging to ear movements, during social interactions with other members of their species. A study published by the National Academy of Sciences in 2024 offers more insight into dogs' interactions, suggesting that canine communicative behaviors may be ______ but also by autonomic responses that indicate dogs' emotional states.",
+          "question": "Which choice completes the text so that it conforms to the conventions of Standard English?",
+          "options": [
+            "driven not only by conscious signals",
+            "driven, not only by conscious signals,",
+            "driven—not only by conscious signals—",
+            "driven not only by conscious signals—"
+          ],
+          "answer": 0,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Rhetorical Word Choice"
+        },
+        {
+          "id": 21,
+          "passage": "For her 2010 installation \"Dubling,\" Brazilian artist Elida Tessler extracted every gerund from James Joyce's novel ______ capped empty wine bottles and creating 4,311 postcards featuring images of Dublin's River Liffey, she forged a visual connection between the flowing waters so central to Joyce's narrative and the novel's stream-of-consciousness style.",
+          "question": "Which choice completes the text so that it conforms to the conventions of Standard English?",
+          "options": [
+            "Ulysses, stamping all 4,311 \"-ing\" verbs onto individual corks. That",
+            "Ulysses by stamping all 4,311 \"-ing\" verbs onto individual corks that",
+            "Ulysses. Stamping all 4,311 \"-ing\" verbs onto individual corks that",
+            "Ulysses, stamping all 4,311 \"-ing\" verbs onto individual corks that"
+          ],
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Words in Context-Rhetorical Word Choice"
+        },
+        {
+          "id": 22,
+          "passage": "During many historic New York City parades, including the 1924 ticker-tape parade for US Olympic champions, the ribbonlike swirls descending on the scene were paper spools from \"tickers,\" telegraph machines that were used to transmit stock prices. ______ the tickers had long since been retired by the time of the parade for the New York Rangers in 1994. Then, shredded standard paper enriched the celebration.",
+          "question": "Which choice completes the text with the most logical transition?",
+          "options": [
+            "For example,",
+            "Of course,",
+            "As a result,",
+            "In addition,"
+          ],
+          "answer": 1,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Argument Development and Logical Organization"
+        },
+        {
+          "id": 23,
+          "passage": "At the Museum of Natural History in Washington, DC, a single specimen of the planktonic marine organism G. hexagonus is preserved as the reference organism for the species. This specimen is a holotype, meaning it was the basis of the first formal scientific description of G. hexagonus. _____ the reference organism for the planktonic G. truncatulinoides, preserved at the Natural History Museum in London, is a neotype, meaning it acts as a reference organism but is not the exact specimen originally described.",
+          "question": "Which choice completes the text with the most logical transition?",
+          "options": [
+            "For instance,",
+            "Admittedly,",
+            "Moreover,",
+            "By contrast,"
+          ],
+          "answer": 3,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Argument Development and Logical Organization"
+        },
+        {
+          "id": 24,
+          "passage": "The etymology of the word \"philately\" encodes the early history of postage stamps. First introduced in Great Britain in 1840, stamps served as proof of prepaid delivery fees for mail, removing the financial burden previously borne by the recipient. ______ while the term is now broadly used to denote the collection or study of stamps, it was coined in 1864 from Greek roots that signify the love of something free of tax or charge.",
+          "question": "Which choice completes the text with the most logical transition?",
+          "options": [
+            "Nevertheless,",
+            "Conversely,",
+            "Hence,",
+            "Moreover,"
+          ],
+          "answer": 2,
+          "domain": "Craft and Structure",
+          "skill": "Text Structure and Purpose-Argument Development and Logical Organization"
+        },
+        {
+          "id": 25,
+          "passage": "While researching a topic, a student has taken the following notes: • Uku Randmaa is an Estonian sailor who completed a true circumnavigation of the globe in 2019. • One of the requirements of a true circumnavigation is that the journey must begin and end in the same port. • Randmaa's circumnavigation began and ended in the port of Les Sables d'Olonne, France. • On his journey, Randmaa passed the three great capes of the Southern Ocean. His journey took 254 days.",
+          "question": "The student wants to provide evidence that Randmaa's journey was a true circumnavigation. Which choice most effectively uses relevant information from the notes to accomplish this goal?",
+          "options": [
+            "To be considered a true circumnavigation, a journey must begin and end in the same port, and Randmaa's lasted 254 days.",
+            "Randmaa began and ended his trip in the same port (Les Sables d'Olonne, France), one of the requirements for a true circumnavigation.",
+            "Randmaa is an Estonian sailor who completed a true circumnavigation that ended in Les Sables d'Olonne, France.",
+            "A true circumnavigation, Randmaa's journey also passed the three great capes of the Southern Ocean."
+          ],
+          "answer": 1,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence"
+        },
+        {
+          "id": 26,
+          "passage": "While researching a topic, a student has taken the following notes: • Blood proteins are found in blood plasma. • Blood proteins with an attached sugar chain are called glycoproteins. • Transferrins are a type of glycoprotein that mammals produce in their livers. • Transferrins bind to iron. • They transport iron throughout the body.",
+          "question": "The student wants to explain what transferrins do. Which choice most effectively uses relevant information from the notes to accomplish this goal?",
+          "options": [
+            "Transferrins bind to iron and transport it throughout the body.",
+            "Glycoproteins, such as transferrins, are produced in the liver.",
+            "Some glycoproteins have an attached sugar chain that aids in the production of transferrins.",
+            "Found in mammals, transferrins help the animals produce blood proteins in their livers."
+          ],
+          "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence"
+        },
+        {
+          "id": 27,
+          "passage": "• The Leidenfrost effect occurs when a liquid contacts a surface much hotter than the liquid's boiling point and a vapor layer forms. • Scientists hypothesized that both the formation and collapse temperatures of the vapor layer vary with molecular properties. • A 2023 study confirmed that the formation temperature varies, but found that the collapse temperature is nearly independent of the material and fluid. • The collapse temperature is about 140°C.",
+          "question": "The student wants to refute an assumption about the Leidenfrost effect. Which choice most effectively uses relevant information from the notes to accomplish this goal?",
+          "options": [
+            "Scientists had assumed that the collapse temperature varies with molecular properties, but a 2023 study found it is nearly independent of them.",
+            "Scientists hypothesized that formation temperature depends on molecular properties, and a 2023 study confirmed this.",
+            "Countering prior hypotheses, a recent study found that the collapse temperature depends on the material.",
+            "Contrary to the hypothesis that formation is dictated by molecular variation, the 2023 study found it is independent."
+          ],
+          "answer": 0,
+          "domain": "Information and Ideas",
+          "skill": "Command of Evidence"
         }
       ]
     }

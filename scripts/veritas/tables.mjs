@@ -1408,6 +1408,67 @@ export const tableOverrides = {
       bodyStart: 'Emojis are small images',
     },
   },
+  'sat-cmp-2026-i9-int-02-module-3': {
+    10: {
+      table: {
+        title: 'Latino Population Share and Share of LOBs in Four US Metropolitan Areas',
+        headers: ['Metropolitan area', 'Latino population', 'Latino population share', 'Number of LOBs', 'Share of LOBs'],
+        rows: [
+          ['Los Angeles–Long Beach–Anaheim', '5,979,000', '45.1%', '393,051', '26.5%'],
+          ['Miami–Fort Lauderdale–West Palm Beach', '2,554,000', '43.3%', '423,163', '47.0%'],
+          ['Chicago–Naperville–Elgin', '2,070,000', '21.8%', '89,523', '9.9%'],
+          ['Dallas–Fort Worth-Arlington', '1,943,000', '28.4%', '117,582', '18.3%'],
+        ],
+      },
+      bodyStart: 'In their chapter of Advancing U.S. Latino Entrepreneurship',
+    },
+  },
+  'sat-cmp-2026-i9-int-01-easier-module-2': {
+    10: {
+      table: {
+        title: 'Brown Bears in Katmai National Park, Alaska',
+        headers: ['Bear identification number', 'Sex', 'Age (years)', 'Approximate weight (pounds)'],
+        rows: [
+          ['176', 'male', '10', '575'],
+          ['192', 'female', '17', '300'],
+          ['149', 'male', '12', '750'],
+          ['123', 'female', '11', '350'],
+        ],
+      },
+      bodyStart: 'Scientists collected information about brown bears',
+    },
+    12: {
+      table: {
+        title: 'Impact of Four Key Industries on Oklahoma Economy in 2017',
+        headers: [
+          'Industry',
+          'Approximate total contribution by industry',
+          'Number of people employed by industry',
+          'Average contribution per employee by industry',
+        ],
+        rows: [
+          ['Health care', '$13,727,300,000', '193,514', '$70,937'],
+          ['Tribal economic activity', '$7,312,400,000', '51,674', '$141,510'],
+          ['Professional services', '$7,694,000,000', '69,846', '$110,157'],
+          ['Wholesale trade', '$10,723,400,000', '58,346', '$183,790'],
+        ],
+      },
+      bodyStart: 'The Cherokee Nation, the Seminole Nation',
+    },
+    13: {
+      table: {
+        title: 'Home Video Game Systems of the 1970s and 1980s',
+        headers: ['System', 'Manufacturer', 'System type', 'Approximate number of units sold worldwide'],
+        rows: [
+          ['ColecoVision', 'Coleco', 'console', '2,000,000'],
+          ['Intellivision', 'Mattel', 'console', '3,000,000'],
+          ['MSX', 'ASCII Corp.', 'computer', '4,000,000'],
+          ['Game & Watch', 'Nintendo', 'handheld', '18,600,000'],
+        ],
+      },
+      bodyStart: 'A student is writing a research paper',
+    },
+  },
 }
 
 export function applyTableOverride(passage, override) {

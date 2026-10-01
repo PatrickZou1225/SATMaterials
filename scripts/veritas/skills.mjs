@@ -56,6 +56,8 @@ const SKILLS = [
 // difficulty suffix is stripped by BASE_TAGS below.
 const BASE = [
   ['Information and Ideas-Quantitative Evidence', DOMAIN.info, 'Command of Evidence-Quantitative Evidence'],
+  ['Information and Ideas-Command of Evidence', DOMAIN.info, 'Command of Evidence'],
+  ['Information and Ideas-Inferences', DOMAIN.info, 'Inferences'],
   ['Craft and Structure-Text Structure and Purpose', DOMAIN.craft, 'Text Structure and Purpose'],
   ['Craft and Structure-Words in Context', DOMAIN.craft, 'Words in Context'],
   ['Expression of Ideas-Rhetorical Synthesis', DOMAIN.expression, 'Rhetorical Synthesis'],
