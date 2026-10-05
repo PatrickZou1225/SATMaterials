@@ -144,8 +144,11 @@ const candidateImages = (record) =>
     .filter((src) => !isChromeImage(src));
 
 const toModuleName = (title) => {
-  const match = title.match(/Module\s*\d+(?:\s*\([^)]+\))?/i);
-  return match ? match[0] : title;
+  const match = title.match(/Module\s*\d+(?:\s*\([^)]*\))?/i);
+  // Veritas adds CJK notes after the module number ("Module 2 (27道题)",
+  // "Module 2 (只有19题)"). Those are count notes, not labels — drop them so
+  // the name stays "Module 2"; keep English labels like "(Harder)".
+  return match ? match[0].replace(/\([^)]*[一-鿿][^)]*\)/g, '').replace(/\s+/g, ' ').trim() : title;
 };
 
 const inferSourceTitle = (raw, fallback) => {
@@ -250,12 +253,26 @@ const firstTitle = parsedModules[0]?.sourceTitle || path.basename(inputPaths[0],
 // title ("... / Module 1 (Routing)"); strip it in every case, or the set id
 // keeps the module suffix.
 const sourceTitle = firstTitle.replace(/\s*\/\s*Module\s*\d+(?:\s*\([^)]+\))?/i, '');
+
+// Veritas sometimes appends a "/note" after the set name ("J10-NA-03(非整套)/读写M2
+// 重复..."). The note is useful for the title but must not leak into the id, where
+// it would produce "sat-cmp-...-m2-na-01-02-m2". Truncate at the first "/" that
+// sits outside parentheses (a "/" inside "(...)" is part of the annotation).
+const stripTrailingNote = (title) => {
+  let depth = 0
+  for (let i = 0; i < title.length; i++) {
+    if (title[i] === '(') depth++
+    else if (title[i] === ')') depth--
+    else if (title[i] === '/' && depth === 0) return title.slice(0, i).trim()
+  }
+  return title
+}
 // Titles can carry CJK annotations, but the id becomes the set
 // half of every question_key, which the database constrains to [a-z0-9_-]. Drop
 // anything outside that alphabet rather than emitting an unusable key. The
 // annotation is also dropped before that, so "2025-J10-INT-01(读写3个Module)"
 // yields "sat-cmp-2025-j10-int-01" rather than a "-3-module" suffix.
-const testId = sourceTitle
+const testId = stripTrailingNote(sourceTitle)
   .replace(/\([^)]*[一-鿿][^)]*\)/g, '')
   .toLowerCase()
   .replace(/[^a-z0-9]+/g, '-')

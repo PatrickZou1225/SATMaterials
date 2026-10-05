@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400px" height="420px" viewBox="0 0 400 420" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>module2  13</title>
+    <g id="页面-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="编组-2" transform="translate(28.404110, 34.000000)">
+            <line x1="60.47521" y1="57.6487122" x2="353.278559" y2="57.9794076" id="直线备份-13" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="60.47521" y1="137.240798" x2="353.278559" y2="137.571494" id="直线备份-17" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="60.47521" y1="163.771494" x2="353.278559" y2="164.102189" id="直线备份-22" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="60.47521" y1="84.1794076" x2="353.278559" y2="84.510103" id="直线备份-16" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="60.47521" y1="216.832885" x2="353.278559" y2="217.16358" id="直线备份-19" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="60.47521" y1="190.302189" x2="353.278559" y2="190.632885" id="直线备份-20" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="60.47521" y1="110.710103" x2="353.278559" y2="111.040798" id="直线备份-21" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="66.5558751" y1="51.9790218" x2="66.0958904" y2="254.5" id="直线备份-45" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <text id="3.0" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="42.0444658" y="89.5223288">3.0</tspan>
+            </text>
+            <text id="3.5" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="42.0444658" y="62.7123288">3.5</tspan>
+            </text>
+            <text id="2.5" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="42.0444658" y="116.332329">2.5</tspan>
+            </text>
+            <text id="2.0" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="42.0444658" y="143.142329">2.0</tspan>
+            </text>
+            <text id="1.5" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="42.0444658" y="169.952329">1.5</tspan>
+            </text>
+            <text id="1.0" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="42.0444658" y="196.762329">1.0</tspan>
+            </text>
+            <text id="0.5" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="42.0444658" y="223.572329">0.5</tspan>
+            </text>
+            <text id="0" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="51.0134521" y="250.382329">0</tspan>
+            </text>
+            <text id="Humility-Scores-for" font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" line-spacing="16" fill="#000000">
+                <tspan x="107.431435" y="12">Humility Scores for Participants'</tspan>
+                <tspan x="143.299599" y="28">Scenario Responses</tspan>
+            </text>
+            <text id="mistake-with-learnin" transform="translate(74.595890, 283.500000) rotate(-23.000000) translate(-74.595890, -283.500000) " font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="13.9440349" y="288">mistake with learning</tspan>
+            </text>
+            <text id="mistake-without-lear" transform="translate(137.595890, 283.500000) rotate(-23.000000) translate(-137.595890, -283.500000) " font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="67.9992107" y="288">mistake without learning</tspan>
+            </text>
+            <text id="control" transform="translate(251.595890, 283.500000) rotate(-23.000000) translate(-251.595890, -283.500000) " font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="231.768254" y="288">control</tspan>
+            </text>
+            <polygon id="矩形备份-13" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" points="96.5958904 75 126.182667 75 126.182667 246 96.5958904 246"></polygon>
+            <polygon id="矩形备份-14" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" points="174.59589 101 204.182667 101 204.182667 246 174.59589 246"></polygon>
+            <polygon id="矩形备份-15" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" points="252.59589 90 282.182667 90 282.182667 246 252.59589 246"></polygon>
+            <line x1="61.4487285" y1="245.828723" x2="352.221702" y2="245.828723" id="直线备份-18" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <polygon id="矩形备份-16" stroke="#000000" stroke-width="0.4" points="163.59589 322 233.59589 322 233.59589 342 163.59589 342"></polygon>
+            <g id="编组" transform="translate(176.595890, 325.000000)">
+                <text id="group" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                    <tspan x="16" y="11">group</tspan>
+                </text>
+                <polygon id="矩形备份-18" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" points="9.05183726e-15 3 8.88888889 3 8.88888889 11.8888889 -5.39635676e-14 11.8888889"></polygon>
+            </g>
+            <text id="Average-humility-sco" transform="translate(15.000000, 143.594521) rotate(-90.000000) translate(-15.000000, -143.594521) " font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="-50.1806641" y="140.594521">Average humility score</tspan>
+                <tspan x="-74.4824219" y="155.594521">(higher values = more humility)</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

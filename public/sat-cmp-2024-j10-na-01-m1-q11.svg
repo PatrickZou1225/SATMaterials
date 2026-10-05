@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400px" height="420px" viewBox="0 0 400 420" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>module1  11</title>
+    <g id="页面-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="编组-2" transform="translate(29.404110, 21.843836)">
+            <line x1="43.47521" y1="52.8048765" x2="336.278559" y2="53.135572" id="直线备份-13" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="43.47521" y1="109.596963" x2="336.278559" y2="109.927658" id="直线备份-15" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="43.47521" y1="166.389049" x2="336.278559" y2="166.719745" id="直线备份-17" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="43.47521" y1="71.735572" x2="336.278559" y2="72.0662674" id="直线备份-14" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="43.47521" y1="128.527658" x2="336.278559" y2="128.858354" id="直线备份-16" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="43.47521" y1="204.25044" x2="336.278559" y2="204.581136" id="直线备份-19" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="43.47521" y1="185.319745" x2="336.278559" y2="185.65044" id="直线备份-20" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="43.47521" y1="147.458354" x2="336.278559" y2="147.789049" id="直线备份-21" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="43.47521" y1="223.181136" x2="336.278559" y2="223.511831" id="直线备份-22" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="43.47521" y1="90.6662674" x2="336.278559" y2="90.9969629" id="直线备份-23" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="49.5558751" y1="47.1351862" x2="49.0958904" y2="247.656164" id="直线备份-45" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <text id="40" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="28.1104658" y="55.8684932">40</tspan>
+            </text>
+            <text id="35" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="28.1104658" y="76.6767123">35</tspan>
+            </text>
+            <text id="30" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="28.1104658" y="95.5452055">30</tspan>
+            </text>
+            <text id="25" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="28.1104658" y="114.232877">25</tspan>
+            </text>
+            <text id="20" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="28.1104658" y="133.041096">20</tspan>
+            </text>
+            <text id="15" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="28.1104658" y="151.849315">15</tspan>
+            </text>
+            <text id="10" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="27.4474521" y="172.657534">10</tspan>
+            </text>
+            <text id="5" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="34.0134521" y="189.657534">5</tspan>
+            </text>
+            <text id="0" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="34.0134521" y="209.657534">0</tspan>
+            </text>
+            <text id="-5" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="29.6314521" y="228.657534">-5</tspan>
+            </text>
+            <text id="-10" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="23.0654521" y="247.657534">-10</tspan>
+            </text>
+            <text id="Growth-rate-(%)" transform="translate(7.500000, 136.750685) rotate(-90.000000) translate(-7.500000, -136.750685) " font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="-38.3691406" y="141.250685">Growth rate (%)</tspan>
+            </text>
+            <text id="Export-growth" font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="143.74664" y="289.641096">Export growth</tspan>
+            </text>
+            <text id="Average-Total-Agricu" font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" line-spacing="14" fill="#000000">
+                <tspan x="99.6329275" y="9.90429688">Average Total Agricultural </tspan>
+                <tspan x="84.4776541" y="23.9042969">Export Growth Rate, Five Years</tspan>
+                <tspan x="58.5933768" y="37.9042969">Pre- and Post-FTA with the United States</tspan>
+            </text>
+            <text id="Pre-FTA" font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="84.4455087" y="267.552183">Pre-FTA</tspan>
+            </text>
+            <text id="Post-FTA" font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="221.202423" y="267.433445">Post-FTA</tspan>
+            </text>
+            <polygon id="矩形备份-10" stroke="#000000" stroke-width="0.4" fill="#666666" points="71.990411 165.838356 101.577188 165.838356 101.577188 204.838356 71.990411 204.838356"></polygon>
+            <polygon id="矩形备份-11" stroke="#000000" stroke-width="0.4" fill="#666666" points="203.990411 151.838356 233.577188 151.838356 233.577188 204.838356 203.990411 204.838356"></polygon>
+            <polygon id="矩形备份-13" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" points="101.577188 204.838356 131.163965 204.838356 131.163965 226.838356 101.577188 226.838356"></polygon>
+            <polygon id="矩形备份-14" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" transform="translate(248.370576, 134.838356) scale(1, -1) translate(-248.370576, -134.838356) " points="233.577188 64.8383562 263.163965 64.8383562 263.163965 204.838356 233.577188 204.838356"></polygon>
+            <polygon id="矩形备份-20" stroke="#000000" stroke-width="0.4" fill="#131313" points="130.999594 128.838356 160.586371 128.838356 160.586371 204.838356 130.999594 204.838356"></polygon>
+            <polygon id="矩形备份-21" stroke="#000000" stroke-width="0.4" fill="#131313" points="262.999594 185.838356 292.586371 185.838356 292.586371 204.838356 262.999594 204.838356"></polygon>
+            <line x1="44.4487285" y1="243.984887" x2="335.221702" y2="243.984887" id="直线备份-18" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <g id="编组" transform="translate(104.328767, 299.635616)">
+                <text id="Costa-Rica-(CAFTA-DR" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                    <tspan x="44.3194521" y="16.4446889">Costa Rica (CAFTA-DR)</tspan>
+                </text>
+                <text id="Jordan-(JOFTA)" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                    <tspan x="44.5315068" y="43.230137">Jordan (JOFTA)</tspan>
+                </text>
+                <text id="Morocco-(MAFTA)" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                    <tspan x="44.5315068" y="67.6164384">Morocco (MAFTA)</tspan>
+                </text>
+                <polygon id="矩形备份-17" stroke="#000000" stroke-width="0.4" fill="#666666" points="16.1161644 6.86969178 32.2323288 6.86969178 32.2323288 22.9505137 16.1161644 22.9505137"></polygon>
+                <polygon id="矩形备份-18" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" points="15.9041096 30.7479452 32.020274 30.7479452 32.020274 46.8287671 15.9041096 46.8287671"></polygon>
+                <polygon id="矩形备份-19" stroke="#000000" stroke-width="0.4" fill="#000000" points="15.9041096 55.1342466 32.020274 55.1342466 32.020274 71.2150685 15.9041096 71.2150685"></polygon>
+                <polygon id="矩形备份-16" stroke="#000000" stroke-width="0.4" points="1.82281373e-13 -4.92287866e-15 179 -4.92287866e-15 179 79.5205479 -1.08669134e-12 79.5205479"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

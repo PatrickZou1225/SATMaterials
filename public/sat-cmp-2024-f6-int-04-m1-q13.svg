@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400px" height="420px" viewBox="0 0 400 420" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>module1  13</title>
+    <g id="页面-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="编组-2" transform="translate(13.455177, 23.000000)">
+            <line x1="66.6954455" y1="96.3509258" x2="348.729349" y2="96.623835" id="直线备份-15" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="66.6954455" y1="129.353835" x2="348.729349" y2="129.626744" id="直线备份-17" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="66.6954455" y1="195.359653" x2="348.729349" y2="195.632563" id="直线备份-20" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="66.6954455" y1="63.3480167" x2="348.729349" y2="63.6209258" id="直线备份-14" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="66.6954455" y1="162.356744" x2="348.729349" y2="162.629653" id="直线备份-21" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="76.0448226" y1="60.5" x2="76.0448226" y2="235.5" id="直线备份-45" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="70.5691625" y1="228.620926" x2="348.758352" y2="228.620926" id="直线备份-18" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <text id="3" font-family="STSongti-SC-Regular, Songti SC" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="56.9168226" y="131">3</tspan>
+            </text>
+            <text id="2" font-family="STSongti-SC-Regular, Songti SC" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="56.9168226" y="164">2</tspan>
+            </text>
+            <text id="5" font-family="STSongti-SC-Regular, Songti SC" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="56.9168226" y="65">5</tspan>
+            </text>
+            <text id="4" font-family="STSongti-SC-Regular, Songti SC" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="56.9168226" y="98">4</tspan>
+            </text>
+            <text id="1" font-family="STSongti-SC-Regular, Songti SC" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="56.9168226" y="197">1</tspan>
+            </text>
+            <text id="0" font-family="STSongti-SC-Regular, Songti SC" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="55.9168226" y="230">0</tspan>
+            </text>
+            <text id="Rating-(0=-no-contri" transform="translate(33.044823, 129.000000) rotate(-90.000000) translate(-33.044823, -129.000000) " font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="-32.6651383" y="126">Rating (0= no contribution,</tspan>
+                <tspan x="-18.333107" y="140">5 =high contribution)</tspan>
+            </text>
+            <text id="Group" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="184.168945" y="291">Group</tspan>
+            </text>
+            <text id="Average-Ratings-of-U" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" line-spacing="14" fill="#000000">
+                <tspan x="157.337791" y="11">Average Ratings of</tspan>
+                <tspan x="117.97451" y="25">Urban Agriculture's Contribution to</tspan>
+                <tspan x="113.237205" y="39">Various Social or Ecological Services</tspan>
+            </text>
+            <text id="project-leaders" transform="translate(71.779897, 275.536989) rotate(-26.000000) translate(-71.779897, -275.536989) " font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="77.9332994" y="279.536989">project leaders</tspan>
+            </text>
+            <text id="general-public" transform="translate(231.097216, 275.536989) rotate(-26.000000) translate(-231.097216, -275.536989) " font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="239.242806" y="279.536989">general public</tspan>
+            </text>
+            <text id="stakeholders" transform="translate(153.938556, 275.536989) rotate(-26.000000) translate(-153.938556, -275.536989) " font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="170.404459" y="279.536989">stakeholders</tspan>
+            </text>
+            <polygon id="矩形备份-15" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" points="108.544823 129 127.544823 129 127.544823 229 108.544823 229"></polygon>
+            <polygon id="矩形备份-21" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" points="194.544823 90 213.544823 90 213.544823 229 194.544823 229"></polygon>
+            <polygon id="矩形备份-24" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" points="283.544823 116 302.544823 116 302.544823 229 283.544823 229"></polygon>
+            <polygon id="矩形备份-17" stroke="#000000" stroke-width="0.4" fill="#676768" points="89.5448226 114 108.544823 114 108.544823 229 89.5448226 229"></polygon>
+            <polygon id="矩形备份-22" stroke="#000000" stroke-width="0.4" fill="#676768" points="175.544823 93 194.544823 93 194.544823 229 175.544823 229"></polygon>
+            <polygon id="矩形备份-25" stroke="#000000" stroke-width="0.4" fill="#676768" points="264.544823 97 283.544823 97 283.544823 229 264.544823 229"></polygon>
+            <polygon id="矩形备份-20" stroke="#000000" stroke-width="0.4" fill="#131313" points="127.544823 105 146.544823 105 146.544823 229 127.544823 229"></polygon>
+            <polygon id="矩形备份-23" stroke="#000000" stroke-width="0.4" fill="#131313" points="213.544823 93 232.544823 93 232.544823 229 213.544823 229"></polygon>
+            <polygon id="矩形备份-26" stroke="#000000" stroke-width="0.4" fill="#131313" points="302.544823 81 321.544823 81 321.544823 229 302.544823 229"></polygon>
+            <g id="编组" transform="translate(95.000000, 301.000000)">
+                <text id="prevention-of-soil-e" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                    <tspan x="42.109375" y="39.2951383">prevention of soil erosion</tspan>
+                </text>
+                <text id="increase-in-global-b" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                    <tspan x="42.109375" y="18.2951383">increase in global biodiversity</tspan>
+                </text>
+                <text id="provision-of-food" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                    <tspan x="42.109375" y="60.1284717">provision of food</tspan>
+                </text>
+                <polygon id="矩形备份-18" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" points="15.3125 27.4166667 30.625 27.4166667 30.625 42.75 15.3125 42.75"></polygon>
+                <polygon id="矩形备份-27" stroke="#000000" stroke-width="0.4" fill="#676768" points="15.3125 6.41666667 30.625 6.41666667 30.625 21.75 15.3125 21.75"></polygon>
+                <polygon id="矩形备份-19" stroke="#000000" stroke-width="0.4" fill="#000000" points="15.3125 48.25 30.625 48.25 30.625 63.5833333 15.3125 63.5833333"></polygon>
+                <polygon id="矩形备份-16" stroke="#000000" stroke-width="0.4" points="2.05703002e-13 -4.45730409e-15 202 -4.45730409e-15 202 72 -1.22632207e-12 72"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

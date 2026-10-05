@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400px" height="420px" viewBox="0 0 400 420" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>module1  11</title>
+    <g id="页面-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="编组-2" transform="translate(29.404110, 20.434247)">
+            <line x1="43.47521" y1="127.206552" x2="336.278559" y2="127.537247" id="直线备份-17" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="43.47521" y1="64.545161" x2="336.278559" y2="64.8758565" id="直线备份-16" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="43.47521" y1="189.867943" x2="336.278559" y2="190.198638" id="直线备份-19" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="43.47521" y1="158.537247" x2="336.278559" y2="158.867943" id="直线备份-20" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="43.47521" y1="95.8758565" x2="336.278559" y2="96.2065519" id="直线备份-21" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="49.0958904" y1="64.0657534" x2="49.0958904" y2="233.065753" id="直线备份-45" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <text id="250" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="21.5444658" y="70.0863014">250</tspan>
+            </text>
+            <text id="200" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="21.5444658" y="100.954795">200</tspan>
+            </text>
+            <text id="150" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="21.5444658" y="132.642466">150</tspan>
+            </text>
+            <text id="100" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="21.5444658" y="163.450685">100</tspan>
+            </text>
+            <text id="50" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="28.1104658" y="194.258904">50</tspan>
+            </text>
+            <text id="0" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="34.0134521" y="225.067123">0</tspan>
+            </text>
+            <text id="Number-of-pairs" transform="translate(7.500000, 117.160274) rotate(-90.000000) translate(-7.500000, -117.160274) " font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="-38.3759766" y="121.660274">Number of pairs</tspan>
+            </text>
+            <text id="Orientation-of-leave" font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="104.068058" y="278.565753">Orientation of leaves in pair</tspan>
+            </text>
+            <text id="Orientation-of-Leaf" font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" line-spacing="14" fill="#000000">
+                <tspan x="63.5354385" y="29.4700503">Orientation of Leaf Pairs in Grapevines</tspan>
+            </text>
+            <text id="opposite-side" font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="72.0246102" y="244.961772">opposite side</tspan>
+            </text>
+            <text id="same-side" font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="220.850372" y="244.843034">same side</tspan>
+            </text>
+            <polygon id="矩形备份-10" stroke="#000000" stroke-width="0.4" fill="#666666" points="71.5958904 153.565753 101.182667 153.565753 101.182667 221.565753 71.5958904 221.565753"></polygon>
+            <polygon id="矩形备份-11" stroke="#000000" stroke-width="0.4" fill="#666666" points="203.59589 192.44056 233.182667 192.44056 233.182667 221.565753 203.59589 221.565753"></polygon>
+            <polygon id="矩形备份-13" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" points="101.59589 95.5657534 131.182667 95.5657534 131.182667 221.565753 101.59589 221.565753"></polygon>
+            <polygon id="矩形备份-14" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" transform="translate(248.389279, 189.065753) scale(1, -1) translate(-248.389279, -189.065753) " points="233.59589 156.565753 263.182667 156.565753 263.182667 221.565753 233.59589 221.565753"></polygon>
+            <polygon id="矩形备份-20" stroke="#000000" stroke-width="0.4" fill="#131313" points="130.59589 117.565753 160.182667 117.565753 160.182667 221.565753 130.59589 221.565753"></polygon>
+            <polygon id="矩形备份-21" stroke="#000000" stroke-width="0.4" fill="#131313" points="263.59589 195.565753 293.182667 195.565753 293.182667 221.565753 263.59589 221.565753"></polygon>
+            <line x1="44.4487285" y1="221.394476" x2="335.221702" y2="221.394476" id="直线备份-18" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <g id="编组" transform="translate(107.328767, 293.045205)">
+                <text id="frost-grape" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                    <tspan x="41.3194521" y="16.4446889">frost grape</tspan>
+                </text>
+                <text id="July-grape" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                    <tspan x="41.5315068" y="43.230137">July grape</tspan>
+                </text>
+                <text id="maple-leaf-grape" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                    <tspan x="41.5315068" y="67.6164384">maple-leaf grape</tspan>
+                </text>
+                <polygon id="矩形备份-17" stroke="#000000" stroke-width="0.4" fill="#666666" points="13.1161644 6.86969178 29.2323288 6.86969178 29.2323288 22.9505137 13.1161644 22.9505137"></polygon>
+                <polygon id="矩形备份-18" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" points="12.9041096 30.7479452 29.020274 30.7479452 29.020274 46.8287671 12.9041096 46.8287671"></polygon>
+                <polygon id="矩形备份-19" stroke="#000000" stroke-width="0.4" fill="#000000" points="12.9041096 55.1342466 29.020274 55.1342466 29.020274 71.2150685 12.9041096 71.2150685"></polygon>
+                <polygon id="矩形备份-16" stroke="#000000" stroke-width="0.4" points="1.51731422e-13 -4.92287866e-15 149 -4.92287866e-15 149 79.5205479 -9.04564302e-13 79.5205479"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

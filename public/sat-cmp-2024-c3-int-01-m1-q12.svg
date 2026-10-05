@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400px" height="420px" viewBox="0 0 400 420" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>module1  12</title>
+    <g id="页面-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="编组-2" transform="translate(30.404110, 41.000000)">
+            <text id="Days-per-Winter-That" font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" line-spacing="16" fill="#000000">
+                <tspan x="101.808388" y="12">Days per Winter That Lakes Have</tspan>
+                <tspan x="165.809853" y="28">Surface lce</tspan>
+            </text>
+            <text id="Days" transform="translate(7.500000, 121.594521) rotate(-90.000000) translate(-7.500000, -121.594521) " font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="-6.88623047" y="126.094521">Days</tspan>
+            </text>
+            <line x1="40.47521" y1="76.9794076" x2="333.278559" y2="77.310103" id="直线备份-263" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="40.47521" y1="137.971494" x2="333.278559" y2="138.302189" id="直线备份-264" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="40.47521" y1="178.632885" x2="333.278559" y2="178.96358" id="直线备份-266" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="40.47521" y1="198.96358" x2="333.278559" y2="199.294276" id="直线备份-269" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="40.47521" y1="158.302189" x2="333.278559" y2="158.632885" id="直线备份-270" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="40.47521" y1="117.640798" x2="333.278559" y2="117.971494" id="直线备份-271" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="41.47521" y1="97.310103" x2="334.278559" y2="97.6407985" id="直线备份-267" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="40.47521" y1="56.6487122" x2="333.278559" y2="56.9794076" id="直线备份-268" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="40.47521" y1="217.648712" x2="333.278559" y2="217.979408" id="直线备份-265" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="46.5558751" y1="57.8304979" x2="46.0958904" y2="216.670481" id="直线备份-45" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="82.5558751" y1="57.8304979" x2="82.0958904" y2="216.670481" id="直线备份-46" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="130.55586" y1="57.8304979" x2="130.095875" y2="216.670481" id="直线备份-47" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="178.555845" y1="57.8304979" x2="178.09586" y2="216.670481" id="直线备份-48" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="322.555799" y1="57.8304979" x2="322.095814" y2="216.670481" id="直线备份-49" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="274.555814" y1="57.8304979" x2="274.095829" y2="216.670481" id="直线备份-51" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="226.555829" y1="57.8304979" x2="226.095845" y2="216.670481" id="直线备份-50" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <polyline id="路径-14" stroke="#000000" points="83.0958904 76.5 130.55586 86.7123288 178.555845 105 226.555829 81 274.555814 114 322.555799 114"></polyline>
+            <g id="编组" transform="translate(116.595890, 281.000000)">
+                <line x1="5.76195575" y1="38.5" x2="32.4649371" y2="38.5" id="路径-14备份" stroke="#000000"></line>
+                <line x1="5.76195575" y1="13.5" x2="32.4649371" y2="13.5" id="路径-15备份" stroke="#000000" stroke-dasharray="5"></line>
+                <line x1="5.76195575" y1="60.9794076" x2="32.4649371" y2="60.9794076" id="路径-16备份" stroke="#000000" stroke-dasharray="4,1"></line>
+                <rect id="矩形备份" stroke="#000000" fill="#BBBBBB" x="11.5" y="32.5" width="12" height="12"></rect>
+                <circle id="椭圆形备份" stroke="#000000" fill="#FFFFFF" cx="17.5" cy="61.5" r="6"></circle>
+                <polygon id="三角形备份-3" fill="#000000" points="17.5 8 24 21 11 21"></polygon>
+                <text id="Nackten" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                    <tspan x="44.3194521" y="16.4446889">Nackten</tspan>
+                </text>
+                <text id="Lake-Kegonsa" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                    <tspan x="44.5315068" y="43.230137">Lake Kegonsa</tspan>
+                </text>
+                <text id="Spirit-Lake" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                    <tspan x="44.5315068" y="67.6164384">Spirit Lake</tspan>
+                </text>
+                <polygon id="矩形备份-16" stroke="#000000" stroke-width="0.4" points="1.19144808e-13 -4.8287461e-15 117 -4.8287461e-15 117 78 -7.10295459e-13 78"></polygon>
+            </g>
+            <path d="M83.0958904,142 L131.59589,125 L179.59589,133 C198.587009,128.914435 214.086994,127.772835 226.095845,129.575199 C238.104696,131.377563 254.406081,128.717337 275,121.594521 L321,137" id="路径-15" stroke="#000000" stroke-dasharray="5"></path>
+            <path d="M80.5958904,133 L130.55586,106.712329 L179.59589,119.856164 L226.555829,107 L274.555814,100 L322.59589,117" id="路径-16" stroke="#000000" stroke-dasharray="4,1"></path>
+            <rect id="矩形" stroke="#000000" fill="#BBBBBB" x="77.0958904" y="137.5" width="9" height="9"></rect>
+            <rect id="矩形备份-2" stroke="#000000" fill="#BBBBBB" x="127.09589" y="120.5" width="9" height="9"></rect>
+            <rect id="矩形备份-31" stroke="#000000" fill="#BBBBBB" x="175.09589" y="127.5" width="9" height="9"></rect>
+            <rect id="矩形备份-33" stroke="#000000" fill="#BBBBBB" x="222.5" y="123.5" width="9" height="9"></rect>
+            <rect id="矩形备份-34" stroke="#000000" fill="#BBBBBB" x="316.5" y="132.5" width="9" height="9"></rect>
+            <rect id="矩形备份-32" stroke="#000000" fill="#BBBBBB" x="270.5" y="116.5" width="9" height="9"></rect>
+            <polygon id="三角形备份-2" fill="#000000" points="178.09589 97 184.59589 110 171.59589 110"></polygon>
+            <polygon id="三角形备份-4" fill="#000000" points="226.09589 70 232.59589 83 219.59589 83"></polygon>
+            <polygon id="三角形备份-5" fill="#000000" points="322.09589 105 328.59589 118 315.59589 118"></polygon>
+            <circle id="椭圆形" stroke="#000000" fill="#FFFFFF" cx="81.5958904" cy="134" r="4.5"></circle>
+            <circle id="椭圆形备份-9" stroke="#000000" fill="#FFFFFF" cx="131.59589" cy="106" r="4.5"></circle>
+            <circle id="椭圆形备份-10" stroke="#000000" fill="#FFFFFF" cx="177.59589" cy="118" r="4.5"></circle>
+            <circle id="椭圆形备份-12" stroke="#000000" fill="#FFFFFF" cx="226.59589" cy="108" r="4.5"></circle>
+            <circle id="椭圆形备份-13" stroke="#000000" fill="#FFFFFF" cx="274.59589" cy="100" r="4.5"></circle>
+            <circle id="椭圆形备份-14" stroke="#000000" fill="#FFFFFF" cx="322.59589" cy="117" r="4.5"></circle>
+            <polygon id="三角形备份-6" fill="#000000" points="274.09589 105 280.59589 118 267.59589 118"></polygon>
+            <polygon id="三角形" fill="#000000" points="83.0958904 67 89.5958904 80 76.5958904 80"></polygon>
+            <polygon id="三角形备份" fill="#000000" points="130.09589 77 136.59589 90 123.59589 90"></polygon>
+            <text id="100" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="18.5444658" y="143.712329">100</tspan>
+            </text>
+            <text id="175" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="18.5444658" y="82.7123288">175</tspan>
+            </text>
+            <text id="50" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="25.1104658" y="182.712329">50</tspan>
+            </text>
+            <text id="25" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="25.1104658" y="203.712329">25</tspan>
+            </text>
+            <text id="75" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="25.1104658" y="162.712329">75</tspan>
+            </text>
+            <text id="150" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="18.5444658" y="101.712329">150</tspan>
+            </text>
+            <text id="125" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="18.5444658" y="121.712329">125</tspan>
+            </text>
+            <text id="200" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="18.5444658" y="60.7123288">200</tspan>
+            </text>
+            <text id="0" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="31.6764658" y="221.712329">0</tspan>
+            </text>
+            <text id="1980-81" transform="translate(70.735616, 235.712329) rotate(-11.000000) translate(-70.735616, -235.712329) " font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="48.9576164" y="240.712329">1980-81</tspan>
+            </text>
+            <text id="1985-86" transform="translate(122.735616, 235.712329) rotate(-11.000000) translate(-122.735616, -235.712329) " font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="100.957616" y="240.712329">1985-86</tspan>
+            </text>
+            <text id="1990-91" transform="translate(175.735616, 235.712329) rotate(-11.000000) translate(-175.735616, -235.712329) " font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="153.957616" y="240.712329">1990-91</tspan>
+            </text>
+            <text id="1995-96" transform="translate(222.735616, 235.712329) rotate(-11.000000) translate(-222.735616, -235.712329) " font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="200.957616" y="240.712329">1995-96</tspan>
+            </text>
+            <text id="2000-01" transform="translate(269.735616, 235.712329) rotate(-11.000000) translate(-269.735616, -235.712329) " font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="247.957616" y="240.712329">2000-01</tspan>
+            </text>
+            <text id="2005-06" transform="translate(316.735616, 235.712329) rotate(-11.000000) translate(-316.735616, -235.712329) " font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="294.957616" y="240.712329">2005-06</tspan>
+            </text>
+            <text id="Winter" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="147.451616" y="266.712329">Winter</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

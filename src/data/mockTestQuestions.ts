@@ -54,6 +54,46 @@ import { importedMockTest as satCmp2025K11Na01Reading } from './veritas-imports/
 import { importedMockTest as satCmp2025L12Int01Reading } from './veritas-imports/sat-cmp-2025-l12-int-01-reading'
 import { importedMockTest as satCmp2025L12Int02Reading } from './veritas-imports/sat-cmp-2025-l12-int-02-reading'
 import { importedMockTest as satCmp2025L12Na01Reading } from './veritas-imports/sat-cmp-2025-l12-na-01-reading'
+import { importedMockTest as satCmp2024C3Int01Reading } from './veritas-imports/sat-cmp-2024-c3-int-01-reading'
+import { importedMockTest as satCmp2024C3Int02Reading } from './veritas-imports/sat-cmp-2024-c3-int-02-reading'
+import { importedMockTest as satCmp2024C3Int03Reading } from './veritas-imports/sat-cmp-2024-c3-int-03-reading'
+import { importedMockTest as satCmp2024C3Int04Reading } from './veritas-imports/sat-cmp-2024-c3-int-04-reading'
+import { importedMockTest as satCmp2024C3Na01Reading } from './veritas-imports/sat-cmp-2024-c3-na-01-reading'
+import { importedMockTest as satCmp2024E5Int01Reading } from './veritas-imports/sat-cmp-2024-e5-int-01-reading'
+import { importedMockTest as satCmp2024E5Int02Reading } from './veritas-imports/sat-cmp-2024-e5-int-02-reading'
+import { importedMockTest as satCmp2024E5Na01Reading } from './veritas-imports/sat-cmp-2024-e5-na-01-reading'
+import { importedMockTest as satCmp2024F6Int01Reading } from './veritas-imports/sat-cmp-2024-f6-int-01-reading'
+import { importedMockTest as satCmp2024F6Int02Reading } from './veritas-imports/sat-cmp-2024-f6-int-02-reading'
+import { importedMockTest as satCmp2024F6Int03Reading } from './veritas-imports/sat-cmp-2024-f6-int-03-reading'
+import { importedMockTest as satCmp2024F6Int04Reading } from './veritas-imports/sat-cmp-2024-f6-int-04-reading'
+import { importedMockTest as satCmp2024F6Na01Reading } from './veritas-imports/sat-cmp-2024-f6-na-01-reading'
+import { importedMockTest as satCmp2024H8Int01Reading } from './veritas-imports/sat-cmp-2024-h8-int-01-reading'
+import { importedMockTest as satCmp2024H8Int02Reading } from './veritas-imports/sat-cmp-2024-h8-int-02-reading'
+import { importedMockTest as satCmp2024H8Int03Reading } from './veritas-imports/sat-cmp-2024-h8-int-03-reading'
+import { importedMockTest as satCmp2024H8Int04Reading } from './veritas-imports/sat-cmp-2024-h8-int-04-reading'
+import { importedMockTest as satCmp2024H8Na01Reading } from './veritas-imports/sat-cmp-2024-h8-na-01-reading'
+import { importedMockTest as satCmp2024H8Na02Reading } from './veritas-imports/sat-cmp-2024-h8-na-02-reading'
+import { importedMockTest as satCmp2024H8Na03Reading } from './veritas-imports/sat-cmp-2024-h8-na-03-reading'
+import { importedMockTest as satCmp2024J10Int01Reading } from './veritas-imports/sat-cmp-2024-j10-int-01-reading'
+import { importedMockTest as satCmp2024J10Int02Reading } from './veritas-imports/sat-cmp-2024-j10-int-02-reading'
+import { importedMockTest as satCmp2024J10Int022Reading } from './veritas-imports/sat-cmp-2024-j10-int-02-2-reading'
+import { importedMockTest as satCmp2024J10Int03Reading } from './veritas-imports/sat-cmp-2024-j10-int-03-reading'
+import { importedMockTest as satCmp2024J10Na01Reading } from './veritas-imports/sat-cmp-2024-j10-na-01-reading'
+import { importedMockTest as satCmp2024J10Na02Reading } from './veritas-imports/sat-cmp-2024-j10-na-02-reading'
+import { importedMockTest as satCmp2024J10Na03Reading } from './veritas-imports/sat-cmp-2024-j10-na-03-reading'
+import { importedMockTest as satCmp2024K11Int01Reading } from './veritas-imports/sat-cmp-2024-k11-int-01-reading'
+import { importedMockTest as satCmp2024K11Int02Reading } from './veritas-imports/sat-cmp-2024-k11-int-02-reading'
+import { importedMockTest as satCmp2024K11Int03Reading } from './veritas-imports/sat-cmp-2024-k11-int-03-reading'
+import { importedMockTest as satCmp2024K11Int04Reading } from './veritas-imports/sat-cmp-2024-k11-int-04-reading'
+import { importedMockTest as satCmp2024K11Na01Reading } from './veritas-imports/sat-cmp-2024-k11-na-01-reading'
+import { importedMockTest as satCmp2024K11Na02Reading } from './veritas-imports/sat-cmp-2024-k11-na-02-reading'
+import { importedMockTest as satCmp2024L12Int01Reading } from './veritas-imports/sat-cmp-2024-l12-int-01-reading'
+import { importedMockTest as satCmp2024L12Int02Reading } from './veritas-imports/sat-cmp-2024-l12-int-02-reading'
+import { importedMockTest as satCmp2024L12Int03Reading } from './veritas-imports/sat-cmp-2024-l12-int-03-reading'
+import { importedMockTest as satCmp2024L12Int04Reading } from './veritas-imports/sat-cmp-2024-l12-int-04-reading'
+import { importedMockTest as satCmp2024L12Na01Reading } from './veritas-imports/sat-cmp-2024-l12-na-01-reading'
+import { importedMockTest as satCmp2024L12Na02Reading } from './veritas-imports/sat-cmp-2024-l12-na-02-reading'
+import { importedMockTest as satCmp2024L12Na03Reading } from './veritas-imports/sat-cmp-2024-l12-na-03-reading'
 
 export interface MockTestTable {
   title?: string // 可选：表格标题
@@ -490,6 +530,46 @@ export const allMockTests: MockTestSet[] = [
   satCmp2025L12Int01Reading,
   satCmp2025L12Int02Reading,
   satCmp2025L12Na01Reading,
+  satCmp2024C3Int01Reading,
+  satCmp2024C3Int02Reading,
+  satCmp2024C3Int03Reading,
+  satCmp2024C3Int04Reading,
+  satCmp2024C3Na01Reading,
+  satCmp2024E5Int01Reading,
+  satCmp2024E5Int02Reading,
+  satCmp2024E5Na01Reading,
+  satCmp2024F6Int01Reading,
+  satCmp2024F6Int02Reading,
+  satCmp2024F6Int03Reading,
+  satCmp2024F6Int04Reading,
+  satCmp2024F6Na01Reading,
+  satCmp2024H8Int01Reading,
+  satCmp2024H8Int02Reading,
+  satCmp2024H8Int03Reading,
+  satCmp2024H8Int04Reading,
+  satCmp2024H8Na01Reading,
+  satCmp2024H8Na02Reading,
+  satCmp2024H8Na03Reading,
+  satCmp2024J10Int01Reading,
+  satCmp2024J10Int02Reading,
+  satCmp2024J10Int022Reading,
+  satCmp2024J10Int03Reading,
+  satCmp2024J10Na01Reading,
+  satCmp2024J10Na02Reading,
+  satCmp2024J10Na03Reading,
+  satCmp2024K11Int01Reading,
+  satCmp2024K11Int02Reading,
+  satCmp2024K11Int03Reading,
+  satCmp2024K11Int04Reading,
+  satCmp2024K11Na01Reading,
+  satCmp2024K11Na02Reading,
+  satCmp2024L12Int01Reading,
+  satCmp2024L12Int02Reading,
+  satCmp2024L12Int03Reading,
+  satCmp2024L12Int04Reading,
+  satCmp2024L12Na01Reading,
+  satCmp2024L12Na02Reading,
+  satCmp2024L12Na03Reading,
   {
     id: '2505as-1',
     title: '2505AS 第一套',
