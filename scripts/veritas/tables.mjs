@@ -15,6 +15,481 @@
 //               `passage`, so the table is not shown twice. Omit only when the
 //               whole passage was the table (nothing but the table was captured).
 export const tableOverrides = {
+  // ── 2023-03 (C3) ────────────────────────────────────────────────────────────
+  'sat-cmp-2023-c3-int-01-module-1': {
+    8: {
+      table: {
+        title: 'Studies of the Effects of Tilling vs. No Tilling on Crop Yields',
+        headers: ['Authors', 'Crop', 'Crop yield with tilling (kilograms per hectare)', 'Crop yield with no tilling (kilograms per hectare)'],
+        rows: [
+          ['Bharat Sharma Achayara and colleagues', 'soybeans', '3,062', '2,670'],
+          ['Adrian Gracia-Romero and colleagues', 'maize', '2,420', '2,990'],
+          ['Daniel Jug and colleagues', 'winter wheat', '4,860', '3,910'],
+          ['Min Huang and colleagues', 'rice', '2,534', '5,226'],
+        ],
+      },
+      bodyStart: 'Danijel Jug and colleagues found that tilling',
+    },
+    9: {
+      table: {
+        title: 'Population and Area Data for Four Cities in 2018',
+        headers: ['City', 'Country', 'UN estimate', 'Reported city proper', 'Reported metropolitan', 'Metropolitan area (square kilometers)'],
+        rows: [
+          ['Bangkok', 'Thailand', '10,156,000', '5,782,000', '16,255,990', '7,762'],
+          ['Toronto', 'Canada', '6,082,000', '2,731,571', '5,928,040', '5,906'],
+          ['Huston', 'United States', '6,115,000', '2,325,502', '6,997,384', '21,395'],
+          ['Bogota', 'Colombia', '10,574,000', '7,963,000', '12,545,272', '5,934'],
+        ],
+      },
+      bodyStart: 'Population figures for a city can vary significantly',
+    },
+  },
+  'sat-cmp-2023-c3-int-01-module-2': {
+    13: {
+      table: {
+        title: 'Pyramids in Egypt and the Americas',
+        headers: ['Pyramid', 'Country', 'Height (meters)', 'Age (years before present)'],
+        rows: [
+          ['The Pyramid of Khafre', 'Egypt', '143.5', '4,500 to 4,600'],
+          ['La Danta', 'Guatemala', '72', '1,900 to 2,300'],
+          ['The Tikal Temple IV', 'Guatemala', '70', '1,300'],
+          ['The Pyramid of Amenemhet I', 'Egypt', '55', '3,800 to 4,000'],
+        ],
+      },
+      bodyStart: 'One student is writing an essay about four pyramids',
+    },
+  },
+
+  // ── 2023-05 (E5) ────────────────────────────────────────────────────────────
+  'sat-cmp-2023-e5-int-01-module-1': {
+    8: {
+      table: {
+        title: 'Contributions of Three Key Industries to Oklahoma Economy in 2017',
+        headers: ['Industry', 'Approximate contribution'],
+        rows: [
+          ['Real estate', '$18,314,700,000'],
+          ['Tribal economic activity', '$7,312,400,000'],
+          ['Administration / waste', '$5,830,600,000'],
+        ],
+      },
+      bodyStart: 'The Cherokee Nation, the Seminole Nation, and the more than thirty',
+    },
+  },
+  'sat-cmp-2023-e5-int-01-module-2': {
+    5: {
+      table: {
+        title: 'Ranking of Environmental and Sociocultural Benefits of Urban Agriculture (scale of 1 to 25; 1 = highest)',
+        headers: ['Social or ecological service', 'Project leaders', 'Stakeholders', 'General public'],
+        rows: [
+          ['improvement of attitudes and outlooks', '8', '1', '4'],
+          ['provision of food', '4', '15', '8'],
+          ['provision of raw materials', '22', '25', '15'],
+          ['improvement of physical health', '5', '4', '7'],
+          ['enhancement of pollination', '1', '7', '12'],
+        ],
+      },
+      bodyStart: 'Esther Sanye-Mengual, Kathrin Specht, and their team surveyed',
+    },
+    6: {
+      table: {
+        title: 'Minimum and Maximum Depths of Stony Coral Species in Caribbean and Indo-Pacific Waters',
+        headers: ['Species', 'Minimum depth (meters)', 'Maximum depth (meters)'],
+        rows: [
+          ['Plerogyra discus', '8', '15'],
+          ['Acropora echinata', '8', '25'],
+          ['Psammocora albopicta', '1', '28'],
+          ['Agaricia undata', '20', '80'],
+        ],
+      },
+      bodyStart: 'Some scientists have suggested that as ocean temperatures rise',
+    },
+  },
+
+  // ── 2023-06 (F6) ────────────────────────────────────────────────────────────
+  'sat-cmp-2023-f6-int-01-module-2': {
+    10: {
+      table: {
+        title: 'Minimum and Maximum Depths of Stony Coral Species in Caribbean and Indo-Pacific Waters',
+        headers: ['Species', 'Minimum depth (meters)', 'Maximum depth (meters)', 'Range (meters)'],
+        rows: [
+          ['Acropora anthocercis', '5', '10', '5'],
+          ['Cyphastrea hexasepta', '8', '25', '17'],
+          ['Agaricia fragilis', '10', '102', '92'],
+          ['Heliofungia fralinae', '3', '27', '24'],
+        ],
+      },
+      bodyStart: 'The table is from a 2018 study',
+    },
+    12: {
+      table: {
+        title: 'US Hydroelectric Power Plants, 2019',
+        headers: ['Plant', 'State', 'Mode', 'Average power generation (MWh/yr)', 'Water source'],
+        rows: [
+          ['Scanion', 'Minnesota', 'run-of-river', '7511', 'St. Louis River'],
+          ['Kansas River', 'Kansas', 'run-of-river', '15345', 'Kansas River'],
+          ['Squa Pan Hydro Station', 'Maine', 'peaking', '881', 'Squa Pan Stream'],
+          ['Great Falls', 'Tennessee', 'peaking', '124392', 'Caney Fork River'],
+        ],
+      },
+      bodyStart: 'A run-of-river hydroelectric power plant',
+    },
+  },
+  'sat-cmp-2023-f6-int-02-module-1': {
+    11: {
+      table: {
+        title: 'Impact of Four Key Industries on Oklahoma Economy in 2017',
+        headers: ['Industry', 'Approximate total contribution by industry', 'Number of people employed by industry', 'Average contribution per employee by industry'],
+        rows: [
+          ['Professional services', '$7,694,000,000', '69,846', '$110,157'],
+          ['Tribal economic activity', '$7,312,400,000', '51,674', '$141,510'],
+          ['Administration / waste', '$5,830,600,000', '96,964', '$60,132'],
+          ['Wholesale trade', '$10,723,400,000', '58,346', '$183,790'],
+        ],
+      },
+      bodyStart: 'The Cherokee Nation, the Seminole Nation, and the more than thirty',
+    },
+  },
+  'sat-cmp-2023-f6-int-02-module-2': {
+    10: {
+      table: {
+        title: 'US Hydroelectric Power Plant, 2019',
+        headers: ['Plant', 'State', 'Mode', 'Generators in plant', 'Average power generation (MWh/yr)', 'Water source'],
+        rows: [
+          ['Kaw Hydro', 'Oklahoma', 'run-of-river', '1', '103,163', 'Arkansas River'],
+          ['Kankakee Hydro Facility', 'Illinois', 'run-of-river', '3', '1,832', 'Kankakee River'],
+          ['Richard B. Russell', 'Georgia', 'peaking', '8', '394,195', 'Savannah River'],
+          ['Gaston Shoals', 'South Carolina', 'peaking', '4', '14,059', 'Broad River'],
+        ],
+      },
+      bodyStart: 'A run-of-river hydroelectric power plant',
+    },
+    11: {
+      table: {
+        title: 'Days per Winter That Lakes Have Surface Ice',
+        headers: ['Lake', 'Latitude (degrees)', '1980-81', '1985-86', '1990-91', '1995-96', '2000-01', '2005-06'],
+        rows: [
+          ['Kalmarinjärvi', '62.79', '198', '172', '175', '184', '131', '152'],
+          ['Lake Neusiedl', '47.82', '77', '86', '87', '128', '50', '104'],
+          ['Mirror Lake', '43.94', '122', '129', '125', '136', '141', '119'],
+        ],
+      },
+      bodyStart: 'It is common for freshwater lakes near or above a latitude of 45',
+    },
+  },
+
+  // ── 2023-08 (H8) ────────────────────────────────────────────────────────────
+  'sat-cmp-2023-h8-int-01-module-1': {
+    12: {
+      table: {
+        title: 'Numbers of the 23 Non-native Tree Species Reported and the Insect and Fungus Threats to Them',
+        headers: ['Country', 'Trees', 'Fungi', 'Insects'],
+        rows: [
+          ['Belgium', '4', '13', '11'],
+          ['Italy', '14', '57', '42'],
+          ['Denmark', '12', '22', '33'],
+        ],
+      },
+      bodyStart: 'Elisabeth Pötzelsberger and colleagues gathered data',
+    },
+  },
+  'sat-cmp-2023-h8-int-01-module-2': {
+    11: {
+      table: {
+        title: 'US Hydroelectric Power Plants, 2019',
+        headers: ['Plant', 'State', 'Mode', 'Generators in plant', 'Average power generation (MWh/yr)', 'Water source'],
+        rows: [
+          ['Spearfish', 'South Dakota', 'run-of-river', '2', '2,204', 'Spearfish Creek'],
+          ['Gaston Shoals', 'South Carolina', 'peaking', '4', '14,059', 'Broad River'],
+          ['J. Woodruff', 'Florida', 'peaking', '3', '193,864', 'Lake Seminole Reservoir'],
+          ['Oneida', 'Idaho', 'run-of-river', '3', '38,783', 'Bear River'],
+        ],
+      },
+      bodyStart: 'A run-of-river hydroelectric power plant',
+    },
+  },
+
+  // ── 2023-10 (J10) ───────────────────────────────────────────────────────────
+  'sat-cmp-2023-j10-int-01-module-1': {
+    11: {
+      table: {
+        title: 'Pyramids in Egypt and the Americas',
+        headers: ['Pyramid', 'Country', 'Height (meters)', 'Age (years before present)'],
+        rows: [
+          ['The Great Pyramid', 'Mexico', '33', '2,050 to 2,400'],
+          ['The Pyramid of Djoser', 'Egypt', '60', '4,600 to 4,700'],
+          ['The Pyramid of Sahure', 'Egypt', '47', '4,400 to 4,500'],
+          ['El Castillo', 'Belize', '40', '1,100 to 1,400'],
+        ],
+      },
+      bodyStart: 'A student is writing an essay about four pyramids',
+    },
+    13: {
+      table: {
+        title: 'Monthly Temperatures and Wing Centroid Sizes of Fruit Fly Specimens',
+        headers: ['Month', 'Average high (°F)', 'Average low (°F)', 'Average male wing centroid size (mm)', 'Average female wing centroid size (mm)'],
+        rows: [
+          ['October', '67', '44', '1.98', '2.29'],
+          ['May', '73', '50', '1.98', '2.27'],
+          ['July', '87', '62', '2.02', '2.31'],
+          ['September', '80', '54', '1.98', '2.27'],
+        ],
+      },
+      bodyStart: 'Drosophila (fruit flies) have generation times',
+    },
+  },
+  'sat-cmp-2023-j10-int-01-module-2': {
+    9: {
+      table: {
+        title: 'Brown Bears in Katmai National Park, Alaska',
+        headers: ['Bear identification number', 'Sex', 'Age (years)', 'Approximate weight (pounds)'],
+        rows: [
+          ['106', 'female', '6', '400'],
+          ['119', 'male', '10', '800'],
+          ['183', 'female', '13', '375'],
+          ['122', 'male', '3', '200'],
+        ],
+      },
+      bodyStart: 'Scientists collected information about brown bears',
+    },
+    10: {
+      table: {
+        title: 'Cumulative Counts of Fish in Three Taiwanese Tide Pools, 1999-2018',
+        headers: ['Species', 'Station 1', 'Station 2', 'Station 3'],
+        rows: [
+          ['barred flagtail', '249', '64', '16'],
+          ['streaky rockskipper', '125', '139', '610'],
+          ['blackspotted rockskipper', '83', '74', '31'],
+          ['Cocos frillgoby', '50', '64', '90'],
+        ],
+      },
+      bodyStart: 'Lin-Tai Ho and colleagues tracked fish populations',
+    },
+  },
+  'sat-cmp-2023-j10-int-02-module-1': {
+    12: {
+      table: {
+        title: 'Minimum and Maximum Depths of Stony Coral Species in Caribbean and Indo-Pacific Waters',
+        headers: ['Species', 'Minimum depth (meters)', 'Maximum depth (meters)'],
+        rows: [
+          ['Cycloseris tenuis', '1', '27'],
+          ['Acropora caroliniana', '10', '25'],
+          ['Acropora anthocercis', '5', '10'],
+          ['Agaricia fragilis', '10', '102'],
+        ],
+      },
+      bodyStart: 'Some scientists have suggested that as ocean temperatures rise',
+    },
+  },
+  'sat-cmp-2023-j10-int-02-module-2': {
+    11: {
+      table: {
+        title: 'Simulated Change in Annual Aquifer Input and Irrigation Output if Precipitation Concentration Increases as Climate Models Predict',
+        headers: ['Baseline concentration of annual precipitation', '% change in water entering aquifers', '% change in surface water used for irrigation', '% change in groundwater used for irrigation'],
+        rows: [
+          ['Precipitation is currently somewhat concentrated', '4.9', '0.4', '0.9'],
+          ['Precipitation is currently evenly distributed', '11.0', '9.0', '7.9'],
+        ],
+      },
+      bodyStart: 'Some climate models for the western United States',
+    },
+  },
+
+  // ── 2023-11 (K11) ───────────────────────────────────────────────────────────
+  'sat-cmp-2023-k11-int-01-module-2': {
+    13: {
+      table: {
+        title: 'Simulated Change in Annual Aquifer Input and Irrigation Output if Precipitation Concentration Increases as Climate Models Predict',
+        headers: ['Baseline concentration of annual precipitation', '% change in water entering aquifers', '% change in surface water used for irrigation', '% change in groundwater used for irrigation'],
+        rows: [
+          ['Precipitation is currently somewhat concentrated', '4.9', '0.4', '0.9'],
+          ['Precipitation is currently evenly distributed', '11.0', '9.0', '7.9'],
+        ],
+      },
+      bodyStart: 'Some climate models for the western United States',
+    },
+  },
+
+  // ── 2023-12 (L12) ───────────────────────────────────────────────────────────
+  'sat-cmp-2023-l12-int-01-module-1': {
+    11: {
+      table: {
+        title: 'Total Areas of Five Tribal Nations around the United States',
+        headers: ['Tribal nation', 'Location', 'Area (square miles)'],
+        rows: [
+          ["Tohono O'odham Nation", 'Arizona', '4,453'],
+          ['Crow Tribe', 'Montana', '3,606'],
+          ['Leech Lake Band of Ojibwe', 'Minnesota', '1,311'],
+          ['Yakama Nation', 'Washington', '2,188'],
+          ['Muscogee Nation', 'Oklahoma', '4,867'],
+        ],
+      },
+      bodyStart: 'In terms of total area, the Muscogee Nation',
+    },
+    13: {
+      table: {
+        title: 'Dated Ages of Lunar Samples from Select Missions',
+        headers: ['Mission name', 'Year', 'Landing site', 'Approximate age of lunar samples (billions of years)'],
+        rows: [
+          ['Apollo 11', '1969', 'Mare Tranquillitatis', '3.6'],
+          ['Apollo 15', '1971', 'Mare Imbrium', '3.3'],
+          ['Apollo 17', '1972', 'Mare Serenitatis', '3.8'],
+          ["Chang'e 5", '2020', 'Oceanus Procellarum', '2.0'],
+        ],
+      },
+      bodyStart: 'The Apollo program missions were spaceflights',
+    },
+  },
+  'sat-cmp-2023-l12-int-02-module-1': {
+    11: {
+      table: {
+        title: 'Impact of Four Key Industries on Oklahoma Economy in 2017',
+        headers: ['Industry', 'Approximate total contribution by industry', 'Number of people employed by industry', 'Average contribution per employee by industry'],
+        rows: [
+          ['Administration/waste', '$5,830,600,000', '96,964', '$60,132'],
+          ['Construction', '$6,797,300,000', '77,247', '$87,994'],
+          ['Transportation/warehousing', '$12,414,600,000', '52,891', '$234,720'],
+          ['Tribal economic activity', '$7,312,400,000', '51,674', '$141,510'],
+        ],
+      },
+      bodyStart: 'The Cherokee Nation, the Quapaw Tribe, and the more than thirty',
+    },
+    13: {
+      table: {
+        title: 'Days per Winter That Lakes Have Surface Ice',
+        headers: ['Lake', 'Latitude (degrees)', '1980-81', '1985-86', '1990-91', '1995-96', '2000-01', '2005-06'],
+        rows: [
+          ['Kalmarinjärvi', '62.79', '198', '172', '175', '184', '131', '152'],
+          ['Lake Neusiedl', '47.82', '77', '86', '87', '128', '50', '104'],
+          ['Mirror Lake', '43.94', '122', '129', '125', '136', '141', '119'],
+        ],
+      },
+      bodyStart: 'It is common for freshwater lakes near or above a latitude of 45',
+    },
+  },
+  'sat-cmp-2023-l12-int-02-module-2': {
+    10: {
+      table: {
+        title: 'Pyramids in Egypt and the Americas',
+        headers: ['Pyramid', 'Country', 'Height (meters)', 'Age (years before present)'],
+        rows: [
+          ['The Pyramid of the Sun', 'Mexico', '71.2', '2,100'],
+          ['The Pyramid of Djedefre', 'Egypt', '67', '4,500 to 4,600'],
+          ['The Pyramid of Userkaf', 'Egypt', '49', '4,400 to 4,500'],
+          ['El Castillo', 'Belize', '40', '1,100 to 1,400'],
+        ],
+      },
+      bodyStart: 'A student is writing an essay about four pyramids',
+    },
+    11: {
+      table: {
+        title: 'Studies of the Effects of Tilling vs. No Tilling on Crop Yields',
+        headers: ['Authors', 'Crop', 'Crop yield with tilling (kilograms per hectare)', 'Crop yield with no tilling (kilograms per hectare)'],
+        rows: [
+          ['Salem Alhajj Ali and colleagues', 'winter wheat', '3,700', '5,300'],
+          ['Nayasha Kafesu and colleagues', 'maize', '3,078', '3,574'],
+          ['G.F. Botta and colleagues', 'soybeans', '3,300', '2,700'],
+          ['Laila Nazirah and colleagues', 'rice', '4,370', '2,450'],
+        ],
+      },
+      bodyStart: 'Laila Nazirah and colleagues found that tilling',
+    },
+  },
+  'sat-cmp-2023-l12-int-03-module-1': {
+    12: {
+      table: {
+        title: 'Contributions of Three Key Industries to Oklahoma Economy in 2017',
+        headers: ['Industries', 'Approximate Contribution'],
+        rows: [
+          ['Tribal economic activity', '$7,312,400,000'],
+          ['Construction', '$6,797,300,000'],
+          ['Health care', '$13,727,300,000'],
+        ],
+      },
+      bodyStart: 'The Choctaw Nation, the Citizen Potawatori Nation',
+    },
+    13: {
+      table: {
+        title: 'Peering at Adult Orangutans by Immature Orangutans',
+        headers: ['Individuals', 'Site', 'Sex', 'Total number of peering events observed', "Proportion of peering events directed at immigrants to immature individual's home region"],
+        rows: [
+          ['1', 'Suaq', 'female', '17', '0.41'],
+          ['2', 'Suaq', 'female', '23', '0.13'],
+          ['8', 'Tuanan', 'male', '1', '1.00'],
+          ['16', 'Suaq', 'male', '80', '0.84'],
+        ],
+      },
+      bodyStart: 'One way that young orangutans acquire foraging skills',
+    },
+  },
+  'sat-cmp-2023-l12-int-03-module-2': {
+    9: {
+      table: {
+        title: 'Pyramids in Egypt and the Americas',
+        headers: ['Pyramid', 'Country', 'Height (meters)', 'Age (years before present)'],
+        rows: [
+          ['The Tikal Temple IV', 'Guatemala', '70', '1,300'],
+          ['The Pyramid of the Moon', 'Mexico', '42', '2,100'],
+          ['The Pyramid of Neferikare', 'Egypt', '54', '4,400 to 4,500'],
+          ['The Buried Pyramid', 'Egypt', '7', '4,600 to 4,700'],
+        ],
+      },
+      bodyStart: 'A student is writing an essay about four pyramids',
+    },
+    10: {
+      table: {
+        title: 'Studies of the Effects of Tilling vs. No Tilling on Crop Yields',
+        headers: ['Authors', 'Crop', 'Crop yield with tilling (kilograms per hectare)', 'Crop yield with no tilling (kilograms per hectare)'],
+        rows: [
+          ['Eduardo Martinez and colleagues', 'winter wheat', '4,829', '2,894'],
+          ['Fuseini Issaka and colleagues', 'rice', '6,400', '6,300'],
+          ['Roberto Izauraide and colleagues', 'spring barley', '1,676', '2,515'],
+          ['Igor Bogunovic and colleagues', 'maize', '3,884', '5,716'],
+        ],
+      },
+      bodyStart: 'Eduardo Martinez and colleagues found that tilling',
+    },
+  },
+  'sat-cmp-2023-l12-int-04-module-1': {
+    10: {
+      table: {
+        title: 'Impact of Four Industries on Oklahoma Economy in 2017',
+        headers: ['Industry', 'Approximate total contribution by industry', 'Number of people employed by industry', 'Average contribution per employee by industry'],
+        rows: [
+          ['Retail', '$10,738,800,000', '179,208', '$59,924'],
+          ['Manufacturing', '$16,707,500,000', '128,122', '$130,403'],
+          ['Transportation/warehousing', '$12,414,600,000', '52,891', '$234,720'],
+          ['Tribal economic activity', '$7,312,400,000', '51,674', '$141,510'],
+        ],
+      },
+      bodyStart: 'The Chickasaw Nation, the Seminole Nation, and the more than thirty',
+    },
+    11: {
+      table: {
+        title: 'Studies of Cougar Population Density',
+        headers: ['Study authors', 'Study publication year', 'Location', 'Minimum density (cougars per 100 square kilometers)', 'Maximum density (cougars per 100 square kilometers)'],
+        rows: [
+          ['David M. Choate et al.', '2006', 'Utah (United States)', '5.59', '10.24'],
+          ['Randy D. Johnson', '2017', 'North Dakota (United States)', '0.45', '2.78'],
+          ['A.J. Noss et al.', '2012', 'Bolivia', '0.36', '7.99'],
+          ['K.M. Proffitt et al.', '2015', 'Montana (United States)', '3.20', '5.60'],
+        ],
+      },
+      bodyStart: 'Studies of the population density of cougars',
+    },
+    13: {
+      table: {
+        title: 'Days per Winter That Lakes Have Surface Ice',
+        headers: ['Lake', 'Latitude (degrees)', '1980-81', '1985-86', '1990-91', '1995-96', '2000-01', '2005-06'],
+        rows: [
+          ['Lake Kegonsa', '42.97', '94', '116', '104', '113', '124', '101'],
+          ['Näckten', '62.913', '177', '168', '144', '174', '133', '134'],
+          ['Lake Baikal', '51.85', '96', '118', '92', '103', '127', '109'],
+        ],
+      },
+      bodyStart: 'It is common for freshwater lakes near or above a latitude of 45',
+    },
+  },
+
   // ── 2025-03 (C3) ────────────────────────────────────────────────────────────
   'sat-cmp-2025-c3-int-01-module-1': {
     9: {

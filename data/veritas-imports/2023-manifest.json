@@ -1,0 +1,110 @@
+[
+  {
+    "set": "sat-cmp-2023-c3-int-01",
+    "title": "SAT CMP 2023-C3-INT-01",
+    "questions": 52,
+    "files": [
+      "sat-cmp-2023-c3-int-01-module-1.json",
+      "sat-cmp-2023-c3-int-01-module-2.json"
+    ]
+  },
+  {
+    "set": "sat-cmp-2023-e5-int-01",
+    "title": "SAT CMP 2023-E5-INT-01",
+    "questions": 38,
+    "files": [
+      "sat-cmp-2023-e5-int-01-module-1.json",
+      "sat-cmp-2023-e5-int-01-module-2.json"
+    ]
+  },
+  {
+    "set": "sat-cmp-2023-f6-int-01",
+    "title": "SAT CMP 2023-F6-INT-01",
+    "questions": 54,
+    "files": [
+      "sat-cmp-2023-f6-int-01-module-1.json",
+      "sat-cmp-2023-f6-int-01-module-2.json"
+    ]
+  },
+  {
+    "set": "sat-cmp-2023-f6-int-02",
+    "title": "SAT CMP 2023-F6-INT-02",
+    "questions": 54,
+    "files": [
+      "sat-cmp-2023-f6-int-02-module-1.json",
+      "sat-cmp-2023-f6-int-02-module-2.json"
+    ]
+  },
+  {
+    "set": "sat-cmp-2023-h8-int-01",
+    "title": "SAT CMP 2023-H8-INT-01",
+    "questions": 54,
+    "files": [
+      "sat-cmp-2023-h8-int-01-module-1.json",
+      "sat-cmp-2023-h8-int-01-module-2.json"
+    ]
+  },
+  {
+    "set": "sat-cmp-2023-j10-int-01",
+    "title": "SAT CMP 2023-J10-INT-01",
+    "questions": 54,
+    "files": [
+      "sat-cmp-2023-j10-int-01-module-1.json",
+      "sat-cmp-2023-j10-int-01-module-2.json"
+    ]
+  },
+  {
+    "set": "sat-cmp-2023-j10-int-02",
+    "title": "SAT CMP 2023-J10-INT-02",
+    "questions": 54,
+    "files": [
+      "sat-cmp-2023-j10-int-02-module-1.json",
+      "sat-cmp-2023-j10-int-02-module-2.json"
+    ]
+  },
+  {
+    "set": "sat-cmp-2023-k11-int-01",
+    "title": "SAT CMP 2023-K11-INT-01",
+    "questions": 54,
+    "files": [
+      "sat-cmp-2023-k11-int-01-module-1.json",
+      "sat-cmp-2023-k11-int-01-module-2.json"
+    ]
+  },
+  {
+    "set": "sat-cmp-2023-l12-int-01",
+    "title": "SAT CMP 2023-L12-INT-01",
+    "questions": 54,
+    "files": [
+      "sat-cmp-2023-l12-int-01-module-1.json",
+      "sat-cmp-2023-l12-int-01-module-2.json"
+    ]
+  },
+  {
+    "set": "sat-cmp-2023-l12-int-02",
+    "title": "SAT CMP 2023-L12-INT-02",
+    "questions": 54,
+    "files": [
+      "sat-cmp-2023-l12-int-02-module-1.json",
+      "sat-cmp-2023-l12-int-02-module-2.json"
+    ]
+  },
+  {
+    "set": "sat-cmp-2023-l12-int-03",
+    "title": "SAT CMP 2023-L12-INT-03",
+    "questions": 54,
+    "files": [
+      "sat-cmp-2023-l12-int-03-module-1.json",
+      "sat-cmp-2023-l12-int-03-module-2.json"
+    ]
+  },
+  {
+    "set": "sat-cmp-2023-l12-int-04",
+    "title": "SAT CMP 2023-L12-INT-04",
+    "questions": 54,
+    "files": [
+      "sat-cmp-2023-l12-int-04-module-1.json",
+      "sat-cmp-2023-l12-int-04-module-2.json"
+    ]
+  }
+]

@@ -94,6 +94,18 @@ import { importedMockTest as satCmp2024L12Int04Reading } from './veritas-imports
 import { importedMockTest as satCmp2024L12Na01Reading } from './veritas-imports/sat-cmp-2024-l12-na-01-reading'
 import { importedMockTest as satCmp2024L12Na02Reading } from './veritas-imports/sat-cmp-2024-l12-na-02-reading'
 import { importedMockTest as satCmp2024L12Na03Reading } from './veritas-imports/sat-cmp-2024-l12-na-03-reading'
+import { importedMockTest as satCmp2023C3Int01Reading } from './veritas-imports/sat-cmp-2023-c3-int-01-reading'
+import { importedMockTest as satCmp2023E5Int01Reading } from './veritas-imports/sat-cmp-2023-e5-int-01-reading'
+import { importedMockTest as satCmp2023F6Int01Reading } from './veritas-imports/sat-cmp-2023-f6-int-01-reading'
+import { importedMockTest as satCmp2023F6Int02Reading } from './veritas-imports/sat-cmp-2023-f6-int-02-reading'
+import { importedMockTest as satCmp2023H8Int01Reading } from './veritas-imports/sat-cmp-2023-h8-int-01-reading'
+import { importedMockTest as satCmp2023J10Int01Reading } from './veritas-imports/sat-cmp-2023-j10-int-01-reading'
+import { importedMockTest as satCmp2023J10Int02Reading } from './veritas-imports/sat-cmp-2023-j10-int-02-reading'
+import { importedMockTest as satCmp2023K11Int01Reading } from './veritas-imports/sat-cmp-2023-k11-int-01-reading'
+import { importedMockTest as satCmp2023L12Int01Reading } from './veritas-imports/sat-cmp-2023-l12-int-01-reading'
+import { importedMockTest as satCmp2023L12Int02Reading } from './veritas-imports/sat-cmp-2023-l12-int-02-reading'
+import { importedMockTest as satCmp2023L12Int03Reading } from './veritas-imports/sat-cmp-2023-l12-int-03-reading'
+import { importedMockTest as satCmp2023L12Int04Reading } from './veritas-imports/sat-cmp-2023-l12-int-04-reading'
 
 export interface MockTestTable {
   title?: string // 可选：表格标题
@@ -570,6 +582,18 @@ export const allMockTests: MockTestSet[] = [
   satCmp2024L12Na01Reading,
   satCmp2024L12Na02Reading,
   satCmp2024L12Na03Reading,
+  satCmp2023C3Int01Reading,
+  satCmp2023E5Int01Reading,
+  satCmp2023F6Int01Reading,
+  satCmp2023F6Int02Reading,
+  satCmp2023H8Int01Reading,
+  satCmp2023J10Int01Reading,
+  satCmp2023J10Int02Reading,
+  satCmp2023K11Int01Reading,
+  satCmp2023L12Int01Reading,
+  satCmp2023L12Int02Reading,
+  satCmp2023L12Int03Reading,
+  satCmp2023L12Int04Reading,
   {
     id: '2505as-1',
     title: '2505AS 第一套',
