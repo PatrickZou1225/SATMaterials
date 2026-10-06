@@ -133,39 +133,45 @@ export default function MockTestList() {
                   )}
                 </div>
 
-                <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 ${unlocked ? '' : 'opacity-70'}`}>
+                <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 ${unlocked ? '' : 'opacity-70'}`}>
                   {tests.map((test) => (
                     <div key={test.id}
-                      className="flex flex-col gap-3 rounded-2xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm p-4 hover:border-purple-300 dark:hover:border-purple-700 transition-colors">
-                      <span className="font-semibold text-gray-900 dark:text-slate-100" title={test.title}>
+                      className="flex flex-col gap-4 rounded-2xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm p-6 hover:border-purple-300 dark:hover:border-purple-700 hover:shadow-md transition-all">
+                      <span className="text-lg font-bold text-gray-900 dark:text-slate-100" title={test.title}>
                         {shortTitle(test.title)}
                       </span>
-                      <div className="flex flex-wrap gap-1.5">
+                      <div className="flex flex-col gap-2.5">
                         {test.modules.map((mod, idx) => {
                           const isReady = mod.questions.length > 0
-                          const label = `${shortModuleName(mod.name)} · ${mod.questions.length}题`
                           const detail = `${mod.name} · ${mod.subject} · ${mod.questions.length} 题 · ${mod.timeMinutes} 分钟`
+                          const name = `${mod.subject} · ${shortModuleName(mod.name)}`
+                          const meta = `${mod.questions.length} 题 · ${mod.timeMinutes} 分钟`
 
                           if (!isReady) {
                             return (
-                              <span key={mod.name} title={`${mod.name} · 题目待补充`}
-                                className="inline-flex items-center gap-1 rounded-lg border border-gray-200 dark:border-slate-700 bg-gray-100 dark:bg-slate-800 px-2.5 py-1 text-xs font-semibold text-gray-400 dark:text-slate-500">
-                                <Construction size={12} /> {shortModuleName(mod.name)} 待补充
-                              </span>
+                              <div key={mod.name} className="rounded-xl border border-gray-200 dark:border-slate-700 bg-gray-100 dark:bg-slate-800 px-4 py-3 text-gray-400 dark:text-slate-500">
+                                <span className="flex items-center gap-1.5 text-sm font-semibold"><Construction size={15} /> {name}</span>
+                                <span className="block text-xs mt-0.5">题目待补充</span>
+                              </div>
                             )
                           }
                           if (!unlocked) {
                             return (
                               <button key={mod.name} type="button" onClick={() => setPayYear(test.year)} title={detail}
-                                className="inline-flex items-center gap-1 rounded-lg border border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-900/30 px-2.5 py-1 text-xs font-semibold text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/50">
-                                <Lock size={12} /> {label}
+                                className="w-full text-left rounded-xl border border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-900/30 px-4 py-3 text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-colors">
+                                <span className="flex items-center gap-1.5 text-sm font-semibold"><Lock size={15} /> {name}</span>
+                                <span className="block text-xs mt-0.5 opacity-80">{meta}</span>
                               </button>
                             )
                           }
                           return (
                             <Link key={mod.name} to={`/mock-test/${test.id}/${idx}`} title={detail}
-                              className={`inline-flex items-center gap-1 rounded-lg border px-2.5 py-1 text-xs font-semibold transition-colors ${subjectButton[mod.subject] || 'border-gray-300 dark:border-slate-600 bg-gray-50 dark:bg-slate-800 text-gray-600 dark:text-slate-400'}`}>
-                              {label} <ArrowRight size={12} />
+                              className={`group flex items-center justify-between rounded-xl border px-4 py-3 transition-colors ${subjectButton[mod.subject] || 'border-gray-300 dark:border-slate-600 bg-gray-50 dark:bg-slate-800 text-gray-600 dark:text-slate-400'}`}>
+                              <span>
+                                <span className="block text-sm font-semibold">{name}</span>
+                                <span className="block text-xs mt-0.5 opacity-70">{meta}</span>
+                              </span>
+                              <ArrowRight size={17} className="opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
                             </Link>
                           )
                         })}
