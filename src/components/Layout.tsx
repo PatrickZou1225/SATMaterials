@@ -3,6 +3,12 @@ import { BookOpen, Menu, X, Moon, Sun, Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useAccount } from '../context/account'
 
+const navClass = ({ isActive }: { isActive: boolean }) =>
+  isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'
+
+const navMockClass = ({ isActive }: { isActive: boolean }) =>
+  isActive ? 'text-purple-600 dark:text-purple-300' : 'hover:text-purple-600 dark:hover:text-purple-300 transition-colors'
+
 export default function Layout() {
   const account = useAccount()
   const isTeacher = account?.profile?.role === 'teacher'
@@ -55,28 +61,31 @@ export default function Layout() {
           </NavLink>
 
           {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-6 text-sm font-medium">
-            <nav className="flex items-center gap-6">
-              <NavLink to="/subjects" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>科目</NavLink>
-              <NavLink to="/knowledge" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>专项知识点</NavLink>
-              <NavLink to="/practice" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>练习</NavLink>
-              <NavLink to="/mock-test" className={({ isActive }) => isActive ? 'text-purple-600 dark:text-purple-300' : 'hover:text-purple-600 dark:hover:text-purple-300 transition-colors'}>模拟测试</NavLink>
-              {account && <NavLink to="/assignments" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>作业</NavLink>}
-              {isTeacher && <NavLink to="/bank" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>题库</NavLink>}
-              {isTeacher && <NavLink to="/students" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>学生</NavLink>}
-              {isTeacher && <NavLink to="/monitor" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>学习情况</NavLink>}
-              {isOwner && <NavLink to="/teachers" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>老师</NavLink>}
-              <NavLink to="/faq" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>常见问题</NavLink>
-              <NavLink to="/search" className={({ isActive }) => isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'}>
-                <Search size={16} className="inline mr-1" />
+          <div className="hidden md:flex items-center gap-4 text-sm font-medium">
+            <nav className="flex items-center gap-4 whitespace-nowrap">
+              <NavLink to="/subjects" className={navClass}>科目</NavLink>
+              <NavLink to="/knowledge" className={navClass}>专项</NavLink>
+              <NavLink to="/practice" className={navClass}>练习</NavLink>
+              <NavLink to="/mock-test" className={navMockClass}>模考</NavLink>
+              {account && <NavLink to="/assignments" className={navClass}>作业</NavLink>}
+              {isTeacher && <NavLink to="/bank" className={navClass}>题库</NavLink>}
+              {isTeacher && <NavLink to="/students" className={navClass}>学生</NavLink>}
+              {isTeacher && <NavLink to="/monitor" className={navClass}>学习情况</NavLink>}
+              {isOwner && <NavLink to="/teachers" className={navClass}>老师</NavLink>}
+              <NavLink to="/faq" className={navClass}>FAQ</NavLink>
+              <NavLink to="/search" className={navClass}>
+                <Search size={15} className="inline mr-1 -mt-0.5" />
                 搜索
               </NavLink>
             </nav>
-            <NavLink to="/practice" className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">开始练习</NavLink>
-            {account && <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-300">
-              <span>{account.profile?.display_name || account.user.email} · {account.profile?.role === 'teacher' ? '老师' : '学生'}</span>
-              <button type="button" onClick={() => void account.signOut()} className="text-blue-600 dark:text-blue-400 hover:underline">退出</button>
-            </div>}
+            {account && (
+              <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-300 whitespace-nowrap">
+                <span className={`px-2 py-0.5 rounded-full font-semibold ${isTeacher ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300' : 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'}`}>
+                  {isTeacher ? '老师' : '学生'}
+                </span>
+                <button type="button" onClick={() => void account.signOut()} className="text-blue-600 dark:text-blue-400 hover:underline">退出</button>
+              </div>
+            )}
             {themeBtn}
           </div>
 
@@ -90,15 +99,15 @@ export default function Layout() {
         {menuOpen && (
           <div className="md:hidden border-t bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 px-4 py-4 flex flex-col gap-4 text-sm font-medium">
             <NavLink to="/subjects" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">科目</NavLink>
-            <NavLink to="/knowledge" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">专项知识点</NavLink>
+            <NavLink to="/knowledge" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">专项</NavLink>
             <NavLink to="/practice" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">练习</NavLink>
-            <NavLink to="/mock-test" onClick={() => setMenuOpen(false)} className="hover:text-purple-600 dark:hover:text-purple-300">模拟测试</NavLink>
+            <NavLink to="/mock-test" onClick={() => setMenuOpen(false)} className="hover:text-purple-600 dark:hover:text-purple-300">模考</NavLink>
             {account && <NavLink to="/assignments" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">作业</NavLink>}
             {isTeacher && <NavLink to="/bank" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">题库</NavLink>}
             {isTeacher && <NavLink to="/students" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">学生</NavLink>}
             {isTeacher && <NavLink to="/monitor" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">学习情况</NavLink>}
             {isOwner && <NavLink to="/teachers" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">老师</NavLink>}
-            <NavLink to="/faq" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">常见问题</NavLink>
+            <NavLink to="/faq" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">FAQ</NavLink>
             <NavLink to="/search" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">搜索</NavLink>
             <NavLink to="/practice" onClick={() => setMenuOpen(false)} className="px-4 py-2 bg-blue-600 text-white rounded-lg text-center">开始练习</NavLink>
             {account && <button type="button" onClick={() => void account.signOut()} className="text-left text-blue-600 dark:text-blue-400">{account.profile?.display_name || account.user.email} · 退出登录</button>}
