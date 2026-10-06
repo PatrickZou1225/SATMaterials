@@ -825,15 +825,15 @@ export const importedMockTest = {
         },
         {
           "id": 25,
-          "passage": "• The Highpointers Club is a hiking club. • One of the main goals among club members is to reach the highest points in all fifty US states. • Those who achieve this are called 50 Completers. • In Suk Han became a 50 Completer on November 15, 2013. • The highest point in Michigan is Mount Arvon, at 1,979 ft. • The highest point in New Mexico is Wheeler Peak, at 13,167 ft.",
+          "passage": "• The Highpointers Club is a hiking club. • One of the main goals among club members is to reach the highest points in all fifty US states. • Those who achieve this are called 50 Completers. • In Suk Han became a 50 Completer on November 15, 2013. • The highest point in Pennsylvania is Mount Davis, at 3,213 ft. • The highest point in New Mexico is Wheeler Peak, at 13,167 ft.",
           "question": "Which choice most effectively uses information from the given sentences to explain the 50 Completers hiking challenge to a new audience?",
           "options": [
-            "Hikers aiming to count themselves among the 50 Completers must reach not only Michigan's Mount Arvon but also the even higher peak of Wheeler Peak in New Mexico.",
-            "Not until after you have reached the highest points in all fifty US states—including Mount Arvon in Michigan and Wheeler Peak in New Mexico—can you include yourself among the 50 Completers of the Highpointers Club.",
             "If you are looking for a new hiking challenge, consider joining the Highpointers Club, as did In Suk Han, a hiker who successfully reached the highest point in every US state.",
-            "D选项暂缺"
+            "On November 15, 2013, In Suk Han finally completed the feat of reaching the highest point in all fifty US states, including Mount Davis in Pennsylvania and Wheeler Peak in New Mexico.",
+            "Not until after you have reached the highest points in all fifty US states—including Mount Davis in Pennsylvania and Wheeler Peak in New Mexico—can you include yourself among the 50 Completers of the Highpointers Club.",
+            "Hikers aiming to count themselves among the 50 Completers must reach not only Pennsylvania's Mount Davis but also the even higher peak of Wheeler Peak in New Mexico."
           ],
-          "answer": 1,
+          "answer": 2,
           "domain": "Expression of Ideas",
           "skill": "Rhetorical Synthesis-Logical Combination of Information"
         }

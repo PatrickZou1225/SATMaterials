@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { ChevronDown, ChevronRight, Plus, Search, Trash2 } from 'lucide-react'
 import { useAccount } from '../context/account'
 import { supabase } from '../lib/supabase'
-import { buildQuestionBank, type BankModule } from '../lib/questionBank'
+import { buildQuestionBank, monthLabel, monthOfSet, type BankModule, type BankSet } from '../lib/questionBank'
 import { DOMAIN_ORDER, domainLabel, skillLabel } from '../lib/skills'
 import { TEACHER_PRICE_YEAR, useTeacherStatus } from '../lib/teacher'
 
@@ -40,6 +40,10 @@ type PickerRow = {
   students: number
   accuracy: number | null
   subject?: string
+  // Exam year and month of the row's set, so the period filter can narrow the
+  // list. Knowledge-point rows pool questions across sets, so they carry null.
+  year?: number
+  month?: number | null
   // Knowledge-point rows aggregate across sets, so per-module accuracy doesn't
   // apply; this carries their coverage line instead.
   note?: string
@@ -50,6 +54,15 @@ export default function Assignments() {
   const isTeacher = account?.profile?.role === 'teacher'
   const { loading: teacherLoading, active: teacherActive } = useTeacherStatus()
   const bank = useMemo(() => buildQuestionBank(), [])
+  const bankYears = useMemo(() => [...new Set(bank.sets.map((set) => set.year))].sort((a, b) => b - a), [bank])
+  const bankMonths = useMemo(() => {
+    const found = new Set<number>()
+    for (const set of bank.sets) {
+      const month = monthOfSet(set.id)
+      if (month !== null) found.add(month)
+    }
+    return [...found].sort((a, b) => a - b)
+  }, [bank])
 
   const [tab, setTab] = useState<TeacherTab>('create')
   const [assignments, setAssignments] = useState<Assignment[]>([])
@@ -66,6 +79,8 @@ export default function Assignments() {
   const [selectedKeys, setSelectedKeys] = useState<string[]>([])
   const [mode, setMode] = useState<DeployMode>('compose')
   const [subjectFilter, setSubjectFilter] = useState<SubjectFilter>('all')
+  const [yearFilter, setYearFilter] = useState<number | null>(null)
+  const [monthFilter, setMonthFilter] = useState<number | null>(null)
   const [query, setQuery] = useState('')
   const [selectedOnly, setSelectedOnly] = useState(false)
   const [page, setPage] = useState(1)
@@ -183,8 +198,14 @@ export default function Assignments() {
         .filter((row) => matchesQuery(`${row.parent} ${row.title} ${row.note}`))
     }
 
+    // A set's exam period ("2025-03") narrows the list far more than the search
+    // box alone, which is what makes a set findable without paging.
+    const keepPeriod = (set: BankSet) =>
+      (yearFilter === null || set.year === yearFilter) &&
+      (monthFilter === null || monthOfSet(set.id) === monthFilter)
+
     if (mode === 'fullset') {
-      return bank.sets.map((set) => {
+      return bank.sets.filter(keepPeriod).map((set) => {
         const modules = set.modules.filter(keepModule)
         const keys = modules.flatMap((m) => m.questions.map((q) => q.key))
         const perModule = modules.map((m) => stats.get(statKey(set.id, m.moduleNum))).filter(Boolean) as ModuleStat[]
@@ -204,12 +225,15 @@ export default function Assignments() {
           keys,
           students: seen.size,
           accuracy: accuracy(correct, total),
+          year: set.year,
+          month: monthOfSet(set.id),
         }
       }).filter((row) => row.questionCount > 0 && matchesQuery(row.title))
     }
 
     const out: PickerRow[] = []
     for (const set of bank.sets) {
+      if (!keepPeriod(set)) continue
       for (const module of set.modules) {
         if (!keepModule(module)) continue
         const keys = module.questions.map((q) => q.key)
@@ -223,11 +247,13 @@ export default function Assignments() {
           students: stat ? stat.students.size : 0,
           accuracy: stat ? accuracy(stat.correct, stat.total) : null,
           subject: module.subject,
+          year: set.year,
+          month: monthOfSet(set.id),
         })
       }
     }
     return out.filter((row) => matchesQuery(`${row.parent} ${row.title}`))
-  }, [bank, mode, subjectFilter, query, stats])
+  }, [bank, mode, subjectFilter, yearFilter, monthFilter, query, stats])
 
   const visibleRows = selectedOnly ? rows.filter((row) => row.keys.some((key) => selectedKeys.includes(key))) : rows
   const pageCount = Math.max(1, Math.ceil(visibleRows.length / PAGE_SIZE))
@@ -481,21 +507,41 @@ export default function Assignments() {
 
       {/* 右栏：题库选题 */}
       <section className="rounded-2xl border border-slate-200 dark:border-slate-700 flex flex-col min-h-[520px]">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-700 p-4">
-          <div className="flex items-center gap-2">
-            <button type="button" onClick={() => toggleRow(visibleRows.flatMap((r) => r.keys), !visibleRows.every(rowChecked))}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 dark:border-slate-600 px-3 py-1.5 text-sm font-medium hover:border-blue-400">全选</button>
-            <button type="button" onClick={() => setSelectedOnly((v) => !v)}
-              className={`rounded-lg px-3 py-1.5 text-sm font-medium border transition-colors ${
-                selectedOnly ? 'border-blue-500 bg-blue-600 text-white' : 'border-slate-300 dark:border-slate-600 hover:border-blue-400'
-              }`}>查看已选</button>
-            <span className="text-sm text-slate-500 dark:text-slate-400">已选 {selectedKeys.length} 题</span>
+        <div className="space-y-3 border-b border-slate-200 dark:border-slate-700 p-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <button type="button" onClick={() => toggleRow(visibleRows.flatMap((r) => r.keys), !visibleRows.every(rowChecked))}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 dark:border-slate-600 px-3 py-1.5 text-sm font-medium hover:border-blue-400">全选</button>
+              <button type="button" onClick={() => setSelectedOnly((v) => !v)}
+                className={`rounded-lg px-3 py-1.5 text-sm font-medium border transition-colors ${
+                  selectedOnly ? 'border-blue-500 bg-blue-600 text-white' : 'border-slate-300 dark:border-slate-600 hover:border-blue-400'
+                }`}>查看已选</button>
+              <span className="text-sm text-slate-500 dark:text-slate-400">已选 {selectedKeys.length} 题</span>
+            </div>
+            <label className="relative">
+              <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+              <input value={query} onChange={(e) => { setQuery(e.target.value); setPage(1) }} placeholder="输入搜索内容"
+                className="w-56 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 pl-9 pr-3 py-1.5 text-sm" />
+            </label>
           </div>
-          <label className="relative">
-            <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-            <input value={query} onChange={(e) => { setQuery(e.target.value); setPage(1) }} placeholder="输入搜索内容"
-              className="w-56 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 pl-9 pr-3 py-1.5 text-sm" />
-          </label>
+          {/* Knowledge points pool questions across every set, so narrowing by
+              exam period would silently drop matches. */}
+          {mode !== 'skill' && (
+            <div className="flex flex-wrap items-center gap-1.5">
+              <span className="mr-1 text-sm text-slate-500 dark:text-slate-400">年份</span>
+              <Toggle active={yearFilter === null} onClick={() => { setYearFilter(null); setPage(1) }} label="全部" />
+              {bankYears.map((year) => (
+                <Toggle key={year} active={yearFilter === year}
+                  onClick={() => { setYearFilter(yearFilter === year ? null : year); setPage(1) }} label={String(year)} />
+              ))}
+              <span className="ml-3 mr-1 text-sm text-slate-500 dark:text-slate-400">月份</span>
+              <Toggle active={monthFilter === null} onClick={() => { setMonthFilter(null); setPage(1) }} label="全部" />
+              {bankMonths.map((month) => (
+                <Toggle key={month} active={monthFilter === month}
+                  onClick={() => { setMonthFilter(monthFilter === month ? null : month); setPage(1) }} label={monthLabel(month)} />
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="flex-1 divide-y divide-slate-200 dark:divide-slate-700">

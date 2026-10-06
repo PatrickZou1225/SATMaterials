@@ -801,7 +801,7 @@ export const importedMockTest = {
             "One could theoretically observe a single bat that didn't use echolocation; however, one could not falsify the statement \"some bats use echolocation to navigate.\"",
             "The statement \"some bats use echolocation to navigate\" could be falsified by observing every bat in the universe, but it is not possible to falsify the statement \"all bats use echolocation to navigate.\"",
             "The statement \"all bats use echolocation to navigate\" could be proved false by observing a single bat that didn't use echolocation, whereas falsifying \"some bats use echolocation to navigate\" is impossible.",
-            "D选项暂缺"
+            "While it is generally accepted that all bats use echolocation to navigate, the statement \"some bats use echolocation to navigate\" is not falsifiable."
           ],
           "answer": 2,
           "domain": "Expression of Ideas",

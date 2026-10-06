@@ -409,7 +409,7 @@ export const importedMockTest = {
             "The hypothetical tunnels known as wormholes would be potential shortcuts through spacetime were it not for one complication: they have less energy than empty space.",
             "Einstein’s theory of general relativity allows for potential spacetime shortcuts called wormholes but does not explain how matter with negative energy density could travel through them.",
             "For matter to travel through a wormhole, the matter would need to have less energy than empty space; such matter has not been shown to exist.",
-            "D选项暂缺"
+            "For wormholes to be possible, according to Einstein’s theory of general relativity, they would have to allow for potential shortcuts through spacetime."
           ],
           "answer": 2,
           "domain": "Expression of Ideas",
@@ -423,7 +423,7 @@ export const importedMockTest = {
             "Shanawdithit’s maps are part of a broader tradition of Indigenous cartography that, according to Pearce, ranges from “Hawaiian performative cartographies to Navajo verbal maps and sand paintings.”",
             "Shanawdithit mapped Beothuk Lake through significant encounters that occurred there, an approach that Pearce describes as “depicting space as universal [and] homogenized.”",
             "By depicting experiences of the Beothuk that occurred around Beothuk Lake, Shanawdithit’s maps reflect Indigenous cartography’s emphasis on “experienced space, or place” rather than the landscape alone.",
-            "D选项暂缺"
+            "According to Pearce, Indigenous cartography, such as Shanawdithit’s maps of Beothuk Lake, emphasizes “experienced space, or place,” with a variety of approaches that reflect the diversity of Indigenous cultures."
           ],
           "answer": 2,
           "domain": "Expression of Ideas",
@@ -616,7 +616,7 @@ export const importedMockTest = {
             "Under the assumption that preferences are more salient than density, the US 2 and CI 2 proportions were predicted to be approximately 0.45 and 0.35, respectively, both below the measured values, whereas under the other assumption, the model overestimated the proportion for US 2 and overestimated that for CI 2.",
             "Under the assumption that density is more salient than preferences, the US 2 and CI 2 proportions are approximately 0.65 and 0.85, respectively, significantly higher than the values predicted under the other assumption and thus farther than those predictions from the measured values.",
             "Under the assumption that preferences are more salient than density, the US 2 and CI 2 proportions were predicted to be in the range of 0.3 to 0.5, placing them farther from the measured values than were those predicted under the other assumption.",
-            "D选项暂缺"
+            "Under the assumption that preferences are more salient than density, the two-location patterns (US 2 and CI 2) were predicted to be most frequent in the data even though neither proportion was projected to exceed 0.5, well below the proportion predicted under the other assumption."
           ],
           "answer": 2,
           "domain": "Information and Ideas",
@@ -645,7 +645,7 @@ export const importedMockTest = {
             "social learning and resource fluctuations may both play a role in dietary mix among females, at least temporarily, though genetic factors appear to make a significant contribution as well.",
             "female dietary mix is best understood as changeable and contingent on fluctuating environmental conditions rather than as the result of social learning or genetic factors.",
             "dietary mix among females may reflect a social learning effect that eventually diminishes, though environmental constraints cannot be ruled out as a contributing factor.",
-            "D选项暂缺"
+            "growing dissimilarity between mothers and their daughters with regard to dietary mix may reflect changes in the resources available in maternal habitats, though social learning could also contribute to the trend."
           ],
           "answer": 2,
           "domain": "Information and Ideas",
