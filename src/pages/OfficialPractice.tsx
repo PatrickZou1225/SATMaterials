@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, type ReactNode } from 'react'
 import { BookOpen, ChevronRight, Lock, RotateCcw } from 'lucide-react'
 import {
   allOfficialTypes,
@@ -7,7 +7,7 @@ import {
   type OfficialDifficulty,
   type OfficialQuestion,
 } from '../data/officialSamples'
-import { officialTypeLabel, officialTypes, sampleKeys } from '../lib/questionBank'
+import { officialSections, officialTypeLabel, officialTypes, sampleKeys } from '../lib/questionBank'
 import { formatPassageHtml } from '../lib/passage'
 import { OFFICIAL_HARD_PRICE, OFFICIAL_HARD_PRODUCT, useAccess } from '../lib/access'
 import UnlockDialog from '../components/UnlockDialog'
@@ -78,7 +78,7 @@ export default function OfficialPractice() {
   if (phase === 'setup') {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-slate-950 py-10 px-4">
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400">
             <BookOpen size={22} />
             <h1 className="text-2xl font-bold">官方样题练习</h1>
@@ -87,66 +87,77 @@ export default function OfficialPractice() {
             从 College Board 官方样题中挑一个题型，随时随地自主练习，做完立即看解析。
           </p>
 
-          <div className="mt-6 space-y-6 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-5">
-            <div>
-              <p className="text-sm font-medium mb-2">题型</p>
-              <div className="flex flex-wrap gap-2">
-                {officialTypes.map((type) => (
-                  <button key={type.slug} type="button" onClick={() => setSlug(type.slug)}
-                    className={`rounded-lg border px-3 py-1.5 text-sm transition-colors ${
-                      slug === type.slug
-                        ? 'border-blue-500 bg-blue-600 text-white'
-                        : 'border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-blue-400'
-                    }`}>
-                    {type.label}<span className="ml-1 opacity-70">{type.total}</span>
-                  </button>
+          <div className="mt-6 space-y-8 rounded-3xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-6 sm:p-8 shadow-sm">
+            <section>
+              <SectionLabel>题型</SectionLabel>
+              <div className="space-y-6">
+                {officialSections.map((section) => (
+                  <div key={section.key}>
+                    <p className="mb-2.5 text-sm font-semibold text-slate-700 dark:text-slate-200">{section.label}</p>
+                    <div className="grid gap-2.5 sm:grid-cols-2">
+                      {section.types.map((type) => {
+                        const active = slug === type.slug
+                        return (
+                          <button key={type.slug} type="button" onClick={() => setSlug(type.slug)}
+                            className={`flex items-center justify-between gap-3 rounded-2xl border px-4 py-3 text-left text-sm transition-all ${
+                              active
+                                ? 'border-blue-600 bg-blue-600 text-white shadow-sm'
+                                : 'border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-blue-400 hover:bg-blue-50/60 dark:hover:bg-blue-950/20'
+                            }`}>
+                            <span className="truncate">{type.label}</span>
+                            <span className={`shrink-0 text-xs tabular-nums ${active ? 'text-white/80' : 'text-slate-400 dark:text-slate-500'}`}>{type.total}</span>
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
                 ))}
               </div>
-            </div>
+            </section>
 
-            <div>
-              <p className="text-sm font-medium mb-2">难度</p>
-              <div className="flex flex-wrap gap-2">
+            <section>
+              <SectionLabel>难度</SectionLabel>
+              <div className="flex flex-wrap gap-2.5">
                 <button type="button" onClick={() => setDifficulty(null)}
-                  className={`rounded-lg border px-3 py-1.5 text-sm transition-colors ${
+                  className={`rounded-full border px-5 py-2 text-sm font-medium transition-colors ${
                     difficulty === null
-                      ? 'border-blue-500 bg-blue-600 text-white'
-                      : 'border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-blue-400'
+                      ? 'border-blue-600 bg-blue-600 text-white shadow-sm'
+                      : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-blue-400 hover:bg-blue-50/60 dark:hover:bg-blue-950/20'
                   }`}>All</button>
                 {OFFICIAL_DIFFICULTIES.map((d) => {
                   const locked = d === 'Hard' && !canHard
                   return (
                     <button key={d} type="button" onClick={() => (locked ? setShowPay(true) : setDifficulty(d))}
-                      className={`inline-flex items-center gap-1 rounded-lg border px-3 py-1.5 text-sm transition-colors ${
+                      className={`inline-flex items-center gap-1.5 rounded-full border px-5 py-2 text-sm font-medium transition-colors ${
                         difficulty === d
-                          ? 'border-blue-500 bg-blue-600 text-white'
+                          ? 'border-blue-600 bg-blue-600 text-white shadow-sm'
                           : locked
                             ? 'border-amber-300 dark:border-amber-700 text-amber-700 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-900/30'
-                            : 'border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-blue-400'
+                            : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-blue-400 hover:bg-blue-50/60 dark:hover:bg-blue-950/20'
                       }`}>
                       {locked && <Lock size={13} />}{d}
                     </button>
                   )
                 })}
               </div>
-              {!canHard && <p className="mt-2 text-xs text-amber-700 dark:text-amber-300">
+              {!canHard && <p className="mt-3 text-xs text-amber-700 dark:text-amber-300">
                 Hard 题需 ¥{OFFICIAL_HARD_PRICE} 解锁，<button type="button" onClick={() => setShowPay(true)} className="underline hover:no-underline">立即解锁</button>。Easy、Medium 题免费。
               </p>}
-            </div>
+            </section>
 
-            <div>
-              <p className="text-sm font-medium mb-2">数量</p>
-              <div className="flex items-center gap-3">
+            <section>
+              <SectionLabel>数量</SectionLabel>
+              <div className="flex items-center gap-4">
                 <input type="number" min={1} max={poolSize || 1} value={count}
                   onChange={(e) => setCount(Number(e.target.value))}
-                  className="w-24 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2" />
-                <span className="text-sm text-slate-500 dark:text-slate-400">当前范围共 {poolSize} 题</span>
+                  className="w-24 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3.5 py-2.5 text-center tabular-nums focus:border-blue-500 focus:outline-none" />
+                <span className="text-sm text-slate-500 dark:text-slate-400">当前范围共 <span className="font-semibold text-slate-700 dark:text-slate-200 tabular-nums">{poolSize}</span> 题</span>
               </div>
-            </div>
+            </section>
 
             <button type="button" onClick={start} disabled={poolSize === 0}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-5 py-2.5 font-medium text-white hover:bg-blue-700 disabled:opacity-60">
-              开始练习 <ChevronRight size={16} />
+              className="inline-flex w-full items-center justify-center gap-1.5 rounded-full bg-blue-600 px-8 py-3 text-base font-semibold text-white transition-colors hover:bg-blue-700 disabled:opacity-60 sm:w-auto">
+              开始练习 <ChevronRight size={18} />
             </button>
           </div>
         </div>
@@ -307,4 +318,12 @@ export default function OfficialPractice() {
       </div>
     </div>
   )
+}
+
+// Small uppercase label over a hairline, separating the setup card's sections.
+function SectionLabel({ children }: { children: ReactNode }) {
+  return <div className="mb-3 flex items-center gap-3">
+    <span className="text-xs font-semibold tracking-wide text-slate-400 dark:text-slate-500">{children}</span>
+    <span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
+  </div>
 }

@@ -138,6 +138,21 @@ export const officialTypes: OfficialTypeInfo[] = allOfficialTypes.map((type) => 
   }
 })
 
+// Teachers split the samples in two: 文法 (Standard English Conventions +
+// Expression of Ideas) and 阅读 (Craft and Structure + Information and Ideas).
+export interface OfficialSection {
+  key: 'writing' | 'reading'
+  label: string
+  types: OfficialTypeInfo[]
+}
+
+const WRITING_DOMAINS = new Set(['Standard English Conventions', 'Expression of Ideas'])
+
+export const officialSections: OfficialSection[] = [
+  { key: 'writing', label: '文法', types: officialTypes.filter((t) => WRITING_DOMAINS.has(t.domain)) },
+  { key: 'reading', label: '阅读', types: officialTypes.filter((t) => !WRITING_DOMAINS.has(t.domain)) },
+]
+
 export function officialTypeLabel(slug: string): string {
   return allOfficialTypes.find((type) => type.slug === slug)?.label ?? slug
 }
