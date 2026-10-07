@@ -123,7 +123,7 @@ export default function Students() {
 
   return <div className="max-w-4xl mx-auto px-4 py-10">
     <h1 className="text-3xl font-bold">学生管理</h1>
-    <p className="mt-2 text-slate-500 dark:text-slate-400">把学生邀请链接发给学生，注册后自动归到你名下。再手动开通真题年份或官方困难题。</p>
+    <p className="mt-2 text-slate-500 dark:text-slate-400">把学生邀请链接发给学生，注册后自动归到你名下。再手动开通真题年份或官方 Hard 题。</p>
 
     {message && <p role="status" className="mt-4 text-sm text-blue-600 dark:text-blue-400 break-all">{message}</p>}
 
@@ -194,14 +194,14 @@ export default function Students() {
               return <button
                 type="button"
                 onClick={() => has ? void revokeProduct(student.id, OFFICIAL_HARD_PRODUCT) : void grantProduct(student.id, OFFICIAL_HARD_PRODUCT)}
-                title={has ? '点击取消解锁' : `开通官方困难题（¥${OFFICIAL_HARD_PRICE}）`}
+                title={has ? '点击取消解锁' : `开通官方 Hard 题（¥${OFFICIAL_HARD_PRICE}）`}
                 className={`rounded-full border px-3 py-1.5 text-sm font-medium transition-colors ${
                   has
                     ? 'border-green-300 bg-green-50 text-green-700 dark:border-green-700 dark:bg-green-950/40 dark:text-green-300 hover:border-red-300 hover:text-red-600'
                     : 'border-dashed border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-purple-400 hover:text-purple-600'
                 }`}
               >
-                官方困难题 ¥{OFFICIAL_HARD_PRICE} {has ? '已解锁' : '未解锁'}
+                官方 Hard 题 ¥{OFFICIAL_HARD_PRICE} {has ? '已解锁' : '未解锁'}
               </button>
             })()}
           </div>

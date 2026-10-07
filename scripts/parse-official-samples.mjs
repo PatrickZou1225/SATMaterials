@@ -14,18 +14,19 @@ const SRC = process.argv[2]
 const OUT = new URL('../data/official-samples/', import.meta.url).pathname
 mkdirSync(OUT, { recursive: true })
 
-// Canonical skill metadata per PDF filename (uppercase key).
+// Canonical skill metadata per PDF filename (uppercase key). `label` is the
+// display name; it matches the official English skill name.
 const SKILLS = {
-  'BOUNDARIES': { skill: 'Boundaries', domain: 'Standard English Conventions', label: '句子边界' },
-  'CENTRAL IDEAS AND DETAILS': { skill: 'Central Ideas and Details', domain: 'Information and Ideas', label: '主旨与细节' },
-  'COMMAND OF EVIDENCE': { skill: 'Command of Evidence', domain: 'Information and Ideas', label: '循证' },
-  'CROSS TEXT CONNECTIONS': { skill: 'Cross-Text Connections', domain: 'Craft and Structure', label: '双篇关联' },
-  'FORM, STRUCTURE, AND SENSE': { skill: 'Form, Structure, and Sense', domain: 'Standard English Conventions', label: '形式与意义' },
-  'INFERENCES': { skill: 'Inferences', domain: 'Information and Ideas', label: '推断' },
-  'RHETORICAL SYNTHESIS': { skill: 'Rhetorical Synthesis', domain: 'Expression of Ideas', label: '修辞综合' },
-  'TEXT STRUCTURE AND PURPOSE': { skill: 'Text Structure and Purpose', domain: 'Craft and Structure', label: '文本结构与目的' },
-  'TRANSITIONS': { skill: 'Transitions', domain: 'Expression of Ideas', label: '逻辑连接' },
-  'WORDS IN CONTEXT': { skill: 'Words in Context', domain: 'Craft and Structure', label: '语境词汇' },
+  'BOUNDARIES': { skill: 'Boundaries', domain: 'Standard English Conventions', label: 'Boundaries' },
+  'CENTRAL IDEAS AND DETAILS': { skill: 'Central Ideas and Details', domain: 'Information and Ideas', label: 'Central Ideas and Details' },
+  'COMMAND OF EVIDENCE': { skill: 'Command of Evidence', domain: 'Information and Ideas', label: 'Command of Evidence' },
+  'CROSS TEXT CONNECTIONS': { skill: 'Cross-Text Connections', domain: 'Craft and Structure', label: 'Cross-Text Connections' },
+  'FORM, STRUCTURE, AND SENSE': { skill: 'Form, Structure, and Sense', domain: 'Standard English Conventions', label: 'Form, Structure, and Sense' },
+  'INFERENCES': { skill: 'Inferences', domain: 'Information and Ideas', label: 'Inferences' },
+  'RHETORICAL SYNTHESIS': { skill: 'Rhetorical Synthesis', domain: 'Expression of Ideas', label: 'Rhetorical Synthesis' },
+  'TEXT STRUCTURE AND PURPOSE': { skill: 'Text Structure and Purpose', domain: 'Craft and Structure', label: 'Text Structure and Purpose' },
+  'TRANSITIONS': { skill: 'Transitions', domain: 'Expression of Ideas', label: 'Transitions' },
+  'WORDS IN CONTEXT': { skill: 'Words in Context', domain: 'Craft and Structure', label: 'Words in Context' },
 }
 
 // A question's task sentence ("Which choice…", "According to…", …) always starts

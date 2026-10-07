@@ -14,12 +14,6 @@ import UnlockDialog from '../components/UnlockDialog'
 
 const OPTION_LABELS = ['A', 'B', 'C', 'D']
 
-const DIFFICULTY_LABELS: Record<OfficialDifficulty, string> = {
-  Easy: '简单',
-  Medium: '中等',
-  Hard: '困难',
-}
-
 // Look a question up by its assignment key to reach the written rationale, which
 // is not part of the shared MockTestQuestion shape the bank stores.
 const officialByKey = new Map<string, OfficialQuestion>()
@@ -118,7 +112,7 @@ export default function OfficialPractice() {
                     difficulty === null
                       ? 'border-blue-500 bg-blue-600 text-white'
                       : 'border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-blue-400'
-                  }`}>全部</button>
+                  }`}>All</button>
                 {OFFICIAL_DIFFICULTIES.map((d) => {
                   const locked = d === 'Hard' && !canHard
                   return (
@@ -130,13 +124,13 @@ export default function OfficialPractice() {
                             ? 'border-amber-300 dark:border-amber-700 text-amber-700 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-900/30'
                             : 'border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-blue-400'
                       }`}>
-                      {locked && <Lock size={13} />}{DIFFICULTY_LABELS[d]}
+                      {locked && <Lock size={13} />}{d}
                     </button>
                   )
                 })}
               </div>
               {!canHard && <p className="mt-2 text-xs text-amber-700 dark:text-amber-300">
-                困难题需 ¥{OFFICIAL_HARD_PRICE} 解锁，<button type="button" onClick={() => setShowPay(true)} className="underline hover:no-underline">立即解锁</button>。简单、中等题免费。
+                Hard 题需 ¥{OFFICIAL_HARD_PRICE} 解锁，<button type="button" onClick={() => setShowPay(true)} className="underline hover:no-underline">立即解锁</button>。Easy、Medium 题免费。
               </p>}
             </div>
 
@@ -157,9 +151,9 @@ export default function OfficialPractice() {
           </div>
         </div>
         {showPay && <UnlockDialog
-          title="解锁官方困难题"
+          title="解锁官方 Hard 题"
           price={`¥${OFFICIAL_HARD_PRICE}`}
-          note="开通后可永久练习全部官方「困难」题。老师布置的作业不受此限制。"
+          note="开通后可永久练习全部官方 Hard 题。老师布置的作业不受此限制。"
           onClose={() => setShowPay(false)} />}
       </div>
     )
@@ -184,7 +178,7 @@ export default function OfficialPractice() {
             <span className="ml-2 text-slate-500 dark:text-slate-400">（{score}%）</span>
           </p>
           <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-            题型：{officialTypeLabel(slug)}{difficulty ? ` · ${DIFFICULTY_LABELS[difficulty]}` : ''}
+            题型：{officialTypeLabel(slug)}{difficulty ? ` · ${difficulty}` : ''}
           </p>
           <div className="mt-8 flex justify-center gap-3">
             <button type="button" onClick={start}

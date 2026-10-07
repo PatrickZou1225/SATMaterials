@@ -24,8 +24,6 @@ type DeployMode = 'compose' | 'fullset' | 'skill' | 'official'
 type SubjectFilter = 'all' | '阅读与文法' | '数学'
 type TeacherTab = 'create' | 'classes' | 'list'
 
-const DIFFICULTY_LABELS: Record<OfficialDifficulty, string> = { Easy: '简单', Medium: '中等', Hard: '困难' }
-
 const PAGE_SIZE = 15
 
 const statKey = (setId: string, moduleNum: number) => `${setId}:${moduleNum}`
@@ -298,7 +296,7 @@ export default function Assignments() {
     }
     const count = Math.max(1, Math.min(officialCount, keys.length))
     setSelectedKeys(sampleKeys(keys, count))
-    const scope = `${officialTypeLabel(officialSlug)}${officialDifficulty ? ` · ${DIFFICULTY_LABELS[officialDifficulty]}` : ''}`
+    const scope = `${officialTypeLabel(officialSlug)}${officialDifficulty ? ` · ${officialDifficulty}` : ''}`
     setMessage(`已随机抽取 ${count} 题（${scope}），点右下角「布置」即可。`)
   }
 
@@ -680,9 +678,9 @@ function OfficialPicker({
     <div>
       <p className="text-sm font-medium mb-2">难度</p>
       <div className="flex flex-wrap gap-2">
-        <Toggle active={difficulty === null} onClick={() => onDifficulty(null)} label="全部" />
+        <Toggle active={difficulty === null} onClick={() => onDifficulty(null)} label="All" />
         {OFFICIAL_DIFFICULTIES.map((d) => (
-          <Toggle key={d} active={difficulty === d} onClick={() => onDifficulty(d)} label={DIFFICULTY_LABELS[d]} />
+          <Toggle key={d} active={difficulty === d} onClick={() => onDifficulty(d)} label={d} />
         ))}
       </div>
     </div>
