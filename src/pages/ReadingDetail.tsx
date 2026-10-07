@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { ArrowLeft, ChevronLeft, ChevronRight, CheckCircle, XCircle, RotateCcw, Flag, Lightbulb, LayoutGrid, Bookmark } from 'lucide-react'
+import { ArrowLeft, ChevronLeft, ChevronRight, CheckCircle, XCircle, RotateCcw, Flag, Lightbulb, LayoutGrid, Bookmark, Maximize, Minimize } from 'lucide-react'
 import { topicData, topicNames, levelNames, type ReadingQuestion } from '../data/readingQuestions'
 import { formatPassageHtml } from '../lib/passage'
+import { useFullscreen } from '../lib/fullscreen'
 
 const OPTION_LABELS = ['A', 'B', 'C', 'D']
 
@@ -73,6 +74,7 @@ export default function ReadingDetail() {
   const [finished, setFinished] = useState(false)
   const [showNav, setShowNav] = useState(false)
   const [chromeHidden, setChromeHidden] = useState(false)
+  const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
   // 移动端切换 passage / question 视图
   const [mobileView, setMobileView] = useState<'passage' | 'question'>('passage')
   // 正向计时（秒）
@@ -281,6 +283,14 @@ export default function ReadingDetail() {
               className="inline-flex items-center gap-1.5 text-sm font-medium hover:text-black transition-colors"
             >
               <LayoutGrid size={16} /> 题号
+            </button>
+            <button
+              type="button"
+              onClick={toggleFullscreen}
+              title={isFullscreen ? '退出全屏（Esc）' : '全屏做题'}
+              className="inline-flex items-center gap-1.5 text-sm font-medium hover:text-black transition-colors"
+            >
+              {isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />} 全屏
             </button>
           </div>
         </div>

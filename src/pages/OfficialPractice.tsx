@@ -1,6 +1,6 @@
 import { useMemo, useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowLeft, BookOpen, ChevronRight, Lock, RotateCcw } from 'lucide-react'
+import { ArrowLeft, BookOpen, ChevronRight, Lock, Maximize, Minimize, RotateCcw } from 'lucide-react'
 import {
   allOfficialTypes,
   officialKey,
@@ -11,6 +11,7 @@ import {
 import { officialSections, officialTypeLabel, officialTypes, sampleKeys } from '../lib/questionBank'
 import { formatPassageHtml } from '../lib/passage'
 import { OFFICIAL_HARD_PRICE, OFFICIAL_HARD_PRODUCT, useAccess } from '../lib/access'
+import { useFullscreen } from '../lib/fullscreen'
 import UnlockDialog from '../components/UnlockDialog'
 
 const OPTION_LABELS = ['A', 'B', 'C', 'D']
@@ -42,6 +43,7 @@ export default function OfficialPractice() {
   const [showPay, setShowPay] = useState(false)
 
   const { canAccessProduct } = useAccess()
+  const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
   const canHard = canAccessProduct(OFFICIAL_HARD_PRODUCT)
   // Hard is a paid pool; everything else is free to everyone.
   const openDiffs = OFFICIAL_DIFFICULTIES.filter((d) => d !== 'Hard' || canHard)
@@ -236,7 +238,14 @@ export default function OfficialPractice() {
       <div className="max-w-3xl mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-slate-500 dark:text-slate-400">
           <button type="button" onClick={reset} className="hover:text-blue-600 dark:hover:text-blue-400">← 退出练习</button>
-          <span>已答 {answered} / {total} · 正确 {correctCount}</span>
+          <div className="flex items-center gap-3">
+            <span>已答 {answered} / {total} · 正确 {correctCount}</span>
+            <button type="button" onClick={toggleFullscreen}
+              title={isFullscreen ? '退出全屏（Esc）' : '全屏做题'}
+              className="inline-flex items-center gap-1.5 hover:text-blue-600 dark:hover:text-blue-400">
+              {isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />} 全屏
+            </button>
+          </div>
         </div>
 
         <div className="mt-4 flex flex-wrap gap-2">

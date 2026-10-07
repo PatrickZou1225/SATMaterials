@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
-import { ArrowLeft, ChevronLeft, ChevronRight, ChevronDown, RotateCcw, Flag, Clock, AlertTriangle, Send, LayoutGrid, Bookmark } from 'lucide-react'
+import { ArrowLeft, ChevronLeft, ChevronRight, ChevronDown, RotateCcw, Flag, Clock, AlertTriangle, Send, LayoutGrid, Bookmark, Maximize, Minimize } from 'lucide-react'
 import { getTestSet, type MockTestQuestion } from '../data/mockTestQuestions'
 import { formatPassageHtml } from '../lib/passage'
 import { priceLabel, useAccess } from '../lib/access'
 import { questionKey, moduleNumber } from '../lib/questionBank'
+import { useFullscreen } from '../lib/fullscreen'
 import { supabase } from '../lib/supabase'
 import { useAccount } from '../context/account'
 import UnlockDialog from '../components/UnlockDialog'
@@ -104,6 +105,7 @@ function MockTestRunner() {
   const [showSubmit, setShowSubmit] = useState(false)
   const [mobileView, setMobileView] = useState<'passage' | 'question'>('passage')
   const [chromeHidden, setChromeHidden] = useState(false)
+  const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
   const [remainingSeconds, setRemainingSeconds] = useState(totalTime)
   const [timerRunning, setTimerRunning] = useState(false)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
@@ -456,6 +458,14 @@ function MockTestRunner() {
               className="inline-flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-black"
             >
               <LayoutGrid size={16} /> 题号
+            </button>
+            <button
+              type="button"
+              onClick={toggleFullscreen}
+              title={isFullscreen ? '退出全屏（Esc）' : '全屏做题'}
+              className="inline-flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-black"
+            >
+              {isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />} 全屏
             </button>
           </div>
         </div>

@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { ArrowLeft, ChevronLeft, ChevronRight, Send } from 'lucide-react'
+import { ArrowLeft, ChevronLeft, ChevronRight, Send, Maximize, Minimize } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { useAccount } from '../context/account'
 import { buildQuestionBank, type BankQuestion } from '../lib/questionBank'
 import { formatPassageHtml } from '../lib/passage'
+import { useFullscreen } from '../lib/fullscreen'
 
 const OPTION_LABELS = ['A', 'B', 'C', 'D']
 
@@ -27,6 +28,7 @@ export default function AssignmentWork() {
   const [selected, setSelected] = useState<Record<string, number>>({})
   const [currentIndex, setCurrentIndex] = useState(0)
   const [submitting, setSubmitting] = useState(false)
+  const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
 
   useEffect(() => {
     if (!supabase || !account?.user || !assignmentId) return
@@ -164,6 +166,11 @@ export default function AssignmentWork() {
         </button>
         <div className="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-400">
           <span>已答 {answeredCount} / {questions.length}</span>
+          <button type="button" onClick={toggleFullscreen}
+            title={isFullscreen ? '退出全屏（Esc）' : '全屏做题'}
+            className="inline-flex items-center gap-1.5 hover:text-blue-600 dark:hover:text-blue-400">
+            {isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />} 全屏
+          </button>
           {!reviewing && <button type="button" onClick={() => void submit()} disabled={submitting}
             className="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700 disabled:opacity-60">
             <Send size={15} />{submitting ? '提交中…' : '交卷'}
