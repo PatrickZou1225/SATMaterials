@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, ChevronDown, Construction, Lock, Search } from 'lucide-react'
 import { allMockTests, type MockTestSet } from '../data/mockTestQuestions'
 import { monthLabel, monthOfSet } from '../lib/questionBank'
-import { YEAR_PRICE, priceLabel, useYearAccess } from '../lib/access'
+import { YEAR_PRICE, priceLabel, useAccess } from '../lib/access'
 import UnlockDialog from '../components/UnlockDialog'
 
 const subjectButton: Record<string, string> = {
@@ -18,7 +18,7 @@ const shortModuleName = (name: string) => name.match(/Module\s*\d+/i)?.[0] ?? na
 const shortTitle = (title: string) => title.replace(/^SAT CMP \d{4}-/, '')
 
 export default function MockTestList() {
-  const { canAccess } = useYearAccess()
+  const { canAccess } = useAccess()
   const [payYear, setPayYear] = useState<number | null>(null)
   const [query, setQuery] = useState('')
   const [monthFilter, setMonthFilter] = useState<number | null>(null)
@@ -231,7 +231,7 @@ export default function MockTestList() {
         </details>
       </div>
 
-      {payYear !== null && <UnlockDialog year={payYear} onClose={() => setPayYear(null)} />}
+      {payYear !== null && <UnlockDialog title={`解锁 ${payYear} 年真题`} price={priceLabel(payYear)} onClose={() => setPayYear(null)} />}
     </div>
   )
 }

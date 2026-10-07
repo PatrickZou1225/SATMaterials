@@ -1,4 +1,5 @@
 import { allMockTests, type MockTestModule, type MockTestQuestion, type MockTestSet } from '../data/mockTestQuestions'
+import { allOfficialTypes, officialKey, OFFICIAL_DIFFICULTIES, type OfficialDifficulty } from '../data/officialSamples'
 
 // Stable key an assignment uses to point at one question. The format is fixed by
 // the check constraint on public.assignment_questions.question_key:
@@ -91,5 +92,70 @@ export function buildQuestionBank(sets: MockTestSet[] = allMockTests): QuestionB
     })
   }
 
+  // Official College Board sample questions are not a "set" (no year, one module
+  // per difficulty), so they never join `sets` — but they must be resolvable by
+  // key so assignments and the practice page can render them.
+  for (const type of allOfficialTypes) {
+    for (const difficulty of OFFICIAL_DIFFICULTIES) {
+      for (const question of type.difficulties[difficulty]) {
+        const key = officialKey(type.slug, difficulty, question.qid)
+        byKey.set(key, {
+          key,
+          setId: `official-${type.slug}`,
+          setTitle: `官方样题 · ${type.label}`,
+          moduleName: difficulty,
+          moduleNum: 1,
+          question,
+        })
+      }
+    }
+  }
+
   return { sets: bank, byKey }
+}
+
+// Official-sample catalog, keyed by type, for the practice UI and assignment mode.
+export interface OfficialTypeInfo {
+  slug: string
+  label: string
+  domain: string
+  skill: string
+  counts: Record<OfficialDifficulty, number>
+  total: number
+}
+
+export const officialTypes: OfficialTypeInfo[] = allOfficialTypes.map((type) => {
+  const counts = Object.fromEntries(
+    OFFICIAL_DIFFICULTIES.map((d) => [d, type.difficulties[d].length]),
+  ) as Record<OfficialDifficulty, number>
+  return {
+    slug: type.slug,
+    label: type.label,
+    domain: type.domain,
+    skill: type.skill,
+    counts,
+    total: OFFICIAL_DIFFICULTIES.reduce((n, d) => n + counts[d], 0),
+  }
+})
+
+export function officialTypeLabel(slug: string): string {
+  return allOfficialTypes.find((type) => type.slug === slug)?.label ?? slug
+}
+
+// All keys for one type, optionally narrowed to a single difficulty.
+export function officialKeys(slug: string, difficulty: OfficialDifficulty | null = null): string[] {
+  const type = allOfficialTypes.find((t) => t.slug === slug)
+  if (!type) return []
+  const diffs = difficulty ? [difficulty] : OFFICIAL_DIFFICULTIES
+  return diffs.flatMap((d) => type.difficulties[d].map((q) => officialKey(slug, d, q.qid)))
+}
+
+// Random sample of `count` keys (all of them when the pool is smaller).
+export function sampleKeys(keys: string[], count: number): string[] {
+  const pool = [...keys]
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[pool[i], pool[j]] = [pool[j], pool[i]]
+  }
+  return pool.slice(0, Math.max(0, Math.min(count, pool.length)))
 }

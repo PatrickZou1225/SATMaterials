@@ -11,6 +11,7 @@ import ReadingDetail from './pages/ReadingDetail'
 import MockTestList from './pages/MockTestList'
 import MockTest from './pages/MockTest'
 import Search from './pages/Search'
+import OfficialPractice from './pages/OfficialPractice'
 import Assignments from './pages/Assignments'
 import AssignmentWork from './pages/AssignmentWork'
 import QuestionBank from './pages/QuestionBank'
@@ -36,6 +37,7 @@ function App() {
             <Route path="/mock-test/:testId/:moduleIndex" element={<MockTest />} />
             <Route path="/mock-test" element={<MockTestList />} />
             <Route path="/search" element={<Search />} />
+            <Route path="/official-practice" element={<OfficialPractice />} />
             <Route path="/assignments" element={<Assignments />} />
             <Route path="/assignments/:assignmentId" element={<AssignmentWork />} />
             <Route path="/bank" element={<TeacherGate><QuestionBank /></TeacherGate>} />

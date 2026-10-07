@@ -2,10 +2,10 @@ import { useCallback, useEffect, useState } from 'react'
 import { Copy, Plus } from 'lucide-react'
 import { useAccount } from '../context/account'
 import { supabase } from '../lib/supabase'
-import { PAID_YEARS, YEAR_PRICE } from '../lib/access'
+import { OFFICIAL_HARD_PRICE, OFFICIAL_HARD_PRODUCT, PAID_YEARS, YEAR_PRICE } from '../lib/access'
 
 type Student = { id: string; display_name: string; email: string }
-type Entitlement = { id: string; student_id: string; year: number }
+type Entitlement = { id: string; student_id: string; year: number | null; product: string }
 type Invite = { code: string; created_at: string }
 
 // Teacher-side roster: see every student and which real-paper years they own.
@@ -26,7 +26,7 @@ export default function Students() {
     if (!supabase) return
     const [studentRes, entitlementRes, inviteRes] = await Promise.all([
       supabase.from('profiles').select('id, display_name, email').eq('role', 'student').order('display_name'),
-      supabase.from('entitlements').select('id, student_id, year'),
+      supabase.from('entitlements').select('*'),
       supabase.from('invites').select('code, created_at').eq('kind', 'student').is('used_by', null).order('created_at', { ascending: false }),
     ])
     if (studentRes.error) setMessage('暂时无法读取学生名单。')
@@ -60,7 +60,10 @@ export default function Students() {
   }
 
   const unlockedYears = (studentId: string) =>
-    entitlements.filter((e) => e.student_id === studentId).map((e) => e.year)
+    entitlements.filter((e) => e.student_id === studentId && e.year !== null).map((e) => e.year as number)
+
+  const hasProduct = (studentId: string) =>
+    entitlements.some((e) => e.student_id === studentId && e.product === OFFICIAL_HARD_PRODUCT)
 
   const grant = async (studentId: string, year: number) => {
     if (!supabase || !account) return
@@ -88,13 +91,39 @@ export default function Students() {
     await refresh()
   }
 
+  const grantProduct = async (studentId: string, product: string) => {
+    if (!supabase || !account) return
+    setMessage('')
+    const { error } = await supabase.from('entitlements').insert({
+      student_id: studentId,
+      product,
+      granted_by: account.user.id,
+    })
+    if (error) {
+      setMessage(error.message)
+      return
+    }
+    await refresh()
+  }
+
+  const revokeProduct = async (studentId: string, product: string) => {
+    if (!supabase) return
+    setMessage('')
+    const { error } = await supabase.from('entitlements').delete().eq('student_id', studentId).eq('product', product)
+    if (error) {
+      setMessage(error.message)
+      return
+    }
+    await refresh()
+  }
+
   if (!account?.profile) return <PageMessage text="正在读取账号资料…" />
   if (!supabase) return <PageMessage text="尚未连接服务器，暂时无法使用。" />
   if (!isTeacher) return <PageMessage text="仅老师可以查看学生管理。" />
 
   return <div className="max-w-4xl mx-auto px-4 py-10">
     <h1 className="text-3xl font-bold">学生管理</h1>
-    <p className="mt-2 text-slate-500 dark:text-slate-400">把学生邀请链接发给学生，注册后自动归到你名下。再手动开通真题年份。</p>
+    <p className="mt-2 text-slate-500 dark:text-slate-400">把学生邀请链接发给学生，注册后自动归到你名下。再手动开通真题年份或官方困难题。</p>
 
     {message && <p role="status" className="mt-4 text-sm text-blue-600 dark:text-blue-400 break-all">{message}</p>}
 
@@ -157,6 +186,24 @@ export default function Students() {
                 {year} {has ? '已解锁' : '未解锁'}
               </button>
             })}
+          </div>
+
+          <div className="mt-3 flex flex-wrap gap-2">
+            {(() => {
+              const has = hasProduct(student.id)
+              return <button
+                type="button"
+                onClick={() => has ? void revokeProduct(student.id, OFFICIAL_HARD_PRODUCT) : void grantProduct(student.id, OFFICIAL_HARD_PRODUCT)}
+                title={has ? '点击取消解锁' : `开通官方困难题（¥${OFFICIAL_HARD_PRICE}）`}
+                className={`rounded-full border px-3 py-1.5 text-sm font-medium transition-colors ${
+                  has
+                    ? 'border-green-300 bg-green-50 text-green-700 dark:border-green-700 dark:bg-green-950/40 dark:text-green-300 hover:border-red-300 hover:text-red-600'
+                    : 'border-dashed border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-purple-400 hover:text-purple-600'
+                }`}
+              >
+                官方困难题 ¥{OFFICIAL_HARD_PRICE} {has ? '已解锁' : '未解锁'}
+              </button>
+            })()}
           </div>
         </article>
       })}

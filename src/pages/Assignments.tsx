@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import { ChevronDown, ChevronRight, Plus, Search, Trash2 } from 'lucide-react'
 import { useAccount } from '../context/account'
 import { supabase } from '../lib/supabase'
-import { buildQuestionBank, monthLabel, monthOfSet, type BankModule, type BankSet } from '../lib/questionBank'
+import { buildQuestionBank, monthLabel, monthOfSet, officialKeys, officialTypeLabel, officialTypes, sampleKeys, type BankModule, type BankSet } from '../lib/questionBank'
+import { OFFICIAL_DIFFICULTIES, type OfficialDifficulty } from '../data/officialSamples'
 import { DOMAIN_ORDER, domainLabel, skillLabel } from '../lib/skills'
 import { TEACHER_PRICE_YEAR, useTeacherStatus } from '../lib/teacher'
 
@@ -19,9 +20,11 @@ type Assignment = {
 type ClassRow = { id: string; name: string; memberIds: string[] }
 type ModuleStat = { students: Set<string>; correct: number; total: number }
 
-type DeployMode = 'compose' | 'fullset' | 'skill'
+type DeployMode = 'compose' | 'fullset' | 'skill' | 'official'
 type SubjectFilter = 'all' | '阅读与文法' | '数学'
 type TeacherTab = 'create' | 'classes' | 'list'
+
+const DIFFICULTY_LABELS: Record<OfficialDifficulty, string> = { Easy: '简单', Medium: '中等', Hard: '困难' }
 
 const PAGE_SIZE = 15
 
@@ -78,6 +81,9 @@ export default function Assignments() {
   const [selectedStudentIds, setSelectedStudentIds] = useState<string[]>([])
   const [selectedKeys, setSelectedKeys] = useState<string[]>([])
   const [mode, setMode] = useState<DeployMode>('compose')
+  const [officialSlug, setOfficialSlug] = useState(officialTypes[0]?.slug ?? '')
+  const [officialDifficulty, setOfficialDifficulty] = useState<OfficialDifficulty | null>(null)
+  const [officialCount, setOfficialCount] = useState(10)
   const [subjectFilter, setSubjectFilter] = useState<SubjectFilter>('all')
   const [yearFilter, setYearFilter] = useState<number | null>(null)
   const [monthFilter, setMonthFilter] = useState<number | null>(null)
@@ -278,6 +284,24 @@ export default function Assignments() {
     return [...set]
   }, [selectedStudentIds, selectedClassIds, classes])
 
+  const officialAvailable = useMemo(
+    () => officialKeys(officialSlug, officialDifficulty).length,
+    [officialSlug, officialDifficulty],
+  )
+
+  // Official mode picks a type + difficulty and draws `count` random questions.
+  const generateOfficial = () => {
+    const keys = officialKeys(officialSlug, officialDifficulty)
+    if (keys.length === 0) {
+      setMessage('这个题型暂无题目。')
+      return
+    }
+    const count = Math.max(1, Math.min(officialCount, keys.length))
+    setSelectedKeys(sampleKeys(keys, count))
+    const scope = `${officialTypeLabel(officialSlug)}${officialDifficulty ? ` · ${DIFFICULTY_LABELS[officialDifficulty]}` : ''}`
+    setMessage(`已随机抽取 ${count} 题（${scope}），点右下角「布置」即可。`)
+  }
+
   const createAssignment = async (event: FormEvent) => {
     event.preventDefault()
     if (!supabase || !account) return
@@ -315,9 +339,10 @@ export default function Assignments() {
       return
     }
 
-    const orderedKeys = bank.sets
-      .flatMap((set) => set.modules.flatMap((m) => m.questions.map((q) => q.key)))
-      .filter((key) => selectedKeys.includes(key))
+    const orderedKeys = [
+      ...bank.sets.flatMap((set) => set.modules.flatMap((m) => m.questions.map((q) => q.key))).filter((key) => selectedKeys.includes(key)),
+      ...selectedKeys.filter((key) => key.startsWith('official:')),
+    ]
     const { error: questionError } = await supabase.from('assignment_questions').insert(
       orderedKeys.map((key, index) => ({ assignment_id: data.id, position: index + 1, question_key: key })),
     )
@@ -486,16 +511,18 @@ export default function Assignments() {
               <Toggle active={mode === 'compose'} onClick={() => { setMode('compose'); setPage(1) }} label="组卷" />
               <Toggle active={mode === 'fullset'} onClick={() => { setMode('fullset'); setPage(1) }} label="整套" />
               <Toggle active={mode === 'skill'} onClick={() => { setMode('skill'); setPage(1) }} label="知识点" />
+              <Toggle active={mode === 'official'} onClick={() => { setMode('official'); setPage(1) }} label="题型专项" />
             </div>
             <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
               {mode === 'compose' ? '按单个 Module 选题。'
                 : mode === 'fullset' ? '整套题一起布置。'
-                  : '按知识点布置，跨套题汇总同一考点的题目。'}
+                  : mode === 'skill' ? '按知识点布置，跨套题汇总同一考点的题目。'
+                    : '从 College Board 官方样题中挑一种题型，按数量随机抽题。'}
             </p>
           </div>
-          {/* Knowledge points only exist for 阅读与文法 questions, so the subject
-              split is meaningless in that mode. */}
-          {mode !== 'skill' && <div>
+          {/* Knowledge points and official samples are reading-and-writing only,
+              so the subject split is meaningless in those modes. */}
+          {mode !== 'skill' && mode !== 'official' && <div>
             <p className="text-sm font-medium mb-2">分项</p>
             <div className="flex flex-wrap gap-2">
               {(['all', '阅读与文法', '数学'] as SubjectFilter[]).map((s) =>
@@ -507,6 +534,15 @@ export default function Assignments() {
 
       {/* 右栏：题库选题 */}
       <section className="rounded-2xl border border-slate-200 dark:border-slate-700 flex flex-col min-h-[520px]">
+        {mode === 'official' ? (
+          <OfficialPicker
+            slug={officialSlug} onSlug={setOfficialSlug}
+            difficulty={officialDifficulty} onDifficulty={setOfficialDifficulty}
+            count={officialCount} onCount={setOfficialCount}
+            available={officialAvailable} selected={selectedKeys.length}
+            onGenerate={generateOfficial}
+          />
+        ) : (<>
         <div className="space-y-3 border-b border-slate-200 dark:border-slate-700 p-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2">
@@ -548,10 +584,13 @@ export default function Assignments() {
           {pagedRows.map((row) => <PickerRowView key={row.id} row={row} checked={rowChecked(row)} onToggle={(on) => toggleRow(row.keys, on)} />)}
           {pagedRows.length === 0 && <p className="p-6 text-sm text-slate-500">没有匹配的题目。</p>}
         </div>
+        </>)}
 
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 dark:border-slate-700 p-4">
-          <span className="text-sm text-slate-500 dark:text-slate-400">共 {visibleRows.length} 条</span>
-          {pageCount > 1 && <div className="flex items-center gap-1">
+          <span className="text-sm text-slate-500 dark:text-slate-400">
+            {mode === 'official' ? `已选 ${selectedKeys.length} 题` : `共 ${visibleRows.length} 条`}
+          </span>
+          {mode !== 'official' && pageCount > 1 && <div className="flex items-center gap-1">
             {Array.from({ length: pageCount }, (_, i) => i + 1).map((p) => <button key={p} type="button" onClick={() => setPage(p)}
               className={`w-8 h-8 rounded-lg text-sm ${p === currentPage ? 'bg-blue-600 text-white' : 'hover:bg-slate-100 dark:hover:bg-slate-800'}`}>{p}</button>)}
           </div>}
@@ -605,6 +644,66 @@ export default function Assignments() {
       {assignments.map((assignment) => <AssignmentCard key={assignment.id} assignment={assignment} />)}
       {assignments.length === 0 && <p className="text-slate-500">暂时没有作业。</p>}
     </section>}
+  </div>
+}
+
+function OfficialPicker({
+  slug, onSlug, difficulty, onDifficulty, count, onCount, available, selected, onGenerate,
+}: {
+  slug: string
+  onSlug: (slug: string) => void
+  difficulty: OfficialDifficulty | null
+  onDifficulty: (difficulty: OfficialDifficulty | null) => void
+  count: number
+  onCount: (count: number) => void
+  available: number
+  selected: number
+  onGenerate: () => void
+}) {
+  return <div className="flex-1 space-y-5 p-4">
+    <div>
+      <p className="text-sm font-medium mb-2">题型</p>
+      <div className="flex flex-wrap gap-2">
+        {officialTypes.map((type) => (
+          <button key={type.slug} type="button" onClick={() => onSlug(type.slug)}
+            className={`rounded-lg border px-3 py-1.5 text-sm transition-colors ${
+              slug === type.slug
+                ? 'border-blue-500 bg-blue-600 text-white'
+                : 'border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-blue-400'
+            }`}>
+            {type.label}<span className="ml-1 opacity-70">{type.total}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <div>
+      <p className="text-sm font-medium mb-2">难度</p>
+      <div className="flex flex-wrap gap-2">
+        <Toggle active={difficulty === null} onClick={() => onDifficulty(null)} label="全部" />
+        {OFFICIAL_DIFFICULTIES.map((d) => (
+          <Toggle key={d} active={difficulty === d} onClick={() => onDifficulty(d)} label={DIFFICULTY_LABELS[d]} />
+        ))}
+      </div>
+    </div>
+
+    <div>
+      <p className="text-sm font-medium mb-2">数量</p>
+      <div className="flex items-center gap-3">
+        <input type="number" min={1} max={available || 1} value={count}
+          onChange={(e) => onCount(Number(e.target.value))}
+          className="w-24 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2" />
+        <span className="text-sm text-slate-500 dark:text-slate-400">当前范围共 {available} 题</span>
+      </div>
+    </div>
+
+    <div className="flex items-center gap-3">
+      <button type="button" onClick={onGenerate} disabled={available === 0}
+        className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-60">
+        随机抽取
+      </button>
+      <span className="text-sm text-slate-500 dark:text-slate-400">已选 {selected} 题</span>
+    </div>
   </div>
 }
 

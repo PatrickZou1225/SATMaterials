@@ -3,7 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom'
 import { ArrowLeft, ChevronLeft, ChevronRight, RotateCcw, Flag, Clock, AlertTriangle, Send } from 'lucide-react'
 import { getTestSet, type MockTestQuestion } from '../data/mockTestQuestions'
 import { formatPassageHtml } from '../lib/passage'
-import { priceLabel, useYearAccess } from '../lib/access'
+import { priceLabel, useAccess } from '../lib/access'
 import { questionKey, moduleNumber } from '../lib/questionBank'
 import { supabase } from '../lib/supabase'
 import { useAccount } from '../context/account'
@@ -27,7 +27,7 @@ function formatTime(totalSeconds: number) {
 // locked year before the runner (which owns all the exam state) ever mounts.
 export default function MockTest() {
   const { testId } = useParams<{ testId: string }>()
-  const { loading, canAccess } = useYearAccess()
+  const { loading, canAccess } = useAccess()
   const testSet = getTestSet(testId ?? '')
 
   if (!testSet) return <MockTestRunner />
@@ -60,7 +60,7 @@ function LockedPage({ year }: { year: number }) {
           </Link>
         </div>
       </div>
-      {showPay && <UnlockDialog year={year} onClose={() => setShowPay(false)} />}
+      {showPay && <UnlockDialog title={`解锁 ${year} 年真题`} price={priceLabel(year)} onClose={() => setShowPay(false)} />}
     </div>
   )
 }

@@ -67,6 +67,7 @@ export default function Layout() {
               <NavLink to="/knowledge" className={navClass}>专项</NavLink>
               <NavLink to="/practice" className={navClass}>练习</NavLink>
               <NavLink to="/mock-test" className={navMockClass}>模考</NavLink>
+              <NavLink to="/official-practice" className={navClass}>样题</NavLink>
               {account && <NavLink to="/assignments" className={navClass}>作业</NavLink>}
               {isTeacher && <NavLink to="/bank" className={navClass}>题库</NavLink>}
               {isTeacher && <NavLink to="/students" className={navClass}>学生</NavLink>}
@@ -102,6 +103,7 @@ export default function Layout() {
             <NavLink to="/knowledge" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">专项</NavLink>
             <NavLink to="/practice" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">练习</NavLink>
             <NavLink to="/mock-test" onClick={() => setMenuOpen(false)} className="hover:text-purple-600 dark:hover:text-purple-300">模考</NavLink>
+            <NavLink to="/official-practice" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">样题</NavLink>
             {account && <NavLink to="/assignments" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">作业</NavLink>}
             {isTeacher && <NavLink to="/bank" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">题库</NavLink>}
             {isTeacher && <NavLink to="/students" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">学生</NavLink>}
