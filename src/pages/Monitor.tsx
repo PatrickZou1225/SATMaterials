@@ -264,7 +264,7 @@ function WrongRow({ item, bank }: { item: Wrong; bank: ReturnType<typeof buildQu
       </span>
     </button>
     {open && entry && <div className="border-t border-slate-200 dark:border-slate-700 p-4">
-      <div className="text-sm leading-7 font-serif text-slate-900 dark:text-slate-100"
+      <div className="text-sm leading-7 text-slate-900 dark:text-slate-100"
         dangerouslySetInnerHTML={{ __html: formatPassageHtml(entry.question.passage, entry.question.underline) }} />
       {entry.question.table && <div className="mt-4 overflow-x-auto">
         {entry.question.table.title && <p className="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">{entry.question.table.title}</p>}
@@ -278,10 +278,10 @@ function WrongRow({ item, bank }: { item: Wrong; bank: ReturnType<typeof buildQu
         </table>
       </div>}
       {entry.question.image && <img src={entry.question.image} alt="Figure" className="mt-4 max-w-full h-auto rounded-lg border border-slate-200 dark:border-slate-700" />}
-      <p className="mt-4 font-semibold font-serif text-slate-900 dark:text-slate-100">{entry.question.question}</p>
+      <p className="mt-4 font-semibold text-slate-900 dark:text-slate-100">{entry.question.question}</p>
       <ul className="mt-3 space-y-2">
         {entry.question.options.map((option, index) => <li key={index}
-          className={`flex items-start gap-3 rounded-lg border px-3 py-2 text-sm font-serif ${
+          className={`flex items-start gap-3 rounded-lg border px-3 py-2 text-sm ${
             index === entry.question.answer
               ? 'border-green-400 bg-green-50 dark:bg-green-950/30 text-green-900 dark:text-green-200'
               : index === item.selected

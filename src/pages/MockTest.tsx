@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
-import { ArrowLeft, ChevronLeft, ChevronRight, RotateCcw, Flag, Clock, AlertTriangle, Send } from 'lucide-react'
+import { ArrowLeft, ChevronLeft, ChevronRight, ChevronDown, RotateCcw, Flag, Clock, AlertTriangle, Send, LayoutGrid, Bookmark } from 'lucide-react'
 import { getTestSet, type MockTestQuestion } from '../data/mockTestQuestions'
 import { formatPassageHtml } from '../lib/passage'
 import { priceLabel, useAccess } from '../lib/access'
@@ -103,6 +103,7 @@ function MockTestRunner() {
   const [showNav, setShowNav] = useState(false)
   const [showSubmit, setShowSubmit] = useState(false)
   const [mobileView, setMobileView] = useState<'passage' | 'question'>('passage')
+  const [chromeHidden, setChromeHidden] = useState(false)
   const [remainingSeconds, setRemainingSeconds] = useState(totalTime)
   const [timerRunning, setTimerRunning] = useState(false)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
@@ -408,64 +409,57 @@ function MockTestRunner() {
   //  做题界面（无逐题反馈）
   // ============================================================
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-slate-950 flex flex-col">
+    <div className="h-screen overflow-hidden bg-white flex flex-col">
 
-      {/* 顶部工具栏 */}
-      <header className="bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-700 px-4 py-2.5 flex items-center justify-between sticky top-0 z-30">
-        <div className="flex items-center gap-3">
-          <Link to="/mock-test" className="text-gray-400 dark:text-slate-500 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
-            <ArrowLeft size={20} />
-          </Link>
-          <div className="hidden sm:block">
-            <span className="text-sm font-bold text-gray-800 dark:text-slate-200">{testSet.title}</span>
-            <span className="ml-2 px-2 py-0.5 rounded-full text-xs font-bold bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300">
-              {moduleData.subject} · {moduleData.name}
+      {/* 顶部工具栏 —— 复刻 Bluebook：浅蓝底、中间大计时器、底部虚线 */}
+      <header className="sticky top-0 z-30 border-b border-dashed border-[#3c4043] bg-[#e4eaf4] px-4 py-2.5">
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex min-w-0 items-center gap-3">
+            <Link to="/mock-test" className="shrink-0 text-slate-700 transition-colors hover:text-black">
+              <ArrowLeft size={20} />
+            </Link>
+            <div className="min-w-0">
+              <p className="truncate text-lg font-bold leading-tight text-[#16181d]">
+                {moduleData.name}: {moduleData.subject}
+              </p>
+              <button type="button" className="mt-0.5 inline-flex items-center gap-1 text-xs font-medium text-slate-600 hover:text-black">
+                Directions <ChevronDown size={13} />
+              </button>
+            </div>
+          </div>
+
+          <div className="flex shrink-0 flex-col items-center">
+            <span className={`text-2xl font-bold tabular-nums text-[#16181d] ${remainingSeconds <= 300 ? 'animate-pulse text-red-600' : ''}`}>
+              {formatTime(remainingSeconds)}
             </span>
+            <button
+              type="button"
+              onClick={() => setChromeHidden(v => !v)}
+              className="mt-0.5 rounded-full border border-slate-500 bg-white px-4 py-0.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100"
+            >
+              {chromeHidden ? 'Show' : 'Hide'}
+            </button>
           </div>
-        </div>
 
-        <div className="flex items-center gap-3">
-          <span className="text-sm font-semibold text-gray-700 dark:text-slate-300">
-            {currentIndex + 1} / {questions.length}
-          </span>
-          <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono font-bold tabular-nums transition-colors ${
-            remainingSeconds <= 300
-              ? 'bg-red-100 text-red-600 dark:bg-red-900/40 dark:text-red-300 animate-pulse'
-              : remainingSeconds <= 600
-                ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300'
-                : accentColor === 'purple'
-                  ? 'bg-purple-50 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300'
-                  : 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
-          }`}>
-            <Clock size={14} />
-            {formatTime(remainingSeconds)}
+          <div className="flex shrink-0 items-center gap-4 text-slate-700">
+            <button
+              type="button"
+              onClick={toggleFlag}
+              className={`inline-flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-black ${flagged[current.id] ? 'text-amber-600' : ''}`}
+              title="标记此题"
+            >
+              <Flag size={16} className={flagged[current.id] ? 'fill-amber-400 text-amber-500' : ''} /> Mark for Review
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowNav(v => !v)}
+              className="inline-flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-black"
+            >
+              <LayoutGrid size={16} /> 题号
+            </button>
           </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <button
-            onClick={toggleFlag}
-            className={`p-2 rounded-lg transition-colors ${flagged[current.id] ? 'bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400' : 'text-gray-400 dark:text-slate-500 hover:bg-gray-100 dark:hover:bg-slate-800'}`}
-            title="标记此题"
-          >
-            <Flag size={18} />
-          </button>
-          <button
-            onClick={() => setShowNav(v => !v)}
-            className="px-3 py-1.5 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 rounded-lg text-xs font-semibold text-gray-600 dark:text-slate-400 transition-colors"
-          >
-            题号导航
-          </button>
         </div>
       </header>
-
-      {/* 进度条 */}
-      <div className="w-full bg-gray-200 dark:bg-slate-700 h-1">
-        <div
-          className={`h-1 transition-all duration-300 ${accentColor === 'purple' ? 'bg-purple-500' : 'bg-blue-500'}`}
-          style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
-        />
-      </div>
 
       {/* 题号导航弹窗 */}
       {showNav && (
@@ -530,26 +524,24 @@ function MockTestRunner() {
       </div>
 
       {/* 题目主体 */}
-      <main className="flex-1 flex flex-col md:flex-row overflow-hidden">
-        {/* 左栏 Passage */}
-        <div className={`md:w-1/2 border-r border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 overflow-y-auto ${mobileView === 'passage' ? 'block' : 'hidden md:block'}`}>
-          <div className="p-5 sm:p-8">
-            <p className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-4">Passage</p>
+      <main className="flex-1 min-h-0 flex flex-col md:flex-row overflow-hidden">
+        {/* 左栏 Passage —— Bluebook 正文栏：衬线、左对齐、宽行距 */}
+        <div className={`${mobileView === 'passage' ? 'block' : 'hidden'} ${chromeHidden ? 'md:hidden' : 'md:block'} border-r-[6px] border-[#d6d6d6] bg-white overflow-y-auto min-h-0 md:w-1/2`}>
+          <div className="px-8 py-10 sm:px-12">
             <div
-              className="text-base text-gray-900 dark:text-slate-100 leading-8 whitespace-pre-line font-serif"
+              className="sat-reading mx-auto max-w-[62ch] text-[#16181d]"
               dangerouslySetInnerHTML={{ __html: formatPassageHtml(current.passage, current.underline) }}
             />
             {current.table && (
-              <div className="mt-6 p-4 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 overflow-x-auto">
-                <p className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-3">Table</p>
+              <div className="mx-auto mt-8 max-w-[62ch] overflow-x-auto">
                 {current.table.title && (
-                  <p className="mb-3 text-sm font-semibold text-gray-700 dark:text-slate-300">{current.table.title}</p>
+                  <p className="mb-3 text-sm font-semibold text-[#16181d]">{current.table.title}</p>
                 )}
-                <table className="w-full text-sm border-collapse font-sans">
+                <table className="w-full border-collapse font-sans text-sm">
                   <thead>
                     <tr>
                       {current.table.headers.map((header, i) => (
-                        <th key={i} className="border border-gray-300 dark:border-slate-600 px-3 py-2 text-left font-semibold text-gray-700 dark:text-slate-200 bg-gray-100 dark:bg-slate-700">
+                        <th key={i} className="border border-slate-400 px-3 py-2 text-left font-semibold text-[#16181d]">
                           {header}
                         </th>
                       ))}
@@ -559,7 +551,7 @@ function MockTestRunner() {
                     {current.table.rows.map((row, r) => (
                       <tr key={r}>
                         {row.map((cell, c) => (
-                          <td key={c} className="border border-gray-300 dark:border-slate-600 px-3 py-2 text-gray-900 dark:text-slate-100">
+                          <td key={c} className="border border-slate-400 px-3 py-2 text-[#16181d]">
                             {cell}
                           </td>
                         ))}
@@ -570,17 +562,12 @@ function MockTestRunner() {
               </div>
             )}
             {current.image && (
-              <div className="mt-6 p-4 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700">
-                <p className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-3">Figure</p>
-                <img src={current.image} alt="Figure" className="max-w-full h-auto rounded-lg" />
-              </div>
+              <img src={current.image} alt="Figure" className="mx-auto mt-8 max-w-full h-auto" />
             )}
-            <div className="md:hidden mt-6">
+            <div className="md:hidden mt-8">
               <button
                 onClick={() => setMobileView('question')}
-                className={`w-full py-3 text-white rounded-xl font-semibold transition-colors flex items-center justify-center gap-2 ${
-                  accentColor === 'purple' ? 'bg-purple-600 hover:bg-purple-700' : 'bg-blue-600 hover:bg-blue-700'
-                }`}
+                className="w-full py-3 text-white rounded-lg bg-[#0b57d0] font-semibold transition-colors flex items-center justify-center gap-2 hover:bg-[#0a4bb5]"
               >
                 查看题目 <ChevronRight size={18} />
               </button>
@@ -588,14 +575,27 @@ function MockTestRunner() {
           </div>
         </div>
 
-        {/* 右栏 Question */}
-        <div className={`md:w-1/2 bg-white dark:bg-slate-900 overflow-y-auto flex flex-col ${mobileView === 'question' ? 'block' : 'hidden md:block'}`}>
-          <div className="p-5 sm:p-8 flex-1 flex flex-col">
-            <p className="text-base font-semibold text-gray-900 dark:text-slate-100 leading-relaxed mb-6 font-serif">
+        {/* 右栏 Question —— Bluebook 题目栏 */}
+        <div className={`${mobileView === 'question' ? 'block' : 'hidden'} md:block ${chromeHidden ? 'md:w-full' : 'md:w-1/2'} bg-white overflow-y-auto flex flex-col min-h-0`}>
+          <div className="px-8 py-8 flex-1 flex flex-col">
+            {/* 题号行：黑方块题号 + Mark for Review */}
+            <div className="flex items-center gap-4 border-b border-dashed border-[#3c4043] pb-3">
+              <span className="grid h-9 w-9 shrink-0 place-items-center bg-[#16181d] text-base font-bold text-white">{currentIndex + 1}</span>
+              <button
+                type="button"
+                onClick={toggleFlag}
+                className="inline-flex items-center gap-2 text-sm font-medium text-[#16181d]"
+              >
+                <Bookmark size={17} className={flagged[current.id] ? 'fill-[#f2b230] text-[#f2b230]' : ''} />
+                Mark for Review
+              </button>
+            </div>
+
+            <p className="sat-reading mt-6 font-semibold text-[#16181d]">
               {current.question}
             </p>
 
-            <div className="space-y-3 flex-1">
+            <div className="mt-5 space-y-3 flex-1">
               {current.options.map((opt, optIdx) => {
                 const label = OPTION_LABELS[optIdx]
                 const isSelected = selected[current.id] === optIdx
@@ -603,20 +603,18 @@ function MockTestRunner() {
                   <button
                     key={optIdx}
                     onClick={() => handleSelect(optIdx)}
-                    className={`w-full text-left flex items-start gap-3 px-4 py-3.5 rounded-xl border-2 text-base transition-all cursor-pointer font-serif ${
+                    className={`sat-reading flex w-full items-center gap-3 rounded-lg border-[1.5px] bg-white px-4 py-3 text-left transition-colors cursor-pointer ${
                       isSelected
-                        ? `border-${accentColor}-500 bg-${accentColor}-50 dark:bg-${accentColor}-900/30 text-${accentColor}-900 dark:text-${accentColor}-300 font-medium`
-                        : `border-gray-200 dark:border-slate-700 hover:border-${accentColor}-300 hover:bg-${accentColor}-50/50 dark:hover:bg-${accentColor}-900/20 text-gray-700 dark:text-slate-300`
+                        ? 'border-[#0b57d0] bg-[#e8f0fe] font-medium'
+                        : 'border-[#3c4043] hover:bg-slate-50'
                     }`}
                   >
-                    <span className={`shrink-0 w-7 h-7 rounded-full border-2 text-xs font-bold flex items-center justify-center mt-0.5 ${
-                      isSelected
-                        ? `border-${accentColor}-500 bg-${accentColor}-500 text-white`
-                        : 'border-gray-300 dark:border-slate-600 text-gray-500 dark:text-slate-400'
+                    <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full border-[1.5px] text-sm font-bold ${
+                      isSelected ? 'border-[#0b57d0] bg-[#0b57d0] text-white' : 'border-[#3c4043] text-[#16181d]'
                     }`}>
                       {label}
                     </span>
-                    <span className="leading-relaxed pt-0.5">{opt}</span>
+                    <span>{opt}</span>
                   </button>
                 )
               })}

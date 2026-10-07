@@ -95,7 +95,7 @@ function QuestionPreview({ entry }: { entry: BankQuestion }) {
 
     <div className="p-5">
       <div
-        className="text-base leading-8 font-serif text-slate-900 dark:text-slate-100"
+        className="sat-reading max-w-[70ch] text-slate-900 dark:text-slate-100"
         dangerouslySetInnerHTML={{ __html: formatPassageHtml(question.passage, question.underline) }}
       />
 
@@ -113,19 +113,19 @@ function QuestionPreview({ entry }: { entry: BankQuestion }) {
 
       {question.image && <img src={question.image} alt="Figure" className="mt-5 max-w-full h-auto rounded-lg border border-slate-200 dark:border-slate-700" />}
 
-      <p className="mt-5 font-semibold font-serif text-slate-900 dark:text-slate-100">{question.question}</p>
+      <p className="sat-reading mt-5 font-semibold text-slate-900 dark:text-slate-100">{question.question}</p>
 
       <ul className="mt-4 space-y-2">
         {question.options.map((option, index) => <li
           key={index}
-          className={`flex items-start gap-3 rounded-lg border px-4 py-2.5 font-serif ${
+          className={`sat-reading flex items-start gap-3 rounded-lg border px-4 py-2.5 ${
             index === question.answer
               ? 'border-green-400 bg-green-50 dark:bg-green-950/30 text-green-900 dark:text-green-200'
               : 'border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300'
           }`}
         >
           <span className="shrink-0 w-6 h-6 rounded-full border text-xs font-bold flex items-center justify-center mt-0.5">{OPTION_LABELS[index]}</span>
-          <span className="leading-relaxed">{option}</span>
+          <span>{option}</span>
         </li>)}
       </ul>
     </div>

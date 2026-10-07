@@ -1,5 +1,6 @@
 import { useMemo, useState, type ReactNode } from 'react'
-import { BookOpen, ChevronRight, Lock, RotateCcw } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { ArrowLeft, BookOpen, ChevronRight, Lock, RotateCcw } from 'lucide-react'
 import {
   allOfficialTypes,
   officialKey,
@@ -79,7 +80,10 @@ export default function OfficialPractice() {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-slate-950 py-10 px-4">
         <div className="max-w-3xl mx-auto">
-          <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400">
+          <Link to="/" className="inline-flex items-center gap-1 text-sm text-slate-500 hover:text-[#0b57d0]">
+            <ArrowLeft size={16} /> 返回首页
+          </Link>
+          <div className="mt-4 flex items-center gap-2 text-blue-600 dark:text-blue-400">
             <BookOpen size={22} />
             <h1 className="text-2xl font-bold">官方样题练习</h1>
           </div>
@@ -254,35 +258,46 @@ export default function OfficialPractice() {
         </div>
 
         <article className="mt-5 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 overflow-hidden">
-          <div className="border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 px-5 py-3 text-sm font-semibold">
-            第 {current + 1} 题 / 共 {total} 题 · {officialTypeLabel(slug)}
+          <div className="flex items-center gap-4 border-b border-dashed border-[#3c4043] px-8 py-3">
+            <span className="grid h-9 w-9 shrink-0 place-items-center bg-[#16181d] text-base font-bold text-white">{current + 1}</span>
+            <span className="sat-reading font-semibold text-[#16181d]">{officialTypeLabel(slug)}</span>
+            <span className="ml-auto text-xs font-medium text-slate-500">共 {total} 题</span>
           </div>
-          <div className="p-5">
-            <div className="text-base leading-8 font-serif text-slate-900 dark:text-slate-100"
+          <div className="p-8 sm:p-10">
+            <div className="sat-reading max-w-[62ch] text-[#16181d]"
               dangerouslySetInnerHTML={{ __html: formatPassageHtml(question.passage, question.underline) }} />
 
-            {question.image && <img src={question.image} alt="Figure" className="mt-5 max-w-full h-auto rounded-lg border border-slate-200 dark:border-slate-700" />}
+            {question.image && <img src={question.image} alt="Figure" className="mt-6 max-w-full h-auto" />}
 
-            <p className="mt-5 font-semibold font-serif text-slate-900 dark:text-slate-100">{question.question}</p>
+            <p className="sat-reading mt-8 max-w-[62ch] font-semibold text-[#16181d]">{question.question}</p>
 
-            <ul className="mt-4 space-y-2">
+            <ul className="mt-5 max-w-[62ch] space-y-3">
               {question.options.map((option, index) => {
                 const isAnswer = question.answer === index
                 const tone = revealed
                   ? isAnswer
-                    ? 'border-green-400 bg-green-50 dark:bg-green-950/30 text-green-900 dark:text-green-200'
+                    ? 'border-green-600 bg-green-50 font-semibold'
                     : chosen === index
-                      ? 'border-red-300 bg-red-50 dark:bg-red-950/30 text-red-900 dark:text-red-200'
-                      : 'border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300'
+                      ? 'border-red-500 bg-red-50'
+                      : 'border-slate-300 text-slate-400'
                   : chosen === index
-                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-950/30 text-blue-900 dark:text-blue-200'
-                    : 'border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-blue-400'
+                    ? 'border-[#0b57d0] bg-[#e8f0fe] font-medium'
+                    : 'border-[#3c4043] hover:bg-slate-50'
+                const circle = revealed
+                  ? isAnswer
+                    ? 'border-green-600 bg-green-600 text-white'
+                    : chosen === index
+                      ? 'border-red-500 bg-red-500 text-white'
+                      : 'border-slate-300 text-slate-400'
+                  : chosen === index
+                    ? 'border-[#0b57d0] bg-[#0b57d0] text-white'
+                    : 'border-[#3c4043] text-[#16181d]'
                 return (
                   <li key={index}>
                     <button type="button" disabled={revealed} onClick={() => choose(index)}
-                      className={`w-full flex items-start gap-3 rounded-lg border px-4 py-2.5 text-left font-serif transition-colors disabled:cursor-default ${tone}`}>
-                      <span className="shrink-0 w-6 h-6 rounded-full border text-xs font-bold flex items-center justify-center mt-0.5">{OPTION_LABELS[index]}</span>
-                      <span className="leading-relaxed">{option}</span>
+                      className={`sat-reading w-full flex items-center gap-3 rounded-lg border-[1.5px] px-4 py-3 text-left transition-colors disabled:cursor-default ${tone}`}>
+                      <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full border-[1.5px] text-sm font-bold ${circle}`}>{OPTION_LABELS[index]}</span>
+                      <span>{option}</span>
                     </button>
                   </li>
                 )

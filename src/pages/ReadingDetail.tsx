@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { ArrowLeft, ChevronLeft, ChevronRight, CheckCircle, XCircle, RotateCcw, Flag, Lightbulb, Clock } from 'lucide-react'
+import { ArrowLeft, ChevronLeft, ChevronRight, CheckCircle, XCircle, RotateCcw, Flag, Lightbulb, LayoutGrid, Bookmark } from 'lucide-react'
 import { topicData, topicNames, levelNames, type ReadingQuestion } from '../data/readingQuestions'
 import { formatPassageHtml } from '../lib/passage'
 
@@ -72,6 +72,7 @@ export default function ReadingDetail() {
   const [flagged, setFlagged] = useState<Record<number, boolean>>(saved?.flagged ?? {})
   const [finished, setFinished] = useState(false)
   const [showNav, setShowNav] = useState(false)
+  const [chromeHidden, setChromeHidden] = useState(false)
   // 移动端切换 passage / question 视图
   const [mobileView, setMobileView] = useState<'passage' | 'question'>('passage')
   // 正向计时（秒）
@@ -233,66 +234,57 @@ export default function ReadingDetail() {
   const hasSelected = selected[current.id] !== undefined
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col">
+    <div className="h-screen overflow-hidden bg-white text-slate-900 flex flex-col">
 
-      {/* ══════════ 顶部工具栏 ══════════ */}
-      <header className="bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-700 px-4 py-2.5 flex items-center justify-between sticky top-0 z-30">
-        <div className="flex items-center gap-3">
-          <Link to="/knowledge" className="text-gray-400 dark:text-slate-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
-            <ArrowLeft size={20} />
-          </Link>
-          <div className="hidden sm:block">
-            <span className="text-sm font-bold text-gray-800 dark:text-slate-200">{topicName}</span>
-            {levelInfo && (
-              <span className={`ml-2 px-2 py-0.5 rounded-full text-xs font-bold ${levelInfo.bg} ${levelInfo.color}`}>
-                {levelInfo.name}
-              </span>
-            )}
+      {/* ══════════ 顶部工具栏 —— 复刻 Bluebook ══════════ */}
+      <header className="border-b border-dashed border-[#3c4043] bg-[#e4eaf4] px-4 py-2.5">
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex min-w-0 items-center gap-3">
+            <Link to="/knowledge" className="shrink-0 text-slate-700 hover:text-black transition-colors">
+              <ArrowLeft size={20} />
+            </Link>
+            <div className="min-w-0">
+              <p className="truncate text-lg font-bold leading-tight text-[#16181d]">{topicName}</p>
+              {levelInfo && <p className="mt-0.5 text-xs font-medium text-slate-600">{levelInfo.name}</p>}
+            </div>
+          </div>
+
+          <div className="flex shrink-0 flex-col items-center">
+            <button
+              type="button"
+              onClick={() => setTimerRunning(r => !r)}
+              title={timerRunning ? '点击暂停' : '点击继续'}
+              className={`text-2xl font-bold tabular-nums transition-colors ${timerRunning ? 'text-[#16181d]' : 'text-slate-400'}`}
+            >
+              {formatTime(elapsedSeconds)}
+            </button>
+            <button
+              type="button"
+              onClick={() => setChromeHidden(v => !v)}
+              className="mt-0.5 rounded-full border border-slate-500 bg-white px-4 py-0.5 text-xs font-semibold text-slate-700 hover:bg-slate-100 transition-colors"
+            >
+              {chromeHidden ? 'Show' : 'Hide'}
+            </button>
+          </div>
+
+          <div className="flex shrink-0 items-center gap-4 text-slate-700">
+            <button
+              type="button"
+              onClick={toggleFlag}
+              className={`inline-flex items-center gap-1.5 text-sm font-medium hover:text-black transition-colors ${flagged[current.id] ? 'text-amber-600' : ''}`}
+            >
+              <Flag size={16} className={flagged[current.id] ? 'fill-amber-400 text-amber-500' : ''} /> Mark for Review
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowNav(v => !v)}
+              className="inline-flex items-center gap-1.5 text-sm font-medium hover:text-black transition-colors"
+            >
+              <LayoutGrid size={16} /> 题号
+            </button>
           </div>
         </div>
-
-        <div className="flex items-center gap-3">
-          <span className="text-sm font-semibold text-gray-700 dark:text-slate-300">
-            Question {currentIndex + 1} of {questions.length}
-          </span>
-          <button
-            onClick={() => setTimerRunning(r => !r)}
-            title={timerRunning ? '点击暂停' : '点击继续'}
-            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono font-semibold tabular-nums transition-colors ${
-              timerRunning
-                ? 'bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900'
-                : 'bg-gray-100 dark:bg-slate-800 text-gray-400 dark:text-slate-500 hover:bg-gray-200 dark:hover:bg-slate-700'
-            }`}
-          >
-            <Clock size={14} className={timerRunning ? '' : 'opacity-60'} />
-            {formatTime(elapsedSeconds)}
-          </button>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <button
-            onClick={toggleFlag}
-            className={`p-2 rounded-lg transition-colors ${flagged[current.id] ? 'bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400' : 'text-gray-400 dark:text-slate-500 hover:bg-gray-100 dark:hover:bg-slate-800'}`}
-            title="标记此题"
-          >
-            <Flag size={18} />
-          </button>
-          <button
-            onClick={() => setShowNav(v => !v)}
-            className="px-3 py-1.5 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 rounded-lg text-xs font-semibold text-gray-600 dark:text-slate-300 transition-colors"
-          >
-            题号导航
-          </button>
-        </div>
       </header>
-
-      {/* ── 进度条 ── */}
-      <div className="w-full bg-gray-200 dark:bg-slate-800 h-1">
-        <div
-          className="bg-emerald-500 h-1 transition-all duration-300"
-          style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
-        />
-      </div>
 
       {/* ── 题号导航弹窗 ── */}
       {showNav && (
@@ -361,29 +353,23 @@ export default function ReadingDetail() {
       </div>
 
       {/* ══════════ 题目主体 ══════════ */}
-      <main className="flex-1 flex flex-col md:flex-row overflow-hidden">
+      <main className="flex-1 min-h-0 flex flex-col md:flex-row overflow-hidden">
 
-        {/* ── 左栏 / 移动端 Passage ── */}
-        <div className={`md:w-1/2 border-r border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 overflow-y-auto ${
-          mobileView === 'passage' ? 'block' : 'hidden md:block'
-        }`}>
-          <div className="p-5 sm:p-8">
-            <p className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-4">Passage</p>
+        {/* ── 左栏 / 移动端 Passage —— Bluebook 正文栏 ── */}
+        <div className={`${mobileView === 'passage' ? 'block' : 'hidden'} ${chromeHidden ? 'md:hidden' : 'md:block'} border-r-[6px] border-[#d6d6d6] bg-white overflow-y-auto min-h-0 md:w-1/2`}>
+          <div className="px-8 py-10 sm:px-12">
             <div
-              className="text-base text-gray-900 dark:text-slate-100 leading-8 whitespace-pre-line font-serif"
+              className="sat-reading mx-auto max-w-[62ch] text-[#16181d]"
               dangerouslySetInnerHTML={{ __html: formatPassageHtml(current.passage) }}
             />
             {current.chartImage && (
-              <div className="mt-4 p-3 bg-gray-50 dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700">
-                <p className="text-xs font-semibold text-gray-400 dark:text-slate-500 uppercase tracking-wider mb-2">Chart / Table</p>
-                <img src={current.chartImage} alt="Chart" className="w-full rounded" />
-              </div>
+              <img src={current.chartImage} alt="Chart" className="mx-auto mt-8 max-w-full" />
             )}
             {/* 移动端：读完文章后的快捷按钮 */}
-            <div className="md:hidden mt-6">
+            <div className="md:hidden mt-8">
               <button
                 onClick={() => setMobileView('question')}
-                className="w-full py-3 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2"
+                className="w-full py-3 bg-[#0b57d0] text-white rounded-lg font-semibold hover:bg-[#0a4bb5] transition-colors flex items-center justify-center gap-2"
               >
                 查看题目 <ChevronRight size={18} />
               </button>
@@ -391,13 +377,24 @@ export default function ReadingDetail() {
           </div>
         </div>
 
-        {/* ── 右栏 / 移动端 Question ── */}
-        <div className={`md:w-1/2 bg-white dark:bg-slate-900 overflow-y-auto flex flex-col ${
-          mobileView === 'question' ? 'block' : 'hidden md:block'
-        }`}>
-          <div className="p-5 sm:p-8 flex-1 flex flex-col">
+        {/* ── 右栏 / 移动端 Question —— Bluebook 题目栏 ── */}
+        <div className={`${mobileView === 'question' ? 'block' : 'hidden'} md:block ${chromeHidden ? 'md:w-full' : 'md:w-1/2'} bg-white overflow-y-auto flex flex-col min-h-0`}>
+          <div className="px-8 py-8 flex-1 flex flex-col">
+            {/* 题号行：黑方块题号 + Mark for Review */}
+            <div className="flex items-center gap-4 border-b border-dashed border-[#3c4043] pb-3">
+              <span className="grid h-9 w-9 shrink-0 place-items-center bg-[#16181d] text-base font-bold text-white">{currentIndex + 1}</span>
+              <button
+                type="button"
+                onClick={toggleFlag}
+                className="inline-flex items-center gap-2 text-sm font-medium text-[#16181d]"
+              >
+                <Bookmark size={17} className={flagged[current.id] ? 'fill-[#f2b230] text-[#f2b230]' : ''} />
+                Mark for Review
+              </button>
+            </div>
+
             {/* 题目 */}
-            <p className="text-base font-semibold text-gray-900 dark:text-slate-100 leading-relaxed mb-6 font-serif">
+            <p className="sat-reading mt-6 font-semibold text-[#16181d]">
               {current.question}
             </p>
 
@@ -406,41 +403,41 @@ export default function ReadingDetail() {
               {current.options.map((opt, optIdx) => {
                 const label = OPTION_LABELS[optIdx]
                 let base =
-                  'w-full text-left flex items-start gap-3 px-4 py-3.5 rounded-xl border-2 text-base transition-all cursor-pointer font-serif'
+                  'sat-reading w-full text-left flex items-center gap-3 rounded-lg border-[1.5px] px-4 py-3 transition-colors cursor-pointer'
 
                 if (!isRevealed) {
                   base +=
                     selected[current.id] === optIdx
-                      ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950 text-emerald-900 dark:text-emerald-100 font-medium'
-                      : 'border-gray-200 dark:border-slate-600 hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/50 text-gray-700 dark:text-slate-300'
+                      ? 'border-[#0b57d0] bg-[#e8f0fe] font-medium'
+                      : 'border-[#3c4043] hover:bg-slate-50'
                 } else {
                   if (optIdx === current.answer) {
-                    base += 'border-green-500 bg-green-50 dark:bg-green-950 text-green-900 dark:text-green-100 font-semibold'
+                    base += 'border-green-600 bg-green-50 font-semibold'
                   } else if (optIdx === selected[current.id] && selected[current.id] !== current.answer) {
-                    base += 'border-red-400 bg-red-50 dark:bg-red-950 text-red-700 dark:text-red-200'
+                    base += 'border-red-500 bg-red-50'
                   } else {
-                    base += 'border-gray-100 dark:border-slate-800 text-gray-400 dark:text-slate-600'
+                    base += 'border-slate-300 text-slate-400'
                   }
                 }
 
                 return (
                   <button key={optIdx} className={base} onClick={() => handleSelect(optIdx)}>
                     <span
-                      className={`shrink-0 w-7 h-7 rounded-full border-2 text-xs font-bold flex items-center justify-center mt-0.5
+                      className={`grid h-8 w-8 shrink-0 place-items-center rounded-full border-[1.5px] text-sm font-bold
                         ${!isRevealed
                           ? selected[current.id] === optIdx
-                            ? 'border-emerald-500 bg-emerald-500 text-white'
-                            : 'border-gray-300 dark:border-slate-500 text-gray-500 dark:text-slate-400'
+                            ? 'border-[#0b57d0] bg-[#0b57d0] text-white'
+                            : 'border-[#3c4043] text-[#16181d]'
                           : optIdx === current.answer
-                            ? 'border-green-500 bg-green-500 text-white'
+                            ? 'border-green-600 bg-green-600 text-white'
                             : optIdx === selected[current.id]
-                              ? 'border-red-400 bg-red-400 text-white'
-                              : 'border-gray-200 dark:border-slate-700 text-gray-400 dark:text-slate-500'
+                              ? 'border-red-500 bg-red-500 text-white'
+                              : 'border-slate-300 text-slate-400'
                         }`}
                     >
                       {label}
                     </span>
-                    <span className="leading-relaxed pt-0.5 font-serif">{opt}</span>
+                    <span>{opt}</span>
                   </button>
                 )
               })}

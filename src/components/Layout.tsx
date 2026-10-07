@@ -1,4 +1,4 @@
-import { Outlet, NavLink } from 'react-router-dom'
+import { Outlet, NavLink, useLocation } from 'react-router-dom'
 import { BookOpen, Menu, X, Moon, Sun, Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useAccount } from '../context/account'
@@ -9,8 +9,19 @@ const navClass = ({ isActive }: { isActive: boolean }) =>
 const navMockClass = ({ isActive }: { isActive: boolean }) =>
   isActive ? 'text-purple-600 dark:text-purple-300' : 'hover:text-purple-600 dark:hover:text-purple-300 transition-colors'
 
+// Routes that take over the whole screen while a student is answering. The
+// global nav and footer step aside there so nothing competes with the question.
+const FOCUS_ROUTES = [
+  /^\/mock-test\/[^/]+\/[^/]+$/,
+  /^\/knowledge\/reading\/[^/]+\/[^/]+$/,
+  /^\/official-practice$/,
+  /^\/assignments\/[^/]+$/,
+]
+
 export default function Layout() {
   const account = useAccount()
+  const { pathname } = useLocation()
+  const focusMode = FOCUS_ROUTES.some((pattern) => pattern.test(pathname))
   const isTeacher = account?.profile?.role === 'teacher'
   const isOwner = account?.profile?.is_owner === true
   const [menuOpen, setMenuOpen] = useState(false)
@@ -53,7 +64,7 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
-      <header className="border-b border-slate-200 dark:border-slate-700 sticky top-0 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 z-50">
+      {!focusMode && <header className="border-b border-slate-200 dark:border-slate-700 sticky top-0 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 z-50">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
           <NavLink to="/" className="flex items-center gap-2 font-bold text-xl text-blue-600 dark:text-blue-400">
             <BookOpen size={24} />
@@ -116,7 +127,7 @@ export default function Layout() {
             {themeBtn}
           </div>
         )}
-      </header>
+      </header>}
 
       {flash && <div className="max-w-6xl mx-auto px-4 pt-4">
         <div className="flex items-center justify-between gap-3 rounded-xl border border-blue-300 dark:border-blue-700 bg-blue-50 dark:bg-blue-950/40 px-4 py-3 text-sm text-blue-800 dark:text-blue-200">
@@ -129,9 +140,9 @@ export default function Layout() {
         <Outlet />
       </main>
 
-      <footer className="border-t py-10 px-4 text-center text-sm text-gray-500 dark:text-slate-400 border-slate-200 dark:border-slate-700">
+      {!focusMode && <footer className="border-t py-10 px-4 text-center text-sm text-gray-500 dark:text-slate-400 border-slate-200 dark:border-slate-700">
         © 2026 SAT Prep · 专业SAT备考平台 · 助力梦想大学之路
-      </footer>
+      </footer>}
     </div>
   )
 }

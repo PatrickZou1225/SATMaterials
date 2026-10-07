@@ -198,11 +198,12 @@ export default function AssignmentWork() {
 
       {/* 题目 */}
       <article className="mt-5 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 overflow-hidden">
-        <div className="border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 px-5 py-3 text-sm font-semibold">
-          第 {currentIndex + 1} 题 / 共 {questions.length} 题
+        <div className="flex items-center gap-4 border-b border-dashed border-[#3c4043] px-8 py-3">
+          <span className="grid h-9 w-9 shrink-0 place-items-center bg-[#16181d] text-base font-bold text-white">{currentIndex + 1}</span>
+          <span className="text-sm font-semibold text-[#16181d]">共 {questions.length} 题</span>
         </div>
-        <div className="p-5">
-          <div className="text-base leading-8 font-serif text-slate-900 dark:text-slate-100"
+        <div className="p-8 sm:p-10">
+          <div className="sat-reading max-w-[62ch] text-[#16181d]"
             dangerouslySetInnerHTML={{ __html: formatPassageHtml(current.question.passage, current.question.underline) }} />
 
           {current.question.table && <div className="mt-5 overflow-x-auto">
@@ -219,26 +220,35 @@ export default function AssignmentWork() {
 
           {current.question.image && <img src={current.question.image} alt="Figure" className="mt-5 max-w-full h-auto rounded-lg border border-slate-200 dark:border-slate-700" />}
 
-          <p className="mt-5 font-semibold font-serif text-slate-900 dark:text-slate-100">{current.question.question}</p>
+          <p className="sat-reading mt-8 max-w-[62ch] font-semibold text-[#16181d]">{current.question.question}</p>
 
-          <ul className="mt-4 space-y-2">
+          <ul className="mt-5 max-w-[62ch] space-y-3">
             {current.question.options.map((option, index) => {
               const chosen = selected[current.key] === index
               const isAnswer = current.question.answer === index
               const tone = reviewing
                 ? isAnswer
-                  ? 'border-green-400 bg-green-50 dark:bg-green-950/30 text-green-900 dark:text-green-200'
+                  ? 'border-green-600 bg-green-50 font-semibold'
                   : chosen
-                    ? 'border-red-300 bg-red-50 dark:bg-red-950/30 text-red-900 dark:text-red-200'
-                    : 'border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300'
+                    ? 'border-red-500 bg-red-50'
+                    : 'border-slate-300 text-slate-400'
                 : chosen
-                  ? 'border-blue-500 bg-blue-50 dark:bg-blue-950/30 text-blue-900 dark:text-blue-200'
-                  : 'border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-blue-400'
+                  ? 'border-[#0b57d0] bg-[#e8f0fe] font-medium'
+                  : 'border-[#3c4043] hover:bg-slate-50'
+              const circle = reviewing
+                ? isAnswer
+                  ? 'border-green-600 bg-green-600 text-white'
+                  : chosen
+                    ? 'border-red-500 bg-red-500 text-white'
+                    : 'border-slate-300 text-slate-400'
+                : chosen
+                  ? 'border-[#0b57d0] bg-[#0b57d0] text-white'
+                  : 'border-[#3c4043] text-[#16181d]'
               return <li key={index}>
                 <button type="button" disabled={reviewing} onClick={() => void choose(current, index)}
-                  className={`w-full flex items-start gap-3 rounded-lg border px-4 py-2.5 text-left font-serif transition-colors ${tone}`}>
-                  <span className="shrink-0 w-6 h-6 rounded-full border text-xs font-bold flex items-center justify-center mt-0.5">{OPTION_LABELS[index]}</span>
-                  <span className="leading-relaxed">{option}</span>
+                  className={`sat-reading w-full flex items-center gap-3 rounded-lg border-[1.5px] px-4 py-3 text-left transition-colors ${tone}`}>
+                  <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full border-[1.5px] text-sm font-bold ${circle}`}>{OPTION_LABELS[index]}</span>
+                  <span>{option}</span>
                 </button>
               </li>
             })}

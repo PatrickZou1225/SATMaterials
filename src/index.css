@@ -8,9 +8,30 @@
   padding: 0;
 }
 
+/* Apple-style reading stack: SF on macOS/iOS, and a close, well-hinted
+   equivalent elsewhere. PingFang/YaHei keep the Chinese legible wherever the
+   passages mix both languages. */
 body {
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue",
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* One typographic rule for everything a student reads, matching the Bluebook
+   exam: a serif face, left-aligned (never justified — the real exam leaves the
+   right margin ragged), and a relaxed measure. Passage, question and options
+   all carry this class so no two blocks can drift in font or size. */
+.sat-reading {
+  font-family: Georgia, "Iowan Old Style", Charter, "Times New Roman", serif;
+  font-size: 19px;
+  line-height: 1.6;
+}
+
+.sat-reading p,
+.sat-reading li {
+  text-align: left;
 }
 
 html.dark {
