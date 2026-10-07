@@ -29,7 +29,7 @@ export const importedMockTest = {
         },
         {
           "id": 2,
-          "passage": "The following text is adapted from William Wordsworth's 1798 poem \"Lines Written a Few Miles above Tintern Abbey.\" For I have learned To look on nature, not as in the hour Of thoughtless youth, but hearing oftentimes The still, sad music of humanity, Not harsh nor grating, though of ample power To chasten and subdue.",
+          "passage": "The following text is adapted from William Wordsworth's 1798 poem \"Lines Written a Few Miles above Tintern Abbey.\" For I have learned\nTo look on nature, not as in the hour\nOf thoughtless youth, but hearing oftentimes\nThe still, sad music of humanity,\nNot harsh nor grating, though of ample power\nTo chasten and subdue.",
           "question": "Which choice completes the text with the most logical and precise word or phrase?",
           "options": [
             "Influence",
@@ -40,6 +40,9 @@ export const importedMockTest = {
           "answer": 0,
           "domain": "Craft and Structure",
           "skill": "Words in Context-Distinguishing Among Nuanced Synonyms",
+          "underline": [
+            "power"
+          ],
         },
         {
           "id": 3,

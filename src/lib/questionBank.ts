@@ -30,9 +30,27 @@ export interface BankModule {
   questions: BankQuestion[]
 }
 
+// Imported set ids carry the exam month as a letter+number segment: c3 is March,
+// f6 June, l12 December. The letter is redundant with the number, so read the
+// digits rather than mapping letters — "sat-cmp-2025-l12-na-01" yields 12.
+const MONTH_SEGMENT = /^[a-z](\d{1,2})$/
+
+export function monthOfSet(setId: string): number | null {
+  for (const segment of setId.split('-')) {
+    const match = MONTH_SEGMENT.exec(segment)
+    if (!match) continue
+    const month = Number(match[1])
+    if (month >= 1 && month <= 12) return month
+  }
+  return null
+}
+
+export const monthLabel = (month: number) => `${month}月`
+
 export interface BankSet {
   id: string
   title: string
+  year: number
   modules: BankModule[]
   questionCount: number
 }
@@ -67,6 +85,7 @@ export function buildQuestionBank(sets: MockTestSet[] = allMockTests): QuestionB
     bank.push({
       id: set.id,
       title: set.title,
+      year: set.year,
       modules,
       questionCount: modules.reduce((total, module) => total + module.questions.length, 0),
     })

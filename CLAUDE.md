@@ -377,12 +377,17 @@ Patrick 的知识库在 iCloud AI文件夹/知识库/，包含多个领域（SAT
 
 ### 📌 场景 3：git push/pull 卡住 → 代理问题
 
-打开 ClashX，终端运行：
+打开 ClashX Meta，先查实际端口（**两台电脑可能不同**，本仓库两台 Mac 分别用过 7890 和 7891）：
+
 ```
-git config --global http.proxy http://127.0.0.1:7891
-git config --global https.proxy http://127.0.0.1:7891
+scutil --proxy | grep HTTPPort
 ```
-端口不确定就先跑 `scutil --proxy | grep -E 'HTTPPort|HTTPSPort'` 看当前值（历史上用过 7890，现在 ClashX Meta 是 7891）。
+
+然后填进 git 配置（把 `<端口>` 换成查到的数字）：
+```
+git config --global http.proxy http://127.0.0.1:<端口>
+git config --global https.proxy http://127.0.0.1:<端口>
+```
 
 ---
 
@@ -398,7 +403,7 @@ git config --global https.proxy http://127.0.0.1:7891
 
 > 完整步骤见 [docs/setup.md](docs/setup.md)。包含：克隆仓库、npm install、Git 代理、img2txt 安装、模型切换脚本。
 
-日常使用只需记住：**git push/pull 卡住 → 打开 ClashX，跑 `git config --global http.proxy http://127.0.0.1:<端口>`**（端口用 `scutil --proxy | grep HTTPPort` 查，当前是 **7891**）
+日常使用只需记住：**git push/pull 卡住 → 打开 ClashX，跑 `git config --global http.proxy http://127.0.0.1:<端口>`**（端口用 `scutil --proxy | grep HTTPPort` 查，两台电脑可能不同）
 
 ---
 

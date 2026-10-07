@@ -225,8 +225,8 @@ export const importedMockTest = {
           "options": [
             "Many of the Exeter Book riddles employ the rhetorical device of prosopopoeia, a form of personification in which a nonhuman entity, usually the solution to a riddle, is represented as speaking, but neither Riddle 68 nor Riddle 69 uses this device.",
             "Although Riddle 68 opens with a phrase in Old English meaning \"I saw\" that likewise appears at the beginning of a large number of the Exeter Book riddles, neither it nor Riddle 69 concludes with any phrases that directly invite the audience to solve the riddle, which nearly half of the Exeter Book riddles do.",
-            "Although Riddle 69 appears to be solvable when read on its own or in conjunction with Riddle 68, with “iceberg” 10 or “icicle” having been presented as likely solutions, Riddle 68, whose imagery and sonic patterns are consistent with those of Riddle 69, has been deemed unsolvable given its overly generic clues, unless read in conjunction with Riddle 69.",
-            "缺D"
+            "Although Riddle 69 appears to be solvable when read on its own or in conjunction with Riddle 68, with “iceberg” or “icicle” having been presented as likely solutions, Riddle 68, whose imagery and sonic patterns are consistent with those of Riddle 69, has been deemed unsolvable given its overly generic clues, unless read in conjunction with Riddle 69.",
+            "Circumstantial evidence, including the fact that most of Riddles 63-72, which appear consecutively in the manuscript, repeat solutions from riddles scattered throughout earlier pages of the manuscript, suggests that Riddles 68 and 69 may have originated from a single source whose author was influenced by those earlier riddles."
           ],
           "answer": 2,
           "domain": "Information and Ideas",

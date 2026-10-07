@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400px" height="420px" viewBox="0 0 400 420" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>module1  14</title>
+    <g id="页面-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="编组-2" transform="translate(20.404110, 21.843836)">
+            <line x1="58.47521" y1="52.8048765" x2="351.278559" y2="53.135572" id="直线备份-13" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="58.47521" y1="117.481589" x2="351.278559" y2="117.812284" id="直线备份-15" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="58.47521" y1="178.977479" x2="351.278559" y2="179.308175" id="直线备份-17" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="58.47521" y1="82.4925478" x2="351.278559" y2="82.8232432" id="直线备份-14" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="58.47521" y1="150.350082" x2="351.278559" y2="150.680777" id="直线备份-16" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="58.47521" y1="211.845972" x2="351.278559" y2="212.176668" id="直线备份-19" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="64.5558751" y1="47.1351862" x2="66.4487993" y2="250.478066" id="直线备份-45" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <text id="3.0" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="40.0444658" y="55.8684932">3.0</tspan>
+            </text>
+            <text id="2.5" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="40.0444658" y="87.6767123">2.5</tspan>
+            </text>
+            <text id="2.0" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="40.0444658" y="120.545205">2.0</tspan>
+            </text>
+            <text id="1.5" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="40.0444658" y="150.232877">1.5</tspan>
+            </text>
+            <text id="1.0" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="40.0444658" y="182.041096">1.0</tspan>
+            </text>
+            <text id="0.5" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="40.0444658" y="213.849315">0.5</tspan>
+            </text>
+            <text id="0" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="49.6764658" y="245.657534">0</tspan>
+            </text>
+            <text id="Average-percentage-o" transform="translate(15.000000, 136.750685) rotate(-90.000000) translate(-15.000000, -136.750685) " font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="-47.8291016" y="133.750685">Average percentage of</tspan>
+                <tspan x="-65.28125" y="148.750685">nonhexagonal cells by shape</tspan>
+            </text>
+            <text id="Species" font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="177.99664" y="294.641096">Species</tspan>
+            </text>
+            <text id="Percentage-of-Nonhex" font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" line-spacing="14" fill="#000000">
+                <tspan x="85.1119315" y="9.90429688">Percentage of Nonhexagonal Cells in</tspan>
+                <tspan x="94.1866385" y="23.9042969">Hives of Three Honeybee Species</tspan>
+            </text>
+            <text id="black-dwarf-honeybee" transform="translate(77.771192, 263.052183) rotate(-6.000000) translate(-77.771192, -263.052183) " font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="15.9674813" y="267.552183">black dwarf honeybee</tspan>
+            </text>
+            <text id="dwarf-honeybee" transform="translate(179.259063, 262.933445) rotate(-6.000000) translate(-179.259063, -262.933445) " font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="134.364044" y="267.433445">dwarf honeybee</tspan>
+            </text>
+            <text id="western-honeybee" transform="translate(278.709910, 263.225768) rotate(-6.000000) translate(-278.709910, -263.225768) " font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="228.370066" y="267.725768">western honeybee</tspan>
+            </text>
+            <polygon id="矩形备份-10" stroke="#000000" stroke-width="0.4" fill="#666666" points="86.990411 82.6767123 108.19589 82.6767123 108.19589 243.838356 86.990411 243.838356"></polygon>
+            <polygon id="矩形备份-14" stroke="#000000" stroke-width="0.4" fill="#666666" points="172.872603 79.4958904 194.078082 79.4958904 194.078082 243.838356 172.872603 243.838356"></polygon>
+            <polygon id="矩形备份-21" stroke="#000000" stroke-width="0.4" fill="#666666" points="264.056164 217.331507 285.261644 217.331507 285.261644 243.838356 264.056164 243.838356"></polygon>
+            <polygon id="矩形备份-13" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" points="108.19589 92.2191781 129.40137 92.2191781 129.40137 243.838356 108.19589 243.838356"></polygon>
+            <polygon id="矩形备份-15" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" points="194.078082 112.364384 215.283562 112.364384 215.283562 243.838356 194.078082 243.838356"></polygon>
+            <polygon id="矩形备份-22" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" points="285.261644 220.512329 306.467123 220.512329 306.467123 243.838356 285.261644 243.838356"></polygon>
+            <polygon id="矩形备份-20" stroke="#000000" stroke-width="0.4" fill="#131313" points="215.283562 235.356164 236.489041 235.356164 236.489041 243.838356 215.283562 243.838356"></polygon>
+            <polygon id="矩形备份-23" stroke="#000000" stroke-width="0.4" fill="#131313" points="306.467123 238.742898 327.672603 238.742898 327.672603 243.632444 306.467123 243.632444"></polygon>
+            <line x1="59.4487285" y1="243.984887" x2="350.221702" y2="243.984887" id="直线备份-18" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <g id="编组" transform="translate(119.328767, 302.635616)">
+                <text id="5-sided-cells" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                    <tspan x="44.3194521" y="16.4446889">5-sided cells</tspan>
+                </text>
+                <text id="7-sided-cells" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                    <tspan x="44.5315068" y="43.230137">7-sided cells</tspan>
+                </text>
+                <text id="8-sided-cells" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                    <tspan x="44.5315068" y="67.6164384">8-sided cells</tspan>
+                </text>
+                <polygon id="矩形备份-17" stroke="#000000" stroke-width="0.4" fill="#666666" points="16.1161644 6.86969178 32.2323288 6.86969178 32.2323288 22.9505137 16.1161644 22.9505137"></polygon>
+                <polygon id="矩形备份-18" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" points="15.9041096 30.7479452 32.020274 30.7479452 32.020274 46.8287671 15.9041096 46.8287671"></polygon>
+                <polygon id="矩形备份-19" stroke="#000000" stroke-width="0.4" fill="#000000" points="15.9041096 55.1342466 32.020274 55.1342466 32.020274 71.2150685 15.9041096 71.2150685"></polygon>
+                <polygon id="矩形备份-16" stroke="#000000" stroke-width="0.4" points="1.64116009e-13 -4.92287866e-15 161.161644 -4.92287866e-15 161.161644 79.5205479 -9.78396442e-13 79.5205479"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

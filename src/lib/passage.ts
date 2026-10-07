@@ -108,7 +108,10 @@ function formatParagraph(paragraph: string, underlines: string[]): string {
   const trimmed = paragraph.trim()
 
   if (!LIST_MARKER.test(trimmed)) {
-    return `<p class="mb-4 last:mb-0">${applyUnderlines(trimmed, underlines)}</p>`
+    // Poetry arrives flattened onto one line; inside a paragraph a single
+    // newline is a line break, so render it as a soft break (blank lines still
+    // separate paragraphs upstream).
+    return `<p class="mb-4 last:mb-0">${applyUnderlines(trimmed, underlines).replace(/\n/g, '<br>')}</p>`
   }
 
   const [intro, ...items] = trimmed.split(/\s*[•·]\s*/)

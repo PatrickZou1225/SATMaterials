@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400px" height="420px" viewBox="0 0 400 420" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>module2  11</title>
+    <g id="页面-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="module2--11" transform="translate(11.000000, 19.000000)">
+            <line x1="39.7124851" y1="73.8697286" x2="354.654793" y2="73.8697286" id="直线备份-13" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="39.7124851" y1="153.869729" x2="354.654793" y2="153.869729" id="直线备份-15" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="39.7124851" y1="113.869729" x2="354.654793" y2="113.869729" id="直线备份-14" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="39.7124851" y1="192.869729" x2="354.654793" y2="192.869729" id="直线备份-16" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="39.7124851" y1="235.869729" x2="354.654793" y2="235.869729" id="直线备份-17" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="46.1306093" y1="67.8333544" x2="46.1306093" y2="275.775383" id="直线备份-45" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="36.7121774" y1="275.869729" x2="354.655035" y2="275.869729" id="直线备份-18" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <text id="0" font-family="STSongti-SC-Regular, Songti SC" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="27.372" y="276">0</tspan>
+            </text>
+            <text id="0.5" font-family="STSongti-SC-Regular, Songti SC" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="18.116" y="77">0.5</tspan>
+            </text>
+            <text id="0.4" font-family="STSongti-SC-Regular, Songti SC" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="18.116" y="117">0.4</tspan>
+            </text>
+            <text id="0.3" font-family="STSongti-SC-Regular, Songti SC" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="18.116" y="157">0.3</tspan>
+            </text>
+            <text id="0.2" font-family="STSongti-SC-Regular, Songti SC" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="18.116" y="197">0.2</tspan>
+            </text>
+            <text id="0.1" font-family="STSongti-SC-Regular, Songti SC" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="18.116" y="237">0.1</tspan>
+            </text>
+            <text id="Correlation" transform="translate(7.000000, 171.000000) rotate(-90.000000) translate(-7.000000, -171.000000) " font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="-20.3251953" y="175">Correlation</tspan>
+            </text>
+            <text id="Painting-style" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="165.666992" y="326">Painting style</tspan>
+            </text>
+            <text id="Correlation-between" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" line-spacing="16" fill="#000000">
+                <tspan x="104.864258" y="11">Correlation between Model-Predicted</tspan>
+                <tspan x="107.524414" y="27">and Participant-Reported Enjoyment</tspan>
+                <tspan x="132.831055" y="43">Ratings, by Painting Style</tspan>
+            </text>
+            <text id="Abstract" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="107.673828" y="292">Abstract</tspan>
+            </text>
+            <text id="Cubist" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="254.829102" y="292">Cubist</tspan>
+            </text>
+            <polygon id="矩形备份-10" stroke="#000000" stroke-width="0.4" fill="#666666" points="81 100 115 100 115 276 81 276"></polygon>
+            <polygon id="矩形备份-13" stroke="#000000" stroke-width="0.4" fill="#666666" points="218 166 252 166 252 276 218 276"></polygon>
+            <polygon id="矩形备份-11" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" points="114 184 148 184 148 276 114 276"></polygon>
+            <polygon id="矩形备份-14" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" points="252 123 286 123 286 276 252 276"></polygon>
+            <polygon id="矩形备份-12" stroke="#000000" stroke-width="0.4" fill="#000000" points="148 193 182 193 182 276 148 276"></polygon>
+            <polygon id="矩形备份-15" stroke="#000000" stroke-width="0.4" fill="#000000" points="286 248 320 248 320 276 286 276"></polygon>
+            <text id="P6" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="145" y="356">P6</tspan>
+            </text>
+            <text id="P1" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="197" y="356">P1</tspan>
+            </text>
+            <text id="P5" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="253" y="356">P5</tspan>
+            </text>
+            <polygon id="矩形备份-17" stroke="#000000" stroke-width="0.4" fill="#666666" points="124 346 136 346 136 358 124 358"></polygon>
+            <polygon id="矩形备份-18" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" points="176 346 188 346 188 358 176 358"></polygon>
+            <polygon id="矩形备份-19" stroke="#000000" stroke-width="0.4" fill="#000000" points="231 346 243 346 243 358 231 358"></polygon>
+            <polygon id="矩形备份-16" stroke="#000000" stroke-width="0.4" points="118 338 286 338 286 366 118 366"></polygon>
+        </g>
+    </g>
+</svg>

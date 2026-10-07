@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400px" height="420px" viewBox="0 0 400 420" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>module2  12</title>
+    <g id="页面-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="module2--12">
+            <line x1="72.8793196" y1="91.6487122" x2="365.682668" y2="91.9794076" id="直线备份-13" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="72.8793196" y1="185.640798" x2="365.682668" y2="185.971494" id="直线备份-17" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="72.8793196" y1="122.979408" x2="365.682668" y2="123.310103" id="直线备份-16" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="72.8793196" y1="248.302189" x2="365.682668" y2="248.632885" id="直线备份-19" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="72.8793196" y1="216.971494" x2="365.682668" y2="217.302189" id="直线备份-20" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="72.8793196" y1="154.310103" x2="365.682668" y2="154.640798" id="直线备份-21" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="78.9599847" y1="85.9790218" x2="78.5" y2="288.5" id="直线备份-45" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <text id="0.6" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="54.4485753" y="94.7123288">0.6</tspan>
+            </text>
+            <text id="0.5" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="54.4485753" y="128.520548">0.5</tspan>
+            </text>
+            <text id="0.4" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="54.4485753" y="159.389041">0.4</tspan>
+            </text>
+            <text id="0.3" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="54.4485753" y="191.076712">0.3</tspan>
+            </text>
+            <text id="0.2" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="54.4485753" y="221.884932">0.2</tspan>
+            </text>
+            <text id="0.1" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="54.4485753" y="252.693151">0.1</tspan>
+            </text>
+            <text id="0" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="63.4175616" y="283.50137">0</tspan>
+            </text>
+            <text id="Correlation" transform="translate(36.904110, 175.594521) rotate(-90.000000) translate(-36.904110, -175.594521) " font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="5.02471506" y="180.094521">Correlation</tspan>
+            </text>
+            <text id="Painting-style" font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="173.694824" y="350">Painting style</tspan>
+            </text>
+            <text id="Correlation-between" font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" line-spacing="16" fill="#000000">
+                <tspan x="105.756931" y="42">Correlation between Model-Predicted</tspan>
+                <tspan x="108.860447" y="58">and Participant-Reported Enjoyment</tspan>
+                <tspan x="138.384861" y="74">Ratings, by Painting Style</tspan>
+            </text>
+            <text id="Impressionist" font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="100.454599" y="303.396018">Impressionist</tspan>
+            </text>
+            <text id="Color-field" font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="247.140712" y="303.277281">Color field</tspan>
+            </text>
+            <polygon id="矩形备份-10" stroke="#000000" stroke-width="0.4" fill="#666666" points="101 97 130.586777 97 130.586777 280 101 280"></polygon>
+            <polygon id="矩形备份-11" stroke="#000000" stroke-width="0.4" fill="#666666" points="233 238 262.586777 238 262.586777 280 233 280"></polygon>
+            <polygon id="矩形备份-13" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" points="131 144 160.586777 144 160.586777 280 131 280"></polygon>
+            <polygon id="矩形备份-14" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" transform="translate(277.793388, 262.500000) scale(1, -1) translate(-277.793388, -262.500000) " points="263 245 292.586777 245 292.586777 280 263 280"></polygon>
+            <polygon id="矩形备份-20" stroke="#000000" stroke-width="0.4" fill="#131313" points="160 159 189.586777 159 189.586777 280 160 280"></polygon>
+            <polygon id="矩形备份-21" stroke="#000000" stroke-width="0.4" fill="#131313" points="293 245 322.586777 245 322.586777 280 293 280"></polygon>
+            <line x1="73.8528381" y1="279.828723" x2="364.625811" y2="279.828723" id="直线备份-18" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <polygon id="矩形备份-16" stroke="#000000" stroke-width="0.4" points="151 364 273.222222 364 273.222222 384 151 384"></polygon>
+            <text id="P1" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="171" y="378">P1</tspan>
+            </text>
+            <text id="P3" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="209" y="378">P3</tspan>
+            </text>
+            <text id="P6" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="249" y="378">P6</tspan>
+            </text>
+            <polygon id="矩形备份-17" stroke="#000000" stroke-width="0.4" fill="#666666" points="155 369 163.888889 369 163.888889 377.888889 155 377.888889"></polygon>
+            <polygon id="矩形备份-18" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" points="193 369 201.888889 369 201.888889 377.888889 193 377.888889"></polygon>
+            <polygon id="矩形备份-19" stroke="#000000" stroke-width="0.4" fill="#000000" points="233 369 241.888889 369 241.888889 377.888889 233 377.888889"></polygon>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400px" height="420px" viewBox="0 0 400 420" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>module1  12</title>
+    <g id="页面-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="编组-2" transform="translate(29.404110, 20.434247)">
+            <line x1="43.47521" y1="127.206552" x2="336.278559" y2="127.537247" id="直线备份-17" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="43.47521" y1="64.545161" x2="336.278559" y2="64.8758565" id="直线备份-16" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="43.47521" y1="189.867943" x2="336.278559" y2="190.198638" id="直线备份-19" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="43.47521" y1="158.537247" x2="336.278559" y2="158.867943" id="直线备份-20" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="43.47521" y1="95.8758565" x2="336.278559" y2="96.2065519" id="直线备份-21" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="49.0958904" y1="64.0657534" x2="49.0958904" y2="233.065753" id="直线备份-45" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <text id="200" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="21.5444658" y="70.0863014">200</tspan>
+            </text>
+            <text id="160" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="21.5444658" y="100.954795">160</tspan>
+            </text>
+            <text id="120" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="21.5444658" y="132.642466">120</tspan>
+            </text>
+            <text id="80" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="28.1104658" y="163.450685">80</tspan>
+            </text>
+            <text id="40" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="28.1104658" y="194.258904">40</tspan>
+            </text>
+            <text id="0" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="34.0134521" y="225.067123">0</tspan>
+            </text>
+            <text id="Days" transform="translate(7.500000, 117.160274) rotate(-90.000000) translate(-7.500000, -117.160274) " font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="-6.88623047" y="121.660274">Days</tspan>
+            </text>
+            <text id="Winter" font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="163.441594" y="278.565753">Winter</tspan>
+            </text>
+            <text id="Days-per-Winter-That" font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" line-spacing="14" fill="#000000">
+                <tspan x="78.8513565" y="15.4700503">Days per Winter That Lakes Have</tspan>
+                <tspan x="277.380653" y="17.5657534" font-family="STSongti-SC-Regular, Songti SC"></tspan>
+                <tspan x="142.852821" y="29.4700503">Surface lce</tspan>
+            </text>
+            <text id="1980-81" font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="85.4401376" y="244.961772">1980-81</tspan>
+            </text>
+            <text id="2005-06" font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="224.928009" y="244.843034">2005-06</tspan>
+            </text>
+            <polygon id="矩形备份-10" stroke="#000000" stroke-width="0.4" fill="#666666" points="71.5958904 148.565753 101.182667 148.565753 101.182667 221.565753 71.5958904 221.565753"></polygon>
+            <polygon id="矩形备份-11" stroke="#000000" stroke-width="0.4" fill="#666666" points="203.59589 145.565753 233.182667 145.565753 233.182667 221.565753 203.59589 221.565753"></polygon>
+            <polygon id="矩形备份-13" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" points="101.59589 70.5657534 131.182667 70.5657534 131.182667 221.565753 101.59589 221.565753"></polygon>
+            <polygon id="矩形备份-14" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" transform="translate(248.389279, 161.065753) scale(1, -1) translate(-248.389279, -161.065753) " points="233.59589 100.565753 263.182667 100.565753 263.182667 221.565753 233.59589 221.565753"></polygon>
+            <polygon id="矩形备份-20" stroke="#000000" stroke-width="0.4" fill="#131313" points="130.59589 161.565753 160.182667 161.565753 160.182667 221.565753 130.59589 221.565753"></polygon>
+            <polygon id="矩形备份-21" stroke="#000000" stroke-width="0.4" fill="#131313" points="263.59589 139.565753 293.182667 139.565753 293.182667 221.565753 263.59589 221.565753"></polygon>
+            <line x1="44.4487285" y1="221.394476" x2="335.221702" y2="221.394476" id="直线备份-18" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <g id="编组" transform="translate(107.328767, 293.045205)">
+                <text id="Lake-Kegonsa" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                    <tspan x="41.3194521" y="16.4446889">Lake Kegonsa</tspan>
+                </text>
+                <text id="Oulujarvi" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                    <tspan x="41.5315068" y="43.230137">Oulujarvi</tspan>
+                </text>
+                <path d="M69.8647795,35.5205479 C70.028842,35.5205479 70.1684905,35.5781651 70.2837249,35.6933995 C70.3989592,35.8086339 70.4565764,35.9482823 70.4565764,36.1123448 C70.4565764,36.2764073 70.3989592,36.4170323 70.2837249,36.5342198 C70.1684905,36.6514073 70.028842,36.7100011 69.8647795,36.7100011 C69.700717,36.7100011 69.560092,36.6514073 69.4429045,36.5342198 C69.325717,36.4170323 69.2671233,36.2764073 69.2671233,36.1123448 C69.2671233,35.9482823 69.3247405,35.8086339 69.4399749,35.6933995 C69.5552092,35.5781651 69.6968108,35.5205479 69.8647795,35.5205479 Z" id="路径" fill="#000000"></path>
+                <path d="M72.8647795,35.5205479 C73.028842,35.5205479 73.1684905,35.5781651 73.2837249,35.6933995 C73.3989592,35.8086339 73.4565764,35.9482823 73.4565764,36.1123448 C73.4565764,36.2764073 73.3989592,36.4170323 73.2837249,36.5342198 C73.1684905,36.6514073 73.028842,36.7100011 72.8647795,36.7100011 C72.700717,36.7100011 72.560092,36.6514073 72.4429045,36.5342198 C72.325717,36.4170323 72.2671233,36.2764073 72.2671233,36.1123448 C72.2671233,35.9482823 72.3247405,35.8086339 72.4399749,35.6933995 C72.5552092,35.5781651 72.6968108,35.5205479 72.8647795,35.5205479 Z" id="路径备份" fill="#000000"></path>
+                <text id="Lake-Neusiedl" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                    <tspan x="41.5315068" y="67.6164384">Lake Neusiedl</tspan>
+                </text>
+                <polygon id="矩形备份-17" stroke="#000000" stroke-width="0.4" fill="#666666" points="13.1161644 6.86969178 29.2323288 6.86969178 29.2323288 22.9505137 13.1161644 22.9505137"></polygon>
+                <polygon id="矩形备份-18" stroke="#000000" stroke-width="0.4" fill="#CDCDCD" points="12.9041096 30.7479452 29.020274 30.7479452 29.020274 46.8287671 12.9041096 46.8287671"></polygon>
+                <polygon id="矩形备份-19" stroke="#000000" stroke-width="0.4" fill="#000000" points="12.9041096 55.1342466 29.020274 55.1342466 29.020274 71.2150685 12.9041096 71.2150685"></polygon>
+                <polygon id="矩形备份-16" stroke="#000000" stroke-width="0.4" points="1.51731422e-13 -4.92287866e-15 149 -4.92287866e-15 149 79.5205479 -9.04564302e-13 79.5205479"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

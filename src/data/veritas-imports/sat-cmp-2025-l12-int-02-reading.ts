@@ -646,7 +646,8 @@ export const importedMockTest = {
           "options": [
             "\"In trying to create the period look of Our Town, I had to make some practical compromises, such as substituting cooler modern fabrics for historically accurate woolens so that the actors didn't overheat.\"",
             "\"For Our Town, I decided not to include the extra fabric that would have been typical of clothing in the period because it made the costumes unappealingly bulky.\"",
-            "\"The clothing of the period of Our Town is aesthetically appealing but largely unfamiliar to today's audiences, so minor deviations from historical accuracy largely went unnoticed.\""
+            "\"The clothing of the period of Our Town is aesthetically appealing but largely unfamiliar to today's audiences, so minor deviations from historical accuracy largely went unnoticed.\"",
+            "\"Audience members responded positively to the costumes in Our Town, praising their simplicity and visual elegance.\""
           ],
           "answer": 1,
           "domain": "Information and Ideas",
@@ -909,7 +910,8 @@ export const importedMockTest = {
           "options": [
             "Using an artificial deep neural network, the researchers sought to explore the relationship between the brain's ability to process natural sounds and its ability to process music.",
             "The researchers used an artificial deep neural network, which spontaneously developed neurons that responded to music but not to other auditory stimuli.",
-            "By training an artificial deep neural network, the researchers aimed to establish that the brain's ability to process natural sounds arises as a by-product of processing music."
+            "By training an artificial deep neural network, the researchers aimed to establish that the brain's ability to process natural sounds arises as a by-product of processing music.",
+            "In their study, the researchers evaluated whether the brain's ability to process natural sounds arises as a by-product of its ability to process music."
           ],
           "answer": 0,
           "domain": "Expression of Ideas",

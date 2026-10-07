@@ -20,12 +20,16 @@ if (!manifestPath) {
 }
 
 const manifest = JSON.parse(await readFile(path.resolve(manifestPath), 'utf8'))
+// The raw directory is named after the manifest's year: 2024-manifest.json
+// reads from raw-2024, 2025-manifest.json from raw-2025.
+const yearMatch = path.basename(manifestPath).match(/^(\d{4})-/)
+const rawDir = `raw-${yearMatch ? yearMatch[1] : '2025'}`
 let failures = 0
 
 for (const entry of manifest) {
   if (filter && !entry.set.includes(filter)) continue
 
-  const inputs = entry.files.map((name) => path.join(path.dirname(path.resolve(manifestPath)), 'raw-2025', name))
+  const inputs = entry.files.map((name) => path.join(path.dirname(path.resolve(manifestPath)), rawDir, name))
   const out = path.join('src', 'data', 'veritas-imports', `${entry.set}-reading.ts`)
 
   let stdout

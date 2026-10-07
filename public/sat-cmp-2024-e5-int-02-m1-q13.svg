@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400px" height="420px" viewBox="0 0 400 420" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>module1 1</title>
+    <g id="页面-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="编组-2" transform="translate(34.404110, 34.000000)">
+            <text id="Women-Judges-and-Mag" font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" line-spacing="16" fill="#000000">
+                <tspan x="104.425575" y="12">Women Judges and Magistrates</tspan>
+                <tspan x="107.542763" y="28">on the High Courts,1980-2010</tspan>
+            </text>
+            <text id="Number" transform="translate(7.500000, 143.594521) rotate(-90.000000) translate(-7.500000, -143.594521) " font-family="TimesNewRomanPSMT, Times New Roman" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="-15.4379883" y="148.094521">Number</tspan>
+            </text>
+            <text id="2010" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="277.978466" y="263.712329">2010</tspan>
+            </text>
+            <line x1="36.47521" y1="54.6487122" x2="329.278559" y2="54.9794076" id="直线备份-13" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="36.47521" y1="116.648712" x2="329.278559" y2="116.979408" id="直线备份-263" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="36.47521" y1="178.648712" x2="329.278559" y2="178.979408" id="直线备份-264" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="36.47521" y1="243.648712" x2="329.278559" y2="243.979408" id="直线备份-265" stroke="#666666" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="42.5558751" y1="50.9790218" x2="42.0958904" y2="253.5" id="直线备份-45" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="78.5558751" y1="50.9790218" x2="78.0958904" y2="253.5" id="直线备份-46" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="148.555875" y1="50.9790218" x2="148.09589" y2="253.5" id="直线备份-47" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="218.555875" y1="50.9790218" x2="218.09589" y2="253.5" id="直线备份-48" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <line x1="289.555875" y1="50.9790218" x2="289.09589" y2="253.5" id="直线备份-49" stroke="#000000" stroke-width="0.5" stroke-linecap="square"></line>
+            <polyline id="路径-14" stroke="#000000" points="79.0958904 212.5 149.09589 148.5 293.829764 148.5"></polyline>
+            <g id="编组" transform="translate(112.595890, 294.000000)">
+                <line x1="5.76195575" y1="38.5" x2="32.4649371" y2="38.5" id="路径-14备份" stroke="#000000"></line>
+                <line x1="5.76195575" y1="13.5" x2="32.4649371" y2="13.5" id="路径-15备份" stroke="#000000" stroke-dasharray="5"></line>
+                <line x1="5.76195575" y1="60.9794076" x2="32.4649371" y2="60.9794076" id="路径-16备份" stroke="#000000" stroke-dasharray="4,1"></line>
+                <rect id="矩形备份" stroke="#000000" fill="#BBBBBB" x="11.5" y="32.5" width="12" height="12"></rect>
+                <circle id="椭圆形备份" stroke="#000000" fill="#FFFFFF" cx="17.5" cy="61.5" r="6"></circle>
+                <polygon id="三角形备份-3" fill="#000000" points="17.5 8 24 21 11 21"></polygon>
+                <text id="Philippines" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                    <tspan x="44.3194521" y="16.4446889">Philippines</tspan>
+                </text>
+                <text id="Mexico" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                    <tspan x="44.5315068" y="43.230137">Mexico</tspan>
+                </text>
+                <text id="Peru" font-family="TimesNewRomanPSMT, Times New Roman" font-size="12" font-weight="normal" fill="#000000">
+                    <tspan x="44.5315068" y="67.6164384">Peru</tspan>
+                </text>
+                <polygon id="矩形备份-16" stroke="#000000" stroke-width="0.4" points="1.19144808e-13 -4.8287461e-15 117 -4.8287461e-15 117 78 -7.10295459e-13 78"></polygon>
+            </g>
+            <path d="M79.0958904,180.5 L149.09589,85.5 L217.381715,180.5 L293.829764,148.5" id="路径-15" stroke="#000000" stroke-dasharray="5"></path>
+            <path d="M81.3578462,243.979408 L149.09589,243.5 L220.09589,178.979408 L293.829764,148.5" id="路径-16" stroke="#000000" stroke-dasharray="4,1"></path>
+            <polygon id="三角形备份-2" fill="#000000" points="220.09589 142 226.59589 155 213.59589 155"></polygon>
+            <rect id="矩形" stroke="#000000" fill="#BBBBBB" x="73.0958904" y="174.5" width="12" height="12"></rect>
+            <rect id="矩形备份-2" stroke="#000000" fill="#BBBBBB" x="143.09589" y="79.5" width="12" height="12"></rect>
+            <rect id="矩形备份-31" stroke="#000000" fill="#BBBBBB" x="214.09589" y="174.5" width="12" height="12"></rect>
+            <rect id="矩形备份-32" stroke="#000000" fill="#BBBBBB" x="285.09589" y="142.5" width="12" height="12"></rect>
+            <circle id="椭圆形" stroke="#000000" fill="#FFFFFF" cx="79.0958904" cy="243.5" r="6"></circle>
+            <circle id="椭圆形备份-9" stroke="#000000" fill="#FFFFFF" cx="149.09589" cy="243.5" r="6"></circle>
+            <circle id="椭圆形备份-10" stroke="#000000" fill="#FFFFFF" cx="220.09589" cy="180.5" r="6"></circle>
+            <circle id="椭圆形备份-11" stroke="#000000" fill="#FFFFFF" cx="291.09589" cy="148.5" r="6"></circle>
+            <polygon id="三角形" fill="#000000" points="79.0958904 206 85.5958904 219 72.5958904 219"></polygon>
+            <polygon id="三角形备份" fill="#000000" points="149.09589 139 155.59589 152 142.59589 152"></polygon>
+            <text id="6" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="27.6764658" y="61.7123288">6</tspan>
+            </text>
+            <text id="4" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="27.6764658" y="121.712329">4</tspan>
+            </text>
+            <text id="2" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="27.6764658" y="183.712329">2</tspan>
+            </text>
+            <text id="0" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="27.6764658" y="248.712329">0</tspan>
+            </text>
+            <text id="1980" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="62.9784658" y="263.712329">1980</tspan>
+            </text>
+            <text id="1990" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="139.978466" y="263.712329">1990</tspan>
+            </text>
+            <text id="Year" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="155.351616" y="283.712329">Year</tspan>
+            </text>
+            <text id="2000" font-family="STSongti-SC-Regular, Songti SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="206.978466" y="263.712329">2000</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

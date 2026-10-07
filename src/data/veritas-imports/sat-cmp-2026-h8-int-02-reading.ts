@@ -420,7 +420,7 @@ export const importedMockTest = {
             "Hikers aiming to count themselves among the 50 Completers must reach not only Michigan's Mount Arvon but also the even higher peak of Wheeler Peak in New Mexico.",
             "Not until after you have reached the highest points in all fifty US states—including Mount Arvon in Michigan and Wheeler Peak in New Mexico—can you include yourself among the 50 Completers of the Highpointers Club.",
             "If you are looking for a new hiking challenge, consider joining the Highpointers Club, as did In Suk Han, a hiker who successfully reached the highest point in every US state.",
-            "On November 15, 2013, In Suk Han finally completed the feat of reaching the highest point in all fifty US states, including Spruce Knob in West Virginia and Mount Elbert in Colorado."
+            "On November 15, 2013, In Suk Han finally completed the feat of reaching the highest point in all fifty US states, including Mount Arvon in Michigan and Wheeler Peak in New Mexico."
           ],
           "answer": 1,
           "domain": "Expression of Ideas",
