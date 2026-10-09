@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BookOpen, Check, ChevronLeft, ChevronRight, ListChecks, Maximize, Minimize, RotateCcw } from 'lucide-react'
 import mastersBook from '../data/mastersBook.json'
 import { useFullscreen } from '../lib/fullscreen'
@@ -26,16 +26,20 @@ type Section = {
 }
 type SavedProgress = Record<string, number>
 
-const sections = mastersBook.sections as Section[]
 const LETTERS = ['A', 'B', 'C', 'D']
 
 export default function MastersBook() {
+  return <NativeBook data={mastersBook} title="大师之书" subtitle="Master's Book · 26 Spring" storageKey="masters_book_answers" />
+}
+
+export function NativeBook({ data, title, subtitle, storageKey }: { data: { sections: unknown }; title: string; subtitle: string; storageKey: string }) {
   const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
+  const sections = data.sections as Section[]
   const [sectionIndex, setSectionIndex] = useState(0)
   const [questionIndex, setQuestionIndex] = useState(0)
   const [answers, setAnswers] = useState<SavedProgress>(() => {
     try {
-      return JSON.parse(window.localStorage.getItem('masters_book_answers') || '{}') as SavedProgress
+      return JSON.parse(window.localStorage.getItem(storageKey) || '{}') as SavedProgress
     } catch {
       return {}
     }
@@ -43,12 +47,12 @@ export default function MastersBook() {
 
   const section = sections[sectionIndex]
   const question = section.questions[questionIndex]
-  const totalQuestions = useMemo(() => sections.reduce((sum, item) => sum + item.questions.length, 0), [])
+  const totalQuestions = sections.reduce((sum, item) => sum + item.questions.length, 0)
   const completedQuestions = Object.keys(answers).length
 
   useEffect(() => {
-    window.localStorage.setItem('masters_book_answers', JSON.stringify(answers))
-  }, [answers])
+    window.localStorage.setItem(storageKey, JSON.stringify(answers))
+  }, [answers, storageKey])
 
   const chooseSection = (index: number) => {
     setSectionIndex(index)
@@ -71,7 +75,7 @@ export default function MastersBook() {
   }
 
   const resetProgress = () => {
-    if (!window.confirm('确定清除《大师之书》的全部作答记录吗？')) return
+    if (!window.confirm(`确定清除《${title}》的全部作答记录吗？`)) return
     setAnswers({})
   }
 
@@ -82,8 +86,8 @@ export default function MastersBook() {
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-blue-600 dark:text-blue-400"><BookOpen size={18} /> 私人电子讲义</div>
-              <h1 className="text-3xl font-bold tracking-tight text-slate-950 dark:text-white">大师之书</h1>
-              <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Master&apos;s Book · 26 Spring · 网站原生题库版</p>
+              <h1 className="text-3xl font-bold tracking-tight text-slate-950 dark:text-white">{title}</h1>
+              <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{subtitle} · 网站原生题库版</p>
             </div>
             <div className="flex items-center gap-3">
               <div className="rounded-xl bg-blue-50 px-4 py-2 text-sm text-blue-700 dark:bg-blue-950/40 dark:text-blue-300">已作答 <strong>{completedQuestions}</strong> / {totalQuestions}</div>
@@ -172,7 +176,7 @@ function QuestionView({ section, question, selected, onSelect, onPrevious, onNex
 
         <div className="mt-6 flex items-start gap-2 rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-800 dark:bg-amber-950/30 dark:text-amber-200">
           <ListChecks className="mt-0.5 shrink-0" size={17} />
-          <span>原讲义未附答案，本页用于阅读和自测。你的选择只保存在当前浏览器中，不会自动判分。</span>
+          <span>本页按原讲义内容呈现，用于阅读和自测。你的选择只保存在当前浏览器中，不会自动判分。</span>
         </div>
       </div>
 

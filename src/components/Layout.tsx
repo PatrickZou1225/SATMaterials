@@ -24,7 +24,7 @@ export default function Layout() {
   const { pathname } = useLocation()
   const focusMode = FOCUS_ROUTES.some((pattern) => pattern.test(pathname))
   const { isFullscreen } = useFullscreen()
-  const hideChrome = focusMode || (pathname === '/my-books/masters-book' && isFullscreen)
+  const hideChrome = focusMode || (pathname.startsWith('/my-books/') && isFullscreen)
   const isTeacher = account?.profile?.role === 'teacher'
   const isOwner = account?.profile?.is_owner === true
   const [menuOpen, setMenuOpen] = useState(false)
@@ -87,7 +87,7 @@ export default function Layout() {
               {isTeacher && <NavLink to="/students" className={navClass}>学生</NavLink>}
               {isTeacher && <NavLink to="/monitor" className={navClass}>学习情况</NavLink>}
               {isOwner && <NavLink to="/teachers" className={navClass}>老师</NavLink>}
-              {isOwner && <NavLink to="/my-books/masters-book" className={navClass}>我的讲义</NavLink>}
+              {isOwner && <NavLink to="/my-books" className={navClass}>我的讲义</NavLink>}
               <NavLink to="/faq" className={navClass}>FAQ</NavLink>
               <NavLink to="/search" className={navClass}>
                 <Search size={15} className="inline mr-1 -mt-0.5" />
@@ -124,7 +124,7 @@ export default function Layout() {
             {isTeacher && <NavLink to="/students" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">学生</NavLink>}
             {isTeacher && <NavLink to="/monitor" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">学习情况</NavLink>}
             {isOwner && <NavLink to="/teachers" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">老师</NavLink>}
-            {isOwner && <NavLink to="/my-books/masters-book" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">我的讲义</NavLink>}
+            {isOwner && <NavLink to="/my-books" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">我的讲义</NavLink>}
             <NavLink to="/faq" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">FAQ</NavLink>
             <NavLink to="/search" onClick={() => setMenuOpen(false)} className="hover:text-blue-600 dark:hover:text-blue-300">搜索</NavLink>
             <NavLink to="/practice" onClick={() => setMenuOpen(false)} className="px-4 py-2 bg-blue-600 text-white rounded-lg text-center">开始练习</NavLink>
