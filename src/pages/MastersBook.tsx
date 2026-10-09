@@ -118,22 +118,22 @@ export function NativeBook({ data, title, subtitle, storageKey }: { data: { sect
             </nav>
           </div>
 
+        </aside>
+
+        <main>
           {section.questions.length > 0 && (
-            <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-              <div className="mb-3 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-slate-400"><span>题目</span><span>{questionIndex + 1}/{section.questions.length}</span></div>
-              <div className="grid grid-cols-6 gap-1.5 sm:grid-cols-8 lg:grid-cols-6">
+            <div className="mb-5 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+              <div className="mb-3 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-slate-400"><span>{section.title}题目</span><span>{questionIndex + 1}/{section.questions.length}</span></div>
+              <div className="grid grid-cols-6 gap-2 sm:grid-cols-9 lg:grid-cols-12">
                 {section.questions.map((item, index) => (
-                  <button key={item.id} type="button" onClick={() => { setQuestionIndex(index); window.scrollTo({ top: 0, behavior: 'smooth' }) }} className={`relative aspect-square rounded-lg text-xs font-semibold transition ${index === questionIndex ? 'bg-blue-600 text-white' : answers[item.id] !== undefined ? 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:ring-emerald-800' : 'bg-slate-100 text-slate-500 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'}`}>
+                  <button key={item.id} type="button" onClick={() => setQuestionIndex(index)} className={`relative h-10 rounded-lg text-sm font-semibold transition ${index === questionIndex ? 'bg-blue-600 text-white shadow-sm' : answers[item.id] !== undefined ? 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:ring-emerald-800' : 'bg-slate-100 text-slate-500 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'}`} aria-label={`第 ${index + 1} 题`}>
                     {index + 1}
-                    {answers[item.id] !== undefined && index !== questionIndex && <Check size={9} className="absolute right-0.5 top-0.5" />}
+                    {answers[item.id] !== undefined && index !== questionIndex && <Check size={10} className="absolute right-1 top-1" />}
                   </button>
                 ))}
               </div>
             </div>
           )}
-        </aside>
-
-        <main>
           {question ? (
             <QuestionView section={section} question={question} selected={answers[question.id]} onSelect={(option) => setAnswers((current) => ({ ...current, [question.id]: option }))} onPrevious={() => moveQuestion(-1)} onNext={() => moveQuestion(1)} canPrevious={sectionIndex > 0 || questionIndex > 0} canNext={sectionIndex < sections.length - 1 || questionIndex < section.questions.length - 1} />
           ) : <NotesView section={section} />}
