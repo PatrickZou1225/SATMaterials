@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { BookOpen, Check, ChevronLeft, ChevronRight, ListChecks, Maximize, Minimize, RotateCcw } from 'lucide-react'
+import { BookOpen, Check, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, ListChecks, Maximize, Minimize, RotateCcw } from 'lucide-react'
 import mastersBook from '../data/mastersBook.json'
 import { useFullscreen } from '../lib/fullscreen'
 
@@ -37,6 +37,7 @@ export function NativeBook({ data, title, subtitle, storageKey }: { data: { sect
   const sections = data.sections as Section[]
   const [sectionIndex, setSectionIndex] = useState(0)
   const [questionIndex, setQuestionIndex] = useState(0)
+  const [questionPickerOpen, setQuestionPickerOpen] = useState(true)
   const [answers, setAnswers] = useState<SavedProgress>(() => {
     try {
       return JSON.parse(window.localStorage.getItem(storageKey) || '{}') as SavedProgress
@@ -123,15 +124,22 @@ export function NativeBook({ data, title, subtitle, storageKey }: { data: { sect
         <main>
           {section.questions.length > 0 && (
             <div className="mb-5 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-              <div className="mb-3 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-slate-400"><span>{section.title}题目</span><span>{questionIndex + 1}/{section.questions.length}</span></div>
-              <div className="grid grid-cols-6 gap-2 sm:grid-cols-9 lg:grid-cols-12">
-                {section.questions.map((item, index) => (
-                  <button key={item.id} type="button" onClick={() => setQuestionIndex(index)} className={`relative h-10 rounded-lg text-sm font-semibold transition ${index === questionIndex ? 'bg-blue-600 text-white shadow-sm' : answers[item.id] !== undefined ? 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:ring-emerald-800' : 'bg-slate-100 text-slate-500 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'}`} aria-label={`第 ${index + 1} 题`}>
-                    {index + 1}
-                    {answers[item.id] !== undefined && index !== questionIndex && <Check size={10} className="absolute right-1 top-1" />}
-                  </button>
-                ))}
+              <div className={`flex items-center justify-between ${questionPickerOpen ? 'mb-3' : ''}`}>
+                <div className="text-xs font-bold uppercase tracking-wider text-slate-400">{section.title}题目 <span className="ml-2">{questionIndex + 1}/{section.questions.length}</span></div>
+                <button type="button" onClick={() => setQuestionPickerOpen((open) => !open)} className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-semibold text-slate-500 hover:bg-slate-100 hover:text-blue-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-blue-300" aria-expanded={questionPickerOpen}>
+                  {questionPickerOpen ? <><ChevronUp size={15} />收起题号</> : <><ChevronDown size={15} />展开题号</>}
+                </button>
               </div>
+              {questionPickerOpen && (
+                <div className="grid grid-cols-6 gap-2 sm:grid-cols-9 lg:grid-cols-12">
+                  {section.questions.map((item, index) => (
+                    <button key={item.id} type="button" onClick={() => setQuestionIndex(index)} className={`relative h-10 rounded-lg text-sm font-semibold transition ${index === questionIndex ? 'bg-blue-600 text-white shadow-sm' : answers[item.id] !== undefined ? 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:ring-emerald-800' : 'bg-slate-100 text-slate-500 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'}`} aria-label={`第 ${index + 1} 题`}>
+                      {index + 1}
+                      {answers[item.id] !== undefined && index !== questionIndex && <Check size={10} className="absolute right-1 top-1" />}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           )}
           {question ? (
