@@ -19,6 +19,8 @@ import Students from './pages/Students'
 import Monitor from './pages/Monitor'
 import Teachers from './pages/Teachers'
 import TeacherGate from './components/TeacherGate'
+import OwnerGate from './components/OwnerGate'
+import MastersBook from './pages/MastersBook'
 
 function App() {
   return (
@@ -44,6 +46,7 @@ function App() {
             <Route path="/students" element={<TeacherGate><Students /></TeacherGate>} />
             <Route path="/monitor" element={<TeacherGate><Monitor /></TeacherGate>} />
             <Route path="/teachers" element={<Teachers />} />
+            <Route path="/my-books/masters-book" element={<OwnerGate><MastersBook /></OwnerGate>} />
           </Route>
         </Routes>
       </BrowserRouter>
