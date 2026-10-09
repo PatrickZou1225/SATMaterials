@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
-import { BookOpen, Check, ChevronLeft, ChevronRight, ListChecks, RotateCcw } from 'lucide-react'
+import { BookOpen, Check, ChevronLeft, ChevronRight, ListChecks, Maximize, Minimize, RotateCcw } from 'lucide-react'
 import mastersBook from '../data/mastersBook.json'
+import { useFullscreen } from '../lib/fullscreen'
 
 type Question = {
   id: string
@@ -29,6 +30,7 @@ const sections = mastersBook.sections as Section[]
 const LETTERS = ['A', 'B', 'C', 'D']
 
 export default function MastersBook() {
+  const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
   const [sectionIndex, setSectionIndex] = useState(0)
   const [questionIndex, setQuestionIndex] = useState(0)
   const [answers, setAnswers] = useState<SavedProgress>(() => {
@@ -85,6 +87,10 @@ export default function MastersBook() {
             </div>
             <div className="flex items-center gap-3">
               <div className="rounded-xl bg-blue-50 px-4 py-2 text-sm text-blue-700 dark:bg-blue-950/40 dark:text-blue-300">已作答 <strong>{completedQuestions}</strong> / {totalQuestions}</div>
+              <button type="button" onClick={toggleFullscreen} className="inline-flex items-center gap-2 rounded-xl border border-slate-200 px-3 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800" aria-label={isFullscreen ? '退出全屏' : '进入全屏'} title={isFullscreen ? '退出全屏（Esc）' : '进入全屏'}>
+                {isFullscreen ? <Minimize size={18} /> : <Maximize size={18} />}
+                <span className="hidden sm:inline">{isFullscreen ? '退出全屏' : '全屏'}</span>
+              </button>
               <button type="button" onClick={resetProgress} className="rounded-xl border border-slate-200 p-2.5 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800" aria-label="清除作答记录"><RotateCcw size={18} /></button>
             </div>
           </div>

@@ -2,6 +2,7 @@ import { Outlet, NavLink, useLocation } from 'react-router-dom'
 import { BookOpen, Menu, X, Moon, Sun, Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useAccount } from '../context/account'
+import { useFullscreen } from '../lib/fullscreen'
 
 const navClass = ({ isActive }: { isActive: boolean }) =>
   isActive ? 'text-blue-600 dark:text-blue-400' : 'hover:text-blue-600 dark:hover:text-blue-300 transition-colors'
@@ -22,6 +23,8 @@ export default function Layout() {
   const account = useAccount()
   const { pathname } = useLocation()
   const focusMode = FOCUS_ROUTES.some((pattern) => pattern.test(pathname))
+  const { isFullscreen } = useFullscreen()
+  const hideChrome = focusMode || (pathname === '/my-books/masters-book' && isFullscreen)
   const isTeacher = account?.profile?.role === 'teacher'
   const isOwner = account?.profile?.is_owner === true
   const [menuOpen, setMenuOpen] = useState(false)
@@ -64,7 +67,7 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
-      {!focusMode && <header className="border-b border-slate-200 dark:border-slate-700 sticky top-0 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 z-50">
+      {!hideChrome && <header className="border-b border-slate-200 dark:border-slate-700 sticky top-0 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 z-50">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
           <NavLink to="/" className="flex items-center gap-2 font-bold text-xl text-blue-600 dark:text-blue-400">
             <BookOpen size={24} />
@@ -142,7 +145,7 @@ export default function Layout() {
         <Outlet />
       </main>
 
-      {!focusMode && <footer className="border-t py-10 px-4 text-center text-sm text-gray-500 dark:text-slate-400 border-slate-200 dark:border-slate-700">
+      {!hideChrome && <footer className="border-t py-10 px-4 text-center text-sm text-gray-500 dark:text-slate-400 border-slate-200 dark:border-slate-700">
         © 2026 SAT Prep · 专业SAT备考平台 · 助力梦想大学之路
       </footer>}
     </div>
