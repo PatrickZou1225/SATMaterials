@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { BookOpen, Check, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, ListChecks, Maximize, Minimize, RotateCcw } from 'lucide-react'
+import { BookOpen, Check, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, ListChecks, Maximize, Minimize, PanelLeftClose, PanelLeftOpen, RotateCcw } from 'lucide-react'
 import mastersBook from '../data/mastersBook.json'
 import { useFullscreen } from '../lib/fullscreen'
 
@@ -38,6 +38,7 @@ export function NativeBook({ data, title, subtitle, storageKey }: { data: { sect
   const [sectionIndex, setSectionIndex] = useState(0)
   const [questionIndex, setQuestionIndex] = useState(0)
   const [questionPickerOpen, setQuestionPickerOpen] = useState(true)
+  const [chapterListOpen, setChapterListOpen] = useState(true)
   const [answers, setAnswers] = useState<SavedProgress>(() => {
     try {
       return JSON.parse(window.localStorage.getItem(storageKey) || '{}') as SavedProgress
@@ -92,6 +93,10 @@ export function NativeBook({ data, title, subtitle, storageKey }: { data: { sect
             </div>
             <div className="flex items-center gap-3">
               <div className="rounded-xl bg-blue-50 px-4 py-2 text-sm text-blue-700 dark:bg-blue-950/40 dark:text-blue-300">已作答 <strong>{completedQuestions}</strong> / {totalQuestions}</div>
+              <button type="button" onClick={() => setChapterListOpen((open) => !open)} className="inline-flex items-center gap-2 rounded-xl border border-slate-200 px-3 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800" aria-expanded={chapterListOpen} aria-label={chapterListOpen ? '收起章节' : '展开章节'} title={chapterListOpen ? '收起章节目录' : '展开章节目录'}>
+                {chapterListOpen ? <PanelLeftClose size={18} /> : <PanelLeftOpen size={18} />}
+                <span className="hidden sm:inline">{chapterListOpen ? '收起章节' : '展开章节'}</span>
+              </button>
               <button type="button" onClick={toggleFullscreen} className="inline-flex items-center gap-2 rounded-xl border border-slate-200 px-3 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800" aria-label={isFullscreen ? '退出全屏' : '进入全屏'} title={isFullscreen ? '退出全屏（Esc）' : '进入全屏'}>
                 {isFullscreen ? <Minimize size={18} /> : <Maximize size={18} />}
                 <span className="hidden sm:inline">{isFullscreen ? '退出全屏' : '全屏'}</span>
@@ -105,8 +110,8 @@ export function NativeBook({ data, title, subtitle, storageKey }: { data: { sect
         </div>
       </header>
 
-      <div className="mx-auto grid max-w-7xl gap-5 px-4 py-5 sm:px-6 lg:grid-cols-[270px_minmax(0,1fr)]">
-        <aside className="space-y-4">
+      <div className={`mx-auto grid max-w-7xl gap-5 px-4 py-5 sm:px-6 ${chapterListOpen ? 'lg:grid-cols-[270px_minmax(0,1fr)]' : 'grid-cols-1'}`}>
+        {chapterListOpen && <aside className="space-y-4">
           <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm dark:border-slate-800 dark:bg-slate-900">
             <div className="px-2 pb-2 text-xs font-bold uppercase tracking-wider text-slate-400">章节目录</div>
             <nav className="space-y-1">
@@ -119,7 +124,7 @@ export function NativeBook({ data, title, subtitle, storageKey }: { data: { sect
             </nav>
           </div>
 
-        </aside>
+        </aside>}
 
         <main>
           {section.questions.length > 0 && (
