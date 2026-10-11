@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { BookOpen, Check, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, ListChecks, Maximize, Minimize, PanelLeftClose, PanelLeftOpen, RotateCcw } from 'lucide-react'
 import mastersBook from '../data/mastersBook.json'
 import { useFullscreen } from '../lib/fullscreen'
+import { formatPassageHtml } from '../lib/passage'
 
 type Question = {
   id: string
@@ -13,6 +14,8 @@ type Question = {
   options: string[]
   figures: string[]
   sourcePage: number
+  // Phrases marked as "the underlined portion" in the source handout.
+  underline?: string[]
 }
 
 type NotePage = { page: number; content: string }
@@ -175,7 +178,9 @@ function QuestionView({ section, question, selected, onSelect, onPrevious, onNex
             <img src={figure} alt={`${section.title}第 ${question.number} 题图表${index + 1}`} className="mx-auto max-h-[520px] w-auto max-w-full object-contain" />
           </figure>
         ))}
-        {question.content && <div className="whitespace-pre-line font-serif text-[17px] leading-8 text-slate-800 dark:text-slate-100">{question.content}</div>}
+        {question.content && (question.underline?.length
+          ? <div className="font-serif text-[17px] leading-8 text-slate-800 dark:text-slate-100" dangerouslySetInnerHTML={{ __html: formatPassageHtml(question.content, question.underline) }} />
+          : <div className="whitespace-pre-line font-serif text-[17px] leading-8 text-slate-800 dark:text-slate-100">{question.content}</div>)}
         {question.question && <h3 className="mt-6 text-[17px] font-bold leading-7 text-slate-950 dark:text-white">{question.question}</h3>}
 
         <div className="mt-6 space-y-3">

@@ -285,6 +285,7 @@
           "sourceNumber": 2,
           "title": "Rock Art",
           "content": "Guadalupe Romero Villanueva et al. conducted radiocarbon analysis of paint used in rock art at the Patagonian archaeological site Cueva Huenul 1, revealing that images of a comblike motif date to as early as 8,000 years ago, predating other paintings in the region by several millennia. The motif was subsequently reproduced multiple times at the site over the next 3,000 years, a period coinciding with extremely arid conditions and slightly negative population growth. The motif may therefore have functioned to help preserve cultural knowledge during a time of ecological and demographic stress.",
+          "underline": ["a period coinciding with extremely arid conditions and slightly negative population growth"],
           "question": "Which choice best describes the function of the underlined portion in the text as a whole?",
           "options": [
             "It emphasizes the historical conditions that explain why production of the painted motif described in the text abruptly ceased after 3,000 years of continued use.",
@@ -301,6 +302,7 @@
           "sourceNumber": 3,
           "title": "Movie Camera",
           "content": "Dziga Vertov's Man with a Movie Camera (1929) not only exhibits striking visual effects like multiple exposure, but it also has as a central idea that the camera itself is a character in the film. The camera's presence is continually accentuated by showing the operator position it, for example, placing it atop a steel structure, where he then adjusts the camera to capture a view of traffic passing underneath, to which the film cuts immediately after.",
+          "underline": ["the camera itself is a character in the film"],
           "question": "Which choice best describes the function of the underlined portion in the text as a whole?",
           "options": [
             "It introduces a conceit of the film that helps explain Vertov's choices as described later in the text.",
@@ -317,6 +319,7 @@
           "sourceNumber": 4,
           "title": "TV criticism",
           "content": "Early television criticism in the 1970s and 1980s drew heavily on film studies, though media scholar Jane Feuer observed that concepts borrowed from that discipline often fell short when applied to television's distinctive features. Recognizing those limits, researchers turned to approaches that considered home viewing environments, built-in commercials, and episodic storytelling, as well as to audience studies using ethnographic methods that highlighted viewer participation. By the 1990s, television studies had become a broadly established academic field, with scholars launching specialized journals.",
+          "underline": ["though media scholar Jane Feuer observed that concepts borrowed from that discipline often fell short when applied to television's distinctive features"],
           "question": "Which choice best states the function of the underlined portion in the text as a whole?",
           "options": [
             "It questions the extent to which the methodologies of film studies informed methodologies in the emerging field of television studies.",
@@ -333,6 +336,7 @@
           "sourceNumber": 5,
           "title": "Bison Fecal",
           "content": "The fecal-steroidal profile of pronghorn is clearly distinct from those of other ungulates. By contrast, bison dung cannot be distinguished from elk dung based solely on their fecal-steroidal profiles, as both contain similar levels of beta-sitosterol and cholestanone, among other sterols. The relative levels of fecal zoostanols (steroids with animal origins), such as coprostanol and epi-coprostanol, in layers of lake bed sediments at Buffalo Ford Lake in Yellowstone National Park show that bison, elk, or both have been the dominant ungulate species in the lake's watershed for at least the last 2,000 years.",
+          "underline": ["bison dung cannot be distinguished from elk dung based solely on their fecal-steroidal profiles"],
           "question": "Which choice best describes the function of the underlined sentence in the text as a whole?",
           "options": [
             "It offers context that helps account for the finding that the dominant ungulate species in the Buffalo Ford Lake watershed have been largely unchanged for at least 2,000 years.",
@@ -349,6 +353,7 @@
           "sourceNumber": 6,
           "title": "Comp of Cave",
           "content": "A trend away from stable, relatively high humidity in the Middle East over the past 8 million years can be inferred from the composition of cave formations dating to different periods. Cave formations from about 7 million years ago mainly consist of transparent columnar calcite, indicative of an underground water system regularly replenished by rainfall. Cave formations younger than approximately 1 million years, however, mainly consist of branching, opaque (and sometimes colorful) material, often with more frequent growth interruptions, indicating an intermittent water supply.",
+          "underline": ["transparent columnar calcite", "branching, opaque (and sometimes colorful) material, often with more frequent growth interruptions"],
           "question": "Which choice best describes the function of the two underlined portions in the text as a whole?",
           "options": [
             "They identify different characteristics of cave formations that when considered together provide evidence for a long-term shift toward lower and more variable humidity in the Middle East.",
@@ -413,6 +418,7 @@
           "sourceNumber": 10,
           "title": "Petal Length",
           "content": "Visiting flowers that produce high volumes of nectar allows hummingbirds, including scaly-breasted hummingbirds, to maximize their foraging efficiency. But nectar can’t be seen from outside the flower, and while some studies have suggested that petal length may indicate nectar volume, María A. Maglianesi and team found no such association among hummingbird-visited plants at Los Cusingos Bird Sanctuary and other sites in Costa Rica. The researchers hypothesize that by driving hummingbirds to visit more plants in search of high-reward flowers, plants’ lack of reliable signaling may increase chances of pollination.",
+          "underline": ["some studies have suggested that petal length may indicate nectar volume"],
           "question": "Which choice best describes the function of the underlined portion in the text as a whole?",
           "options": [
             "It suggests that a hypothesis discussed later in the text regarding a potential visual cue that hummingbirds rely on to increase their foraging efficiency has little support from the broader scientific community.",
@@ -445,6 +451,7 @@
           "sourceNumber": 12,
           "title": "Hissing Mushroom",
           "content": "Chorioactis geaster, a species of mushroom that makes a distinctive hissing sound when it releases its spores, is an elusive fungus that has been observed only in Texas and Oklahoma in the US and in the Miyazaki and Nara Prefectures in Japan. Scientists aren't entirely sure why C. geaster is distributed in this way (genetic analysis reveals that the US and Japanese strains diverged 19 million years ago), but the mushroom appears to be very selective: it is typically found on the decaying stumps and roots of only a few tree species that are abundant in these areas.",
+          "underline": ["it is typically found on the decaying stumps and roots of only a few tree species that are abundant in these areas"],
           "question": "Which choice best describes the function of the underlined portion in the text as a whole?",
           "options": [
             "It provides an explanation for the relationship between C. geaster and its habitats.",
@@ -477,6 +484,7 @@
           "sourceNumber": 14,
           "title": "Convergent Evolution",
           "content": "Benjamin Prud'homme and colleagues have explored how convergent evolution—a phenomenon that occurs when the same trait evolves independently in two reproductively separate lineages—can result from a genetic mechanism shared by both lineages. Meanwhile, Cynthia C. Steiner and colleagues have investigated how convergence occurs through different genetic mechanisms. However, the relative prevalence of convergence through shared and different genetic processes is still poorly understood. This motivated biologists Delbert A. Green II and Cassandra G. Extavour to evaluate both types of convergence in a single study for their 2012 paper.",
+          "underline": ["Benjamin Prud'homme and colleagues have explored how convergent evolution—a phenomenon that occurs when the same trait evolves independently in two reproductively separate lineages—can result from a genetic mechanism shared by both lineages"],
           "question": "Which choice best states the function of the underlined sentence in the text as a whole?",
           "options": [
             "It introduces researchers who will be discussed in greater detail later in the text.",
@@ -493,6 +501,7 @@
           "sourceNumber": 15,
           "title": "Consider Automation",
           "content": "Technological advances have prompted companies to increasingly rely on automation to streamline production. Armin Granulo and colleagues, however, found that for products with higher symbolic value (those viewed as contributing to individual self-expression), consumers prefer products made by humans rather than by robots, likely because human-made products are more strongly associated with uniqueness. When considering automation, therefore, companies—especially those specializing in products of symbolic value—should weigh trade-offs between efficiency gains and consumer preferences.",
+          "underline": ["When considering automation, therefore, companies—especially those specializing in products of symbolic value—should weigh trade-offs between efficiency gains and consumer preferences"],
           "question": "Which choice best describes the function of the underlined sentence in the text as a whole?",
           "options": [
             "It presents evidence supporting the text’s argument that consumers prefer products with high symbolic value over products with low symbolic value.",
@@ -525,6 +534,7 @@
           "sourceNumber": 17,
           "title": "Culture",
           "content": "Several sociologists have observed that the word \"culture,\" though commonly used in academic literature, is an ultimately hazy concept—for example, Victoria Bonnell and Lynn Hunt have noted that \"many critics have pointed to the vagueness of the concept of culture.\" Does the concept of culture encompass knowledge, or laws, or both these things and others? For casual usage, such haziness is permissible—we know culture when we see it—but for researchers, a standardization of the term is called for if sociology is to truly progress.",
+          "underline": ["Does the concept of culture encompass knowledge, or laws, or both these things and others"],
           "question": "Which choice best describes the function of the underlined sentence in the text as a whole?",
           "options": [
             "It lists two essential components of what is referred to by Bonnell and Hunt as \"culture.\"",
@@ -541,6 +551,7 @@
           "sourceNumber": 18,
           "title": "Synthetic Leather",
           "content": "Typically, synthetic leather is petroleum based, but materials scientists searching for an ecologically sustainable alternative have used various bacteria that secrete linear chains of glucose, forming a dense mesh of cellulose called a pellicle, which is leatherlike except in color. The standard process for dyeing leather generates substantial wastewater and other undesirable byproducts, so adopting such a regimen would run counter to the ecological promise of the pellicle approach. To address this, Kenneth T. Walker and colleagues worked to modify Komagataeibacter rhaeticus bacteria to produce a pellicle with embedded pigmentation cells, thereby allowing the pellicle to \"dye\" itself from the inside.",
+          "underline": ["adopting such a regimen would run counter to the ecological promise of the pellicle approach"],
           "question": "Which choice best describes the function of the underlined portion in the text as a whole?",
           "options": [
             "To illustrate how the researchers adapted the pellicle approach to overcome a potential impediment to their main goal as presented in the text",
@@ -557,6 +568,7 @@
           "sourceNumber": 19,
           "title": "The Great Reclamation",
           "content": "The following text is from Rachel Heng's 2023 novel The Great Reclamation. Ah Boon is fishing off the coast of Singapore. When he pulled up the nets, they contained only one kind of fish—black pomfrets, the flat diamonds of their bodies slick in the morning light. This uniformity did not surprise him; over the years, he'd learned that the waters here were temperamental. They could be relied upon for a good catch, but from time to time threw up only prawns or squid, and other times colorful varieties of fish that weren't even supposed to be found in this region. He'd grown to accept the unpredictability, embracing it as a game to be played, like the reading of tea leaves or the grooves of a palm.",
+          "underline": ["black pomfrets", "prawns or squid", "colorful varieties of fish"],
           "question": "Taken together, the three underlined portions most clearly serve which function in the text as a whole?",
           "options": [
             "They illustrate the changeable nature of the fishing grounds where Ah Boon is.",
@@ -573,6 +585,7 @@
           "sourceNumber": 20,
           "title": "Dwarf Mongoose",
           "content": "The scenario of a dwarf mongoose engaging in territorial conflict with an outgroup dwarf mongoose illustrates a major dimension of social life across animal species, from the solitary to those with complex sociality: intraspecific contact with perceived outsiders. Though one prominent hypothesis posits that sophisticated cognitive adaptations are primarily driven by the demands of various behaviors within established social groups (e.g., cooperative response to predation), interactions with same-species outsiders arguably contribute comparably by favoring nuanced analysis (e.g., evaluation of relative physical status).",
+          "underline": ["intraspecific contact with perceived outsiders"],
           "question": "Which choice best describes the function of the underlined portion in the text as a whole?",
           "options": [
             "It establishes that perceiving an individual of the same species as an outsider exemplifies the kind of analysis mentioned later in the text.",
@@ -589,6 +602,7 @@
           "sourceNumber": 21,
           "title": "MOMA",
           "content": "The Museum of Modern Art (MOMA) in New York City has an exhibition of video games that includes Yars' Revenge from 1982, which museum visitors can play on site, and SimCity 2000 from 1994, which visitors can see only in a video presentation. MOMA claims the video presentations are only for games that would be impractical to display in a playable form, but video games are an inherently interactive medium, a feature that is grossly absent in a video-only presentation.",
+          "underline": ["video games are an inherently interactive medium"],
           "question": "Which choice best describes the function of the underlined portion in the text as a whole?",
           "options": [
             "It details a criticism of MOMA that the author defends against in the remainder of the sentence.",
@@ -605,6 +619,7 @@
           "sourceNumber": 22,
           "title": "Black Arts Movement",
           "content": "In 1965, poet and scholar Dudley Randall founded Broadside Press in Detroit, Michigan. With the goal of making the work of Black poets widely available to the public, Randall published and distributed broadsides: individual poems printed on single sheets of paper. Since these broadsides became associated with the innovative aesthetics of the Black Arts Movement (1965–1975), Randall's publication format may likewise seem to have been pioneering, but, in fact, broadside poetry had also flourished in seventeenth-century London, where single-sheet popular ballads flooded the marketplace.",
+          "underline": ["Since these broadsides became associated with the innovative aesthetics of the Black Arts Movement (1965–1975"],
           "question": "Which choice best describes the function of the underlined portion in the text as a whole?",
           "options": [
             "It undermines the argument that Randall's method for publishing poetry was a largely novel one.",
@@ -621,6 +636,7 @@
           "sourceNumber": 23,
           "title": "MirrorShades",
           "content": "Editor Jared Shurin's 2023 anthology The Big Book of Cyberpunk contains 108 stories, an enormous number when compared to the 1986 cyberpunk anthology Mirrorshades, which has only twelve. Encompassing both early (e.g., Fritz Leiber's 1950 story \"Coming Attraction\") and more recent (e.g., Erica Satifka's 2021 story \"Act of Providence\") contributions, the broad chronological scope of Shurin's volume may make it seem more comprehensive than Mirrorshades, but Mirrorshades's focus is more carefully considered, rendering it the more authoritative anthology of this science fiction subgenre.",
+          "underline": ["the broad chronological scope of Shurin's volume may make it seem more comprehensive than Mirrorshades"],
           "question": "Which choice best describes the function of the underlined portion in the text as a whole?",
           "options": [
             "It supports the assertion that Leiber and Satifka should be considered essential figures in the cyberpunk movement.",
@@ -728,6 +744,7 @@
           "sourceNumber": 6,
           "title": "*Solar Cells",
           "content": "After showing that the power-conversion efficiency of newly developed perovskite solar cells is nearly the same as that of cells recycled several times, Meilin Zhou and colleagues calculated the levelized cost of electricity (LCOE)—the cost per unit of electricity generated, including both material-acquisition and operating expenses—for power plants using each type of cell. Assuming a 15-year cell lifetime, the LCOE for plants using new cells was 4.99 cents per kilowatt-hour, whereas the LCOE for plants using cells recycled three times was 4.05 cents per kilowatt-hour. Furthermore, when the assumed cell lifetime was reduced by two-thirds, the LCOE difference increased from 18.8% to 31.3%.",
+          "underline": ["when the assumed cell lifetime was reduced by two-thirds, the LCOE difference increased from 18.8% to 31.3"],
           "question": "Based on the text, which choice, if true, best accounts for the observation presented in the underlined sentence?",
           "options": [
             "As the assumed cell lifetime decreases, plant operating costs increase, and thus the LCOE for plants using new cells diverges from that of plants using recycled cells.",
@@ -776,6 +793,7 @@
           "sourceNumber": 9,
           "title": "Ape Gesture",
           "content": "Researchers have identified over eighty gestures made by nonhuman great apes, such as raising an arm and rocking from side to side, that appear to convey information and that seem to be biologically inherited. Kirsty E. Graham and Catherine Hobaiter hypothesized that humans may be able to interpret great ape gestures, either through an evolutionary inheritance or as part of more general human cognitive abilities. The researchers tested this hypothesis by enlisting participants in an online game in which they had to correctly identify the meanings of ape gestures seen in videos. Though participants achieved some success, it is unclear whether they sometimes did so by making use of additional context provided by the images or sounds in the video recordings.",
+          "underline": ["Though participants achieved some success, it is unclear whether they sometimes did so by making use of additional context provided by the images or sounds in the video recordings"],
           "question": "Which statement, if true, would most strongly support the underlined claim?",
           "options": [
             "When apes made mouth-touching gestures, which participants tended to correctly interpret as requests for food, the food was visible in the videos.",
@@ -824,6 +842,7 @@
           "sourceNumber": 12,
           "title": "Dingo",
           "content": "The Qimmiq, an Arctic breed believed to date to before Europeans arrived in the Americas, descends from a precontact dog population. The Qimmiq carries a haplotype (a group of genetic variants inherited together from one parent) absent in European dogs but present in Northeast Asian dogs, supporting the idea that precontact breeds in the Americas descend from dogs that accompanied human migration from Asia during the last ice age. The Dixie dingo, a tan-coated breed native to the rural Gulf Coast of the United States, offers additional support: living individuals carry haplotype B217, part of a haplotype group unique to Northeast Asian dogs. Many other precontact breeds, such as Canada's Tahltan bear dog, disappeared through interbreeding with dogs brought from Europe.",
+          "underline": ["precontact breeds in the Americas descend from dogs that accompanied human migration from Asia during the last ice age"],
           "question": "Which finding, if true, would most directly undermine the underlined claim?",
           "options": [
             "Haplotype B217 is present in dog remains recovered in Northeast Asia and dating to before the emergence of the Dixie dingo.",
@@ -936,6 +955,7 @@
           "sourceNumber": 4,
           "title": "Fruits & Mulch",
           "content": "Polyethylene (PE) plastic sheeting is used as agricultural mulch because it is effective at reducing the propagation of weeds. Seeking a biodegradable alternative, Waqas Ahmad and colleagues tended otherwise equivalent plots of strawberries mulched with PE sheeting or one of several newsprint pulp–based alternatives: just newsprint pulp (NP), pulp bound with guar gum (GG), or pulp bound with psyllium husk (PH). The graph represents strawberry plots for which all emerging weeds were left in place throughout the experiment. Once the fruit was harvested, the weeds were removed, dried, and weighed for dry biomass. Based on the results, there was not a predictable association between treatment effectiveness and fruit yield.",
+          "underline": ["there was not a predictable association between treatment effectiveness and fruit yield"],
           "question": "Which choice most effectively uses data from the graph to support the underlined claim?",
           "options": [
             "The psyllium husk and guar gum treatments were associated with lower weed biomasses and higher fruit yields than the treatment with just newsprint pulp was.",
@@ -1641,6 +1661,7 @@
           "sourceNumber": 7,
           "title": "Security Personnel",
           "content": "For its 2022 exhibition Guarding the Art, the Baltimore Museum of Art cast the security personnel typically responsible for safeguarding the institution's collections as the curators, whose individual selections from the museum's holdings culminated in a show amplifying a distinct perspective not typically given a formal platform.",
+          "underline": ["whose individual selections from the museum's holdings culminated in a show amplifying a distinct perspective not typically given a formal platform"],
           "question": "Which quote from one of the personnel who curated the exhibition would best support the underlined claim?",
           "options": [
             "\"The most enjoyable part of curating this show has been seeing the outcome of our efforts: a unique show that spans genres, mediums, cultures, and eras. We hope visitors will sense our genuine affinity for the pieces we are charged with protecting\"",
@@ -1891,6 +1912,7 @@
           "sourceNumber": 3,
           "title": "Human- Made",
           "content": "Technological advances have prompted companies to increasingly rely on automation to streamline production. Armin Granulo and colleagues, however, found that for products with higher symbolic value (those viewed as contributing to individual self-expression), consumers prefer products made by humans rather than by robots, likely because human-made products are more strongly associated with uniqueness. When considering automation, therefore, companies— especially those specializing in products of symbolic value-should weigh trade-offs between efficiency gains and consumer preferences.",
+          "underline": ["When considering automation, therefore, companies— especially those specializing in products of symbolic value-should weigh trade-offs between efficiency gains and consumer preferences"],
           "question": "Which choice best describes the function of the underlined sentence in the text as a whole?",
           "options": [
             "It emphasizes that a research finding discussed in the text has practical implications that are particularly relevant for businesses making a certain class of product.",
@@ -2275,6 +2297,7 @@
           "sourceNumber": 27,
           "title": "Intraspecific Contact",
           "content": "The scenario of a dwarf mongoose engaging in territorial conflict with an outgroup dwarf mongoose illustrates a major dimension of social life across animal species, from the solitary to those with complex sociality: intraspecific contact with perceived outsiders. Though one prominent hypothesis posits that sophisticated cognitive adaptations are primarily driven by the demands of various behaviors within established social groups (e.g., cooperative response to predation), interactions with same-species outsiders arguably contribute comparably by favoring nuanced analysis (e.g., evaluation of relative physical status).",
+          "underline": ["intraspecific contact with perceived outsiders"],
           "question": "Which choice best describes the function of the underlined portion in the text as a whole?",
           "options": [
             "It establishes that perceiving an individual of the same species as an outsider exemplifies the kind of analysis mentioned later in the text.",
