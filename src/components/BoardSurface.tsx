@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type ComponentProps } from 'react'
 import { ChevronLeft, ChevronRight, Maximize, Minus, Plus } from 'lucide-react'
 import { CaptureUpdateAction, Excalidraw, restore } from '@excalidraw/excalidraw'
 import type { DataURL, ExcalidrawImperativeAPI, ExcalidrawInitialDataState, NormalizedZoomValue } from '@excalidraw/excalidraw/types'
@@ -23,6 +23,11 @@ export type BoardSurfaceProps = {
   // caller avoid flagging a board dirty just because we recoloured the pen.
   onSceneChange?: (scene: BoardScene, meta: { structural: boolean }) => void
 }
+
+// The Excalidraw change handler is a stable callback so that zooming — which
+// re-renders this component via the % readout — does not re-render the whole
+// Excalidraw tree on every wheel tick.
+type ExcalidrawOnChange = NonNullable<ComponentProps<typeof Excalidraw>['onChange']>
 
 // The PDF handout page is baked into the scene as a locked image element so the
 // teacher and students can draw on top of it but never drag it away. It is
@@ -173,6 +178,25 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     renderVisible()
   }, [pdf, page.id])
 
+  // Zooming moves the viewport in bursts, and rasterising a page is heavy
+  // main-thread canvas work. Completing a batch of renders mid-gesture made the
+  // board visibly churn under the cursor, so renders now wait for the gesture to
+  // settle (and passes are throttled) before swapping bitmaps in.
+  const lastZoomAtRef = useRef(0)
+  const renderTimerRef = useRef(0)
+  const scheduleRenderRef = useRef<() => void>(() => {})
+  useEffect(() => {
+    scheduleRenderRef.current = () => {
+      if (renderTimerRef.current) return
+      renderTimerRef.current = window.setTimeout(() => {
+        renderTimerRef.current = 0
+        if (Date.now() - lastZoomAtRef.current < 250) { scheduleRenderRef.current(); return }
+        renderVisibleRef.current()
+      }, 160)
+    }
+    return () => window.clearTimeout(renderTimerRef.current)
+  }, [])
+
   // Fit the first page of a freshly loaded handout so it opens readable instead
   // of showing origin at whatever Excalidraw's default zoom is.
   useEffect(() => {
@@ -200,10 +224,11 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
   // ---------------------------------------------------------------------------
   // Viewport model (document-viewer style). The handout is one very tall column
   // of locked pages, so the surface behaves like a PDF reader: the wheel /
-  // trackpad scrolls the document (both axes — slide within a page, or scroll
-  // straight down; mouse wheels only send deltaY), ⌘/Ctrl+wheel and pinch zoom
-  // about the pointer across the full 0.1–4 range, and the floating cluster
-  // offers −/+/fit controls. Fit is the way back from any view.
+  // trackpad scrolls the document straight down (vertical only — any sideways
+  // drift is what made the board feel like it was floating away), Ctrl+wheel
+  // and pinch zoom in place about the viewport centre across the full 0.1–4
+  // range, and the floating cluster offers −/+/fit controls. Fit is the way
+  // back from any view.
   const FIT_MARGIN = 24
 
   const pageElements = (api: ExcalidrawImperativeAPI) =>
@@ -242,11 +267,12 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     // Keep the scene point under (px, py) fixed on screen.
     const sceneX = px / oldZoom - app.scrollX
     const sceneY = py / oldZoom - app.scrollY
+    lastZoomAtRef.current = Date.now()
     api.updateScene({
       appState: { zoom: { value: zoom as NormalizedZoomValue }, scrollX: px / zoom - sceneX, scrollY: py / zoom - sceneY },
       captureUpdate: CaptureUpdateAction.NEVER,
     })
-    renderVisibleRef.current()
+    scheduleRenderRef.current()
   }
 
   const zoomByStep = (api: ExcalidrawImperativeAPI, factor: number) => {
@@ -310,25 +336,30 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
       e.preventDefault()
       e.stopPropagation()
       const app = api.getAppState()
-      if (e.ctrlKey || e.metaKey) {
-        // Pinch (arrives as ctrl+wheel) and ⌘/Ctrl+wheel: zoom about the pointer.
-        const rect = host.getBoundingClientRect()
-        const factor = Math.min(2, Math.max(0.5, Math.exp(-e.deltaY * 0.002)))
-        applyZoom(api, app.zoom.value * factor, e.clientX - rect.left, e.clientY - rect.top)
+      if (e.ctrlKey) {
+        // Pinch (arrives as ctrl+wheel) and Ctrl+wheel: zoom about the centre of
+        // the viewport, NOT the pointer. Pointer-anchored zoom slides the whole
+        // page sideways under the hand, which reads as the board drifting and
+        // gets genuinely nauseating on a large handout page — centre-anchored
+        // zoom just scales in place. Gentle steps: a mouse notch (~±100) moves
+        // about 0.82×/1.22×, and oversized deltas are clamped.
+        const factor = Math.min(1.25, Math.max(0.8, Math.exp(-e.deltaY * 0.002)))
+        applyZoom(api, app.zoom.value * factor, host.clientWidth / 2, host.clientHeight / 2)
       } else if (e.shiftKey) {
         // Shift+wheel: horizontal scroll, for boards wider than the viewport.
         const dx = e.deltaY !== 0 ? e.deltaY : e.deltaX
         api.updateScene({ appState: { scrollX: app.scrollX - dx / app.zoom.value }, captureUpdate: CaptureUpdateAction.NEVER })
-        renderVisibleRef.current()
+        scheduleRenderRef.current()
       } else {
-        // Plain wheel / two-finger swipe: scroll the handout. Both axes, so the
-        // teacher can slide around inside a page; a mouse wheel only sends
-        // deltaY, which keeps ordinary scrolling dead straight.
+        // Plain wheel / two-finger swipe: scroll the handout straight up/down —
+        // the page stays nailed to the vertical axis no matter how the fingers
+        // drift, which is the calmest way through a long document. Horizontal
+        // movement (rarely needed) lives on Shift+wheel.
         api.updateScene({
-          appState: { scrollX: app.scrollX - e.deltaX / app.zoom.value, scrollY: app.scrollY - e.deltaY / app.zoom.value },
+          appState: { scrollY: app.scrollY - e.deltaY / app.zoom.value },
           captureUpdate: CaptureUpdateAction.NEVER,
         })
-        renderVisibleRef.current()
+        scheduleRenderRef.current()
       }
     }
     // Capture phase so Excalidraw's own (bubbling) wheel handler never sees it.
@@ -336,6 +367,36 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     return () => host.removeEventListener('wheel', onWheel, { capture: true })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const handleChange = useCallback<ExcalidrawOnChange>((els, appStateState, filesState) => {
+    // A tool change shows/hides the properties panel — re-glue the handle.
+    scheduleMeasureRef.current()
+    // Scrolling/panning can bring new handout pages into view.
+    scheduleRenderRef.current()
+    setZoomPct(Math.round(appStateState.zoom.value * 100))
+    if (!editable || !onSceneChange) return
+    const prev = prevElementsRef.current
+    const structural = !prev || prev.length !== els.length || els.some((el, i) => isStructural(el as unknown as Elementish, prev[i] as unknown as Elementish))
+    prevElementsRef.current = els
+    const filtered = els.filter((el) => el.id !== backgroundElementId)
+    const cleanedFiles = { ...filesState }
+    if (backgroundElementId) delete cleanedFiles[backgroundElementId]
+    // Never carry rasterised page bitmaps into the saved scene.
+    for (const id of Object.keys(cleanedFiles)) if (id.startsWith('pdf-bm-')) delete cleanedFiles[id]
+    onSceneChange({
+      elements: filtered as unknown as BoardScene['elements'],
+      files: cleanedFiles,
+      appState: {
+        viewBackgroundColor: appStateState.viewBackgroundColor,
+        scrollX: appStateState.scrollX,
+        scrollY: appStateState.scrollY,
+        zoom: appStateState.zoom,
+        gridSize: appStateState.gridSize,
+        gridModeEnabled: appStateState.gridModeEnabled,
+      },
+    }, { structural })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editable, onSceneChange, backgroundElementId])
 
   const initialData = useMemo((): ExcalidrawInitialDataState => ({
     elements,
@@ -393,34 +454,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
         initialData={initialData}
         viewModeEnabled={!editable}
         theme={theme}
-        onChange={(els, appStateState, filesState) => {
-          // A tool change shows/hides the properties panel — re-glue the handle.
-          scheduleMeasureRef.current()
-          // Scrolling/panning can bring new handout pages into view.
-          renderVisibleRef.current()
-          setZoomPct(Math.round(appStateState.zoom.value * 100))
-          if (!editable || !onSceneChange) return
-          const prev = prevElementsRef.current
-          const structural = !prev || prev.length !== els.length || els.some((el, i) => isStructural(el as unknown as Elementish, prev[i] as unknown as Elementish))
-          prevElementsRef.current = els
-          const filtered = els.filter((el) => el.id !== backgroundElementId)
-          const cleanedFiles = { ...filesState }
-          if (backgroundElementId) delete cleanedFiles[backgroundElementId]
-          // Never carry rasterised page bitmaps into the saved scene.
-          for (const id of Object.keys(cleanedFiles)) if (id.startsWith('pdf-bm-')) delete cleanedFiles[id]
-          onSceneChange({
-            elements: filtered as unknown as BoardScene['elements'],
-            files: cleanedFiles,
-            appState: {
-              viewBackgroundColor: appStateState.viewBackgroundColor,
-              scrollX: appStateState.scrollX,
-              scrollY: appStateState.scrollY,
-              zoom: appStateState.zoom,
-              gridSize: appStateState.gridSize,
-              gridModeEnabled: appStateState.gridModeEnabled,
-            },
-          }, { structural })
-        }}
+        onChange={handleChange}
       />
       {editable && !zen && handle && onToggleProperties && (hideProperties || panelVisible) && (
         <button
