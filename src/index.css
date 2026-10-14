@@ -47,6 +47,15 @@ html.dark {
   display: none !important;
 }
 
+/* …and Excalidraw's drawing-tool palette (the top-centre island). BoardSurface
+   floats a small pill that brings it back — same collapse idea as the props.
+   Hiding the container (not just the island) removes its empty flex strip too,
+   so no invisible area keeps swallowing clicks near the top of the board. */
+.board-hide-tools .App-toolbar-container,
+.board-hide-tools .App-toolbar-container * {
+  display: none !important;
+}
+
 /* Presentation ("投屏") mode: on the projector we hide the side menus, the
    properties panel and the Library trigger, but KEEP Excalidraw's tool palette
    (.shapes-section) — the teacher still has to draw while presenting.

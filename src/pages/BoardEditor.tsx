@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { ChevronLeft, ChevronRight, Cloud, Download, FileText, History, Image as ImageIcon, LayoutGrid, Maximize, Minimize, PanelLeftClose, Plus, Presentation, Save, SlidersHorizontal, Trash2, X } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Cloud, Download, FileText, History, Image as ImageIcon, LayoutGrid, Maximize, Minimize, Paintbrush, PanelLeftClose, Plus, Presentation, Save, SlidersHorizontal, Trash2, X } from 'lucide-react'
 import CloudDrivePicker from '../components/CloudDrivePicker'
 import { useAccount } from '../context/account'
 import { supabase } from '../lib/supabase'
@@ -52,6 +52,7 @@ export default function BoardEditor() {
   // Excalidraw's shape-properties panel sits on the left the whole time a tool
   // is active. Let the teacher collapse it; the choice sticks between lessons.
   const [hideProps, setHideProps] = useState(() => typeof window !== 'undefined' && window.localStorage.getItem('sat_board_hide_props') === '1')
+  const [hideTools, setHideTools] = useState(() => typeof window !== 'undefined' && window.localStorage.getItem('sat_board_hide_tools') === '1')
   // The page-thumbnail rail eats width when projecting; let it fold away too.
   const [pagesOpen, setPagesOpen] = useState(() => typeof window === 'undefined' || window.localStorage.getItem('sat_board_pages_open') !== '0')
   // 投屏 mode: hide all our chrome and Excalidraw's side menus, leaving the
@@ -166,6 +167,13 @@ export default function BoardEditor() {
   const toggleProps = () => {
     setHideProps((v) => {
       window.localStorage.setItem('sat_board_hide_props', v ? '0' : '1')
+      return !v
+    })
+  }
+
+  const toggleTools = () => {
+    setHideTools((v) => {
+      window.localStorage.setItem('sat_board_hide_tools', v ? '0' : '1')
       return !v
     })
   }
@@ -354,6 +362,7 @@ export default function BoardEditor() {
             <button type="button" onClick={() => void exportImage()} disabled={exporting} className={btn}><Download size={15} />{exporting ? '导出中…' : '导出长图'}</button>
             <Link to="/board/archive" className={btn}><History size={15} />历史板书</Link>
             <button type="button" onClick={toggleProps} title={hideProps ? '显示属性面板' : '收起属性面板'} className={`rounded-lg border p-2 ${hideProps ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="属性面板">{hideProps ? <SlidersHorizontal size={16} /> : <PanelLeftClose size={16} />}</button>
+            <button type="button" onClick={toggleTools} title={hideTools ? '显示工具栏' : '收起工具栏'} className={`rounded-lg border p-2 ${hideTools ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="工具栏"><Paintbrush size={16} /></button>
             <button type="button" onClick={toggleFullscreen} className="rounded-lg border border-slate-200 p-2 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800" aria-label="全屏">{isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}</button>
             <button type="button" disabled={busy} onClick={() => void save()} className={btn}><Save size={15} />保存</button>
             {status === 'published'
@@ -412,6 +421,8 @@ export default function BoardEditor() {
                   theme={theme}
                   hideProperties={hideProps}
                   onToggleProperties={toggleProps}
+                  hideTools={hideTools}
+                  onToggleTools={toggleTools}
                   zen={zen}
                   onSceneChange={(scene, meta) => {
                     // Excalidraw fires once on mount with the loaded scene; only

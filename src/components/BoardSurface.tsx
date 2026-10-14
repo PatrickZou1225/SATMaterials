@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ComponentProps } from 'react'
-import { ChevronLeft, ChevronRight, Maximize, Minus, Plus } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Maximize, Minus, Paintbrush, Plus } from 'lucide-react'
 import { CaptureUpdateAction, Excalidraw, restore } from '@excalidraw/excalidraw'
 import type { DataURL, ExcalidrawImperativeAPI, ExcalidrawInitialDataState, NormalizedZoomValue } from '@excalidraw/excalidraw/types'
 import type { FileId } from '@excalidraw/excalidraw/element/types'
@@ -17,6 +17,9 @@ export type BoardSurfaceProps = {
   // Collapse Excalidraw's shape-properties panel to free up board space.
   hideProperties?: boolean
   onToggleProperties?: () => void
+  // Collapse Excalidraw's drawing-tool palette; a small pill brings it back.
+  hideTools?: boolean
+  onToggleTools?: () => void
   // Presentation mode: hide all of Excalidraw's own chrome (toolbar, menus).
   zen?: boolean
   // `structural` is false for UI-only changes (tool/ink/viewport), which lets the
@@ -56,7 +59,7 @@ function useBackgroundImage(pdf: PDFDocumentProxy | null, page: BoardPage) {
   return image
 }
 
-export default function BoardSurface({ pdf, page, editable, theme, hideProperties, onToggleProperties, zen, onSceneChange }: BoardSurfaceProps) {
+export default function BoardSurface({ pdf, page, editable, theme, hideProperties, onToggleProperties, hideTools, onToggleTools, zen, onSceneChange }: BoardSurfaceProps) {
   const bg = useBackgroundImage(pdf, page)
   const apiRef = useRef<ExcalidrawImperativeAPI | null>(null)
   const hostRef = useRef<HTMLDivElement | null>(null)
@@ -511,7 +514,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     : null
 
   return (
-    <div ref={hostRef} className={`relative h-full w-full${hideProperties ? ' board-hide-props' : ''}${zen ? ' board-zen' : ''}`}>
+    <div ref={hostRef} className={`relative h-full w-full${hideProperties ? ' board-hide-props' : ''}${hideTools ? ' board-hide-tools' : ''}${zen ? ' board-zen' : ''}`}>
       <Excalidraw
         key={page.id}
         excalidrawAPI={(api) => { apiRef.current = api }}
@@ -546,6 +549,11 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
           <span className="min-w-[78px] text-center text-xs font-semibold tabular-nums">第 {pageInfo.current} / {pageInfo.total} 页</span>
           <button type="button" title="下一页" aria-label="下一页" disabled={pageInfo.current >= pageInfo.total} onClick={() => { const api = apiRef.current; if (api) goToPage(api, Math.min(pageInfo.total, pageInfo.current + 1)) }} className="grid h-7 w-7 place-items-center rounded-full transition hover:bg-slate-100 disabled:opacity-30 dark:hover:bg-slate-800"><ChevronRight size={15} /></button>
         </div>
+      )}
+      {hideTools && onToggleTools && (
+        <button type="button" onClick={onToggleTools} title="显示工具栏" aria-label="显示工具栏" className="absolute left-1/2 top-2 z-10 flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-slate-200 bg-white/95 px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-sm backdrop-blur transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200 dark:hover:bg-slate-800">
+          <Paintbrush size={14} />工具栏
+        </button>
       )}
     </div>
   )
