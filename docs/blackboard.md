@@ -259,6 +259,9 @@ Excalidraw 原生规则（`showSelectedShapeActions`）：**文字工具激活�
      （缺省白）—— 于是 **PDF 页可以悬在黑底上**（ClassIn 那种黑底白纸），导出的笔迹图同样带这个底色。
    - `BoardSurface` 新增 `canvasColor` 派生值 + effect 实时 `updateScene`：`initialData` 是
      memo（依赖 `page.id`），单靠它不会重绘新颜色。
+3. **关掉 Excalidraw 自带的「Canvas background」行**（☰ 菜单里那排只有浅色的色块）：
+   `UIOptions.canvasActions.changeViewBackgroundColor: false` —— 那是它写死的色板、没有黑色，
+   留着会和我们的 🎨 调色板打架。背景色统一从 🎨 设置。
 
 ---
 
