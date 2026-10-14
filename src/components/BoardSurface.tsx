@@ -76,6 +76,9 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
   const [zoomPct, setZoomPct] = useState(100)
   // Current handout page (fed by onChange below), for the bottom page bar.
   const [pageInfo, setPageInfo] = useState<{ current: number; total: number } | null>(null)
+  // Screen x of the handout column's right edge, so the drag handle can hug the
+  // PDF boundary instead of floating at the screen edge.
+  const [pageEdgeX, setPageEdgeX] = useState<number | null>(null)
   // "Fit to window": keep the page scaled to the host whenever the window
   // resizes — the reference app's "fit page to window display size" button.
   const [fitWindow, setFitWindow] = useState(() => typeof window !== 'undefined' && window.localStorage.getItem('sat_board_fit_window') === '1')
@@ -494,6 +497,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     const pageEls = els.filter((el) => el.type === 'image' && pdfPageOf(el) !== null)
     if (pageEls.length === 0) {
       setPageInfo(null)
+      setPageEdgeX(null)
     } else {
       const zoomNow = appStateState.zoom.value
       const centreY = -appStateState.scrollY + (hostRef.current?.clientHeight ?? 0) / zoomNow / 2
@@ -506,6 +510,12 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
       const current = pdfPageOf(best) ?? 1
       const total = pageEls.length
       setPageInfo((prev) => (prev && prev.current === current && prev.total === total ? prev : { current, total }))
+      // Hug the PDF's right edge; clamped so the handle stays reachable when
+      // the boundary slides off-screen.
+      const hostW = hostRef.current?.clientWidth ?? 0
+      const edge = Math.round((best.x + best.width + appStateState.scrollX) * zoomNow) + 6
+      const clamped = Math.max(8, Math.min(hostW - 40, edge))
+      setPageEdgeX((prev) => (prev === clamped ? prev : clamped))
     }
     if (!editable || !onSceneChange) return
     const prev = prevElementsRef.current
@@ -629,7 +639,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
           {collapsed ? <Maximize size={15} /> : <Minus size={15} />}
         </button>
       )}
-      {pageInfo && (
+      {pageInfo && pageEdgeX !== null && (
         <button
           type="button"
           title="按住左右拖动：往哪边拉，就往哪边放大（拉回起点恢复）"
@@ -638,7 +648,8 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
           onPointerMove={onResizeMove}
           onPointerUp={onResizeUp}
           onPointerCancel={onResizeUp}
-          className={`absolute top-1/2 z-10 flex h-20 w-6 -translate-y-1/2 cursor-ew-resize touch-none items-center justify-center rounded-l-xl border border-r-0 border-slate-200 bg-white/95 text-slate-500 shadow-sm backdrop-blur transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-300 dark:hover:bg-slate-800 ${zen ? 'right-16' : 'right-0'}`}
+          style={{ left: pageEdgeX }}
+          className="absolute top-1/2 z-10 flex h-16 w-7 -translate-y-1/2 cursor-ew-resize touch-none items-center justify-center rounded-lg border border-slate-200 bg-white/95 text-slate-500 shadow-sm backdrop-blur transition-colors hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-300 dark:hover:bg-slate-800"
         >
           <MoveHorizontal size={14} />
         </button>
