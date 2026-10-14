@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { ChevronLeft, ChevronRight, Cloud, Download, FileText, History, Image as ImageIcon, LayoutGrid, Maximize, Minimize, Paintbrush, PanelLeftClose, Plus, Presentation, Save, SlidersHorizontal, Trash2, X } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ClipboardCopy, Cloud, Download, FileText, History, Image as ImageIcon, LayoutGrid, Maximize, Minimize, Paintbrush, PanelLeftClose, Plus, Presentation, Save, SlidersHorizontal, Trash2, X } from 'lucide-react'
 import CloudDrivePicker from '../components/CloudDrivePicker'
 import { useAccount } from '../context/account'
 import { supabase } from '../lib/supabase'
@@ -44,6 +44,10 @@ export default function BoardEditor() {
   const [busy, setBusy] = useState(false)
   const [exporting, setExporting] = useState(false)
   const [message, setMessage] = useState('')
+  // 保存 opens a menu: store on the site, or copy the board as an image to the
+  // clipboard (nothing written anywhere — the teacher saves storage that way).
+  const [saveMenuOpen, setSaveMenuOpen] = useState(false)
+  const saveMenuRef = useRef<HTMLDivElement | null>(null)
   // Any untouched drawing stays local until the teacher hits 保存 — nothing is
   // written to the server (or counted against storage) until then.
   const [dirty, setDirty] = useState(false)
@@ -322,6 +326,46 @@ export default function BoardEditor() {
     setExporting(false)
   }
 
+  // Outside click closes the 保存 menu; picking an item closes it too.
+  useEffect(() => {
+    if (!saveMenuOpen) return
+    const onDown = (e: PointerEvent) => {
+      if (saveMenuRef.current && !saveMenuRef.current.contains(e.target as Node)) setSaveMenuOpen(false)
+    }
+    document.addEventListener('pointerdown', onDown)
+    return () => document.removeEventListener('pointerdown', onDown)
+  }, [saveMenuOpen])
+
+  // Like 导出长图, but lands in the clipboard — ready to paste into WeChat,
+  // slides or the class chat, with nothing stored on the site.
+  const copyImage = async () => {
+    setExporting(true)
+    setMessage('')
+    try {
+      const next = mergedPages()
+      setPages(next)
+      const { exportBoardLongImage } = await import('../lib/boardExport')
+      const blob = await exportBoardLongImage(next, pdf)
+      try {
+        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
+        setMessage('已复制到剪贴板 ✓ 直接粘贴即可')
+      } catch {
+        // Safari only allows clipboard writes inside the click's own tick;
+        // fall back to a download rather than failing outright.
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = `${title.trim() || '板书'}-${timestamp()}.png`
+        a.click()
+        URL.revokeObjectURL(url)
+        setMessage('浏览器不允许直接复制，已改为下载图片。')
+      }
+    } catch {
+      setMessage('生成图片失败，请重试。')
+    }
+    setExporting(false)
+  }
+
   if (!supabase) return <PageMessage text="尚未连接服务器，暂时无法使用讲解区。" />
   if (account?.profile && account.profile.role !== 'teacher') return <PageMessage text="仅老师可以编辑板书。" />
 
@@ -364,7 +408,27 @@ export default function BoardEditor() {
             <button type="button" onClick={toggleProps} title={hideProps ? '显示属性面板' : '收起属性面板'} className={`rounded-lg border p-2 ${hideProps ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="属性面板">{hideProps ? <SlidersHorizontal size={16} /> : <PanelLeftClose size={16} />}</button>
             <button type="button" onClick={toggleTools} title={hideTools ? '显示工具栏' : '收起工具栏'} className={`rounded-lg border p-2 ${hideTools ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="工具栏"><Paintbrush size={16} /></button>
             <button type="button" onClick={toggleFullscreen} className="rounded-lg border border-slate-200 p-2 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800" aria-label="全屏">{isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}</button>
-            <button type="button" disabled={busy} onClick={() => void save()} className={btn}><Save size={15} />保存</button>
+            <div ref={saveMenuRef} className="relative">
+              <button type="button" disabled={busy} onClick={() => setSaveMenuOpen((v) => !v)} className={btn}><Save size={15} />保存</button>
+              {saveMenuOpen && (
+                <div className="absolute right-0 top-full z-30 mt-1 w-64 overflow-hidden rounded-xl border border-slate-200 bg-white text-left shadow-lg dark:border-slate-700 dark:bg-slate-900">
+                  <button type="button" onClick={() => { setSaveMenuOpen(false); void save() }} className="flex w-full items-start gap-2 px-3 py-2.5 hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <Save size={15} className="mt-0.5 shrink-0 text-slate-500" />
+                    <span>
+                      <span className="block text-sm font-semibold text-slate-700 dark:text-slate-100">保存到网站</span>
+                      <span className="block text-xs text-slate-500">历史板书、发布给学生用</span>
+                    </span>
+                  </button>
+                  <button type="button" disabled={exporting} onClick={() => { setSaveMenuOpen(false); void copyImage() }} className="flex w-full items-start gap-2 border-t border-slate-100 px-3 py-2.5 hover:bg-slate-100 disabled:opacity-50 dark:border-slate-800 dark:hover:bg-slate-800">
+                    <ClipboardCopy size={15} className="mt-0.5 shrink-0 text-slate-500" />
+                    <span>
+                      <span className="block text-sm font-semibold text-slate-700 dark:text-slate-100">复制图片到剪贴板</span>
+                      <span className="block text-xs text-slate-500">不保存到网站、不占空间</span>
+                    </span>
+                  </button>
+                </div>
+              )}
+            </div>
             {status === 'published'
               ? <button type="button" disabled={busy} onClick={() => void save('draft')} className={btn}>取消发布</button>
               : <button type="button" disabled={busy} onClick={() => void save('published')} className="rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-50">发布给学生</button>}
