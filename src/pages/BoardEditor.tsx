@@ -506,7 +506,10 @@ export default function BoardEditor() {
           <PanelTop size={14} />顶部栏
         </button>
       )}
-      {!zen && !navHidden && <div className="border-b border-slate-200 bg-white/95 backdrop-blur dark:border-slate-800 dark:bg-slate-900/95">
+      {/* relative z-30: the board <main> below paints later in tree order, so
+          without a stacking context here the 保存 / 背景 / 搜题 dropdowns that
+          hang out of this bar were rendered underneath it and never seen. */}
+      {!zen && !navHidden && <div className="relative z-30 border-b border-slate-200 bg-white/95 backdrop-blur dark:border-slate-800 dark:bg-slate-900/95">
         <div className="flex flex-wrap items-center gap-2 px-4 py-2.5">
           <input
             value={title}
