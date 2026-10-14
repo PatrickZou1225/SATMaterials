@@ -50,9 +50,12 @@ html.dark {
 /* …and Excalidraw's drawing-tool palette (the top-centre island). BoardSurface
    floats a small pill that brings it back — same collapse idea as the props.
    Hiding the container (not just the island) removes its empty flex strip too,
-   so no invisible area keeps swallowing clicks near the top of the board. */
+   so no invisible area keeps swallowing clicks near the top of the board.
+   The hint line under the palette ("To move canvas, hold mouse wheel…") goes
+   with it — same corner of the screen, same clutter. */
 .board-hide-tools .App-toolbar-container,
-.board-hide-tools .App-toolbar-container * {
+.board-hide-tools .App-toolbar-container *,
+.board-hide-tools .HintViewer {
   display: none !important;
 }
 
