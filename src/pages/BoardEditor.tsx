@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { ChevronLeft, ChevronRight, ClipboardCopy, Cloud, Download, FileText, History, Image as ImageIcon, LayoutGrid, Maximize, Minimize, Paintbrush, Palette, PanelLeftClose, PanelTop, PanelTopClose, Plus, Presentation, Save, SlidersHorizontal, Trash2, X } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ClipboardCopy, Cloud, Download, FileText, History, Image as ImageIcon, LayoutGrid, Maximize, Minimize, Paintbrush, Palette, PanelLeftClose, PanelTop, PanelTopClose, Plus, Presentation, Save, Search, SlidersHorizontal, Trash2, X } from 'lucide-react'
 import CloudDrivePicker from '../components/CloudDrivePicker'
 import { useAccount } from '../context/account'
 import { supabase } from '../lib/supabase'
@@ -9,6 +9,7 @@ import { loadPdf, newId, type Board, type PDFDocumentProxy } from '../lib/board'
 import { attachPageFiles, blankPage, collectPageFiles, layoutPdfPages, parsePages, stripPageFiles, stripPdfBitmaps, type BoardPage, type BoardScene } from '../lib/boardPages'
 import { downloadBoardFiles, removeBoardFiles, saveBoardFiles } from '../lib/boardFiles'
 import { libraryFileUrl, type LibraryFile } from '../lib/library'
+import type { BankQuestion, QuestionBank } from '../lib/questionBank'
 
 const BoardSurface = lazy(() => import('../components/BoardSurface'))
 
@@ -59,6 +60,17 @@ export default function BoardEditor() {
   // 背景 palette: pick the canvas colour for the board being viewed.
   const [bgMenuOpen, setBgMenuOpen] = useState(false)
   const bgMenuRef = useRef<HTMLDivElement | null>(null)
+  // 搜题: keyword search over the whole question bank; a hit is formatted and
+  // handed to the board as one text element (see pickBankQuestion below).
+  const [qSearchOpen, setQSearchOpen] = useState(false)
+  const [qQuery, setQQuery] = useState('')
+  const [qResults, setQResults] = useState<BankQuestion[] | null>(null)
+  const [qBusy, setQBusy] = useState(false)
+  const qSearchRef = useRef<HTMLDivElement | null>(null)
+  const bankRef = useRef<QuestionBank | null>(null)
+  const qSearchSeqRef = useRef(0)
+  const insertSerialRef = useRef(0)
+  const [insertQuestion, setInsertQuestion] = useState<{ title: string; text: string; serial: number } | null>(null)
   // Any untouched drawing stays local until the teacher hits 保存 — nothing is
   // written to the server (or counted against storage) until then.
   const [dirty, setDirty] = useState(false)
@@ -353,17 +365,83 @@ export default function BoardEditor() {
     return () => document.body.classList.remove('board-hide-nav')
   }, [navHidden])
 
-  // Outside click closes the 保存 / 背景 menus; picking an item closes them too.
+  // Outside click closes the 保存 / 背景 / 搜题 menus; picking an item closes them too.
   useEffect(() => {
-    if (!saveMenuOpen && !bgMenuOpen) return
+    if (!saveMenuOpen && !bgMenuOpen && !qSearchOpen) return
     const onDown = (e: PointerEvent) => {
       const t = e.target as Node
       if (saveMenuRef.current && !saveMenuRef.current.contains(t)) setSaveMenuOpen(false)
       if (bgMenuRef.current && !bgMenuRef.current.contains(t)) setBgMenuOpen(false)
+      if (qSearchRef.current && !qSearchRef.current.contains(t)) setQSearchOpen(false)
     }
     document.addEventListener('pointerdown', onDown)
     return () => document.removeEventListener('pointerdown', onDown)
-  }, [saveMenuOpen, bgMenuOpen])
+  }, [saveMenuOpen, bgMenuOpen, qSearchOpen])
+
+  // Wrap plain text into ≤max-width lines (CJK counts double). Long unbroken
+  // runs — Chinese has no spaces — are hard-split so nothing overflows the page.
+  const hardWrap = (text: string, max = 72): string => {
+    const widthOf = (s: string) => { let w = 0; for (const ch of s) w += ch.charCodeAt(0) > 0x2e80 ? 2 : 1; return w }
+    const out: string[] = []
+    for (const para of text.split('\n')) {
+      let line = ''
+      for (let word of para.split(' ')) {
+        if (widthOf(line ? `${line} ${word}` : word) <= max) { line = line ? `${line} ${word}` : word; continue }
+        if (line) out.push(line)
+        while (widthOf(word) > max) {
+          let cut = ''
+          for (const ch of word) { if (widthOf(cut + ch) > max) break; cut += ch }
+          out.push(cut)
+          word = word.slice(cut.length)
+        }
+        line = word
+      }
+      out.push(line)
+    }
+    return out.join('\n')
+  }
+
+  // Keyword scan over every set → module → question; capped so huge matches
+  // stay snappy. The bank loads lazily (dynamic import) on first use.
+  const runQuestionSearch = async (query: string) => {
+    const needle = query.trim().toLowerCase()
+    if (needle.length < 2) { setQResults(null); return }
+    const seq = ++qSearchSeqRef.current
+    if (!bankRef.current) {
+      setQBusy(true)
+      const { buildQuestionBank } = await import('../lib/questionBank')
+      bankRef.current = buildQuestionBank()
+    }
+    setQBusy(false)
+    const hits: BankQuestion[] = []
+    outer: for (const set of bankRef.current.sets) {
+      for (const mod of set.modules) {
+        for (const q of mod.questions) {
+          const hay = `${q.question.passage}\n${q.question.question}\n${q.question.options.join('\n')}`.toLowerCase()
+          if (hay.includes(needle)) {
+            hits.push(q)
+            if (hits.length >= 30) break outer
+          }
+        }
+      }
+    }
+    if (seq === qSearchSeqRef.current) setQResults(hits)
+  }
+
+  // Format a bank question as one board text block: passage, prompt, options.
+  // Wrapped by hand — Excalidraw text only breaks at the newlines we give it.
+  const pickBankQuestion = (q: BankQuestion) => {
+    setQSearchOpen(false)
+    const title = `【${q.setTitle} · 模块${q.moduleNum} · 第${q.question.id}题】`
+    const parts: string[] = []
+    if (q.question.passage?.trim()) parts.push(hardWrap(q.question.passage.trim()))
+    parts.push(hardWrap(q.question.question.trim()))
+    parts.push(q.question.options
+      .map((opt, i) => hardWrap(`${'ABCD'[i] ?? String(i + 1)}) ${opt.trim()}`, 68).replace(/\n/g, '\n    '))
+      .join('\n'))
+    if (q.question.image || q.question.table) parts.push('（此题含图表，请对照题库原图）')
+    setInsertQuestion({ title, text: parts.join('\n\n'), serial: ++insertSerialRef.current })
+  }
 
   // Blank boards keep their colour on the page background (ink colour follows
   // it); handout boards keep it on the saved scene. BoardSurface applies the
@@ -423,7 +501,12 @@ export default function BoardEditor() {
 
   return (
     <div className={isFullscreen ? 'fixed inset-0 z-50 flex flex-col bg-slate-100 dark:bg-slate-950' : `flex flex-col bg-slate-100 dark:bg-slate-950 ${navHidden ? 'h-screen' : 'h-[calc(100vh-4rem)]'}`}>
-      {!zen && <div className="border-b border-slate-200 bg-white/95 backdrop-blur dark:border-slate-800 dark:bg-slate-900/95">
+      {!zen && navHidden && (
+        <button type="button" onClick={toggleNav} className="fixed left-3 top-3 z-40 inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white/95 px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-sm backdrop-blur transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200 dark:hover:bg-slate-800">
+          <PanelTop size={14} />顶部栏
+        </button>
+      )}
+      {!zen && !navHidden && <div className="border-b border-slate-200 bg-white/95 backdrop-blur dark:border-slate-800 dark:bg-slate-900/95">
         <div className="flex flex-wrap items-center gap-2 px-4 py-2.5">
           <input
             value={title}
@@ -445,9 +528,36 @@ export default function BoardEditor() {
               : message && <span className="hidden text-xs text-emerald-700 dark:text-emerald-400 sm:inline">{message}</span>}
             <button type="button" onClick={() => { setZenPages(false); setZen(true); if (!isFullscreen) toggleFullscreen() }} className={btn}><Presentation size={15} />投屏</button>
             <button type="button" onClick={() => setCloudOpen(true)} className={btn}><Cloud size={15} />我的云盘</button>
+            <div ref={qSearchRef} className="relative">
+              <button type="button" onClick={() => { setQSearchOpen((v) => !v); setQResults(null) }} className={btn}><Search size={15} />搜题</button>
+              {qSearchOpen && (
+                <div className="absolute right-0 top-full z-30 mt-1 w-96 overflow-hidden rounded-xl border border-slate-200 bg-white text-left shadow-lg dark:border-slate-700 dark:bg-slate-900">
+                  <div className="border-b border-slate-100 p-2 dark:border-slate-800">
+                    <input
+                      autoFocus
+                      value={qQuery}
+                      onChange={(e) => { setQQuery(e.target.value); void runQuestionSearch(e.target.value) }}
+                      placeholder="输入题目关键词（≥2 个字），例如 cross-text、双篇"
+                      className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-blue-300 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+                    />
+                  </div>
+                  <div className="max-h-80 overflow-y-auto py-1">
+                    {qBusy && <p className="px-3 py-2 text-xs text-slate-400">正在载入题库…</p>}
+                    {!qBusy && qResults === null && <p className="px-3 py-2 text-xs text-slate-400">输入关键词从全部真题里搜；点结果就把题目贴到当前这块黑板上。</p>}
+                    {!qBusy && qResults?.length === 0 && <p className="px-3 py-2 text-xs text-slate-400">没有找到匹配的题目，换个关键词试试。</p>}
+                    {qResults?.map((q) => (
+                      <button key={q.key} type="button" onClick={() => pickBankQuestion(q)} className="block w-full px-3 py-2 text-left hover:bg-slate-100 dark:hover:bg-slate-800">
+                        <span className="block text-[11px] font-semibold text-blue-600 dark:text-blue-400">{q.setTitle} · 模块{q.moduleNum} · 第{q.question.id}题</span>
+                        <span className="mt-0.5 block truncate text-xs text-slate-600 dark:text-slate-300">{q.question.question.replace(/\s+/g, ' ').slice(0, 80)}{q.question.question.length > 80 ? '…' : ''}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
             <button type="button" onClick={() => void exportImage()} disabled={exporting} className={btn}><Download size={15} />{exporting ? '导出中…' : '导出长图'}</button>
             <Link to="/board/archive" className={btn}><History size={15} />历史板书</Link>
-            <button type="button" onClick={toggleNav} title={navHidden ? '展开顶部导航' : '收起顶部导航（腾出更多讲义空间）'} className={`rounded-lg border p-2 ${navHidden ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="顶部导航">{navHidden ? <PanelTop size={16} /> : <PanelTopClose size={16} />}</button>
+            <button type="button" onClick={toggleNav} title={navHidden ? '展开顶部导航' : '收起顶部导航（全站导航和这一栏一起收，腾出讲义空间）'} className={`rounded-lg border p-2 ${navHidden ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="顶部导航">{navHidden ? <PanelTop size={16} /> : <PanelTopClose size={16} />}</button>
             <button type="button" onClick={toggleProps} title={hideProps ? '显示属性面板' : '收起属性面板'} className={`rounded-lg border p-2 ${hideProps ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="属性面板">{hideProps ? <SlidersHorizontal size={16} /> : <PanelLeftClose size={16} />}</button>
             <button type="button" onClick={toggleTools} title={hideTools ? '显示工具栏' : '收起工具栏'} className={`rounded-lg border p-2 ${hideTools ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="工具栏"><Paintbrush size={16} /></button>
             <button type="button" onClick={toggleFullscreen} className="rounded-lg border border-slate-200 p-2 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800" aria-label="全屏">{isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}</button>
@@ -546,6 +656,7 @@ export default function BoardEditor() {
                   hideTools={hideTools}
                   onToggleTools={toggleTools}
                   zen={zen}
+                  insertQuestion={insertQuestion}
                   onSceneChange={(scene, meta) => {
                     // Excalidraw fires once on mount with the loaded scene; only
                     // later callbacks mean the teacher actually drew something.

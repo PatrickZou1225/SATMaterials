@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ComponentProps, type PointerEvent as ReactPointerEvent } from 'react'
 import { ChevronLeft, ChevronRight, Maximize, Minus, MoveHorizontal, Paintbrush, Plus } from 'lucide-react'
-import { CaptureUpdateAction, Excalidraw, FONT_FAMILY, restore } from '@excalidraw/excalidraw'
+import { CaptureUpdateAction, convertToExcalidrawElements, Excalidraw, FONT_FAMILY, restore } from '@excalidraw/excalidraw'
 import type { DataURL, ExcalidrawImperativeAPI, ExcalidrawInitialDataState, NormalizedZoomValue } from '@excalidraw/excalidraw/types'
 import type { FileId } from '@excalidraw/excalidraw/element/types'
 import '@excalidraw/excalidraw/index.css'
@@ -22,6 +22,9 @@ export type BoardSurfaceProps = {
   onToggleTools?: () => void
   // Presentation mode: hide all of Excalidraw's own chrome (toolbar, menus).
   zen?: boolean
+  // One-shot request from the editor's 搜题 panel: formatted question text to
+  // drop at the viewport centre. A fresh `serial` means "insert now".
+  insertQuestion?: { title: string; text: string; serial: number } | null
   // `structural` is false for UI-only changes (tool/ink/viewport), which lets the
   // caller avoid flagging a board dirty just because we recoloured the pen.
   onSceneChange?: (scene: BoardScene, meta: { structural: boolean }) => void
@@ -59,7 +62,7 @@ function useBackgroundImage(pdf: PDFDocumentProxy | null, page: BoardPage) {
   return image
 }
 
-export default function BoardSurface({ pdf, page, editable, theme, hideProperties, onToggleProperties, hideTools, onToggleTools, zen, onSceneChange }: BoardSurfaceProps) {
+export default function BoardSurface({ pdf, page, editable, theme, hideProperties, onToggleProperties, hideTools, onToggleTools, zen, insertQuestion, onSceneChange }: BoardSurfaceProps) {
   const bg = useBackgroundImage(pdf, page)
   const apiRef = useRef<ExcalidrawImperativeAPI | null>(null)
   const hostRef = useRef<HTMLDivElement | null>(null)
@@ -185,6 +188,36 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     })()
     return () => { stale = true }
   }, [pdf])
+
+  // Land a 搜题 result on the board: one text element at the viewport centre,
+  // selected so it can be dragged straight away. Captured IMMEDIATELY, so
+  // Ctrl+Z takes it back off in one step.
+  useEffect(() => {
+    if (!insertQuestion || insertQuestion.serial === 0) return
+    const api = apiRef.current
+    if (!api) return
+    const st = api.getAppState()
+    const host = hostRef.current
+    const cx = st.scrollX + (host?.clientWidth ?? 900) / 2 / st.zoom.value
+    const cy = st.scrollY + (host?.clientHeight ?? 600) / 2 / st.zoom.value
+    const [el] = convertToExcalidrawElements([{
+      type: 'text',
+      x: 0,
+      y: 0,
+      text: `${insertQuestion.title}\n\n${insertQuestion.text}`,
+      fontSize: 20,
+      fontFamily: FONT_FAMILY.Nunito,
+      strokeColor: '#ffffff', // the legibility guard flips it if it lands on a page
+    }])
+    if (!el) return
+    const placed = { ...el, x: cx - el.width / 2, y: cy - el.height / 2 }
+    api.updateScene({
+      elements: [...api.getSceneElements(), placed],
+      appState: { selectedElementIds: { [placed.id]: true } },
+      captureUpdate: CaptureUpdateAction.IMMEDIATELY,
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [insertQuestion?.serial])
 
   // Canvas colour behind the board: blank boards carry it on the page
   // background, handout boards on the saved scene (handouts default to the
