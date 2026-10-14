@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type ComponentProps } from 'react'
-import { ChevronLeft, ChevronRight, Maximize, Minus, Paintbrush, Plus } from 'lucide-react'
+import { useCallback, useEffect, useMemo, useRef, useState, type ComponentProps, type PointerEvent as ReactPointerEvent } from 'react'
+import { ChevronLeft, ChevronRight, Maximize, Minus, MoveHorizontal, Paintbrush, Plus } from 'lucide-react'
 import { CaptureUpdateAction, Excalidraw, restore } from '@excalidraw/excalidraw'
 import type { DataURL, ExcalidrawImperativeAPI, ExcalidrawInitialDataState, NormalizedZoomValue } from '@excalidraw/excalidraw/types'
 import type { FileId } from '@excalidraw/excalidraw/element/types'
@@ -398,6 +398,28 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     scheduleRenderRef.current()
   }
 
+  // Edge handle: drag left/right to scale the handout — the reference app's
+  // window-edge resize. The pages grow/shrink around the viewport centre while
+  // dragging (calm anchor), and page rendering settles once the drag ends.
+  const resizeDragRef = useRef<{ startX: number; startZoom: number } | null>(null)
+  const onResizeDown = (e: ReactPointerEvent<HTMLButtonElement>) => {
+    const api = apiRef.current
+    if (!api) return
+    e.preventDefault()
+    e.currentTarget.setPointerCapture(e.pointerId)
+    resizeDragRef.current = { startX: e.clientX, startZoom: api.getAppState().zoom.value }
+  }
+  const onResizeMove = (e: ReactPointerEvent<HTMLButtonElement>) => {
+    const api = apiRef.current
+    const host = hostRef.current
+    const drag = resizeDragRef.current
+    if (!api || !host || !drag) return
+    // 300px of travel ≈ 1.5x; dragging left enlarges, right shrinks.
+    const factor = Math.max(0.4, Math.min(2.5, 1 + (drag.startX - e.clientX) / 300))
+    applyZoom(api, drag.startZoom * factor, host.clientWidth / 2, host.clientHeight / 2)
+  }
+  const onResizeUp = () => { resizeDragRef.current = null }
+
   // "Adapt to window": while enabled, rescaling the window rescales the page.
   useEffect(() => {
     const host = hostRef.current
@@ -599,6 +621,20 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
       {pageInfo && (
         <button type="button" onClick={() => { const api = apiRef.current; if (api) toggleCollapse(api) }} title={collapsed ? '展开讲义（回到收起前的位置）' : '最小化讲义（收起 PDF，腾出黑板）'} aria-label={collapsed ? '展开讲义' : '最小化讲义'} className={`absolute right-4 z-10 grid h-8 w-8 place-items-center rounded-lg border border-slate-200 bg-white/95 text-slate-600 shadow-sm backdrop-blur transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200 dark:hover:bg-slate-800 ${zen ? 'top-14' : 'top-4'}`}>
           {collapsed ? <Maximize size={15} /> : <Minus size={15} />}
+        </button>
+      )}
+      {pageInfo && (
+        <button
+          type="button"
+          title="按住左右拖动：缩放讲义"
+          aria-label="拖动缩放讲义"
+          onPointerDown={onResizeDown}
+          onPointerMove={onResizeMove}
+          onPointerUp={onResizeUp}
+          onPointerCancel={onResizeUp}
+          className={`absolute top-1/2 z-10 flex h-20 w-6 -translate-y-1/2 cursor-ew-resize touch-none items-center justify-center rounded-l-xl border border-r-0 border-slate-200 bg-white/95 text-slate-500 shadow-sm backdrop-blur transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-300 dark:hover:bg-slate-800 ${zen ? 'right-16' : 'right-0'}`}
+        >
+          <MoveHorizontal size={14} />
         </button>
       )}
     </div>
