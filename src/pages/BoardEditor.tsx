@@ -525,11 +525,11 @@ export default function BoardEditor() {
             <button type="button" onClick={() => switchTo(Math.min(pages.length - 1, currentIndex + 1))} disabled={currentIndex >= pages.length - 1} className="grid h-8 w-8 place-items-center text-slate-600 disabled:opacity-30 dark:text-slate-300" aria-label="下一页"><ChevronRight size={16} /></button>
           </div>
 
+          {dirty
+            ? <span className="hidden items-center gap-1 text-xs font-semibold text-amber-600 dark:text-amber-400 sm:inline-flex"><span className="h-1.5 w-1.5 rounded-full bg-amber-500" />未保存</span>
+            : message && <span className="hidden text-xs text-emerald-700 dark:text-emerald-400 sm:inline">{message}</span>}
+
           <div className="ml-auto flex items-center gap-2">
-            {dirty
-              ? <span className="hidden items-center gap-1 text-xs font-semibold text-amber-600 dark:text-amber-400 sm:inline-flex"><span className="h-1.5 w-1.5 rounded-full bg-amber-500" />未保存</span>
-              : message && <span className="hidden text-xs text-emerald-700 dark:text-emerald-400 sm:inline">{message}</span>}
-            <button type="button" onClick={() => { setZenPages(false); setZen(true); if (!isFullscreen) toggleFullscreen() }} className={btn}><Presentation size={15} />投屏</button>
             <button type="button" onClick={() => setCloudOpen(true)} className={btn}><Cloud size={15} />我的云盘</button>
             <div ref={qSearchRef} className="relative">
               <button type="button" onClick={() => { setQSearchOpen((v) => !v); setQResults(null) }} className={btn}><Search size={15} />搜题</button>
@@ -558,26 +558,10 @@ export default function BoardEditor() {
                 </div>
               )}
             </div>
+            <span className="mx-0.5 h-5 w-px shrink-0 bg-slate-200 dark:bg-slate-700" />
+            <button type="button" onClick={() => { setZenPages(false); setZen(true); if (!isFullscreen) toggleFullscreen() }} className={btn}><Presentation size={15} />投屏</button>
+            <span className="mx-0.5 h-5 w-px shrink-0 bg-slate-200 dark:bg-slate-700" />
             <button type="button" onClick={() => void exportImage()} disabled={exporting} className={btn}><Download size={15} />{exporting ? '导出中…' : '导出长图'}</button>
-            <Link to="/board/archive" className={btn}><History size={15} />历史板书</Link>
-            <button type="button" onClick={toggleNav} title={navHidden ? '展开顶部导航' : '收起顶部导航（全站导航和这一栏一起收，腾出讲义空间）'} className={`rounded-lg border p-2 ${navHidden ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="顶部导航">{navHidden ? <PanelTop size={16} /> : <PanelTopClose size={16} />}</button>
-            <button type="button" onClick={toggleProps} title={hideProps ? '显示属性面板' : '收起属性面板'} className={`rounded-lg border p-2 ${hideProps ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="属性面板">{hideProps ? <SlidersHorizontal size={16} /> : <PanelLeftClose size={16} />}</button>
-            <button type="button" onClick={toggleTools} title={hideTools ? '显示工具栏' : '收起工具栏'} className={`rounded-lg border p-2 ${hideTools ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="工具栏"><Paintbrush size={16} /></button>
-            <button type="button" onClick={toggleFullscreen} className="rounded-lg border border-slate-200 p-2 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800" aria-label="全屏">{isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}</button>
-            <div ref={bgMenuRef} className="relative">
-              <button type="button" onClick={() => setBgMenuOpen((v) => !v)} title="画布背景颜色" aria-label="画布背景颜色" className="rounded-lg border border-slate-200 p-2 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800"><Palette size={16} /></button>
-              {bgMenuOpen && (
-                <div className="absolute right-0 top-full z-30 mt-1 w-44 overflow-hidden rounded-xl border border-slate-200 bg-white py-1 text-left shadow-lg dark:border-slate-700 dark:bg-slate-900">
-                  <p className="px-3 pb-1 pt-1.5 text-[11px] font-semibold text-slate-400">画布背景</p>
-                  {CANVAS_COLORS.map(({ color, label }) => (
-                    <button key={color} type="button" onClick={() => setCanvasColor(color)} className="flex w-full items-center gap-2.5 px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800">
-                      <span className="h-4 w-4 shrink-0 rounded-full border border-slate-300 dark:border-slate-600" style={{ backgroundColor: color }} />
-                      {label}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
             <div ref={saveMenuRef} className="relative">
               <button type="button" disabled={busy} onClick={() => setSaveMenuOpen((v) => !v)} className={btn}><Save size={15} />保存</button>
               {saveMenuOpen && (
@@ -603,12 +587,33 @@ export default function BoardEditor() {
             {status === 'published'
               ? <button type="button" disabled={busy} onClick={() => void save('draft')} className={btn}>取消发布</button>
               : <button type="button" disabled={busy} onClick={() => void save('published')} className="rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-50">发布给学生</button>}
+            <span className="mx-0.5 h-5 w-px shrink-0 bg-slate-200 dark:bg-slate-700" />
+            <Link to="/board/archive" title="历史板书" aria-label="历史板书" className="rounded-lg border border-slate-200 p-2 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800"><History size={16} /></Link>
+            <button type="button" onClick={togglePages} title={pagesOpen ? '收起页面栏' : '展开页面栏'} className={`rounded-lg border p-2 ${pagesOpen ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="页面列表"><LayoutGrid size={16} /></button>
+            <button type="button" onClick={toggleNav} title={navHidden ? '展开顶部导航' : '收起顶部导航（全站导航和这一栏一起收，腾出讲义空间）'} className={`rounded-lg border p-2 ${navHidden ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="顶部导航">{navHidden ? <PanelTop size={16} /> : <PanelTopClose size={16} />}</button>
+            <button type="button" onClick={toggleProps} title={hideProps ? '显示属性面板' : '收起属性面板'} className={`rounded-lg border p-2 ${hideProps ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="属性面板">{hideProps ? <SlidersHorizontal size={16} /> : <PanelLeftClose size={16} />}</button>
+            <button type="button" onClick={toggleTools} title={hideTools ? '显示工具栏' : '收起工具栏'} className={`rounded-lg border p-2 ${hideTools ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="工具栏"><Paintbrush size={16} /></button>
+            <button type="button" onClick={toggleFullscreen} className="rounded-lg border border-slate-200 p-2 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800" aria-label="全屏">{isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}</button>
+            <div ref={bgMenuRef} className="relative">
+              <button type="button" onClick={() => setBgMenuOpen((v) => !v)} title="画布背景颜色" aria-label="画布背景颜色" className="rounded-lg border border-slate-200 p-2 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800"><Palette size={16} /></button>
+              {bgMenuOpen && (
+                <div className="absolute right-0 top-full z-30 mt-1 w-44 overflow-hidden rounded-xl border border-slate-200 bg-white py-1 text-left shadow-lg dark:border-slate-700 dark:bg-slate-900">
+                  <p className="px-3 pb-1 pt-1.5 text-[11px] font-semibold text-slate-400">画布背景</p>
+                  {CANVAS_COLORS.map(({ color, label }) => (
+                    <button key={color} type="button" onClick={() => setCanvasColor(color)} className="flex w-full items-center gap-2.5 px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800">
+                      <span className="h-4 w-4 shrink-0 rounded-full border border-slate-300 dark:border-slate-600" style={{ backgroundColor: color }} />
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>}
 
       <div className="flex min-h-0 flex-1">
-        {zen ? null : pagesOpen ? (
+        {!zen && pagesOpen && (
         <aside className="relative flex w-32 shrink-0 flex-col border-r border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
           <button type="button" onClick={togglePages} title="收起页面栏" aria-label="收起页面栏" className="absolute -right-3 top-2 z-10 grid h-6 w-6 place-items-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-sm hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"><ChevronLeft size={14} /></button>
           <div className="flex-1 space-y-2 overflow-y-auto p-2">
@@ -640,8 +645,6 @@ export default function BoardEditor() {
           </div>
           <button type="button" onClick={addBlank} className="m-2 inline-flex items-center justify-center gap-1 rounded-lg border border-dashed border-slate-300 py-2 text-xs font-semibold text-slate-500 hover:bg-slate-50 dark:border-slate-600 dark:hover:bg-slate-800"><Plus size={14} />空白板</button>
         </aside>
-        ) : (
-          <button type="button" onClick={togglePages} title="展开页面栏" aria-label="展开页面栏" className="grid w-8 shrink-0 place-items-center border-r border-slate-200 bg-white text-slate-500 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"><ChevronRight size={16} /></button>
         )}
 
         <main className="relative min-h-0 flex-1">
@@ -657,7 +660,6 @@ export default function BoardEditor() {
                   hideProperties={hideProps}
                   onToggleProperties={toggleProps}
                   hideTools={hideTools}
-                  onToggleTools={toggleTools}
                   zen={zen}
                   insertQuestion={insertQuestion}
                   onSceneChange={(scene, meta) => {

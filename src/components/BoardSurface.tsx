@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ComponentProps, type PointerEvent as ReactPointerEvent } from 'react'
-import { ChevronLeft, ChevronRight, Maximize, Minus, MoveHorizontal, Paintbrush, Plus } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Maximize, Minus, MoveHorizontal, Plus } from 'lucide-react'
 import { CaptureUpdateAction, convertToExcalidrawElements, Excalidraw, FONT_FAMILY, restore } from '@excalidraw/excalidraw'
 import type { DataURL, ExcalidrawImperativeAPI, ExcalidrawInitialDataState, NormalizedZoomValue } from '@excalidraw/excalidraw/types'
 import type { FileId } from '@excalidraw/excalidraw/element/types'
@@ -17,9 +17,8 @@ export type BoardSurfaceProps = {
   // Collapse Excalidraw's shape-properties panel to free up board space.
   hideProperties?: boolean
   onToggleProperties?: () => void
-  // Collapse Excalidraw's drawing-tool palette; a small pill brings it back.
+  // Collapse Excalidraw's drawing-tool palette (the top bar's brush button).
   hideTools?: boolean
-  onToggleTools?: () => void
   // Presentation mode: hide all of Excalidraw's own chrome (toolbar, menus).
   zen?: boolean
   // One-shot request from the editor's 搜题 panel: formatted question text to
@@ -62,7 +61,7 @@ function useBackgroundImage(pdf: PDFDocumentProxy | null, page: BoardPage) {
   return image
 }
 
-export default function BoardSurface({ pdf, page, editable, theme, hideProperties, onToggleProperties, hideTools, onToggleTools, zen, insertQuestion, onSceneChange }: BoardSurfaceProps) {
+export default function BoardSurface({ pdf, page, editable, theme, hideProperties, onToggleProperties, hideTools, zen, insertQuestion, onSceneChange }: BoardSurfaceProps) {
   const bg = useBackgroundImage(pdf, page)
   const apiRef = useRef<ExcalidrawImperativeAPI | null>(null)
   const hostRef = useRef<HTMLDivElement | null>(null)
@@ -802,11 +801,6 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
             ))}
           </div>
         </div>
-      )}
-      {hideTools && onToggleTools && (
-        <button type="button" onClick={onToggleTools} title="显示工具栏" aria-label="显示工具栏" className="absolute left-1/2 top-2 z-10 flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-slate-200 bg-white/95 px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-sm backdrop-blur transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200 dark:hover:bg-slate-800">
-          <Paintbrush size={14} />工具栏
-        </button>
       )}
       {pageInfo && (
         <button type="button" onClick={() => { const api = apiRef.current; if (api) toggleCollapse(api) }} title={collapsed ? '展开讲义（回到收起前的位置）' : '最小化讲义（收起 PDF，腾出黑板）'} aria-label={collapsed ? '展开讲义' : '最小化讲义'} className={`absolute right-4 z-10 grid h-8 w-8 place-items-center rounded-lg border border-slate-200 bg-white/95 text-slate-600 shadow-sm backdrop-blur transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200 dark:hover:bg-slate-800 ${zen ? 'top-14' : 'top-4'}`}>
