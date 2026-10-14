@@ -79,6 +79,10 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
   // Screen x of the handout column's right edge, so the drag handle can hug the
   // PDF boundary instead of floating at the screen edge.
   const [pageEdgeX, setPageEdgeX] = useState<number | null>(null)
+  // The PDF's embedded outline (书签) with resolved page numbers — powers the
+  // 目录 jump list. Empty when the document carries no outline.
+  const [outline, setOutline] = useState<{ title: string; page: number; depth: number }[]>([])
+  const [outlineOpen, setOutlineOpen] = useState(false)
   // "Fit to window": keep the page scaled to the host whenever the window
   // resizes — the reference app's "fit page to window display size" button.
   const [fitWindow, setFitWindow] = useState(() => typeof window !== 'undefined' && window.localStorage.getItem('sat_board_fit_window') === '1')
@@ -147,6 +151,40 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
       captureUpdate: CaptureUpdateAction.NEVER,
     })
   }, [page.id])
+
+  // Read the PDF's embedded outline for the 目录 list; resolve each destination
+  // to a page number. Unresolvable entries are skipped, and documents without
+  // an outline simply leave the list empty (the button stays hidden).
+  useEffect(() => {
+    let stale = false
+    setOutline([])
+    setOutlineOpen(false)
+    if (!pdf) return
+    void (async () => {
+      try {
+        const nodes = await pdf.getOutline()
+        if (stale || !nodes || nodes.length === 0) return
+        const items: { title: string; page: number; depth: number }[] = []
+        const walk = async (list: typeof nodes, depth: number) => {
+          for (const node of list) {
+            if (stale || items.length >= 300) return
+            try {
+              const dest = typeof node.dest === 'string' ? await pdf.getDestination(node.dest) : node.dest
+              const ref = Array.isArray(dest) ? dest[0] : null
+              if (ref) {
+                const index = await pdf.getPageIndex(ref as Parameters<PDFDocumentProxy['getPageIndex']>[0])
+                items.push({ title: node.title.trim() || `第 ${index + 1} 页`, page: index + 1, depth })
+              }
+            } catch { /* skip this entry */ }
+            if (node.items?.length) await walk(node.items, depth + 1)
+          }
+        }
+        await walk(nodes, 0)
+        if (!stale) setOutline(items)
+      } catch { /* no outline — fine */ }
+    })()
+    return () => { stale = true }
+  }, [pdf])
 
   // Canvas colour behind the board: blank boards carry it on the page
   // background, handout boards on the saved scene (handouts default to the
@@ -562,6 +600,31 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
       const clamped = Math.max(6, Math.min(hostW - 6, edge))
       setPageEdgeX((prev) => (prev === clamped ? prev : clamped))
     }
+    // Legibility guard for text: the white default belongs on the black canvas,
+    // but a text typed on (or dragged onto) a white handout page would vanish.
+    // Flip only between the two default inks and only when the position demands
+    // it — deliberately chosen colours are never touched. The flip converges,
+    // so the updateScene below cannot loop back through this handler.
+    if (pageEls.length > 0) {
+      const next = els.map((el) => {
+        if (el.type !== 'text' || el.isDeleted || el.containerId) return el
+        const colour = el.strokeColor
+        if (colour !== '#ffffff' && colour !== '#1e1e1e') return el
+        const cx = el.x + el.width / 2
+        const cy = el.y + el.height / 2
+        const onPage = pageEls.some((p) => cx >= p.x && cx <= p.x + p.width && cy >= p.y && cy <= p.y + p.height)
+        const want = onPage ? '#1e1e1e' : '#ffffff'
+        return want === colour ? el : { ...el, strokeColor: want }
+      })
+      if (next.some((el, i) => el !== els[i])) {
+        queueMicrotask(() => {
+          apiRef.current?.updateScene({
+            elements: next as never,
+            captureUpdate: CaptureUpdateAction.NEVER,
+          })
+        })
+      }
+    }
     if (!editable || !onSceneChange) return
     const prev = prevElementsRef.current
     const structural = !prev || prev.length !== els.length || els.some((el, i) => isStructural(el as unknown as Elementish, prev[i] as unknown as Elementish))
@@ -677,9 +740,34 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
       </div>
       {pageInfo && (
         <div className={`absolute left-1/2 z-10 flex -translate-x-1/2 items-center gap-0.5 rounded-full border border-slate-200 bg-white/95 px-1.5 py-1 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200 ${zen ? 'bottom-16' : 'bottom-4'}`}>
+          {outline.length > 0 && (
+            <>
+              <button type="button" title="PDF 目录（书签）" aria-label="目录" onClick={() => setOutlineOpen((v) => !v)} className={`h-7 rounded-full px-2.5 text-[11px] font-semibold transition ${outlineOpen ? 'bg-blue-600 text-white' : 'hover:bg-slate-100 dark:hover:bg-slate-800'}`}>目录</button>
+              <span className="mx-0.5 h-4 w-px bg-slate-200 dark:bg-slate-700" />
+            </>
+          )}
           <button type="button" title="上一页" aria-label="上一页" disabled={pageInfo.current <= 1} onClick={() => { const api = apiRef.current; if (api) goToPage(api, Math.max(1, pageInfo.current - 1)) }} className="grid h-7 w-7 place-items-center rounded-full transition hover:bg-slate-100 disabled:opacity-30 dark:hover:bg-slate-800"><ChevronLeft size={15} /></button>
           <span className="min-w-[78px] text-center text-xs font-semibold tabular-nums">第 {pageInfo.current} / {pageInfo.total} 页</span>
           <button type="button" title="下一页" aria-label="下一页" disabled={pageInfo.current >= pageInfo.total} onClick={() => { const api = apiRef.current; if (api) goToPage(api, Math.min(pageInfo.total, pageInfo.current + 1)) }} className="grid h-7 w-7 place-items-center rounded-full transition hover:bg-slate-100 disabled:opacity-30 dark:hover:bg-slate-800"><ChevronRight size={15} /></button>
+        </div>
+      )}
+      {outlineOpen && outline.length > 0 && (
+        <div className="absolute left-3 top-1/2 z-20 flex max-h-[65%] w-64 -translate-y-1/2 flex-col overflow-hidden rounded-xl border border-slate-200 bg-white/95 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200">
+          <p className="border-b border-slate-100 px-3 py-2 text-[11px] font-semibold text-slate-400 dark:border-slate-800">PDF 目录</p>
+          <div className="overflow-y-auto py-1">
+            {outline.map((item, i) => (
+              <button
+                key={`${item.page}-${i}`}
+                type="button"
+                title={item.title}
+                onClick={() => { const api = apiRef.current; if (api) goToPage(api, item.page) }}
+                style={{ paddingLeft: 12 + item.depth * 14 }}
+                className={`block w-full truncate py-1.5 pr-3 text-left text-xs transition hover:bg-slate-100 dark:hover:bg-slate-800 ${pageInfo && item.page === pageInfo.current ? 'font-semibold text-blue-600 dark:text-blue-400' : ''}`}
+              >
+                {item.title}
+              </button>
+            ))}
+          </div>
         </div>
       )}
       {hideTools && onToggleTools && (

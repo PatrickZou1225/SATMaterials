@@ -282,6 +282,17 @@ Excalidraw 原生规则（`showSelectedShapeActions`）：**文字工具激活�
    Nunito / Code Comic Shanns；注册表里另有 Lilita One、Liberation Sans 也不在选择器里）。
    要 Times 得注册自定义字库（Liberation Serif 是 Times 的同度量免费替代）—— 暂缓，站长要再研究。
 
+### 2026-10-14（第十四轮）文字自动反色守卫 + PDF 目录（书签）跳转
+
+1. **文字自动反色**：白字默认给黑板用；一旦文字（中心点）落在白色讲义页矩形内就自动换深色
+   `#1e1e1e`，拖回黑板又换回白 —— **只翻转两个默认墨色**，老师主动挑的颜色（红/蓝…）一律不动。
+   实现在 `BoardSurface.handleChange`：算好整份元素后 `queueMicrotask` → `updateScene`（翻转后
+   条件恒假，不会自激循环）。绑在容器里的文字（`containerId`）跳过。
+2. **PDF 目录侧栏**：`pdf.getOutline()` 读 PDF 内嵌书签（参考件「SAT 人文阅读-邹老师-**有书签**.pdf」
+   左边栏那种跳转），逐条 `getDestination` + `getPageIndex` 解析页码（上限 300 条，解析失败的跳过，
+   没书签的 PDF 就什么都不显示）。底部页码条新增 **「目录」** 按钮 → 左侧浮层列出目录
+   （层级缩进、当前页蓝色高亮）→ 点击 `goToPage` 跳页、保留当前缩放。投屏下同样可用。
+
 ---
 
 ## 已知问题 / 待在真机验证
