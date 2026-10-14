@@ -398,9 +398,11 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     scheduleRenderRef.current()
   }
 
-  // Edge handle: drag left/right to scale the handout — the reference app's
-  // window-edge resize. The pages grow/shrink around the viewport centre while
-  // dragging (calm anchor), and page rendering settles once the drag ends.
+  // Edge handle: drag left/right to scale the handout, rubber-sheet style —
+  // pulling either way ENLARGES toward the pull, with the opposite viewport
+  // edge staying pinned (no symmetric "proportional" growth); returning to the
+  // grab point restores the zoom the drag started from. Page rendering settles
+  // once the drag ends.
   const resizeDragRef = useRef<{ startX: number; startZoom: number } | null>(null)
   const onResizeDown = (e: ReactPointerEvent<HTMLButtonElement>) => {
     const api = apiRef.current
@@ -414,9 +416,13 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     const host = hostRef.current
     const drag = resizeDragRef.current
     if (!api || !host || !drag) return
-    // 300px of travel ≈ 1.5x; dragging left enlarges, right shrinks.
-    const factor = Math.max(0.4, Math.min(2.5, 1 + (drag.startX - e.clientX) / 300))
-    applyZoom(api, drag.startZoom * factor, host.clientWidth / 2, host.clientHeight / 2)
+    // Rubber sheet: 300px of travel ≈ 1.5x, in whichever direction was pulled;
+    // the anchor sits on the viewport edge OPPOSITE the pull so the page
+    // extends toward the hand.
+    const dx = e.clientX - drag.startX
+    const factor = Math.min(2.5, 1 + Math.abs(dx) / 300)
+    const anchorX = dx < 0 ? host.clientWidth : 0
+    applyZoom(api, drag.startZoom * factor, anchorX, host.clientHeight / 2)
   }
   const onResizeUp = () => { resizeDragRef.current = null }
 
@@ -626,7 +632,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
       {pageInfo && (
         <button
           type="button"
-          title="按住左右拖动：缩放讲义"
+          title="按住左右拖动：往哪边拉，就往哪边放大（拉回起点恢复）"
           aria-label="拖动缩放讲义"
           onPointerDown={onResizeDown}
           onPointerMove={onResizeMove}
