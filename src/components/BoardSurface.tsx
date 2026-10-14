@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ComponentProps, type PointerEvent as ReactPointerEvent } from 'react'
 import { ChevronLeft, ChevronRight, Maximize, Minus, MoveHorizontal, Paintbrush, Plus } from 'lucide-react'
-import { CaptureUpdateAction, Excalidraw, restore } from '@excalidraw/excalidraw'
+import { CaptureUpdateAction, Excalidraw, FONT_FAMILY, restore } from '@excalidraw/excalidraw'
 import type { DataURL, ExcalidrawImperativeAPI, ExcalidrawInitialDataState, NormalizedZoomValue } from '@excalidraw/excalidraw/types'
 import type { FileId } from '@excalidraw/excalidraw/element/types'
 import '@excalidraw/excalidraw/index.css'
@@ -128,20 +128,35 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
 
   // Excalidraw can ignore `currentItemStrokeColor` from initialData (it keeps its
   // own last-used colour), which left dark ink on the black board. Force it onto
-  // the pen whenever the page or its background changes.
+  // the pen whenever the page or its background changes — and give the TEXT
+  // tool white ink while it is on (the teacher types on the black canvas; the
+  // pen keeps its adaptive colour for marking up the white pages).
   const inkColor = defaultInkColor(page.background)
   useEffect(() => {
-    apiRef.current?.updateScene({ appState: { currentItemStrokeColor: inkColor }, captureUpdate: CaptureUpdateAction.NEVER })
-  }, [inkColor, page.id])
+    apiRef.current?.updateScene({
+      appState: { currentItemStrokeColor: textToolOn ? '#ffffff' : inkColor },
+      captureUpdate: CaptureUpdateAction.NEVER,
+    })
+  }, [textToolOn, inkColor, page.id])
+
+  // Text tool defaults the teacher asked for: Large size (S16 / M20 / L28 /
+  // XL36) and the Normal family. Text elements copy these at creation time.
+  useEffect(() => {
+    apiRef.current?.updateScene({
+      appState: { currentItemFontSize: 28, currentItemFontFamily: FONT_FAMILY.Nunito },
+      captureUpdate: CaptureUpdateAction.NEVER,
+    })
+  }, [page.id])
 
   // Canvas colour behind the board: blank boards carry it on the page
-  // background, handout boards on the saved scene (default white). The 背景
+  // background, handout boards on the saved scene (handouts default to the
+  // blackboard look — the pages float as white sheets on black). The 背景
   // palette in BoardEditor rewrites the matching value and this effect pushes it
   // onto the live canvas — `initialData` is memoised on page.id, so it alone
   // would not repaint.
   const canvasColor = page.background.type === 'blank'
     ? page.background.color
-    : (typeof page.scene.appState.viewBackgroundColor === 'string' ? page.scene.appState.viewBackgroundColor : '#ffffff')
+    : (typeof page.scene.appState.viewBackgroundColor === 'string' ? page.scene.appState.viewBackgroundColor : '#000000')
   useEffect(() => {
     apiRef.current?.updateScene({ appState: { viewBackgroundColor: canvasColor }, captureUpdate: CaptureUpdateAction.NEVER })
   }, [canvasColor, page.id])
@@ -577,6 +592,8 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
       ...appState,
       collaborators: new Map(),
       currentItemStrokeColor: inkColor,
+      currentItemFontSize: 28,
+      currentItemFontFamily: FONT_FAMILY.Nunito,
       viewBackgroundColor: canvasColor,
       gridSize: page.background.type === 'blank' && page.background.grid ? 20 : undefined,
       gridModeEnabled: page.background.type === 'blank' ? page.background.grid : false,

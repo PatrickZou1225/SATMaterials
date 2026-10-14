@@ -39,11 +39,11 @@ type PageScene = {
 }
 
 // The canvas colour of a page: blank boards carry it on the background, PDF
-// boards on the saved scene (default white).
+// boards on the saved scene (matching the blackboard default in BoardSurface).
 function canvasColorOf(page: BoardPage): string {
   if (page.background.type === 'blank') return page.background.color
   const stored = page.scene.appState.viewBackgroundColor
-  return typeof stored === 'string' ? stored : '#ffffff'
+  return typeof stored === 'string' ? stored : '#000000'
 }
 
 // Only the teacher's own ink goes into the export — handout page images are

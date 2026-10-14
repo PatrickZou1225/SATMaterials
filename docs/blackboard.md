@@ -266,6 +266,22 @@ Excalidraw 原生规则（`showSelectedShapeActions`）：**文字工具激活�
    它导出整个场景（含讲义光栅）、预览带**透明棋盘格**——站长一直说的「马赛克背景」就是它；
    而且没有关闭按钮（原生设计：点外部 / Esc 关闭）。导出统一走「导出长图 / 保存→复制图片」。
 
+### 2026-10-14（第十三轮）导航可收起 / PDF 黑板默认黑 / 文字工具默认值
+
+1. **全站导航可收起（不进全屏）**：讲解区顶栏新增「顶部导航」开关（PanelTop 图标，历史板书右边）。
+   `Layout` 的 header 加 `.site-nav` 类；`BoardEditor` 用 `body.board-hide-nav` 隐藏它，同时自己的
+   高度在 `h-[calc(100vh-4rem)]` / `h-screen` 间切换；离开讲解区自动恢复。状态存 localStorage
+   `sat_board_hide_nav`。
+2. **加载 PDF 的板默认黑底**：`BoardSurface.canvasColor` 与 `boardExport.canvasColorOf` 的缺省从
+   `#ffffff` 改为 `#000000`（讲义页 = 白纸悬在黑板前）。**只影响还没存过颜色的板**；已有板带着
+   自己存过的颜色，用 🎨 改。
+3. **文字工具默认值**：字号 Large（28；Excalidraw 的 S16 / M20 / L28 / XL36）、字体 Normal（Nunito）、
+   **文字颜色白色** —— 在文字工具激活期间把 `currentItemStrokeColor` 设为白，离开文字工具恢复
+   自适应笔色（所以在 PDF 白页上的圈画仍是深色，不受影响）。
+   ⚠️ Excalidraw **没有 Times New Roman / 任何衬线字体**（选择器里只有 手写 Excalifont / Normal
+   Nunito / Code Comic Shanns；注册表里另有 Lilita One、Liberation Sans 也不在选择器里）。
+   要 Times 得注册自定义字库（Liberation Serif 是 Times 的同度量免费替代）—— 暂缓，站长要再研究。
+
 ---
 
 ## 已知问题 / 待在真机验证

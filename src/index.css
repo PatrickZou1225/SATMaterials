@@ -38,6 +38,13 @@ html.dark {
   color-scheme: dark;
 }
 
+/* The board page can tuck the global nav away without going fullscreen, giving
+   the handout its 64px back. BoardEditor toggles the body class (and its own
+   height) — the nav itself stays mounted but out of the way. */
+body.board-hide-nav .site-nav {
+  display: none !important;
+}
+
 /* Excalidraw's shape-properties panel stays open the whole time a tool is
    active (it has no official toggle) and covers part of the blackboard. The
    toolbar button (or the zen rail) toggles this wrapper class to collapse it

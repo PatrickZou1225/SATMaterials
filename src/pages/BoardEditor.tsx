@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { ChevronLeft, ChevronRight, ClipboardCopy, Cloud, Download, FileText, History, Image as ImageIcon, LayoutGrid, Maximize, Minimize, Paintbrush, Palette, PanelLeftClose, Plus, Presentation, Save, SlidersHorizontal, Trash2, X } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ClipboardCopy, Cloud, Download, FileText, History, Image as ImageIcon, LayoutGrid, Maximize, Minimize, Paintbrush, Palette, PanelLeftClose, PanelTop, PanelTopClose, Plus, Presentation, Save, SlidersHorizontal, Trash2, X } from 'lucide-react'
 import CloudDrivePicker from '../components/CloudDrivePicker'
 import { useAccount } from '../context/account'
 import { supabase } from '../lib/supabase'
@@ -75,6 +75,8 @@ export default function BoardEditor() {
   const [zen, setZen] = useState(false)
   // The thumbnail overlay stays closed in 投屏 (only the ▦ rail button opens it).
   const [zenPages, setZenPages] = useState(false)
+  // Hide the site-wide nav (without fullscreen) so the handout gets the height.
+  const [navHidden, setNavHidden] = useState(() => typeof window !== 'undefined' && window.localStorage.getItem('sat_board_hide_nav') === '1')
   // The cloud-drive file this board's handout came from (used when saving).
   const [sourcePdf, setSourcePdf] = useState<{ path: string; name: string } | null>(null)
   const [cloudOpen, setCloudOpen] = useState(false)
@@ -182,6 +184,13 @@ export default function BoardEditor() {
   const toggleProps = () => {
     setHideProps((v) => {
       window.localStorage.setItem('sat_board_hide_props', v ? '0' : '1')
+      return !v
+    })
+  }
+
+  const toggleNav = () => {
+    setNavHidden((v) => {
+      window.localStorage.setItem('sat_board_hide_nav', v ? '0' : '1')
       return !v
     })
   }
@@ -337,6 +346,13 @@ export default function BoardEditor() {
     setExporting(false)
   }
 
+  // Hide the site nav via a body class (Layout renders it above this page);
+  // leaving the board always restores it.
+  useEffect(() => {
+    document.body.classList.toggle('board-hide-nav', navHidden)
+    return () => document.body.classList.remove('board-hide-nav')
+  }, [navHidden])
+
   // Outside click closes the 保存 / 背景 menus; picking an item closes them too.
   useEffect(() => {
     if (!saveMenuOpen && !bgMenuOpen) return
@@ -406,7 +422,7 @@ export default function BoardEditor() {
   const btn = 'inline-flex items-center gap-1.5 rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 disabled:opacity-50 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-800'
 
   return (
-    <div className={isFullscreen ? 'fixed inset-0 z-50 flex flex-col bg-slate-100 dark:bg-slate-950' : 'flex h-[calc(100vh-4rem)] flex-col bg-slate-100 dark:bg-slate-950'}>
+    <div className={isFullscreen ? 'fixed inset-0 z-50 flex flex-col bg-slate-100 dark:bg-slate-950' : `flex flex-col bg-slate-100 dark:bg-slate-950 ${navHidden ? 'h-screen' : 'h-[calc(100vh-4rem)]'}`}>
       {!zen && <div className="border-b border-slate-200 bg-white/95 backdrop-blur dark:border-slate-800 dark:bg-slate-900/95">
         <div className="flex flex-wrap items-center gap-2 px-4 py-2.5">
           <input
@@ -431,6 +447,7 @@ export default function BoardEditor() {
             <button type="button" onClick={() => setCloudOpen(true)} className={btn}><Cloud size={15} />我的云盘</button>
             <button type="button" onClick={() => void exportImage()} disabled={exporting} className={btn}><Download size={15} />{exporting ? '导出中…' : '导出长图'}</button>
             <Link to="/board/archive" className={btn}><History size={15} />历史板书</Link>
+            <button type="button" onClick={toggleNav} title={navHidden ? '展开顶部导航' : '收起顶部导航（腾出更多讲义空间）'} className={`rounded-lg border p-2 ${navHidden ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="顶部导航">{navHidden ? <PanelTop size={16} /> : <PanelTopClose size={16} />}</button>
             <button type="button" onClick={toggleProps} title={hideProps ? '显示属性面板' : '收起属性面板'} className={`rounded-lg border p-2 ${hideProps ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="属性面板">{hideProps ? <SlidersHorizontal size={16} /> : <PanelLeftClose size={16} />}</button>
             <button type="button" onClick={toggleTools} title={hideTools ? '显示工具栏' : '收起工具栏'} className={`rounded-lg border p-2 ${hideTools ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="工具栏"><Paintbrush size={16} /></button>
             <button type="button" onClick={toggleFullscreen} className="rounded-lg border border-slate-200 p-2 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800" aria-label="全屏">{isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}</button>

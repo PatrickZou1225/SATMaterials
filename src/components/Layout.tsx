@@ -67,7 +67,7 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
-      {!hideChrome && <header className="border-b border-slate-200 dark:border-slate-700 sticky top-0 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 z-50">
+      {!hideChrome && <header className="site-nav border-b border-slate-200 dark:border-slate-700 sticky top-0 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 z-50">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
           <NavLink to="/" className="flex items-center gap-2 font-bold text-xl text-blue-600 dark:text-blue-400">
             <BookOpen size={24} />
