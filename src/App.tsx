@@ -23,6 +23,9 @@ import OwnerGate from './components/OwnerGate'
 import MastersBook from './pages/MastersBook'
 import ArrivalBook from './pages/ArrivalBook'
 import Bookshelf from './pages/Bookshelf'
+import Board, { BoardArchive } from './pages/Board'
+import BoardEditor from './pages/BoardEditor'
+import BoardView from './pages/BoardView'
 
 function App() {
   return (
@@ -44,6 +47,10 @@ function App() {
             <Route path="/official-practice" element={<OfficialPractice />} />
             <Route path="/assignments" element={<Assignments />} />
             <Route path="/assignments/:assignmentId" element={<AssignmentWork />} />
+            <Route path="/board" element={<Board />} />
+            <Route path="/board/archive" element={<TeacherGate><BoardArchive /></TeacherGate>} />
+            <Route path="/board/:boardId/edit" element={<TeacherGate><BoardEditor /></TeacherGate>} />
+            <Route path="/board/:boardId" element={<BoardView />} />
             <Route path="/bank" element={<TeacherGate><QuestionBank /></TeacherGate>} />
             <Route path="/students" element={<TeacherGate><Students /></TeacherGate>} />
             <Route path="/monitor" element={<TeacherGate><Monitor /></TeacherGate>} />

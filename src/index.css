@@ -38,6 +38,26 @@ html.dark {
   color-scheme: dark;
 }
 
+/* Excalidraw's shape-properties panel stays open the whole time a tool is
+   active (it has no official toggle) and covers part of the blackboard. The
+   toolbar button toggles this wrapper class to collapse it. */
+.board-hide-props .selected-shape-actions {
+  display: none !important;
+}
+
+/* Presentation ("投屏") mode: on the projector we hide the side menus, the
+   properties panel and the Library trigger, but KEEP Excalidraw's tool palette
+   (.shapes-section) — the teacher still has to draw while presenting.
+   The top bar is a 3-column grid (left menu | toolbar | right menu); empty the
+   side cells rather than removing them, so the toolbar stays centred. */
+.board-zen .excalidraw .App-menu_top__left > *,
+.board-zen .excalidraw .layer-ui__wrapper__top-right > *,
+.board-zen .excalidraw .App-menu_bottom,
+.board-zen .excalidraw .default-sidebar-trigger,
+.board-zen .excalidraw .HintViewer {
+  display: none !important;
+}
+
 mark {
   background: #fef08a;
   color: inherit;

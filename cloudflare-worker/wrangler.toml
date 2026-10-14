@@ -1,0 +1,14 @@
+name = "sat-prep-drive"
+main = "worker.js"
+compatibility_date = "2025-09-01"
+
+# The R2 bucket that stores the handout PDFs.
+# Create it first: Cloudflare dashboard > R2 > Create bucket > name it exactly this.
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "sat-prep-drive"
+
+[vars]
+# Your live site origin, e.g. "https://your-site.vercel.app".
+# "*" works but is looser; tighten it once things are running.
+ALLOWED_ORIGIN = "*"
