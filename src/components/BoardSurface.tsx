@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Maximize, Minus, Plus } from 'lucide-react'
 import { CaptureUpdateAction, Excalidraw, restore } from '@excalidraw/excalidraw'
 import type { DataURL, ExcalidrawImperativeAPI, ExcalidrawInitialDataState, NormalizedZoomValue } from '@excalidraw/excalidraw/types'
 import type { FileId } from '@excalidraw/excalidraw/element/types'
@@ -63,6 +63,13 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
   const scheduleMeasureRef = useRef<() => void>(() => {})
 
   const backgroundElementId = bg?.id ?? null
+
+  // Percent readout for the zoom cluster (fed by onChange below).
+  const [zoomPct, setZoomPct] = useState(100)
+  // The wheel listener is attached once, so the viewport helpers below read
+  // live values through refs instead of closing over render-scoped state.
+  const bgSizeRef = useRef<{ width: number; height: number } | null>(null)
+  bgSizeRef.current = bg ? { width: bg.width, height: bg.height } : null
 
   // A handout page carries the whole PDF as a column of image elements. Its
   // bitmaps are rendered lazily (see renderVisibleRef). A saved board restores
@@ -187,28 +194,111 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page.id])
 
-  // Excalidraw's wheel gesture pans the canvas by default; on an infinite board
-  // that sends the handout drifting off-screen, which reads as vertigo when
-  // presenting. Swap it for a document-viewer feel: the wheel/pinch zooms about
-  // the pointer, and the zoom never goes below "whole page fits" so the page
-  // can't shrink into a dot in a sea of black.
-  const fitZoomRef = useRef(0.4)
-  const hasPageRef = useRef(false)
-  hasPageRef.current = !!bg
-  useEffect(() => {
+  // ---------------------------------------------------------------------------
+  // Viewport model (document-viewer style). The handout is one very tall column
+  // of pages, so the surface behaves like a PDF reader: the plain wheel/trackpad
+  // scrolls VERTICALLY through the column (locked to the axis — the old free
+  // two-axis panning is what read as drifting), ⌘/Ctrl+wheel and pinch zoom
+  // about the pointer, and the floating cluster offers −/+/fit controls.
+  // The zoom-out floor is "one whole page fits", so the handout can never
+  // shrink into a dot in a sea of black.
+  const FIT_MARGIN = 24
+
+  const pageElements = (api: ExcalidrawImperativeAPI) =>
+    api.getSceneElements().filter((el) => el.type === 'image' && pdfPageOf(el) !== null)
+
+  // The page whose centre sits nearest the viewport centre (falls back to the
+  // first page when the centre is off the column).
+  const nearestPage = (api: ExcalidrawImperativeAPI) => {
+    const host = hostRef.current
+    const pages = pageElements(api)
+    if (!host || pages.length === 0) return null
+    const app = api.getAppState()
+    const centreY = -app.scrollY + host.clientHeight / app.zoom.value / 2
+    let best = pages[0]
+    let bestDist = Infinity
+    for (const el of pages) {
+      const dist = Math.abs(el.y + el.height / 2 - centreY)
+      if (dist < bestDist) { bestDist = dist; best = el }
+    }
+    return best
+  }
+
+  const fitZoomFor = (box: { width: number; height: number }) => {
+    const host = hostRef.current
+    if (!host) return 0.4
+    return Math.max(0.1, Math.min((host.clientWidth - FIT_MARGIN) / box.width, (host.clientHeight - FIT_MARGIN) / box.height, 4))
+  }
+
+  // The lowest zoom the current page allows: it must still fill the viewport.
+  const minZoom = (api: ExcalidrawImperativeAPI) => {
+    const el = nearestPage(api) ?? bgSizeRef.current
+    return el ? fitZoomFor(el) * 0.95 : 0.1
+  }
+
+  const applyZoom = (api: ExcalidrawImperativeAPI, next: number, px: number, py: number) => {
+    const app = api.getAppState()
+    const oldZoom = app.zoom.value
+    const zoom = Math.min(4, Math.max(minZoom(api), next))
+    if (zoom === oldZoom) return
+    // Keep the scene point under (px, py) fixed on screen.
+    const sceneX = px / oldZoom - app.scrollX
+    const sceneY = py / oldZoom - app.scrollY
+    api.updateScene({
+      appState: { zoom: { value: zoom as NormalizedZoomValue }, scrollX: px / zoom - sceneX, scrollY: py / zoom - sceneY },
+      captureUpdate: CaptureUpdateAction.NEVER,
+    })
+    renderVisibleRef.current()
+  }
+
+  const zoomByStep = (api: ExcalidrawImperativeAPI, factor: number) => {
     const host = hostRef.current
     if (!host) return
-    const measureFit = () => {
-      const pageW = bg?.width ?? 1000
-      const pageH = bg?.height ?? 700
-      const fit = Math.min((host.clientWidth - 24) / pageW, (host.clientHeight - 24) / pageH)
-      fitZoomRef.current = Math.max(0.1, fit)
+    applyZoom(api, api.getAppState().zoom.value * factor, host.clientWidth / 2, host.clientHeight / 2)
+  }
+
+  // "Fit page": centre the nearest handout page. Old-style boards (a PDF page
+  // as the background) fit that page; blank boards fit whatever has been
+  // drawn, or recentre the origin when empty.
+  const fitPage = (api: ExcalidrawImperativeAPI) => {
+    const host = hostRef.current
+    if (!host) return
+    const focus = nearestPage(api) ?? (bgSizeRef.current ? { x: 0, y: 0, ...bgSizeRef.current } : null)
+    if (focus) {
+      const zoom = fitZoomFor(focus)
+      api.updateScene({
+        appState: {
+          zoom: { value: zoom as NormalizedZoomValue },
+          scrollX: host.clientWidth / 2 / zoom - (focus.x + focus.width / 2),
+          scrollY: host.clientHeight / 2 / zoom - (focus.y + focus.height / 2),
+        },
+        captureUpdate: CaptureUpdateAction.NEVER,
+      })
+    } else {
+      const els = api.getSceneElements().filter((el) => !el.isDeleted)
+      if (els.length) {
+        const minX = Math.min(...els.map((el) => el.x))
+        const minY = Math.min(...els.map((el) => el.y))
+        const maxX = Math.max(...els.map((el) => el.x + el.width))
+        const maxY = Math.max(...els.map((el) => el.y + el.height))
+        const zoom = fitZoomFor({ width: maxX - minX || 1, height: maxY - minY || 1 })
+        api.updateScene({
+          appState: {
+            zoom: { value: zoom as NormalizedZoomValue },
+            scrollX: host.clientWidth / 2 / zoom - (minX + maxX) / 2,
+            scrollY: host.clientHeight / 2 / zoom - (minY + maxY) / 2,
+          },
+          captureUpdate: CaptureUpdateAction.NEVER,
+        })
+      } else {
+        api.updateScene({
+          appState: { zoom: { value: 1 as NormalizedZoomValue }, scrollX: host.clientWidth / 2, scrollY: host.clientHeight / 2 },
+          captureUpdate: CaptureUpdateAction.NEVER,
+        })
+      }
     }
-    measureFit()
-    const ro = new ResizeObserver(measureFit)
-    ro.observe(host)
-    return () => ro.disconnect()
-  }, [bg?.width, bg?.height])
+    renderVisibleRef.current()
+  }
 
   useEffect(() => {
     const host = hostRef.current
@@ -222,26 +312,27 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
       e.preventDefault()
       e.stopPropagation()
       const app = api.getAppState()
-      const rect = host.getBoundingClientRect()
-      const px = e.clientX - rect.left
-      const py = e.clientY - rect.top
-      const oldZoom = app.zoom.value
-      // Pinch gestures arrive as ctrl+wheel with much smaller deltas.
-      const factor = Math.exp(-e.deltaY * (e.ctrlKey ? 0.01 : 0.0015))
-      const min = hasPageRef.current ? fitZoomRef.current * 0.95 : 0.1
-      const zoom = Math.min(4, Math.max(min, oldZoom * factor))
-      if (zoom === oldZoom) return
-      const sceneX = px / oldZoom - app.scrollX
-      const sceneY = py / oldZoom - app.scrollY
-      api.updateScene({
-        appState: { zoom: { value: zoom as NormalizedZoomValue }, scrollX: px / zoom - sceneX, scrollY: py / zoom - sceneY },
-        captureUpdate: CaptureUpdateAction.NEVER,
-      })
-      renderVisibleRef.current()
+      if (e.ctrlKey || e.metaKey) {
+        // Pinch (arrives as ctrl+wheel) and ⌘/Ctrl+wheel: zoom about the pointer.
+        const rect = host.getBoundingClientRect()
+        const factor = Math.min(2, Math.max(0.5, Math.exp(-e.deltaY * 0.002)))
+        applyZoom(api, app.zoom.value * factor, e.clientX - rect.left, e.clientY - rect.top)
+      } else if (e.shiftKey) {
+        // Shift+wheel: horizontal scroll, for boards wider than the viewport.
+        const dx = e.deltaY !== 0 ? e.deltaY : e.deltaX
+        api.updateScene({ appState: { scrollX: app.scrollX - dx / app.zoom.value }, captureUpdate: CaptureUpdateAction.NEVER })
+        renderVisibleRef.current()
+      } else {
+        // Plain wheel / two-finger swipe: vertical scroll through the handout —
+        // locked to the axis, so the board never drifts sideways mid-lesson.
+        api.updateScene({ appState: { scrollY: app.scrollY - e.deltaY / app.zoom.value }, captureUpdate: CaptureUpdateAction.NEVER })
+        renderVisibleRef.current()
+      }
     }
     // Capture phase so Excalidraw's own (bubbling) wheel handler never sees it.
     host.addEventListener('wheel', onWheel, { capture: true, passive: false })
     return () => host.removeEventListener('wheel', onWheel, { capture: true })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const initialData = useMemo((): ExcalidrawInitialDataState => ({
@@ -305,6 +396,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
           scheduleMeasureRef.current()
           // Scrolling/panning can bring new handout pages into view.
           renderVisibleRef.current()
+          setZoomPct(Math.round(appStateState.zoom.value * 100))
           if (!editable || !onSceneChange) return
           const prev = prevElementsRef.current
           const structural = !prev || prev.length !== els.length || els.some((el, i) => isStructural(el as unknown as Elementish, prev[i] as unknown as Elementish))
@@ -340,6 +432,13 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
           {hideProperties ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
         </button>
       )}
+      <div className="absolute bottom-4 right-4 z-10 flex items-center gap-0.5 rounded-xl border border-slate-200 bg-white/95 p-1 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200">
+        <button type="button" title="缩小" aria-label="缩小" onClick={() => { const api = apiRef.current; if (api) zoomByStep(api, 1 / 1.25) }} className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><Minus size={16} /></button>
+        <span className="min-w-[46px] text-center text-xs font-semibold tabular-nums">{zoomPct}%</span>
+        <button type="button" title="放大" aria-label="放大" onClick={() => { const api = apiRef.current; if (api) zoomByStep(api, 1.25) }} className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><Plus size={16} /></button>
+        <span className="mx-0.5 h-5 w-px bg-slate-200 dark:bg-slate-700" />
+        <button type="button" title="回到整页" aria-label="回到整页" onClick={() => { const api = apiRef.current; if (api) fitPage(api) }} className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><Maximize size={16} /></button>
+      </div>
     </div>
   )
 }
