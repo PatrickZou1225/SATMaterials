@@ -262,6 +262,9 @@ Excalidraw 原生规则（`showSelectedShapeActions`）：**文字工具激活�
 3. **关掉 Excalidraw 自带的「Canvas background」行**（☰ 菜单里那排只有浅色的色块）：
    `UIOptions.canvasActions.changeViewBackgroundColor: false` —— 那是它写死的色板、没有黑色，
    留着会和我们的 🎨 调色板打架。背景色统一从 🎨 设置。
+4. **关掉 Excalidraw 自带的「Export image…」**（同一个 ☰ 菜单里）：`UIOptions.canvasActions.saveAsImage: false`。
+   它导出整个场景（含讲义光栅）、预览带**透明棋盘格**——站长一直说的「马赛克背景」就是它；
+   而且没有关闭按钮（原生设计：点外部 / Esc 关闭）。导出统一走「导出长图 / 保存→复制图片」。
 
 ---
 

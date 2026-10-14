@@ -628,9 +628,12 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
         viewModeEnabled={!editable}
         theme={theme}
         onChange={handleChange}
-        // Excalidraw's own "Canvas background" row (in the ☰ menu) only offers
-        // light swatches and would fight the 背景 palette — drop it.
-        UIOptions={{ canvasActions: { changeViewBackgroundColor: false } }}
+        // Trim Excalidraw's ☰ menu down to what this board uses: its "Canvas
+        // background" row fights the 背景 palette (light swatches only), and its
+        // "Export image…" dialog exports the raw scene (handout rasters, a
+        // transparent-checkerboard preview, no close button) — our own 导出长图 /
+        // 复制图片 covers exporting.
+        UIOptions={{ canvasActions: { changeViewBackgroundColor: false, saveAsImage: false } }}
       />
       {editable && !zen && handle && onToggleProperties && (hideProperties || panelVisible) && (
         <button
