@@ -298,6 +298,19 @@ Excalidraw 原生规则（`showSelectedShapeActions`）：**文字工具激活�
    （PDF 滑出视野，看起来"消失"），列表本身永远滚不动、后面的标签点不到。修法：面板容器加
    `data-board-scroll`，`e.target.closest('[data-board-scroll]')` 命中时直接放行给浏览器。
 
+   **修订 2（真正的根因 —— 用 Playwright 本地复现后定位）**：`goToPage` 的滚动坐标**符号写反**。
+   滚轮 / 缩放 / 收起讲义用的都是 `scroll = screenCentre/zoom − scene` 约定，唯独 goToPage 写成
+   `scene − screenCentre` —— 点目录 / 翻页时视口被送到**文档另一侧的空白区**（正是「PDF 消失 +
+   Scroll back to content + 页码仍显示第 1 页」那一幕）；底部 ‹ › 翻页键从第五轮起同病。修法：与
+   `fitPage` 统一成减号约定。
+
+   **本地复现法（值得保留）**：① `npm run dev`；② 根目录建 `boardtest.html` + `src/boardtest-main.tsx`
+   （复刻 onPickCloudFile 流程：`loadPdf('/boardtest.pdf')` → `layoutPdfPages` → 直接挂 BoardSurface，
+   无需登录），测试 PDF 拷进 `public/boardtest.pdf`；③ Playwright 驱动**本机 Chrome**
+   （`chromium.launch({ channel: 'chrome' })`，免下载内核；装 devDep 用完记得
+   `git checkout package.json package-lock.json` 还原）；点目录 / 滚轮后读页面条「第 X / N 页」验证。
+   验证结果：修复前点「CID-LEVEL 2」毫无动静，修复后正确跳到「第 8 / 29 页」。
+
 ### 2026-10-14（第十五轮）顶栏两栏同收 + 讲解区搜题贴题
 
 1. **「顶部导航」开关升级**：原来只收全站导航，现在**两栏一起收**（全站导航 + 讲解区顶栏）；

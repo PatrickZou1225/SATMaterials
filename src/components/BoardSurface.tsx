@@ -458,8 +458,12 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     const zoom = api.getAppState().zoom.value
     api.updateScene({
       appState: {
-        scrollX: el.x + el.width / 2 - host.clientWidth / 2 / zoom,
-        scrollY: el.y - FIT_MARGIN / zoom,
+        // Screen position of a scene point: screen = (scene + scroll) * zoom —
+        // so centring a point means scroll = screenCentre/zoom − scene. The old
+        // `+` signs marked it the other way round and parked the viewport one
+        // document-length away in empty space (the "jump shows nothing" bug).
+        scrollX: host.clientWidth / 2 / zoom - (el.x + el.width / 2),
+        scrollY: FIT_MARGIN / zoom - el.y,
       },
       captureUpdate: CaptureUpdateAction.NEVER,
     })
