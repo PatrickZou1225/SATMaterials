@@ -1,5 +1,5 @@
 import type { BinaryFiles } from '@excalidraw/excalidraw/types'
-import type { ExcalidrawElement } from '@excalidraw/excalidraw/element/types'
+import type { ExcalidrawElement, FileId } from '@excalidraw/excalidraw/element/types'
 import { newId } from './board'
 import type { PDFDocumentProxy } from './board'
 
@@ -60,15 +60,27 @@ export function pageBackgroundColor(background: PageBackground): string {
   return background.type === 'blank' ? background.color : '#ffffff'
 }
 
-// Render one page of a PDF to a PNG data URL at BACKGROUND_WIDTH. Used to bake
-// a handout page into the Excalidraw scene as a locked background image.
+// Render one page of a PDF to a PNG data URL. Used to bake a handout page into
+// the Excalidraw scene as a locked background image.
+//
+// The scene places the image at BACKGROUND_WIDTH units, but we rasterise at
+// several times that: a 1000px bitmap blown up on a 2.5K display reads as mush.
+// RENDER_SCALE keeps text sharp when the board is zoomed or projected. The long
+// side is capped so the bitmap stays under typical WebGL texture limits.
+const RENDER_SCALE = 3
+const MAX_BITMAP_SIDE = 4000
+
 export async function renderPdfPageToDataUrl(
   pdf: PDFDocumentProxy,
   pageNumber: number,
 ): Promise<{ dataUrl: string; width: number; height: number }> {
   const page = await pdf.getPage(pageNumber)
   const base = page.getViewport({ scale: 1 })
-  const scale = BACKGROUND_WIDTH / base.width
+  const longSide = Math.max(base.width, base.height)
+  const scale = Math.min(
+    (BACKGROUND_WIDTH * RENDER_SCALE) / base.width,
+    MAX_BITMAP_SIDE / longSide,
+  )
   const viewport = page.getViewport({ scale })
   const canvas = document.createElement('canvas')
   canvas.width = Math.floor(viewport.width)
@@ -78,7 +90,93 @@ export async function renderPdfPageToDataUrl(
   ctx.fillStyle = '#ffffff'
   ctx.fillRect(0, 0, canvas.width, canvas.height)
   await page.render({ canvas, canvasContext: ctx, viewport }).promise
-  return { dataUrl: canvas.toDataURL('image/png'), width: canvas.width, height: canvas.height }
+  // Width/height describe where the page sits on the board (scene units), not
+  // the bitmap: the caller places a BACKGROUND_WIDTH-wide element and Excalidraw
+  // downsamples the oversized PNG into it.
+  const height = Math.round((canvas.height / canvas.width) * BACKGROUND_WIDTH)
+  return { dataUrl: canvas.toDataURL('image/png'), width: BACKGROUND_WIDTH, height }
+}
+
+// ---- Handouts: one board, every PDF page stacked on it ----------------------
+//
+// A handout is NOT one board per page. The whole PDF is laid out as a vertical
+// column of image elements inside a single scene, so the teacher scrolls one
+// board and can drag any page's corners to resize it.
+//
+// Page bitmaps are hi-res and would blow up memory (and storage) across a 60-page
+// document, so they are rasterised on demand for whatever is on screen and are
+// never saved: every page element points at a tiny grey placeholder whose file id
+// is derived from the page number, and the bitmap is swapped in while it's in
+// view. `customData.pdfPage` is how an element remembers which page it shows.
+
+export const PDF_PAGE_GAP = 40
+
+export type PdfPageLayout = { page: number; y: number; width: number; height: number }
+
+export const pdfPlaceholderId = (page: number) => `pdf-ph-${page}`
+export const pdfBitmapId = (page: number) => `pdf-bm-${page}`
+
+// Which handout page an element shows, if any.
+export function pdfPageOf(el: { customData?: unknown }): number | null {
+  const value = (el.customData as { pdfPage?: unknown } | undefined)?.pdfPage
+  return typeof value === 'number' ? value : null
+}
+
+// Measure every page (cheap) and stack them top to bottom.
+export async function layoutPdfPages(pdf: PDFDocumentProxy): Promise<PdfPageLayout[]> {
+  const out: PdfPageLayout[] = []
+  let y = 0
+  for (let page = 1; page <= pdf.numPages; page++) {
+    const viewport = (await pdf.getPage(page)).getViewport({ scale: 1 })
+    const height = Math.round((viewport.height / viewport.width) * BACKGROUND_WIDTH)
+    out.push({ page, y, width: BACKGROUND_WIDTH, height })
+    y += height + PDF_PAGE_GAP
+  }
+  return out
+}
+
+// The grey card standing in for a page until its bitmap is rendered — and in
+// everything we save, so neither the database nor Storage carries page bitmaps.
+export function pdfPlaceholderDataUrl(page: number, width: number, height: number): string {
+  const w = 240
+  const h = Math.max(1, Math.round((height / width) * w))
+  const canvas = document.createElement('canvas')
+  canvas.width = w
+  canvas.height = h
+  const ctx = canvas.getContext('2d')
+  if (ctx) {
+    ctx.fillStyle = '#f1f5f9'
+    ctx.fillRect(0, 0, w, h)
+    ctx.strokeStyle = '#cbd5e1'
+    ctx.lineWidth = 2
+    ctx.strokeRect(1, 1, w - 2, h - 2)
+    ctx.fillStyle = '#94a3b8'
+    ctx.font = '600 26px -apple-system, "PingFang SC", sans-serif'
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    ctx.fillText(`第 ${page} 页`, w / 2, h / 2)
+  }
+  return canvas.toDataURL('image/png')
+}
+
+// Before persisting: point every page back at its placeholder and drop the
+// rasterised bitmaps. Page positions/sizes (the teacher's own resizing) survive.
+export function stripPdfBitmaps(pages: BoardPage[]): BoardPage[] {
+  return pages.map((p) => {
+    let touched = false
+    const elements = p.scene.elements.map((el) => {
+      const page = pdfPageOf(el)
+      if (page === null || el.type !== 'image') return el
+      touched = true
+      return { ...el, fileId: pdfPlaceholderId(page) as FileId }
+    })
+    const files: BinaryFiles = {}
+    for (const [id, file] of Object.entries(p.scene.files)) {
+      if (id.startsWith('pdf-bm-')) { touched = true; continue }
+      files[id] = file
+    }
+    return touched ? { ...p, scene: { ...p.scene, elements, files } } : p
+  })
 }
 
 // Parse `boards.pages` from the database, tolerating null/legacy values.

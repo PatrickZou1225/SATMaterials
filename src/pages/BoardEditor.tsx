@@ -6,7 +6,7 @@ import { useAccount } from '../context/account'
 import { supabase } from '../lib/supabase'
 import { useFullscreen } from '../lib/fullscreen'
 import { loadPdf, newId, type Board, type PDFDocumentProxy } from '../lib/board'
-import { attachPageFiles, blankPage, collectPageFiles, parsePages, pdfPage, stripPageFiles, type BoardPage, type BoardScene } from '../lib/boardPages'
+import { attachPageFiles, blankPage, collectPageFiles, layoutPdfPages, parsePages, stripPageFiles, stripPdfBitmaps, type BoardPage, type BoardScene } from '../lib/boardPages'
 import { downloadBoardFiles, removeBoardFiles, saveBoardFiles } from '../lib/boardFiles'
 import { libraryFileUrl, type LibraryFile } from '../lib/library'
 
@@ -54,8 +54,11 @@ export default function BoardEditor() {
   const [hideProps, setHideProps] = useState(() => typeof window !== 'undefined' && window.localStorage.getItem('sat_board_hide_props') === '1')
   // The page-thumbnail rail eats width when projecting; let it fold away too.
   const [pagesOpen, setPagesOpen] = useState(() => typeof window === 'undefined' || window.localStorage.getItem('sat_board_pages_open') !== '0')
-  // 投屏 mode: hide all our chrome and Excalidraw's, leaving only the board.
+  // 投屏 mode: hide all our chrome and Excalidraw's side menus, leaving the
+  // handout full-bleed with a floating rail and page bar.
   const [zen, setZen] = useState(false)
+  // The thumbnail overlay stays closed in 投屏 (only the ▦ rail button opens it).
+  const [zenPages, setZenPages] = useState(false)
   // The cloud-drive file this board's handout came from (used when saving).
   const [sourcePdf, setSourcePdf] = useState<{ path: string; name: string } | null>(null)
   const [cloudOpen, setCloudOpen] = useState(false)
@@ -121,16 +124,30 @@ export default function BoardEditor() {
     setCloudOpen(false)
     if (!supabase) return
     setMessage('正在加载讲义…')
-    // A untouched single blank page is replaced by the handout; anything the
-    // teacher already drew stays and the handout pages are appended after it.
-    const pristine = pages.length === 1 && pages[0].background.type === 'blank' && !sceneRef.current
+    // An untouched single blank page is replaced by the handout; anything the
+    // teacher already drew stays and the handout is added as one more board.
+    // Excalidraw fires onChange on mount, so sceneRef is already populated — the
+    // live scene's element count, not sceneRef itself, is what says "untouched".
+    const liveElements = (sceneRef.current ?? pages[0]?.scene)?.elements ?? []
+    const pristine = pages.length === 1 && pages[0].background.type === 'blank' && liveElements.length === 0
     try {
       const doc = await loadPdf(libraryFileUrl(row))
-      const newPages = Array.from({ length: doc.numPages }, (_, i) => pdfPage(`第 ${i + 1} 页`, i + 1))
+      // One board holds the whole PDF: every page becomes an image element in a
+      // vertical column, so the teacher scrolls one board and can drag any page's
+      // corners to resize it (ClassIn-style).
+      const layout = await layoutPdfPages(doc)
+      const { buildHandoutElements, buildHandoutFiles } = await import('../lib/boardPdf')
+      const handout: BoardPage = {
+        id: newId(),
+        name: row.name,
+        background: { type: 'blank', color: '#ffffff', grid: false },
+        scene: { elements: buildHandoutElements(layout), files: buildHandoutFiles(layout), appState: {} },
+      }
       setPdf(doc)
       setSourcePdf({ path: row.storage_path, name: row.name })
-      setPages(pristine ? newPages : [...pages, ...newPages])
-      setCurrentIndex(pristine ? 0 : pages.length)
+      const merged = pristine ? [handout] : [...mergedPages(), handout]
+      setPages(merged)
+      setCurrentIndex(merged.length - 1)
       if (!title.trim()) setTitle(row.name)
       sceneRef.current = null
       setDirty(true)
@@ -198,10 +215,13 @@ export default function BoardEditor() {
     setMessage('')
     const next = mergedPages()
     setPages(next)
+    // Page bitmaps are rendered on demand and are huge; reset every page element
+    // back to its tiny placeholder before anything is measured or stored.
+    const stamped = stripPdfBitmaps(next)
     // Big data URLs go to Storage; the row keeps only small drawings + the path.
-    const files = collectPageFiles(next)
+    const files = collectPageFiles(stamped)
     const hasFiles = Object.keys(files).length > 0
-    const pageRows = stripPageFiles(next)
+    const pageRows = stripPageFiles(stamped)
 
     if (!board) {
       const id = newId()
@@ -329,7 +349,7 @@ export default function BoardEditor() {
             {dirty
               ? <span className="hidden items-center gap-1 text-xs font-semibold text-amber-600 dark:text-amber-400 sm:inline-flex"><span className="h-1.5 w-1.5 rounded-full bg-amber-500" />未保存</span>
               : message && <span className="hidden text-xs text-emerald-700 dark:text-emerald-400 sm:inline">{message}</span>}
-            <button type="button" onClick={() => { setZen(true); if (!isFullscreen) toggleFullscreen() }} className={btn}><Presentation size={15} />投屏</button>
+            <button type="button" onClick={() => { setZenPages(false); setZen(true); if (!isFullscreen) toggleFullscreen() }} className={btn}><Presentation size={15} />投屏</button>
             <button type="button" onClick={() => setCloudOpen(true)} className={btn}><Cloud size={15} />我的云盘</button>
             <button type="button" onClick={() => void exportImage()} disabled={exporting} className={btn}><Download size={15} />{exporting ? '导出中…' : '导出长图'}</button>
             <Link to="/board/archive" className={btn}><History size={15} />历史板书</Link>
@@ -408,18 +428,19 @@ export default function BoardEditor() {
 
       {zen && (
         <>
-          {/* Minimal rail so a lesson can still be driven while projecting:
-              open a handout, add a blank page, switch pages, save, export. */}
-          <div className="fixed left-3 top-1/2 z-40 flex -translate-y-1/2 flex-col gap-1 rounded-2xl border border-white/15 bg-black/60 p-1.5 backdrop-blur">
+          {/* Right rail (ClassIn style): the app-level actions a lesson needs —
+              open a handout, add a blank page, browse pages, save, export. The
+              drawing tools keep living in Excalidraw's own palette up top. */}
+          <div className="fixed right-3 top-1/2 z-40 flex -translate-y-1/2 flex-col gap-1 rounded-2xl border border-white/15 bg-black/60 p-1.5 backdrop-blur">
             <ZenButton title="我的云盘（打开讲义）" onClick={() => setCloudOpen(true)}><Cloud size={17} /></ZenButton>
             <ZenButton title="新建空白板" onClick={addBlank}><Plus size={17} /></ZenButton>
-            <ZenButton title="页面列表" onClick={togglePages} active={pagesOpen}><LayoutGrid size={17} /></ZenButton>
+            <ZenButton title="页面列表" onClick={() => setZenPages((v) => !v)} active={zenPages}><LayoutGrid size={17} /></ZenButton>
             <ZenButton title="导出长图" onClick={() => void exportImage()}><Download size={17} /></ZenButton>
             <ZenButton title="保存" onClick={() => void save()} disabled={busy}><Save size={17} /></ZenButton>
           </div>
 
-          {pagesOpen && (
-            <aside className="fixed left-[66px] top-1/2 z-40 flex max-h-[72vh] w-28 -translate-y-1/2 flex-col gap-1.5 overflow-y-auto rounded-xl border border-white/15 bg-black/70 p-1.5 backdrop-blur">
+          {zenPages && (
+            <aside className="fixed right-[62px] top-1/2 z-40 flex max-h-[72vh] w-28 -translate-y-1/2 flex-col gap-1.5 overflow-y-auto rounded-xl border border-white/15 bg-black/70 p-1.5 backdrop-blur">
               {pages.map((page, index) => (
                 <button
                   key={page.id}
@@ -436,8 +457,15 @@ export default function BoardEditor() {
             </aside>
           )}
 
+          {/* Page bar, mirroring ClassIn's ‹ 29/58 › strip. */}
+          <div className="fixed bottom-4 left-1/2 z-40 flex -translate-x-1/2 items-center gap-1 rounded-full border border-white/15 bg-black/60 px-2 py-1 backdrop-blur">
+            <button type="button" onClick={() => switchTo(Math.max(0, currentIndex - 1))} disabled={currentIndex <= 0} className="grid h-8 w-8 place-items-center rounded-full text-white/85 hover:bg-white/15 disabled:opacity-30" aria-label="上一页"><ChevronLeft size={18} /></button>
+            <span className="min-w-[64px] text-center text-sm font-semibold text-white/85">{currentIndex + 1} / {pages.length}</span>
+            <button type="button" onClick={() => switchTo(Math.min(pages.length - 1, currentIndex + 1))} disabled={currentIndex >= pages.length - 1} className="grid h-8 w-8 place-items-center rounded-full text-white/85 hover:bg-white/15 disabled:opacity-30" aria-label="下一页"><ChevronRight size={18} /></button>
+          </div>
+
           {(dirty || message) && (
-            <div className="pointer-events-none fixed bottom-5 left-1/2 z-40 -translate-x-1/2 rounded-full border border-white/15 bg-black/60 px-3 py-1.5 text-xs font-semibold text-white/85 backdrop-blur">
+            <div className="pointer-events-none fixed bottom-4 left-4 z-40 rounded-full border border-white/15 bg-black/60 px-3 py-1.5 text-xs font-semibold text-white/85 backdrop-blur">
               {dirty ? '未保存' : message}
             </div>
           )}
