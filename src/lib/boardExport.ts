@@ -1,8 +1,7 @@
 import { convertToExcalidrawElements, exportToCanvas, getCommonBounds, restore } from '@excalidraw/excalidraw'
 import type { BinaryFiles, DataURL } from '@excalidraw/excalidraw/types'
 import type { ExcalidrawElement, FileId, OrderedExcalidrawElement } from '@excalidraw/excalidraw/element/types'
-import type { PDFDocumentProxy } from './board'
-import { pdfPageOf, renderPdfPageToDataUrl, type BoardPage } from './boardPages'
+import { pdfPageOf, type BoardPage } from './boardPages'
 
 // NOTE: this module imports the Excalidraw runtime, so it must only ever be
 // pulled in from lazily-loaded code (BoardSurface, or a dynamic import()).
@@ -28,11 +27,9 @@ export function buildBackgroundElement(bg: BackgroundImage): { elements: Ordered
   return { elements, files }
 }
 
-const EMPTY_PAGE_WIDTH = 1000
-const EMPTY_PAGE_HEIGHT = 700
 const EXPORT_PADDING = 20
 // Browsers cap canvas dimensions (≤32767px per side, less on some GPUs); stay
-// well under it or the 58-page column silently fails to export.
+// well under it or a very long column silently fails to export.
 const MAX_EXPORT_PX = 16000
 
 type PageScene = {
@@ -41,52 +38,32 @@ type PageScene = {
   viewBackgroundColor: string
 }
 
-// Assemble a page's elements + files. Handout pages carry their PDF as image
-// elements pointing at placeholders; swap in the real bitmaps here, keyed by the
-// element's own fileId, so the export shows pages rather than grey cards.
-async function buildPageScene(page: BoardPage, pdf: PDFDocumentProxy | null): Promise<PageScene> {
+// The canvas colour of a page: blank boards carry it on the background, PDF
+// boards on the saved scene (default white).
+function canvasColorOf(page: BoardPage): string {
+  if (page.background.type === 'blank') return page.background.color
+  const stored = page.scene.appState.viewBackgroundColor
+  return typeof stored === 'string' ? stored : '#ffffff'
+}
+
+// Only the teacher's own ink goes into the export — handout page images are
+// dropped, together with the placeholder files pointing at them. (Baking the
+// full pages in was what turned long exports into a low-res mosaic.) Pages with
+// nothing drawn are skipped by the caller.
+function buildInkScene(page: BoardPage): PageScene {
   const restored = restore(
     { elements: page.scene.elements, appState: page.scene.appState, files: page.scene.files },
     null,
     null,
   )
-  let elements: readonly OrderedExcalidrawElement[] = restored.elements
-  let files = restored.files
-  const viewBackgroundColor = page.background.type === 'blank' ? page.background.color : '#ffffff'
-
-  if (page.background.type === 'pdf' && pdf) {
-    const rendered = await renderPdfPageToDataUrl(pdf, page.background.pdfPage)
-    const bg = buildBackgroundElement({ id: `bg-${page.id}`, ...rendered })
-    elements = [...bg.elements, ...elements]
-    files = { ...bg.files, ...files }
+  return {
+    elements: restored.elements.filter((el) => !el.isDeleted && pdfPageOf(el) === null),
+    files: restored.files,
+    viewBackgroundColor: canvasColorOf(page),
   }
-
-  if (pdf) {
-    const done = new Set<number>()
-    const withBitmaps: BinaryFiles = { ...files }
-    for (const el of elements) {
-      const p = pdfPageOf(el)
-      if (p === null || el.type !== 'image' || !el.fileId || done.has(p)) continue
-      done.add(p)
-      const rendered = await renderPdfPageToDataUrl(pdf, p)
-      withBitmaps[el.fileId] = { id: el.fileId, mimeType: 'image/png', dataURL: rendered.dataUrl as DataURL, created: Date.now() }
-    }
-    files = withBitmaps
-  }
-
-  return { elements, files, viewBackgroundColor }
 }
 
 function sceneToCanvas(scene: PageScene, exportScale: number): HTMLCanvasElement | Promise<HTMLCanvasElement> {
-  // An empty scene has no bounds to export, so paint a default-size board.
-  if (scene.elements.length === 0) {
-    const canvas = document.createElement('canvas')
-    canvas.width = EMPTY_PAGE_WIDTH
-    canvas.height = EMPTY_PAGE_HEIGHT
-    const ctx = canvas.getContext('2d')
-    if (ctx) { ctx.fillStyle = scene.viewBackgroundColor; ctx.fillRect(0, 0, canvas.width, canvas.height) }
-    return canvas
-  }
   return exportToCanvas({
     elements: scene.elements,
     appState: { exportBackground: true, viewBackgroundColor: scene.viewBackgroundColor, exportScale },
@@ -95,16 +72,15 @@ function sceneToCanvas(scene: PageScene, exportScale: number): HTMLCanvasElement
   })
 }
 
-// Render every page and stack them into one tall PNG. The scale is chosen so the
-// whole column fits the canvas size limit (a 58-page handout would otherwise be
-// far too tall to rasterise in one image).
-export async function exportBoardLongImage(pages: BoardPage[], pdf: PDFDocumentProxy | null): Promise<Blob> {
-  const scenes: PageScene[] = []
-  for (const page of pages) scenes.push(await buildPageScene(page, pdf))
+// Stack every annotated page into one tall PNG, each on its own canvas colour.
+// The scale is chosen so the whole column fits the canvas size limit (a 58-page
+// handout would otherwise be far too tall to rasterise in one image).
+export async function exportBoardLongImage(pages: BoardPage[]): Promise<Blob> {
+  const scenes = pages.map(buildInkScene).filter((scene) => scene.elements.length > 0)
+  if (scenes.length === 0) throw new Error('还没有任何板书内容可以导出。')
 
   let sceneHeight = 0
   for (const scene of scenes) {
-    if (scene.elements.length === 0) { sceneHeight += EMPTY_PAGE_HEIGHT; continue }
     const [, minY, , maxY] = getCommonBounds(scene.elements)
     sceneHeight += (maxY - minY) + EXPORT_PADDING * 2
   }

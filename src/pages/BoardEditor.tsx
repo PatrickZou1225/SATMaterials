@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { ChevronLeft, ChevronRight, ClipboardCopy, Cloud, Download, FileText, History, Image as ImageIcon, LayoutGrid, Maximize, Minimize, Paintbrush, PanelLeftClose, Plus, Presentation, Save, SlidersHorizontal, Trash2, X } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ClipboardCopy, Cloud, Download, FileText, History, Image as ImageIcon, LayoutGrid, Maximize, Minimize, Paintbrush, Palette, PanelLeftClose, Plus, Presentation, Save, SlidersHorizontal, Trash2, X } from 'lucide-react'
 import CloudDrivePicker from '../components/CloudDrivePicker'
 import { useAccount } from '../context/account'
 import { supabase } from '../lib/supabase'
@@ -12,7 +12,15 @@ import { libraryFileUrl, type LibraryFile } from '../lib/library'
 
 const BoardSurface = lazy(() => import('../components/BoardSurface'))
 
-const BLANK_COLORS = ['#000000', '#ffffff', '#0f172a', '#fef9c3', '#dcfce7']
+// The 背景 palette: blank boards are blackboards by default, and any board —
+// handout included — can put its pages on one of these colours.
+const CANVAS_COLORS = [
+  { color: '#000000', label: '黑色（黑板）' },
+  { color: '#ffffff', label: '白色' },
+  { color: '#0f172a', label: '深蓝' },
+  { color: '#fef9c3', label: '米黄' },
+  { color: '#dcfce7', label: '浅绿' },
+]
 
 function readTheme(): 'light' | 'dark' {
   if (typeof window === 'undefined') return 'light'
@@ -48,6 +56,9 @@ export default function BoardEditor() {
   // clipboard (nothing written anywhere — the teacher saves storage that way).
   const [saveMenuOpen, setSaveMenuOpen] = useState(false)
   const saveMenuRef = useRef<HTMLDivElement | null>(null)
+  // 背景 palette: pick the canvas colour for the board being viewed.
+  const [bgMenuOpen, setBgMenuOpen] = useState(false)
+  const bgMenuRef = useRef<HTMLDivElement | null>(null)
   // Any untouched drawing stays local until the teacher hits 保存 — nothing is
   // written to the server (or counted against storage) until then.
   const [dirty, setDirty] = useState(false)
@@ -203,7 +214,7 @@ export default function BoardEditor() {
       const copy = [...prev]
       const live = sceneRef.current
       if (live) copy[currentIndexRef.current] = { ...copy[currentIndexRef.current], scene: live }
-      copy.push(blankPage(`第 ${next} 页`, BLANK_COLORS[0], false))
+      copy.push(blankPage(`第 ${next} 页`, CANVAS_COLORS[0].color, false))
       return copy
     })
     sceneRef.current = null
@@ -313,28 +324,43 @@ export default function BoardEditor() {
       const next = mergedPages()
       setPages(next)
       const { exportBoardLongImage } = await import('../lib/boardExport')
-      const blob = await exportBoardLongImage(next, pdf)
+      const blob = await exportBoardLongImage(next)
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
       a.download = `${title.trim() || '板书'}-${timestamp()}.png`
       a.click()
       URL.revokeObjectURL(url)
-    } catch {
-      setMessage('导出失败，请重试。')
+    } catch (e) {
+      setMessage(e instanceof Error && e.message ? e.message : '导出失败，请重试。')
     }
     setExporting(false)
   }
 
-  // Outside click closes the 保存 menu; picking an item closes it too.
+  // Outside click closes the 保存 / 背景 menus; picking an item closes them too.
   useEffect(() => {
-    if (!saveMenuOpen) return
+    if (!saveMenuOpen && !bgMenuOpen) return
     const onDown = (e: PointerEvent) => {
-      if (saveMenuRef.current && !saveMenuRef.current.contains(e.target as Node)) setSaveMenuOpen(false)
+      const t = e.target as Node
+      if (saveMenuRef.current && !saveMenuRef.current.contains(t)) setSaveMenuOpen(false)
+      if (bgMenuRef.current && !bgMenuRef.current.contains(t)) setBgMenuOpen(false)
     }
     document.addEventListener('pointerdown', onDown)
     return () => document.removeEventListener('pointerdown', onDown)
-  }, [saveMenuOpen])
+  }, [saveMenuOpen, bgMenuOpen])
+
+  // Blank boards keep their colour on the page background (ink colour follows
+  // it); handout boards keep it on the saved scene. BoardSurface applies the
+  // change to the live canvas.
+  const setCanvasColor = (color: string) => {
+    setBgMenuOpen(false)
+    setPages((prev) => prev.map((p, i) => i !== currentIndex ? p : (
+      p.background.type === 'blank'
+        ? { ...p, background: { ...p.background, color } }
+        : { ...p, scene: { ...p.scene, appState: { ...p.scene.appState, viewBackgroundColor: color } } }
+    )))
+    setDirty(true)
+  }
 
   // Like 导出长图, but lands in the clipboard — ready to paste into WeChat,
   // slides or the class chat, with nothing stored on the site.
@@ -345,7 +371,7 @@ export default function BoardEditor() {
       const next = mergedPages()
       setPages(next)
       const { exportBoardLongImage } = await import('../lib/boardExport')
-      const blob = await exportBoardLongImage(next, pdf)
+      const blob = await exportBoardLongImage(next)
       try {
         await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
         setMessage('已复制到剪贴板 ✓ 直接粘贴即可')
@@ -360,8 +386,8 @@ export default function BoardEditor() {
         URL.revokeObjectURL(url)
         setMessage('浏览器不允许直接复制，已改为下载图片。')
       }
-    } catch {
-      setMessage('生成图片失败，请重试。')
+    } catch (e) {
+      setMessage(e instanceof Error && e.message ? e.message : '生成图片失败，请重试。')
     }
     setExporting(false)
   }
@@ -408,6 +434,20 @@ export default function BoardEditor() {
             <button type="button" onClick={toggleProps} title={hideProps ? '显示属性面板' : '收起属性面板'} className={`rounded-lg border p-2 ${hideProps ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="属性面板">{hideProps ? <SlidersHorizontal size={16} /> : <PanelLeftClose size={16} />}</button>
             <button type="button" onClick={toggleTools} title={hideTools ? '显示工具栏' : '收起工具栏'} className={`rounded-lg border p-2 ${hideTools ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="工具栏"><Paintbrush size={16} /></button>
             <button type="button" onClick={toggleFullscreen} className="rounded-lg border border-slate-200 p-2 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800" aria-label="全屏">{isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}</button>
+            <div ref={bgMenuRef} className="relative">
+              <button type="button" onClick={() => setBgMenuOpen((v) => !v)} title="画布背景颜色" aria-label="画布背景颜色" className="rounded-lg border border-slate-200 p-2 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800"><Palette size={16} /></button>
+              {bgMenuOpen && (
+                <div className="absolute right-0 top-full z-30 mt-1 w-44 overflow-hidden rounded-xl border border-slate-200 bg-white py-1 text-left shadow-lg dark:border-slate-700 dark:bg-slate-900">
+                  <p className="px-3 pb-1 pt-1.5 text-[11px] font-semibold text-slate-400">画布背景</p>
+                  {CANVAS_COLORS.map(({ color, label }) => (
+                    <button key={color} type="button" onClick={() => setCanvasColor(color)} className="flex w-full items-center gap-2.5 px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800">
+                      <span className="h-4 w-4 shrink-0 rounded-full border border-slate-300 dark:border-slate-600" style={{ backgroundColor: color }} />
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
             <div ref={saveMenuRef} className="relative">
               <button type="button" disabled={busy} onClick={() => setSaveMenuOpen((v) => !v)} className={btn}><Save size={15} />保存</button>
               {saveMenuOpen && (

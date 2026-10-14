@@ -134,6 +134,18 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     apiRef.current?.updateScene({ appState: { currentItemStrokeColor: inkColor }, captureUpdate: CaptureUpdateAction.NEVER })
   }, [inkColor, page.id])
 
+  // Canvas colour behind the board: blank boards carry it on the page
+  // background, handout boards on the saved scene (default white). The 背景
+  // palette in BoardEditor rewrites the matching value and this effect pushes it
+  // onto the live canvas — `initialData` is memoised on page.id, so it alone
+  // would not repaint.
+  const canvasColor = page.background.type === 'blank'
+    ? page.background.color
+    : (typeof page.scene.appState.viewBackgroundColor === 'string' ? page.scene.appState.viewBackgroundColor : '#ffffff')
+  useEffect(() => {
+    apiRef.current?.updateScene({ appState: { viewBackgroundColor: canvasColor }, captureUpdate: CaptureUpdateAction.NEVER })
+  }, [canvasColor, page.id])
+
   const prevElementsRef = useRef<readonly unknown[] | null>(null)
 
   // Structural change = something worth saving. Swapping a page element to its
@@ -565,7 +577,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
       ...appState,
       collaborators: new Map(),
       currentItemStrokeColor: inkColor,
-      viewBackgroundColor: page.background.type === 'blank' ? page.background.color : '#ffffff',
+      viewBackgroundColor: canvasColor,
       gridSize: page.background.type === 'blank' && page.background.grid ? 20 : undefined,
       gridModeEnabled: page.background.type === 'blank' ? page.background.grid : false,
     },
