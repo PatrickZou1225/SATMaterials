@@ -596,6 +596,11 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
           <Paintbrush size={14} />工具栏
         </button>
       )}
+      {pageInfo && (
+        <button type="button" onClick={() => { const api = apiRef.current; if (api) toggleCollapse(api) }} title={collapsed ? '展开讲义（回到收起前的位置）' : '最小化讲义（收起 PDF，腾出黑板）'} aria-label={collapsed ? '展开讲义' : '最小化讲义'} className={`absolute right-4 z-10 grid h-8 w-8 place-items-center rounded-lg border border-slate-200 bg-white/95 text-slate-600 shadow-sm backdrop-blur transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200 dark:hover:bg-slate-800 ${zen ? 'top-14' : 'top-4'}`}>
+          {collapsed ? <Maximize size={15} /> : <Minus size={15} />}
+        </button>
+      )}
     </div>
   )
 }
