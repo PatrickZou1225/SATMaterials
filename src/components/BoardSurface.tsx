@@ -87,6 +87,14 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
   // it exactly — ClassIn's collapse/expand, mapped onto a single canvas.
   const [collapsed, setCollapsed] = useState(false)
   const collapsedViewRef = useRef<{ scrollX: number; scrollY: number; zoom: number } | null>(null)
+  // ClassIn-style font gate (fed by onChange below): the text island — text
+  // colour / size / align — belongs to the text TOOL. It may appear only after
+  // the teacher deliberately picks that tool; a text that is merely selected
+  // or being edited (double-click-to-type) stays quiet. board-text-tool also
+  // re-admits the island in zen / with the manual props toggle on; index.css
+  // holds the three rules.
+  const [textToolOn, setTextToolOn] = useState(false)
+  const [quietText, setQuietText] = useState(false)
   // The wheel listener is attached once, so the viewport helpers below read
   // live values through refs instead of closing over render-scoped state.
   const bgSizeRef = useRef<{ width: number; height: number } | null>(null)
@@ -494,6 +502,15 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     // Scrolling/panning can bring new handout pages into view.
     scheduleRenderRef.current()
     setZoomPct(Math.round(appStateState.zoom.value * 100))
+    // Drive the font gate above: remember whether the text tool is on, and
+    // whether a text is only selected / being edited. Excalidraw pops the
+    // island for all three cases (see showSelectedShapeActions); the teacher
+    // wants the options only in the first.
+    const toolIsText = appStateState.activeTool?.type === 'text'
+    const shouldQuiet = !toolIsText && (Boolean(appStateState.editingTextElement) ||
+      els.some((el) => el.type === 'text' && !el.isDeleted && Boolean(appStateState.selectedElementIds[el.id])))
+    setTextToolOn((prev) => (prev === toolIsText ? prev : toolIsText))
+    setQuietText((prev) => (prev === shouldQuiet ? prev : shouldQuiet))
     // Track which handout page the viewport is on, for the bottom page bar.
     const pageEls = els.filter((el) => el.type === 'image' && pdfPageOf(el) !== null)
     if (pageEls.length === 0) {
@@ -591,7 +608,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     : null
 
   return (
-    <div ref={hostRef} className={`relative h-full w-full${hideProperties ? ' board-hide-props' : ''}${hideTools ? ' board-hide-tools' : ''}${zen ? ' board-zen' : ''}`}>
+    <div ref={hostRef} className={`relative h-full w-full${hideProperties ? ' board-hide-props' : ''}${hideTools ? ' board-hide-tools' : ''}${quietText ? ' board-quiet-text' : ''}${textToolOn ? ' board-text-tool' : ''}${zen ? ' board-zen' : ''}`}>
       <Excalidraw
         key={page.id}
         excalidrawAPI={(api) => { apiRef.current = api }}
