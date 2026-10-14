@@ -40,8 +40,10 @@ html.dark {
 
 /* Excalidraw's shape-properties panel stays open the whole time a tool is
    active (it has no official toggle) and covers part of the blackboard. The
-   toolbar button toggles this wrapper class to collapse it. */
-.board-hide-props .selected-shape-actions {
+   toolbar button (or the zen rail) toggles this wrapper class to collapse it
+   and the font-property popups. */
+.board-hide-props .selected-shape-actions,
+.board-hide-props .properties-content {
   display: none !important;
 }
 

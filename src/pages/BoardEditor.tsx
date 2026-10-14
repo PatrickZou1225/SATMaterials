@@ -435,6 +435,7 @@ export default function BoardEditor() {
             <ZenButton title="我的云盘（打开讲义）" onClick={() => setCloudOpen(true)}><Cloud size={17} /></ZenButton>
             <ZenButton title="新建空白板" onClick={addBlank}><Plus size={17} /></ZenButton>
             <ZenButton title="页面列表" onClick={() => setZenPages((v) => !v)} active={zenPages}><LayoutGrid size={17} /></ZenButton>
+            <ZenButton title={hideProps ? '显示属性面板' : '收起属性面板'} onClick={toggleProps} active={hideProps}><SlidersHorizontal size={17} /></ZenButton>
             <ZenButton title="导出长图" onClick={() => void exportImage()}><Download size={17} /></ZenButton>
             <ZenButton title="保存" onClick={() => void save()} disabled={busy}><Save size={17} /></ZenButton>
           </div>

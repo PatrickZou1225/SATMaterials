@@ -5,8 +5,9 @@ import { pdfPlaceholderDataUrl, pdfPlaceholderId, type PdfPageLayout } from './b
 
 // NOTE: imports the Excalidraw runtime, so callers must import() this lazily.
 
-// One unlocked image element per PDF page, stacked at the positions the layout
-// computed. Unlocked on purpose: the teacher drags the corners to resize a page.
+// One image element per PDF page, stacked at the positions the layout computed.
+// BoardSurface locks every page on load so the handout reads as one fixed
+// document: pages can be neither dragged apart nor selected by accident.
 export function buildHandoutElements(layout: PdfPageLayout[]): OrderedExcalidrawElement[] {
   const elements = convertToExcalidrawElements(
     layout.map((p) => ({

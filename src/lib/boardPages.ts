@@ -100,8 +100,8 @@ export async function renderPdfPageToDataUrl(
 // ---- Handouts: one board, every PDF page stacked on it ----------------------
 //
 // A handout is NOT one board per page. The whole PDF is laid out as a vertical
-// column of image elements inside a single scene, so the teacher scrolls one
-// board and can drag any page's corners to resize it.
+// column of image elements inside a single scene; the surface locks them so the
+// column reads as one fixed document (zoom and scroll are the only navigation).
 //
 // Page bitmaps are hi-res and would blow up memory (and storage) across a 60-page
 // document, so they are rasterised on demand for whatever is on screen and are
@@ -160,7 +160,7 @@ export function pdfPlaceholderDataUrl(page: number, width: number, height: numbe
 }
 
 // Before persisting: point every page back at its placeholder and drop the
-// rasterised bitmaps. Page positions/sizes (the teacher's own resizing) survive.
+// rasterised bitmaps; positions and sizes are otherwise left untouched.
 export function stripPdfBitmaps(pages: BoardPage[]): BoardPage[] {
   return pages.map((p) => {
     let touched = false

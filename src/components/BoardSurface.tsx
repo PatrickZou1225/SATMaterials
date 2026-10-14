@@ -87,7 +87,10 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
       null,
     )
     return {
-      elements: [...(bgParts?.elements ?? []), ...restored.elements],
+      // Lock every handout page so the PDF reads as one fixed document: pages
+      // cannot be dragged apart or selected by accident, so the pen and text
+      // tool land on the ink layer instead of re-selecting the page image.
+      elements: [...(bgParts?.elements ?? []), ...restored.elements].map((el) => (pdfPageOf(el) !== null ? { ...el, locked: true } : el)),
       appState: restored.appState,
       files: { ...(bgParts?.files ?? {}), ...restored.files },
     }
@@ -196,12 +199,11 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
 
   // ---------------------------------------------------------------------------
   // Viewport model (document-viewer style). The handout is one very tall column
-  // of pages, so the surface behaves like a PDF reader: the plain wheel/trackpad
-  // scrolls VERTICALLY through the column (locked to the axis — the old free
-  // two-axis panning is what read as drifting), ⌘/Ctrl+wheel and pinch zoom
-  // about the pointer, and the floating cluster offers −/+/fit controls.
-  // The zoom-out floor is "one whole page fits", so the handout can never
-  // shrink into a dot in a sea of black.
+  // of locked pages, so the surface behaves like a PDF reader: the wheel /
+  // trackpad scrolls the document (both axes — slide within a page, or scroll
+  // straight down; mouse wheels only send deltaY), ⌘/Ctrl+wheel and pinch zoom
+  // about the pointer across the full 0.1–4 range, and the floating cluster
+  // offers −/+/fit controls. Fit is the way back from any view.
   const FIT_MARGIN = 24
 
   const pageElements = (api: ExcalidrawImperativeAPI) =>
@@ -230,16 +232,12 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     return Math.max(0.1, Math.min((host.clientWidth - FIT_MARGIN) / box.width, (host.clientHeight - FIT_MARGIN) / box.height, 4))
   }
 
-  // The lowest zoom the current page allows: it must still fill the viewport.
-  const minZoom = (api: ExcalidrawImperativeAPI) => {
-    const el = nearestPage(api) ?? bgSizeRef.current
-    return el ? fitZoomFor(el) * 0.95 : 0.1
-  }
-
   const applyZoom = (api: ExcalidrawImperativeAPI, next: number, px: number, py: number) => {
     const app = api.getAppState()
     const oldZoom = app.zoom.value
-    const zoom = Math.min(4, Math.max(minZoom(api), next))
+    // Zoom far out enough to see the whole document; the fit button is the way
+    // back, so no artificial floor sits above Excalidraw's own 0.1.
+    const zoom = Math.min(4, Math.max(0.1, next))
     if (zoom === oldZoom) return
     // Keep the scene point under (px, py) fixed on screen.
     const sceneX = px / oldZoom - app.scrollX
@@ -323,9 +321,13 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
         api.updateScene({ appState: { scrollX: app.scrollX - dx / app.zoom.value }, captureUpdate: CaptureUpdateAction.NEVER })
         renderVisibleRef.current()
       } else {
-        // Plain wheel / two-finger swipe: vertical scroll through the handout —
-        // locked to the axis, so the board never drifts sideways mid-lesson.
-        api.updateScene({ appState: { scrollY: app.scrollY - e.deltaY / app.zoom.value }, captureUpdate: CaptureUpdateAction.NEVER })
+        // Plain wheel / two-finger swipe: scroll the handout. Both axes, so the
+        // teacher can slide around inside a page; a mouse wheel only sends
+        // deltaY, which keeps ordinary scrolling dead straight.
+        api.updateScene({
+          appState: { scrollX: app.scrollX - e.deltaX / app.zoom.value, scrollY: app.scrollY - e.deltaY / app.zoom.value },
+          captureUpdate: CaptureUpdateAction.NEVER,
+        })
         renderVisibleRef.current()
       }
     }
