@@ -401,31 +401,32 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     scheduleRenderRef.current()
   }
 
-  // Edge handle: drag left/right to scale the handout, rubber-sheet style —
-  // pulling either way ENLARGES toward the pull, with the opposite viewport
-  // edge staying pinned (no symmetric "proportional" growth); returning to the
-  // grab point restores the zoom the drag started from. Page rendering settles
-  // once the drag ends.
-  const resizeDragRef = useRef<{ startX: number; startZoom: number } | null>(null)
+  // Edge handle: drag right to enlarge, drag left to shrink — the conventional
+  // window-edge resize (站长's feedback: 往右=加大, 往左=缩小). The page's left
+  // edge stays pinned at its drag-start position while the right edge follows
+  // the hand. Page rendering settles once the drag ends.
+  const resizeDragRef = useRef<{ startX: number; startZoom: number; anchorX: number } | null>(null)
   const onResizeDown = (e: ReactPointerEvent<HTMLButtonElement>) => {
     const api = apiRef.current
-    if (!api) return
+    const host = hostRef.current
+    if (!api || !host) return
     e.preventDefault()
     e.currentTarget.setPointerCapture(e.pointerId)
-    resizeDragRef.current = { startX: e.clientX, startZoom: api.getAppState().zoom.value }
+    const app = api.getAppState()
+    const el = nearestPage(api)
+    const anchorX = el
+      ? Math.min(host.clientWidth - 8, Math.max(8, (el.x + app.scrollX) * app.zoom.value))
+      : host.clientWidth / 2
+    resizeDragRef.current = { startX: e.clientX, startZoom: app.zoom.value, anchorX }
   }
   const onResizeMove = (e: ReactPointerEvent<HTMLButtonElement>) => {
     const api = apiRef.current
     const host = hostRef.current
     const drag = resizeDragRef.current
     if (!api || !host || !drag) return
-    // Rubber sheet: 300px of travel ≈ 1.5x, in whichever direction was pulled;
-    // the anchor sits on the viewport edge OPPOSITE the pull so the page
-    // extends toward the hand.
-    const dx = e.clientX - drag.startX
-    const factor = Math.min(2.5, 1 + Math.abs(dx) / 300)
-    const anchorX = dx < 0 ? host.clientWidth : 0
-    applyZoom(api, drag.startZoom * factor, anchorX, host.clientHeight / 2)
+    // 300px of travel ≈ 1.5x; shrinking and growing are both clamped.
+    const factor = Math.max(0.4, Math.min(2.5, 1 + (e.clientX - drag.startX) / 300))
+    applyZoom(api, drag.startZoom * factor, drag.anchorX, host.clientHeight / 2)
   }
   const onResizeUp = () => { resizeDragRef.current = null }
 
@@ -642,7 +643,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
       {pageInfo && pageEdgeX !== null && (
         <button
           type="button"
-          title="按住左右拖动：往哪边拉，就往哪边放大（拉回起点恢复）"
+          title="按住左右拖动：往右拉放大，往左拉缩小"
           aria-label="拖动缩放讲义"
           onPointerDown={onResizeDown}
           onPointerMove={onResizeMove}
