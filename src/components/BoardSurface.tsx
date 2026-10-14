@@ -539,6 +539,82 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
   }
   const onResizeUp = () => { resizeDragRef.current = null }
 
+  // Drag the handout itself to move it around (the pages are locked, so a plain
+  // Excalidraw drag does nothing on them). With the selection tool active, a
+  // press that starts ON a page pans the viewport — like grabbing the document
+  // window; annotations keep their positions relative to the pages, so the
+  // whole sheet travels together. Pen / shapes / text tools are untouched, and
+  // a click without movement still falls through (double-click keeps creating
+  // text where a page is under the cursor).
+  useEffect(() => {
+    const host = hostRef.current
+    if (!host || !editable) return
+    let drag: { id: number; startX: number; startY: number; scrollX: number; scrollY: number; moved?: boolean } | null = null
+    const onPage = (clientX: number, clientY: number) => {
+      const api = apiRef.current
+      if (!api) return false
+      const st = api.getAppState()
+      const rect = host.getBoundingClientRect()
+      const sceneX = (clientX - rect.left) / st.zoom.value - st.scrollX
+      const sceneY = (clientY - rect.top) / st.zoom.value - st.scrollY
+      return api.getSceneElements().some((el) =>
+        el.type === 'image' && !el.isDeleted && pdfPageOf(el) !== null &&
+        sceneX >= el.x && sceneX <= el.x + el.width && sceneY >= el.y && sceneY <= el.y + el.height)
+    }
+    const onDown = (e: PointerEvent) => {
+      if (e.button !== 0) return
+      const api = apiRef.current
+      if (!api) return
+      if (api.getAppState().activeTool.type !== 'selection') return
+      const t = e.target as HTMLElement | null
+      if (t && t.closest('button, [data-board-scroll]')) return
+      if (!onPage(e.clientX, e.clientY)) return
+      const st = api.getAppState()
+      drag = { id: e.pointerId, startX: e.clientX, startY: e.clientY, scrollX: st.scrollX, scrollY: st.scrollY }
+    }
+    const onMove = (e: PointerEvent) => {
+      if (!drag || e.pointerId !== drag.id) return
+      const dx = e.clientX - drag.startX
+      const dy = e.clientY - drag.startY
+      if (Math.abs(dx) < 3 && Math.abs(dy) < 3) return
+      drag.moved = true
+      const api = apiRef.current
+      if (!api) return
+      const zoom = api.getAppState().zoom.value
+      // Grab-and-pull: the scene point under the hand stays under the hand,
+      // so the scroll follows the drag (screen = (scene + scroll) * zoom).
+      api.updateScene({
+        appState: { scrollX: drag.scrollX + dx / zoom, scrollY: drag.scrollY + dy / zoom },
+        captureUpdate: CaptureUpdateAction.NEVER,
+      })
+      scheduleRenderRef.current()
+    }
+    const onUp = (e: PointerEvent) => {
+      if (!drag || e.pointerId !== drag.id) return
+      const moved = drag.moved
+      drag = null
+      // Excalidraw treats a press on a locked page as empty canvas and draws a
+      // marquee; drop whatever it selected while we were panning.
+      if (moved) {
+        const api = apiRef.current
+        if (api) queueMicrotask(() => api.updateScene({ appState: { selectedElementIds: {} }, captureUpdate: CaptureUpdateAction.NEVER }))
+      }
+    }
+    // Capture phase everywhere: Excalidraw's canvas swallows the bubble-phase
+    // pointer events (it pointer-captures and stops propagation mid-drag).
+    host.addEventListener('pointerdown', onDown, true)
+    window.addEventListener('pointermove', onMove, true)
+    window.addEventListener('pointerup', onUp, true)
+    window.addEventListener('pointercancel', onUp, true)
+    return () => {
+      host.removeEventListener('pointerdown', onDown, true)
+      window.removeEventListener('pointermove', onMove, true)
+      window.removeEventListener('pointerup', onUp, true)
+      window.removeEventListener('pointercancel', onUp, true)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editable])
+
   // "Adapt to window": while enabled, rescaling the window rescales the page.
   useEffect(() => {
     const host = hostRef.current
