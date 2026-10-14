@@ -511,11 +511,11 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
       const current = pdfPageOf(best) ?? 1
       const total = pageEls.length
       setPageInfo((prev) => (prev && prev.current === current && prev.total === total ? prev : { current, total }))
-      // Hug the PDF's right edge; clamped so the handle stays reachable when
+      // Hug the PDF's right edge; clamped so the hot zone stays reachable when
       // the boundary slides off-screen.
       const hostW = hostRef.current?.clientWidth ?? 0
-      const edge = Math.round((best.x + best.width + appStateState.scrollX) * zoomNow) + 6
-      const clamped = Math.max(8, Math.min(hostW - 40, edge))
+      const edge = Math.round((best.x + best.width + appStateState.scrollX) * zoomNow)
+      const clamped = Math.max(6, Math.min(hostW - 6, edge))
       setPageEdgeX((prev) => (prev === clamped ? prev : clamped))
     }
     if (!editable || !onSceneChange) return
@@ -649,10 +649,12 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
           onPointerMove={onResizeMove}
           onPointerUp={onResizeUp}
           onPointerCancel={onResizeUp}
-          style={{ left: pageEdgeX }}
-          className="absolute top-1/2 z-10 flex h-16 w-7 -translate-y-1/2 cursor-ew-resize touch-none items-center justify-center rounded-lg border border-slate-200 bg-white/95 text-slate-500 shadow-sm backdrop-blur transition-colors hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-300 dark:hover:bg-slate-800"
+          style={{ left: pageEdgeX - 6 }}
+          className="group absolute top-1/2 z-10 h-[70%] w-3 -translate-y-1/2 cursor-ew-resize touch-none bg-transparent"
         >
-          <MoveHorizontal size={14} />
+          <span className="pointer-events-none absolute left-1/2 top-1/2 flex h-16 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-lg border border-slate-200 bg-white/90 text-slate-500 opacity-0 shadow-md backdrop-blur transition-opacity duration-150 group-hover:opacity-100 group-active:opacity-100 dark:border-slate-700 dark:bg-slate-900/90 dark:text-slate-300">
+            <MoveHorizontal size={14} />
+          </span>
         </button>
       )}
     </div>
