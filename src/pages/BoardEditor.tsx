@@ -426,6 +426,7 @@ export default function BoardEditor() {
                       <span className="block text-xs text-slate-500">不保存到网站、不占空间</span>
                     </span>
                   </button>
+                  <p className="border-t border-slate-100 px-3 py-2 text-[11px] leading-snug text-slate-400 dark:border-slate-800">复制图片只带走图片，板子本身不会存下来；想以后还能打开或发布给学生，请选「保存到网站」。</p>
                 </div>
               )}
             </div>
