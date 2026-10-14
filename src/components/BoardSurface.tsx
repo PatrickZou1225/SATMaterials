@@ -71,6 +71,11 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
 
   // Percent readout for the zoom cluster (fed by onChange below).
   const [zoomPct, setZoomPct] = useState(100)
+  // Current handout page (fed by onChange below), for the bottom page bar.
+  const [pageInfo, setPageInfo] = useState<{ current: number; total: number } | null>(null)
+  // "Fit to window": keep the page scaled to the host whenever the window
+  // resizes — the reference app's "fit page to window display size" button.
+  const [fitWindow, setFitWindow] = useState(() => typeof window !== 'undefined' && window.localStorage.getItem('sat_board_fit_window') === '1')
   // The wheel listener is attached once, so the viewport helpers below read
   // live values through refs instead of closing over render-scoped state.
   const bgSizeRef = useRef<{ width: number; height: number } | null>(null)
@@ -284,10 +289,10 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
   // "Fit page": centre the nearest handout page. Old-style boards (a PDF page
   // as the background) fit that page; blank boards fit whatever has been
   // drawn, or recentre the origin when empty.
-  const fitPage = (api: ExcalidrawImperativeAPI) => {
+  const fitPage = (api: ExcalidrawImperativeAPI, target?: { x: number; y: number; width: number; height: number } | null) => {
     const host = hostRef.current
     if (!host) return
-    const focus = nearestPage(api) ?? (bgSizeRef.current ? { x: 0, y: 0, ...bgSizeRef.current } : null)
+    const focus = target ?? nearestPage(api) ?? (bgSizeRef.current ? { x: 0, y: 0, ...bgSizeRef.current } : null)
     if (focus) {
       const zoom = fitZoomFor(focus)
       api.updateScene({
@@ -323,6 +328,48 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     }
     renderVisibleRef.current()
   }
+
+  // Jump to a specific handout page without changing the zoom: park its top at
+  // the viewport top with a small margin and centre it horizontally. This is
+  // how the teacher advances a lesson — far less motion than scrolling.
+  const goToPage = (api: ExcalidrawImperativeAPI, target: number) => {
+    const host = hostRef.current
+    if (!host) return
+    const el = pageElements(api).find((pageEl) => pdfPageOf(pageEl) === target)
+    if (!el) return
+    const zoom = api.getAppState().zoom.value
+    api.updateScene({
+      appState: {
+        scrollX: el.x + el.width / 2 - host.clientWidth / 2 / zoom,
+        scrollY: el.y - FIT_MARGIN / zoom,
+      },
+      captureUpdate: CaptureUpdateAction.NEVER,
+    })
+    lastZoomAtRef.current = Date.now()
+    scheduleRenderRef.current()
+  }
+
+  const toggleFitWindow = () => {
+    const next = !fitWindow
+    setFitWindow(next)
+    try { window.localStorage.setItem('sat_board_fit_window', next ? '1' : '0') } catch { /* ignore */ }
+    const api = apiRef.current
+    if (next && api) fitPage(api)
+  }
+
+  // "Adapt to window": while enabled, rescaling the window rescales the page.
+  useEffect(() => {
+    const host = hostRef.current
+    if (!host || !fitWindow) return
+    let timer = 0
+    const ro = new ResizeObserver(() => {
+      window.clearTimeout(timer)
+      timer = window.setTimeout(() => { const api = apiRef.current; if (api) fitPage(api) }, 200)
+    })
+    ro.observe(host)
+    return () => { window.clearTimeout(timer); ro.disconnect() }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fitWindow])
 
   useEffect(() => {
     const host = hostRef.current
@@ -374,6 +421,23 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     // Scrolling/panning can bring new handout pages into view.
     scheduleRenderRef.current()
     setZoomPct(Math.round(appStateState.zoom.value * 100))
+    // Track which handout page the viewport is on, for the bottom page bar.
+    const pageEls = els.filter((el) => el.type === 'image' && pdfPageOf(el) !== null)
+    if (pageEls.length === 0) {
+      setPageInfo(null)
+    } else {
+      const zoomNow = appStateState.zoom.value
+      const centreY = -appStateState.scrollY + (hostRef.current?.clientHeight ?? 0) / zoomNow / 2
+      let best = pageEls[0]
+      let bestDist = Infinity
+      for (const el of pageEls) {
+        const dist = Math.abs(el.y + el.height / 2 - centreY)
+        if (dist < bestDist) { bestDist = dist; best = el }
+      }
+      const current = pdfPageOf(best) ?? 1
+      const total = pageEls.length
+      setPageInfo((prev) => (prev && prev.current === current && prev.total === total ? prev : { current, total }))
+    }
     if (!editable || !onSceneChange) return
     const prev = prevElementsRef.current
     const structural = !prev || prev.length !== els.length || els.some((el, i) => isStructural(el as unknown as Elementish, prev[i] as unknown as Elementish))
@@ -474,7 +538,15 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
         <button type="button" title="放大" aria-label="放大" onClick={() => { const api = apiRef.current; if (api) zoomByStep(api, 1.25) }} className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><Plus size={16} /></button>
         <span className="mx-0.5 h-5 w-px bg-slate-200 dark:bg-slate-700" />
         <button type="button" title="回到整页" aria-label="回到整页" onClick={() => { const api = apiRef.current; if (api) fitPage(api) }} className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><Maximize size={16} /></button>
+        <button type="button" title="适应窗口：窗口大小变化时自动缩放到整页" aria-label="适应窗口" onClick={toggleFitWindow} className={`h-8 rounded-lg px-2 text-[11px] font-semibold transition ${fitWindow ? 'bg-blue-600 text-white' : 'hover:bg-slate-100 dark:hover:bg-slate-800'}`}>适配</button>
       </div>
+      {pageInfo && (
+        <div className={`absolute left-1/2 z-10 flex -translate-x-1/2 items-center gap-0.5 rounded-full border border-slate-200 bg-white/95 px-1.5 py-1 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200 ${zen ? 'bottom-16' : 'bottom-4'}`}>
+          <button type="button" title="上一页" aria-label="上一页" disabled={pageInfo.current <= 1} onClick={() => { const api = apiRef.current; if (api) goToPage(api, Math.max(1, pageInfo.current - 1)) }} className="grid h-7 w-7 place-items-center rounded-full transition hover:bg-slate-100 disabled:opacity-30 dark:hover:bg-slate-800"><ChevronLeft size={15} /></button>
+          <span className="min-w-[78px] text-center text-xs font-semibold tabular-nums">第 {pageInfo.current} / {pageInfo.total} 页</span>
+          <button type="button" title="下一页" aria-label="下一页" disabled={pageInfo.current >= pageInfo.total} onClick={() => { const api = apiRef.current; if (api) goToPage(api, Math.min(pageInfo.total, pageInfo.current + 1)) }} className="grid h-7 w-7 place-items-center rounded-full transition hover:bg-slate-100 disabled:opacity-30 dark:hover:bg-slate-800"><ChevronRight size={15} /></button>
+        </div>
+      )}
     </div>
   )
 }
