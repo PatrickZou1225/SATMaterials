@@ -79,6 +79,11 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
   // "Fit to window": keep the page scaled to the host whenever the window
   // resizes — the reference app's "fit page to window display size" button.
   const [fitWindow, setFitWindow] = useState(() => typeof window !== 'undefined' && window.localStorage.getItem('sat_board_fit_window') === '1')
+  // "Collapse the handout": park the viewport on the empty board to the right
+  // of the page column and remember where the PDF was, so the toggle restores
+  // it exactly — ClassIn's collapse/expand, mapped onto a single canvas.
+  const [collapsed, setCollapsed] = useState(false)
+  const collapsedViewRef = useRef<{ scrollX: number; scrollY: number; zoom: number } | null>(null)
   // The wheel listener is attached once, so the viewport helpers below read
   // live values through refs instead of closing over render-scoped state.
   const bgSizeRef = useRef<{ width: number; height: number } | null>(null)
@@ -295,6 +300,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
   const fitPage = (api: ExcalidrawImperativeAPI, target?: { x: number; y: number; width: number; height: number } | null) => {
     const host = hostRef.current
     if (!host) return
+    setCollapsed(false)
     const focus = target ?? nearestPage(api) ?? (bgSizeRef.current ? { x: 0, y: 0, ...bgSizeRef.current } : null)
     if (focus) {
       const zoom = fitZoomFor(focus)
@@ -338,6 +344,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
   const goToPage = (api: ExcalidrawImperativeAPI, target: number) => {
     const host = hostRef.current
     if (!host) return
+    setCollapsed(false)
     const el = pageElements(api).find((pageEl) => pdfPageOf(pageEl) === target)
     if (!el) return
     const zoom = api.getAppState().zoom.value
@@ -358,6 +365,37 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     try { window.localStorage.setItem('sat_board_fit_window', next ? '1' : '0') } catch { /* ignore */ }
     const api = apiRef.current
     if (next && api) fitPage(api)
+  }
+
+  const toggleCollapse = (api: ExcalidrawImperativeAPI) => {
+    const host = hostRef.current
+    if (!host) return
+    const app = api.getAppState()
+    const zoom = app.zoom.value
+    if (!collapsed) {
+      const pages = pageElements(api)
+      if (pages.length === 0) return
+      // The blackboard lives just right of the page column.
+      const rightEdge = Math.max(...pages.map((el) => el.x + el.width))
+      collapsedViewRef.current = { scrollX: app.scrollX, scrollY: app.scrollY, zoom }
+      const cx = rightEdge + host.clientWidth / 2 / zoom + 240
+      api.updateScene({
+        appState: { scrollX: host.clientWidth / 2 / zoom - cx },
+        captureUpdate: CaptureUpdateAction.NEVER,
+      })
+      setCollapsed(true)
+    } else {
+      const saved = collapsedViewRef.current
+      if (saved) {
+        api.updateScene({
+          appState: { zoom: { value: saved.zoom as NormalizedZoomValue }, scrollX: saved.scrollX, scrollY: saved.scrollY },
+          captureUpdate: CaptureUpdateAction.NEVER,
+        })
+      }
+      setCollapsed(false)
+    }
+    lastZoomAtRef.current = Date.now()
+    scheduleRenderRef.current()
   }
 
   // "Adapt to window": while enabled, rescaling the window rescales the page.
@@ -542,6 +580,9 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
         <span className="mx-0.5 h-5 w-px bg-slate-200 dark:bg-slate-700" />
         <button type="button" title="回到整页" aria-label="回到整页" onClick={() => { const api = apiRef.current; if (api) fitPage(api) }} className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><Maximize size={16} /></button>
         <button type="button" title="适应窗口：窗口大小变化时自动缩放到整页" aria-label="适应窗口" onClick={toggleFitWindow} className={`h-8 rounded-lg px-2 text-[11px] font-semibold transition ${fitWindow ? 'bg-blue-600 text-white' : 'hover:bg-slate-100 dark:hover:bg-slate-800'}`}>适配</button>
+        {pageInfo && (
+          <button type="button" title={collapsed ? '显示讲义' : '收起讲义（腾出黑板，再点回来）'} aria-label={collapsed ? '显示讲义' : '收起讲义'} onClick={() => { const api = apiRef.current; if (api) toggleCollapse(api) }} className={`h-8 rounded-lg px-2 text-[11px] font-semibold transition ${collapsed ? 'bg-blue-600 text-white' : 'hover:bg-slate-100 dark:hover:bg-slate-800'}`}>{collapsed ? '显示讲义' : '收起讲义'}</button>
+        )}
       </div>
       {pageInfo && (
         <div className={`absolute left-1/2 z-10 flex -translate-x-1/2 items-center gap-0.5 rounded-full border border-slate-200 bg-white/95 px-1.5 py-1 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200 ${zen ? 'bottom-16' : 'bottom-4'}`}>
