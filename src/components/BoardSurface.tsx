@@ -558,6 +558,10 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
       // Let an in-canvas text box scroll its own content.
       const target = e.target as HTMLElement | null
       if (target && (target.tagName === 'TEXTAREA' || target.tagName === 'INPUT' || target.isContentEditable)) return
+      // …and never hijack the wheel over our own floating panels (the 目录
+      // list) — scrolling those used to move the board instead, which slid the
+      // handout out of view and made the list impossible to scroll.
+      if (target && target.closest('[data-board-scroll]')) return
       e.preventDefault()
       e.stopPropagation()
       const app = api.getAppState()
@@ -784,7 +788,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
         </div>
       )}
       {outlineOpen && outline.length > 0 && (
-        <div className="absolute left-3 top-1/2 z-20 flex max-h-[65%] w-64 -translate-y-1/2 flex-col overflow-hidden rounded-xl border border-slate-200 bg-white/95 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200">
+        <div data-board-scroll className="absolute left-3 top-1/2 z-20 flex max-h-[65%] w-64 -translate-y-1/2 flex-col overflow-hidden rounded-xl border border-slate-200 bg-white/95 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200">
           <p className="border-b border-slate-100 px-3 py-2 text-[11px] font-semibold text-slate-400 dark:border-slate-800">PDF 目录</p>
           <div className="overflow-y-auto py-1">
             {outline.map((item, i) => (
