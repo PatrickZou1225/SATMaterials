@@ -109,6 +109,8 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
   const [zoomPct, setZoomPct] = useState(100)
   // Current handout page (fed by onChange below), for the bottom page bar.
   const [pageInfo, setPageInfo] = useState<{ current: number; total: number } | null>(null)
+  // Manual page jump: clicking the page readout swaps in a tiny input.
+  const [pageInput, setPageInput] = useState<string | null>(null)
   // Screen x of the handout column's right edge, so the drag handle can hug the
   // PDF boundary instead of floating at the screen edge.
   const [pageEdgeX, setPageEdgeX] = useState<number | null>(null)
@@ -1014,7 +1016,33 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
             </>
           )}
           <button type="button" title="上一页" aria-label="上一页" disabled={pageInfo.current <= 1} onClick={() => { const api = apiRef.current; if (api) goToPage(api, Math.max(1, pageInfo.current - 1)) }} className="grid h-7 w-7 place-items-center rounded-full transition hover:bg-slate-100 disabled:opacity-30 dark:hover:bg-slate-800"><ChevronLeft size={15} /></button>
-          <span className="min-w-[78px] text-center text-xs font-semibold tabular-nums">第 {pageInfo.current} / {pageInfo.total} 页</span>
+          {pageInput === null ? (
+            <button type="button" title="点击输入页码跳转" onClick={() => setPageInput(String(pageInfo.current))} className="min-w-[78px] rounded-full px-1.5 py-0.5 text-center text-xs font-semibold tabular-nums transition hover:bg-slate-100 dark:hover:bg-slate-800">第 {pageInfo.current} / {pageInfo.total} 页</button>
+          ) : (
+            <span className="flex items-center gap-1 px-1">
+              <input
+                autoFocus
+                value={pageInput}
+                inputMode="numeric"
+                onChange={(e) => setPageInput(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    const n = Number(pageInput)
+                    if (n >= 1 && n <= pageInfo.total) {
+                      const api = apiRef.current
+                      if (api) goToPage(api, n)
+                    }
+                    setPageInput(null)
+                  } else if (e.key === 'Escape') {
+                    setPageInput(null)
+                  }
+                }}
+                onBlur={() => setPageInput(null)}
+                className="w-14 rounded-md border border-slate-300 bg-transparent px-1.5 py-0.5 text-center text-xs font-semibold tabular-nums focus:border-blue-400 focus:outline-none dark:border-slate-600"
+              />
+              <span className="text-xs text-slate-500">/ {pageInfo.total} 页</span>
+            </span>
+          )}
           <button type="button" title="下一页" aria-label="下一页" disabled={pageInfo.current >= pageInfo.total} onClick={() => { const api = apiRef.current; if (api) goToPage(api, Math.min(pageInfo.total, pageInfo.current + 1)) }} className="grid h-7 w-7 place-items-center rounded-full transition hover:bg-slate-100 disabled:opacity-30 dark:hover:bg-slate-800"><ChevronRight size={15} /></button>
         </div>
       )}
