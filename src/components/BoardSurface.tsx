@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ComponentProps, type PointerEvent as ReactPointerEvent } from 'react'
-import { ChevronLeft, ChevronRight, Maximize, Minus, MoveHorizontal, Plus, X, ZoomOut } from 'lucide-react'
+import { BoxSelect, ChevronLeft, ChevronRight, Eraser, Maximize, Minus, MousePointer2, MoveHorizontal, Pencil, Plus, Type, X, ZoomOut } from 'lucide-react'
 import { CaptureUpdateAction, convertToExcalidrawElements, Excalidraw, FONT_FAMILY, restore } from '@excalidraw/excalidraw'
 import type { DataURL, ExcalidrawImperativeAPI, ExcalidrawInitialDataState, NormalizedZoomValue } from '@excalidraw/excalidraw/types'
 import type { FileId } from '@excalidraw/excalidraw/element/types'
@@ -102,8 +102,11 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
   // or being edited (double-click-to-type) stays quiet. board-text-tool also
   // re-admits the island in zen / with the manual props toggle on; index.css
   // holds the three rules.
-  const [textToolOn, setTextToolOn] = useState(false)
+  const [activeToolType, setActiveToolType] = useState<string>('selection')
+  const [marqueeMode, setMarqueeMode] = useState(false)
+  const marqueeModeRef = useRef(false)
   const [quietText, setQuietText] = useState(false)
+  const textToolOn = activeToolType === 'text'
   // The wheel listener is attached once, so the viewport helpers below read
   // live values through refs instead of closing over render-scoped state.
   const bgSizeRef = useRef<{ width: number; height: number } | null>(null)
@@ -567,6 +570,26 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
   }
   const onResizeUp = () => { resizeDragRef.current = null }
 
+  // The right-side tool rail (ClassIn layout): the handful of tools a lesson
+  // needs. 框选 arms a "marquee first" selection — dragging anywhere (pages
+  // included) draws a selection box instead of panning, so the teacher can
+  // lasso their own text; 点击 restores the plain selection tool (drag on a
+  // page = move the document).
+  const setTool = (type: 'freedraw' | 'text' | 'eraser') => {
+    const api = apiRef.current
+    if (!api) return
+    marqueeModeRef.current = false
+    setMarqueeMode(false)
+    api.setActiveTool({ type })
+  }
+  const selectTool = (marquee: boolean) => {
+    const api = apiRef.current
+    if (!api) return
+    marqueeModeRef.current = marquee
+    setMarqueeMode(marquee)
+    api.setActiveTool({ type: 'selection' })
+  }
+
   // The pointer workhorse (capture phase — Excalidraw swallows bubble-phase
   // pointer events): (1) with a draw tool, pre-pick the default ink colour by
   // where the pen lands on a handout board; (2) with the selection tool, drag
@@ -593,6 +616,8 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
       if (e.button !== 0) return
       const api = apiRef.current
       if (!api) return
+      const t = e.target as HTMLElement | null
+      if (t && t.closest('button, [data-board-scroll]')) return
       const tool = api.getAppState().activeTool.type
       // Before a draw tool starts an element on a handout board, pick the
       // default ink for where the pen lands: white belongs on the black canvas,
@@ -606,9 +631,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
         }
         return
       }
-      if (tool !== 'selection') return
-      const t = e.target as HTMLElement | null
-      if (t && t.closest('button, [data-board-scroll]')) return
+      if (tool !== 'selection' || marqueeModeRef.current) return
       if (!onPage(e.clientX, e.clientY)) return
       const st = api.getAppState()
       drag = { id: e.pointerId, startX: e.clientX, startY: e.clientY, scrollX: st.scrollX, scrollY: st.scrollY }
@@ -729,10 +752,15 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     // whether a text is only selected / being edited. Excalidraw pops the
     // island for all three cases (see showSelectedShapeActions); the teacher
     // wants the options only in the first.
-    const toolIsText = appStateState.activeTool?.type === 'text'
+    const toolType = appStateState.activeTool?.type ?? 'selection'
+    if (toolType !== 'selection' && marqueeModeRef.current) {
+      marqueeModeRef.current = false
+      setMarqueeMode(false)
+    }
+    setActiveToolType((prev) => (prev === toolType ? prev : toolType))
+    const toolIsText = toolType === 'text'
     const shouldQuiet = !toolIsText && (Boolean(appStateState.editingTextElement) ||
       els.some((el) => el.type === 'text' && !el.isDeleted && Boolean(appStateState.selectedElementIds[el.id])))
-    setTextToolOn((prev) => (prev === toolIsText ? prev : toolIsText))
     setQuietText((prev) => (prev === shouldQuiet ? prev : shouldQuiet))
     // Track which handout page the viewport is on, for the bottom page bar.
     const pageEls = els.filter((el) => el.type === 'image' && pdfPageOf(el) !== null)
@@ -931,6 +959,15 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
               </button>
             ))}
           </div>
+        </div>
+      )}
+      {editable && !hideTools && (
+        <div className={`board-tool-rail absolute top-1/2 z-20 flex -translate-y-1/2 flex-col gap-0.5 rounded-2xl border p-1.5 backdrop-blur ${zen ? 'right-[64px] border-white/15 bg-black/60' : 'right-3 border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/95'}`}>
+          <button type="button" title="点击（选中/移动）" aria-label="点击" onClick={() => selectTool(false)} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'selection' && !marqueeMode ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><MousePointer2 size={17} /></button>
+          <button type="button" title="框选（圈住自己写的内容）" aria-label="框选" onClick={() => selectTool(true)} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'selection' && marqueeMode ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><BoxSelect size={17} /></button>
+          <button type="button" title="画笔" aria-label="画笔" onClick={() => setTool('freedraw')} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'freedraw' ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><Pencil size={17} /></button>
+          <button type="button" title="文字" aria-label="文字" onClick={() => setTool('text')} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'text' ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><Type size={17} /></button>
+          <button type="button" title="橡皮" aria-label="橡皮" onClick={() => setTool('eraser')} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'eraser' ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><Eraser size={17} /></button>
         </div>
       )}
       {pageInfo && collapsed && (

@@ -64,16 +64,35 @@ body.board-hide-nav .site-nav {
   display: none !important;
 }
 
-/* …and Excalidraw's drawing-tool palette (the top-centre island). BoardSurface
-   floats a small pill that brings it back — same collapse idea as the props.
-   Hiding the container (not just the island) removes its empty flex strip too,
-   so no invisible area keeps swallowing clicks near the top of the board.
-   The hint line under the palette ("To move canvas, hold mouse wheel…") goes
-   with it — same corner of the screen, same clutter. */
-.board-hide-tools .App-toolbar-container,
-.board-hide-tools .App-toolbar-container *,
-.board-hide-tools .HintViewer {
+/* Excalidraw's top-centre tool palette is retired on the board — the teacher's
+   tools live in our own right-side rail (ClassIn layout). Same for the Library
+   trigger and the "hold mouse wheel" hint: the board moves by dragging now. */
+.excalidraw .App-toolbar-container,
+.excalidraw .default-sidebar-trigger,
+.excalidraw .HintViewer {
   display: none !important;
+}
+
+/* …and our rail itself tucks away when 收起工具条 is on. */
+.board-hide-tools .board-tool-rail {
+  display: none !important;
+}
+
+/* Tool properties (stroke colours, width, fonts) pop out beside the rail on
+   the right — ClassIn-style — instead of covering the passage from the left.
+   The fixed section collapses to zero width (its island is absolutely
+   positioned), so the island itself is anchored to the section's right edge;
+   76px clears our rail (w≈48px) in both editor and zen modes. */
+.excalidraw .selected-shape-actions {
+  position: fixed !important;
+  left: auto !important;
+  right: 76px !important;
+  top: 88px !important;
+  z-index: 20;
+}
+.excalidraw .selected-shape-actions .Island {
+  left: auto !important;
+  right: 0 !important;
 }
 
 /* Presentation ("投屏") mode: on the projector we hide the side menus, the

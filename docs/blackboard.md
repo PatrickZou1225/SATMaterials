@@ -370,6 +370,26 @@ Excalidraw 原生规则（`showSelectedShapeActions`）：**文字工具激活�
 4. **Playwright 全套回归**：页面笔画深色 ✓ / 黑边笔画白 ✓ / 页面文字深 ✓ / 黑边文字白 ✓ /
    拖动 ✓ / 双击打字 ✓ / 把手 100→150→225% ✓ / 滚轮 ✓ / 目录跳转 18/29 ✓。
 
+### 2026-10-15（第十九轮）ClassIn 式右侧工具条（对齐站长截图）
+
+站长要 ClassIn 的「笔刷位置和排列」：工具竖排在**右侧**、笔刷设置面板跟在旁边、和 PDF 窗口按钮
+不再打架。做法：
+
+1. **原生顶部工具条退役**（全局 CSS `.excalidraw .App-toolbar-container{display:none}`）：顶部不再
+   有那条和窗口按钮重叠的工具行；Library 触发钮和 "hold mouse wheel" 提示一并隐藏（拖页面即可
+   移动视角）。
+2. **右侧工具条**（`BoardSurface` 内置，`board-tool-rail`）：五个按钮 —— **点击**（选择/移动；拖
+   页面=平移文档）/ **框选**（拖哪都能拉选择框、不平移，专门圈选自己写的内容）/ **画笔** / **文字**
+   / **橡皮**。激活态蓝色；投屏下贴右栏左侧（right-[64px]）。
+   - 框选 = selection 工具 + `marqueeMode` 标志；`handleChange` 跟踪全量 `activeToolType` 做高亮，
+     离开 selection 自动解除框选。平移 onDown 加 `marqueeModeRef` 门控。
+   - 「收起工具条」开关改为收起这条 rail（`.board-hide-tools .board-tool-rail`）。
+3. **笔刷 / 文字设置面板挪到右侧**（ClassIn 位置）：`.selected-shape-actions{position:fixed; right:76px;
+   top:88px}` + 内层 `.Island{right:0;left:auto}`（外壳宽度塌缩为 0，所以要锚内层）→ 面板出现在
+   rail 左侧（实测 x=1164 w=200，rail 在 1380+）。原来的左侧旧位置退役。
+4. **Playwright 验证**：rail 五键 ✓、原生工具栏/ Library 全隐 ✓、面板位置 ✓、页面笔画深色 ✓、
+   文字深色 ✓、框选拖拽选中页面上的文字且画面不平移 ✓、点击模式拖页面 = 平移（两段 700px → 第 2 页）✓。
+
 ---
 
 ## 已知问题 / 待在真机验证
