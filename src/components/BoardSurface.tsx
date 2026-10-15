@@ -14,9 +14,6 @@ export type BoardSurfaceProps = {
   page: BoardPage
   editable: boolean
   theme: 'light' | 'dark'
-  // Collapse Excalidraw's shape-properties panel to free up board space.
-  hideProperties?: boolean
-  onToggleProperties?: () => void
   // Collapse Excalidraw's drawing-tool palette (the top bar's brush button).
   hideTools?: boolean
   // Presentation mode: hide all of Excalidraw's own chrome (toolbar, menus).
@@ -92,16 +89,10 @@ function useBackgroundImage(pdf: PDFDocumentProxy | null, page: BoardPage) {
   return image
 }
 
-export default function BoardSurface({ pdf, page, editable, theme, hideProperties, onToggleProperties, hideTools, zen, insertQuestion, onClosePage, onSceneChange }: BoardSurfaceProps) {
+export default function BoardSurface({ pdf, page, editable, theme, hideTools, zen, insertQuestion, onClosePage, onSceneChange }: BoardSurfaceProps) {
   const bg = useBackgroundImage(pdf, page)
   const apiRef = useRef<ExcalidrawImperativeAPI | null>(null)
   const hostRef = useRef<HTMLDivElement | null>(null)
-  // Where to glue the collapse handle: the top-right corner of Excalidraw's
-  // shape-properties panel. Null until the panel first appears.
-  const [panelPos, setPanelPos] = useState<{ top: number; left: number } | null>(null)
-  const [panelVisible, setPanelVisible] = useState(false)
-  const lastPosRef = useRef<{ top: number; left: number } | null>(null)
-  const scheduleMeasureRef = useRef<() => void>(() => {})
 
   const backgroundElementId = bg?.id ?? null
 
@@ -811,8 +802,6 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
   }, [])
 
   const handleChange = useCallback<ExcalidrawOnChange>((els, appStateState, filesState) => {
-    // A tool change shows/hides the properties panel — re-glue the handle.
-    scheduleMeasureRef.current()
     // Scrolling/panning can bring new handout pages into view.
     scheduleRenderRef.current()
     setZoomPct(Math.round(appStateState.zoom.value * 100))
@@ -934,42 +923,8 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     scrollToContent: false,
   }), [elements, appState, files, page.id])
 
-  // Glue the collapse handle to the properties panel's top-right corner. The
-  // panel lives inside Excalidraw's own DOM, so we measure it and float a button
-  // just outside its right edge. Re-measures only when the panel appears/stops.
-  useEffect(() => {
-    const host = hostRef.current
-    if (!host) return
-    let raf = 0
-    let hadPanel: boolean | null = null
-    const measure = () => {
-      const panel = host.querySelector<HTMLElement>('.selected-shape-actions')
-      const r = panel?.getBoundingClientRect()
-      const visible = !!(r && r.width > 0)
-      if (visible === hadPanel) return
-      hadPanel = visible
-      setPanelVisible(visible)
-      const hb = host.getBoundingClientRect()
-      if (visible && r) lastPosRef.current = { top: r.top - hb.top + 6, left: r.right - hb.left + 8 }
-      else if (!lastPosRef.current) lastPosRef.current = { top: 96, left: 12 }
-      setPanelPos(lastPosRef.current)
-    }
-    const schedule = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(measure) }
-    scheduleMeasureRef.current = schedule
-    const mo = new MutationObserver(schedule)
-    mo.observe(host, { childList: true, subtree: true })
-    const ro = new ResizeObserver(schedule)
-    ro.observe(host)
-    schedule()
-    return () => { cancelAnimationFrame(raf); mo.disconnect(); ro.disconnect() }
-  }, [page.id, hideProperties, zen])
-
-  const handle = panelPos
-    ? { top: panelPos.top, left: hideProperties ? 12 : panelPos.left }
-    : null
-
   return (
-    <div ref={hostRef} className={`relative h-full w-full${hideProperties ? ' board-hide-props' : ''}${hideTools ? ' board-hide-tools' : ''}${quietText ? ' board-quiet-text' : ''}${textToolOn ? ' board-text-tool' : ''}${activeToolType === 'freedraw' ? ' board-tool-freedraw' : ''}${zen ? ' board-zen' : ''}`}>
+    <div ref={hostRef} className={`relative h-full w-full${hideTools ? ' board-hide-tools' : ''}${quietText ? ' board-quiet-text' : ''}${textToolOn ? ' board-text-tool' : ''}${activeToolType === 'freedraw' ? ' board-tool-freedraw' : ''}${zen ? ' board-zen' : ''}`}>
       <Excalidraw
         key={page.id}
         excalidrawAPI={(api) => { apiRef.current = api }}
@@ -984,18 +939,6 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
         // 复制图片 covers exporting.
         UIOptions={{ canvasActions: { changeViewBackgroundColor: false, saveAsImage: false } }}
       />
-      {editable && !zen && handle && onToggleProperties && (hideProperties || panelVisible) && (
-        <button
-          type="button"
-          onClick={onToggleProperties}
-          style={{ top: handle.top, left: handle.left }}
-          title={hideProperties ? '展开属性面板' : '收起属性面板'}
-          aria-label={hideProperties ? '展开属性面板' : '收起属性面板'}
-          className="absolute z-10 grid h-8 w-8 place-items-center rounded-lg border border-slate-200 bg-white/95 text-slate-600 shadow-sm backdrop-blur transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200 dark:hover:bg-slate-800"
-        >
-          {hideProperties ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
-        </button>
-      )}
       <div className="absolute bottom-4 right-4 z-10 flex items-center gap-0.5 rounded-xl border border-slate-200 bg-white/95 p-1 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200">
         <button type="button" title="缩小" aria-label="缩小" onClick={() => { const api = apiRef.current; if (api) zoomByStep(api, 1 / 1.25) }} className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><Minus size={16} /></button>
         <span className="min-w-[46px] text-center text-xs font-semibold tabular-nums">{zoomPct}%</span>

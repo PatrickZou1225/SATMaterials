@@ -407,6 +407,19 @@ Excalidraw 原生规则（`showSelectedShapeActions`）：**文字工具激活�
 4. **验证**：原面板隐藏 ✓、粗细按钮 + 红色粗笔迹落板 ✓、字号按钮 ✓、文字落板 ✓、浮窗位置在 rail
    左侧 ✓。
 
+### 2026-10-15（第二十二轮）删掉「属性面板」开关整套
+
+站长指着顶栏的「属性面板」按钮和左边的小箭头把手问「这个存在的意义是啥」—— 那是最早几轮的
+老机制（左侧属性岛 + 收起把手 + `board-hide-props`），在右侧 rail / 右侧浮窗布局后已完全过时：
+左侧把手甚至还在用「隐藏状态」显示在左缘（误导）。整套移除：
+
+- 顶栏「属性面板」按钮、投屏侧栏的同一个 ZenButton、`hideProps`/`toggleProps` 状态、
+  `localStorage.sat_board_hide_props`、BoardSurface 的 `hideProperties`/`onToggleProperties`
+  props、面板测量 effect + 悬浮把手 JSX + `panelPos/panelVisible/lastPosRef/scheduleMeasureRef`、
+  CSS `.board-hide-props` 规则 —— 全删。
+- **选中元素**时的属性岛（右侧 x≈1164）保留：点中笔迹即可改色/粗细，不再需要任何开关。
+- 验证：rail ✓、旧把手消失 ✓、选中笔迹 → 右侧属性岛出现 ✓。
+
 ### 2026-10-15（第二十一轮）底部去重 + 目录嵌进 PDF + 浮窗可收起
 
 1. **左下角的重复缩放去掉**：Excalidraw 自带底部左侧的 −/%/＋（`.zoom-button`，三个按钮都带此类）

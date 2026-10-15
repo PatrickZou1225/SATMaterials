@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { ChevronLeft, ChevronRight, ClipboardCopy, Cloud, Download, FileText, History, Image as ImageIcon, LayoutGrid, Maximize, Minimize, Paintbrush, Palette, PanelLeftClose, PanelTop, PanelTopClose, Plus, Presentation, Save, Search, SlidersHorizontal, Trash2, X } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ClipboardCopy, Cloud, Download, FileText, History, Image as ImageIcon, LayoutGrid, Maximize, Minimize, Paintbrush, Palette, PanelTop, PanelTopClose, Plus, Presentation, Save, Search, Trash2, X } from 'lucide-react'
 import CloudDrivePicker from '../components/CloudDrivePicker'
 import { useAccount } from '../context/account'
 import { supabase } from '../lib/supabase'
@@ -76,9 +76,6 @@ export default function BoardEditor() {
   const [dirty, setDirty] = useState(false)
 
   const [title, setTitle] = useState('')
-  // Excalidraw's shape-properties panel sits on the left the whole time a tool
-  // is active. Let the teacher collapse it; the choice sticks between lessons.
-  const [hideProps, setHideProps] = useState(() => typeof window !== 'undefined' && window.localStorage.getItem('sat_board_hide_props') === '1')
   const [hideTools, setHideTools] = useState(() => typeof window !== 'undefined' && window.localStorage.getItem('sat_board_hide_tools') === '1')
   // The page-thumbnail rail eats width when projecting; let it fold away too.
   const [pagesOpen, setPagesOpen] = useState(() => typeof window === 'undefined' || window.localStorage.getItem('sat_board_pages_open') !== '0')
@@ -194,13 +191,6 @@ export default function BoardEditor() {
     if (!live) return pages
     return pages.map((p, i) => (i === currentIndexRef.current ? { ...p, scene: live } : p))
   }, [pages])
-
-  const toggleProps = () => {
-    setHideProps((v) => {
-      window.localStorage.setItem('sat_board_hide_props', v ? '0' : '1')
-      return !v
-    })
-  }
 
   const toggleNav = () => {
     setNavHidden((v) => {
@@ -607,7 +597,6 @@ export default function BoardEditor() {
             <Link to="/board/archive" title="历史板书" aria-label="历史板书" className="rounded-lg border border-slate-200 p-2 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800"><History size={16} /></Link>
             <button type="button" onClick={togglePages} title={pagesOpen ? '收起页面栏' : '展开页面栏'} className={`rounded-lg border p-2 ${pagesOpen ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="页面列表"><LayoutGrid size={16} /></button>
             <button type="button" onClick={toggleNav} title={navHidden ? '展开顶部导航' : '收起顶部导航（全站导航和这一栏一起收，腾出讲义空间）'} className={`rounded-lg border p-2 ${navHidden ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="顶部导航">{navHidden ? <PanelTop size={16} /> : <PanelTopClose size={16} />}</button>
-            <button type="button" onClick={toggleProps} title={hideProps ? '显示属性面板' : '收起属性面板'} className={`rounded-lg border p-2 ${hideProps ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="属性面板">{hideProps ? <SlidersHorizontal size={16} /> : <PanelLeftClose size={16} />}</button>
             <button type="button" onClick={toggleTools} title={hideTools ? '显示工具条' : '收起工具条'} className={`rounded-lg border p-2 ${hideTools ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="工具栏"><Paintbrush size={16} /></button>
             <button type="button" onClick={toggleFullscreen} className="rounded-lg border border-slate-200 p-2 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800" aria-label="全屏">{isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}</button>
             <div ref={bgMenuRef} className="relative">
@@ -673,8 +662,6 @@ export default function BoardEditor() {
                   page={currentPage}
                   editable
                   theme={theme}
-                  hideProperties={hideProps}
-                  onToggleProperties={toggleProps}
                   hideTools={hideTools}
                   zen={zen}
                   insertQuestion={insertQuestion}
@@ -701,7 +688,6 @@ export default function BoardEditor() {
             <ZenButton title="我的云盘（打开讲义）" onClick={() => setCloudOpen(true)}><Cloud size={17} /></ZenButton>
             <ZenButton title="新建空白板" onClick={addBlank}><Plus size={17} /></ZenButton>
             <ZenButton title="页面列表" onClick={() => setZenPages((v) => !v)} active={zenPages}><LayoutGrid size={17} /></ZenButton>
-            <ZenButton title={hideProps ? '显示属性面板' : '收起属性面板'} onClick={toggleProps} active={hideProps}><SlidersHorizontal size={17} /></ZenButton>
             <ZenButton title="导出长图" onClick={() => void exportImage()}><Download size={17} /></ZenButton>
             <ZenButton title="保存" onClick={() => void save()} disabled={busy}><Save size={17} /></ZenButton>
           </div>

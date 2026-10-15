@@ -45,17 +45,6 @@ body.board-hide-nav .site-nav {
   display: none !important;
 }
 
-/* Excalidraw's shape-properties panel stays open the whole time a tool is
-   active (it has no official toggle) and covers part of the blackboard. The
-   toolbar button (or the zen rail) toggles this wrapper class to collapse it
-   and the font-property popups — except while the text tool itself is on: the
-   font controls ARE that tool, and the teacher asked for ClassIn's flow
-   (click the text tool → colour and size options appear). */
-.board-hide-props:not(.board-text-tool) .selected-shape-actions,
-.board-hide-props:not(.board-text-tool) .properties-content {
-  display: none !important;
-}
-
 /* Mirror image, always on: selecting a text — or editing one, including
    double-click-to-type — must not summon the island on its own. Only
    deliberately picking the text tool does. BoardSurface toggles
