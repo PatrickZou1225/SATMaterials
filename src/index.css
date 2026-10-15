@@ -73,6 +73,12 @@ body.board-hide-nav .site-nav {
   display: none !important;
 }
 
+/* Excalidraw's bottom-left zoom cluster (− / % / ＋) duplicates our own cluster
+   (bottom-right) — hide it; the undo / redo buttons beside it stay. */
+.excalidraw .zoom-button {
+  display: none !important;
+}
+
 /* …and our rail itself tucks away when 收起工具条 is on. */
 .board-hide-tools .board-tool-rail {
   display: none !important;

@@ -112,6 +112,9 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
   // Screen x of the handout column's right edge, so the drag handle can hug the
   // PDF boundary instead of floating at the screen edge.
   const [pageEdgeX, setPageEdgeX] = useState<number | null>(null)
+  // Screen x of the handout column's LEFT edge — the 目录 panel docks onto it
+  // (inside the document, ClassIn-style) instead of floating in the margin.
+  const [pageLeftX, setPageLeftX] = useState<number | null>(null)
   // The PDF's embedded outline (书签) with resolved page numbers — powers the
   // 目录 jump list. Empty when the document carries no outline.
   const [outline, setOutline] = useState<{ title: string; page: number; depth: number }[]>([])
@@ -131,6 +134,10 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
   // re-admits the island in zen / with the manual props toggle on; index.css
   // holds the three rules.
   const [activeToolType, setActiveToolType] = useState<string>('selection')
+  // The pen / text settings popups collapse when their rail button is clicked
+  // again (the teacher asked for a way to put the popup away).
+  const [penPanelOpen, setPenPanelOpen] = useState(true)
+  const [textPanelOpen, setTextPanelOpen] = useState(true)
   const [marqueeMode, setMarqueeMode] = useState(false)
   const marqueeModeRef = useRef(false)
   const [quietText, setQuietText] = useState(false)
@@ -833,6 +840,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     if (pageEls.length === 0) {
       setPageInfo(null)
       setPageEdgeX(null)
+      setPageLeftX(null)
     } else {
       const zoomNow = appStateState.zoom.value
       const centreY = -appStateState.scrollY + (hostRef.current?.clientHeight ?? 0) / zoomNow / 2
@@ -851,6 +859,9 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
       const edge = Math.round((best.x + best.width + appStateState.scrollX) * zoomNow)
       const clamped = Math.max(6, Math.min(hostW - 6, edge))
       setPageEdgeX((prev) => (prev === clamped ? prev : clamped))
+      const leftEdge = Math.round((best.x + appStateState.scrollX) * zoomNow)
+      const clampedLeft = Math.max(6, Math.min(hostW - 6, leftEdge))
+      setPageLeftX((prev) => (prev === clampedLeft ? prev : clampedLeft))
     }
     // Legibility guard for ink: the white default belongs on the black canvas,
     // but text / pen strokes / shape outlines that land on (or are dragged onto)
@@ -1009,7 +1020,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
         </div>
       )}
       {outlineOpen && outline.length > 0 && (
-        <div data-board-scroll className="absolute left-3 top-1/2 z-20 flex max-h-[65%] w-64 -translate-y-1/2 flex-col overflow-hidden rounded-xl border border-slate-200 bg-white/95 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200">
+        <div data-board-scroll style={{ left: pageLeftX === null ? 12 : Math.max(8, pageLeftX + 8), top: zen ? 56 : 12 }} className="absolute z-20 flex max-h-[60%] w-64 flex-col overflow-hidden rounded-xl border border-slate-200 bg-white/95 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200">
           <p className="border-b border-slate-100 px-3 py-2 text-[11px] font-semibold text-slate-400 dark:border-slate-800">PDF 目录</p>
           <div className="overflow-y-auto py-1">
             {outline.map((item, i) => (
@@ -1027,7 +1038,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
           </div>
         </div>
       )}
-      {editable && !hideTools && activeToolType === 'freedraw' && (
+      {editable && !hideTools && activeToolType === 'freedraw' && penPanelOpen && (
         <div data-board-scroll className={`absolute top-1/2 z-20 flex w-44 -translate-y-1/2 flex-col gap-2 rounded-2xl border p-2.5 backdrop-blur ${zen ? 'right-[120px] border-white/15 bg-black/60' : 'right-[68px] border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/95'}`}>
           <div className="flex items-center gap-1">
             {[1, 2, 4].map((w) => (
@@ -1039,7 +1050,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
           <InkPalette current={inkCursor.strokeColor} onPick={(color) => applyInk('pen', { strokeColor: color })} />
         </div>
       )}
-      {editable && !hideTools && activeToolType === 'text' && (
+      {editable && !hideTools && activeToolType === 'text' && textPanelOpen && (
         <div data-board-scroll className={`absolute top-1/2 z-20 flex w-44 -translate-y-1/2 flex-col gap-2 rounded-2xl border p-2.5 backdrop-blur ${zen ? 'right-[120px] border-white/15 bg-black/60' : 'right-[68px] border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/95'}`}>
           <div className="flex items-center gap-1">
             {[{ label: 'S', size: 16 }, { label: 'M', size: 20 }, { label: 'L', size: 28 }, { label: 'XL', size: 36 }].map(({ label, size }) => (
@@ -1053,8 +1064,8 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
         <div className={`board-tool-rail absolute top-1/2 z-20 flex -translate-y-1/2 flex-col gap-0.5 rounded-2xl border p-1.5 backdrop-blur ${zen ? 'right-[64px] border-white/15 bg-black/60' : 'right-3 border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/95'}`}>
           <button type="button" title="点击（选中/移动）" aria-label="点击" onClick={() => selectTool(false)} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'selection' && !marqueeMode ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><MousePointer2 size={17} /></button>
           <button type="button" title="框选（圈住自己写的内容）" aria-label="框选" onClick={() => selectTool(true)} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'selection' && marqueeMode ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><BoxSelect size={17} /></button>
-          <button type="button" title="画笔" aria-label="画笔" onClick={() => setTool('freedraw')} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'freedraw' ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><Pencil size={17} /></button>
-          <button type="button" title="文字" aria-label="文字" onClick={() => setTool('text')} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'text' ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><Type size={17} /></button>
+          <button type="button" title="画笔" aria-label="画笔" onClick={() => { if (activeToolType === 'freedraw') setPenPanelOpen((v) => !v); else { setPenPanelOpen(true); setTool('freedraw') } }} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'freedraw' ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><Pencil size={17} /></button>
+          <button type="button" title="文字" aria-label="文字" onClick={() => { if (activeToolType === 'text') setTextPanelOpen((v) => !v); else { setTextPanelOpen(true); setTool('text') } }} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'text' ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><Type size={17} /></button>
           <button type="button" title="橡皮" aria-label="橡皮" onClick={() => setTool('eraser')} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'eraser' ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><Eraser size={17} /></button>
         </div>
       )}
