@@ -390,6 +390,23 @@ Excalidraw 原生规则（`showSelectedShapeActions`）：**文字工具激活�
 4. **Playwright 验证**：rail 五键 ✓、原生工具栏/ Library 全隐 ✓、面板位置 ✓、页面笔画深色 ✓、
    文字深色 ✓、框选拖拽选中页面上的文字且画面不平移 ✓、点击模式拖页面 = 平移（两段 700px → 第 2 页）✓。
 
+### 2026-10-15（第二十轮）画笔 / 文字简版设置浮窗（ClassIn 式）
+
+站长嫌画笔/文字时弹出的 Excalidraw 大面板（Background / Fill / Opacity…）太杂，要的是「点画笔 →
+粗细 + 颜色；点文字 → 字号 + 颜色」（ClassIn 两张弹窗截图为参考）。
+
+1. **自建浮窗**（`BoardSurface`）：`InkPalette` = 12 个常用色 + 系统取色器（彩虹钮）。画笔浮窗 =
+   粗细 1/2/4 + 色板；文字浮窗 = 字号 S/M/L/XL（16/20/28/36）+ 同款色板。浮窗贴 rail 左侧
+   （editor `right-[68px]`；zen `right-[120px]`），标 `data-board-scroll`（沿用"浮层"语义，
+   指针 / 滚轮不劫持画布）。
+2. **`applyInk(kind, patch)`**：更新待用值的同时把**已选中的同类元素**一并改样式（画笔 → freedraw；
+   文字 → text），有实际改动时 `captureUpdate: IMMEDIATELY`（可撤销）。注意：`updateScene` 的
+   `currentItemStrokeColor/Width/FontSize` 在类型上成组必填 —— 未改的用现值补全，否则编译不过。
+3. **CSS**：`.board-tool-freedraw` / `.board-text-tool` 下隐藏 `.selected-shape-actions` —— 画笔 /
+   文字时不再弹 Excalidraw 大面板；**选中**元素时（selection 工具）属性岛仍在右侧可用（可改回颜色）。
+4. **验证**：原面板隐藏 ✓、粗细按钮 + 红色粗笔迹落板 ✓、字号按钮 ✓、文字落板 ✓、浮窗位置在 rail
+   左侧 ✓。
+
 ---
 
 ## 已知问题 / 待在真机验证

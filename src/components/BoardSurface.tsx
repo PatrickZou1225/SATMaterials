@@ -32,6 +32,34 @@ export type BoardSurfaceProps = {
   onSceneChange?: (scene: BoardScene, meta: { structural: boolean }) => void
 }
 
+// ClassIn-style colour picks for the pen / text popups: a light-to-dark row,
+// three vivid rows, and the system colour wheel for anything else.
+const INK_PALETTE = [
+  '#ffffff', '#ced4da', '#495057', '#000000',
+  '#e03131', '#f76707', '#f59f00', '#37b24d',
+  '#15aabf', '#1971c2', '#7048e8', '#f06595',
+]
+
+function InkPalette({ current, onPick }: { current: string; onPick: (color: string) => void }) {
+  return (
+    <div className="grid grid-cols-6 gap-1">
+      {INK_PALETTE.map((color) => (
+        <button
+          key={color}
+          type="button"
+          title={color}
+          onClick={() => onPick(color)}
+          style={{ background: color }}
+          className={`h-6 w-6 rounded-md border ${current === color ? 'ring-2 ring-blue-500' : 'border-slate-300 dark:border-slate-600'}`}
+        />
+      ))}
+      <label title="自定义颜色" className="relative h-6 w-6 cursor-pointer overflow-hidden rounded-md border border-slate-300 dark:border-slate-600">
+        <input type="color" value={current} onChange={(e) => onPick(e.target.value)} className="absolute -left-2 -top-2 h-10 w-10 cursor-pointer" />
+      </label>
+    </div>
+  )
+}
+
 // The Excalidraw change handler is a stable callback so that zooming — which
 // re-renders this component via the % readout — does not re-render the whole
 // Excalidraw tree on every wheel tick.
@@ -106,6 +134,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
   const [marqueeMode, setMarqueeMode] = useState(false)
   const marqueeModeRef = useRef(false)
   const [quietText, setQuietText] = useState(false)
+  const [inkCursor, setInkCursor] = useState({ strokeColor: '#ffffff', strokeWidth: 2, fontSize: 28 })
   const textToolOn = activeToolType === 'text'
   // The wheel listener is attached once, so the viewport helpers below read
   // live values through refs instead of closing over render-scoped state.
@@ -582,6 +611,37 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     setMarqueeMode(false)
     api.setActiveTool({ type })
   }
+  // Pen / text settings popups: apply to the pending tool values, and — when
+  // the teacher has picked a tool that is already selected elements of that
+  // kind — restyle those too, the way Excalidraw's own panel would.
+  const applyInk = (kind: 'pen' | 'text', patch: { strokeColor?: string; strokeWidth?: number; fontSize?: number }) => {
+    const api = apiRef.current
+    if (!api) return
+    const st = api.getAppState()
+    const matchTypes = kind === 'pen' ? ['freedraw'] : ['text']
+    let changed = false
+    const elements = api.getSceneElements().map((el) => {
+      if (!st.selectedElementIds[el.id] || el.isDeleted || !matchTypes.includes(el.type)) return el
+      const next = kind === 'pen'
+        ? { ...el, ...(patch.strokeColor ? { strokeColor: patch.strokeColor } : {}), ...(patch.strokeWidth ? { strokeWidth: patch.strokeWidth } : {}) }
+        : { ...el, ...(patch.strokeColor ? { strokeColor: patch.strokeColor } : {}), ...(patch.fontSize !== undefined ? { fontSize: patch.fontSize } : {}) }
+      changed = true
+      return next
+    })
+    // The three currentItem* fields come as one required group in the API —
+    // fill the untouched ones from the live state.
+    const appStatePatch = {
+      currentItemStrokeColor: patch.strokeColor ?? st.currentItemStrokeColor,
+      currentItemStrokeWidth: patch.strokeWidth ?? st.currentItemStrokeWidth,
+      currentItemFontSize: patch.fontSize ?? st.currentItemFontSize,
+    }
+    api.updateScene({
+      elements: changed ? elements : api.getSceneElements(),
+      appState: appStatePatch,
+      captureUpdate: changed ? CaptureUpdateAction.IMMEDIATELY : CaptureUpdateAction.NEVER,
+    })
+  }
+
   const selectTool = (marquee: boolean) => {
     const api = apiRef.current
     if (!api) return
@@ -752,6 +812,12 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     // whether a text is only selected / being edited. Excalidraw pops the
     // island for all three cases (see showSelectedShapeActions); the teacher
     // wants the options only in the first.
+    const inkNow = {
+      strokeColor: appStateState.currentItemStrokeColor ?? '#ffffff',
+      strokeWidth: appStateState.currentItemStrokeWidth ?? 2,
+      fontSize: appStateState.currentItemFontSize ?? 28,
+    }
+    setInkCursor((prev) => (prev.strokeColor === inkNow.strokeColor && prev.strokeWidth === inkNow.strokeWidth && prev.fontSize === inkNow.fontSize ? prev : inkNow))
     const toolType = appStateState.activeTool?.type ?? 'selection'
     if (toolType !== 'selection' && marqueeModeRef.current) {
       marqueeModeRef.current = false
@@ -891,7 +957,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     : null
 
   return (
-    <div ref={hostRef} className={`relative h-full w-full${hideProperties ? ' board-hide-props' : ''}${hideTools ? ' board-hide-tools' : ''}${quietText ? ' board-quiet-text' : ''}${textToolOn ? ' board-text-tool' : ''}${zen ? ' board-zen' : ''}`}>
+    <div ref={hostRef} className={`relative h-full w-full${hideProperties ? ' board-hide-props' : ''}${hideTools ? ' board-hide-tools' : ''}${quietText ? ' board-quiet-text' : ''}${textToolOn ? ' board-text-tool' : ''}${activeToolType === 'freedraw' ? ' board-tool-freedraw' : ''}${zen ? ' board-zen' : ''}`}>
       <Excalidraw
         key={page.id}
         excalidrawAPI={(api) => { apiRef.current = api }}
@@ -959,6 +1025,28 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
               </button>
             ))}
           </div>
+        </div>
+      )}
+      {editable && !hideTools && activeToolType === 'freedraw' && (
+        <div data-board-scroll className={`absolute top-1/2 z-20 flex w-44 -translate-y-1/2 flex-col gap-2 rounded-2xl border p-2.5 backdrop-blur ${zen ? 'right-[120px] border-white/15 bg-black/60' : 'right-[68px] border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/95'}`}>
+          <div className="flex items-center gap-1">
+            {[1, 2, 4].map((w) => (
+              <button key={w} type="button" title={`粗细 ${w}`} aria-label={`粗细 ${w}`} onClick={() => applyInk('pen', { strokeWidth: w })} className={`grid h-8 flex-1 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800 ${inkCursor.strokeWidth === w ? 'bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-600' : 'text-slate-600 dark:text-slate-200'}`}>
+                <span className="block w-5 rounded bg-current" style={{ height: w === 1 ? 2 : w === 2 ? 3 : 5 }} />
+              </button>
+            ))}
+          </div>
+          <InkPalette current={inkCursor.strokeColor} onPick={(color) => applyInk('pen', { strokeColor: color })} />
+        </div>
+      )}
+      {editable && !hideTools && activeToolType === 'text' && (
+        <div data-board-scroll className={`absolute top-1/2 z-20 flex w-44 -translate-y-1/2 flex-col gap-2 rounded-2xl border p-2.5 backdrop-blur ${zen ? 'right-[120px] border-white/15 bg-black/60' : 'right-[68px] border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/95'}`}>
+          <div className="flex items-center gap-1">
+            {[{ label: 'S', size: 16 }, { label: 'M', size: 20 }, { label: 'L', size: 28 }, { label: 'XL', size: 36 }].map(({ label, size }) => (
+              <button key={label} type="button" title={`字号 ${label}（${size}px）`} aria-label={`字号 ${label}`} onClick={() => applyInk('text', { fontSize: size })} className={`h-8 flex-1 rounded-lg text-xs font-semibold transition hover:bg-slate-100 dark:hover:bg-slate-800 ${inkCursor.fontSize === size ? 'bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-600' : 'text-slate-600 dark:text-slate-200'}`}>{label}</button>
+            ))}
+          </div>
+          <InkPalette current={inkCursor.strokeColor} onPick={(color) => applyInk('text', { strokeColor: color })} />
         </div>
       )}
       {editable && !hideTools && (

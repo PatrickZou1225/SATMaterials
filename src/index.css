@@ -78,6 +78,14 @@ body.board-hide-nav .site-nav {
   display: none !important;
 }
 
+/* The pen and text tools get our own simplified 粗细/字号 + 颜色 popups beside
+   the rail (ClassIn style) — Excalidraw's full properties island (Background,
+   Fill, Opacity…) stays out of the way while they are on. */
+.board-tool-freedraw .selected-shape-actions,
+.board-text-tool .selected-shape-actions {
+  display: none !important;
+}
+
 /* Tool properties (stroke colours, width, fonts) pop out beside the rail on
    the right — ClassIn-style — instead of covering the passage from the left.
    The fixed section collapses to zero width (its island is absolutely
