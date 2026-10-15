@@ -170,7 +170,9 @@ export default function BoardEditor() {
       const handout: BoardPage = {
         id: newId(),
         name: row.name,
-        background: { type: 'blank', color: '#ffffff', grid: false },
+        // Blackboard behind the pages: the white sheets stay clearly bounded
+        // (findable resize edge) and the margin is a real blackboard to write on.
+        background: { type: 'blank', color: '#000000', grid: false },
         scene: { elements: buildHandoutElements(layout), files: buildHandoutFiles(layout), appState: {} },
       }
       setPdf(doc)
@@ -251,6 +253,20 @@ export default function BoardEditor() {
     setPages(copy)
     setCurrentIndex((i) => Math.min(i, copy.length - 1))
     setDirty(true)
+  }
+
+  // The PDF window's ✕: drop the handout board, or leave a fresh blackboard
+  // when it is the only board. Its ink goes too — the confirm says so.
+  const closeHandout = () => {
+    if (!window.confirm('关闭这份讲义？画在它上面的内容也会一起移除（之后可以从「我的云盘」重新打开）。')) return
+    if (pages.length > 1) {
+      removePage(currentIndex)
+    } else {
+      setPages([blankPage('第 1 页', CANVAS_COLORS[0].color, false)])
+      setCurrentIndex(0)
+      sceneRef.current = null
+      setDirty(true)
+    }
   }
 
   const save = async (nextStatus?: 'draft' | 'published') => {
@@ -662,6 +678,7 @@ export default function BoardEditor() {
                   hideTools={hideTools}
                   zen={zen}
                   insertQuestion={insertQuestion}
+                  onClosePage={closeHandout}
                   onSceneChange={(scene, meta) => {
                     // Excalidraw fires once on mount with the loaded scene; only
                     // later callbacks mean the teacher actually drew something.

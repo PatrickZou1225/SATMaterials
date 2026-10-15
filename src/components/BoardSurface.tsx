@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ComponentProps, type PointerEvent as ReactPointerEvent } from 'react'
-import { ChevronLeft, ChevronRight, Maximize, Minus, MoveHorizontal, Plus } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Maximize, Minus, MoveHorizontal, Plus, X, ZoomOut } from 'lucide-react'
 import { CaptureUpdateAction, convertToExcalidrawElements, Excalidraw, FONT_FAMILY, restore } from '@excalidraw/excalidraw'
 import type { DataURL, ExcalidrawImperativeAPI, ExcalidrawInitialDataState, NormalizedZoomValue } from '@excalidraw/excalidraw/types'
 import type { FileId } from '@excalidraw/excalidraw/element/types'
@@ -24,6 +24,9 @@ export type BoardSurfaceProps = {
   // One-shot request from the editor's 搜题 panel: formatted question text to
   // drop at the viewport centre. A fresh `serial` means "insert now".
   insertQuestion?: { title: string; text: string; serial: number } | null
+  // The ✕ of the PDF window cluster: remove the handout board (the editor
+  // confirms first). Not passed in read-only views — the button hides.
+  onClosePage?: () => void
   // `structural` is false for UI-only changes (tool/ink/viewport), which lets the
   // caller avoid flagging a board dirty just because we recoloured the pen.
   onSceneChange?: (scene: BoardScene, meta: { structural: boolean }) => void
@@ -61,7 +64,7 @@ function useBackgroundImage(pdf: PDFDocumentProxy | null, page: BoardPage) {
   return image
 }
 
-export default function BoardSurface({ pdf, page, editable, theme, hideProperties, onToggleProperties, hideTools, zen, insertQuestion, onSceneChange }: BoardSurfaceProps) {
+export default function BoardSurface({ pdf, page, editable, theme, hideProperties, onToggleProperties, hideTools, zen, insertQuestion, onClosePage, onSceneChange }: BoardSurfaceProps) {
   const bg = useBackgroundImage(pdf, page)
   const apiRef = useRef<ExcalidrawImperativeAPI | null>(null)
   const hostRef = useRef<HTMLDivElement | null>(null)
@@ -232,6 +235,10 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
   }, [canvasColor, page.id])
 
   const prevElementsRef = useRef<readonly unknown[] | null>(null)
+  // True while any pointer is held — the settle-time ink guard must not replace
+  // an element that is still being drawn/edited.
+  const pointerHeldRef = useRef(false)
+  const DRAW_TOOLS: readonly string[] = ['text', 'freedraw', 'rectangle', 'diamond', 'ellipse', 'arrow', 'line']
 
   // Structural change = something worth saving. Swapping a page element to its
   // real bitmap rewrites only its fileId, which must NOT count as a change (it
@@ -402,6 +409,27 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     applyZoom(api, api.getAppState().zoom.value * factor, host.clientWidth / 2, host.clientHeight / 2)
   }
 
+  // "最大化" of the PDF window: fit the nearest page to the viewport WIDTH —
+  // the document fills the window, its top parked at the margin.
+  const maximizePage = (api: ExcalidrawImperativeAPI) => {
+    const host = hostRef.current
+    if (!host) return
+    setCollapsed(false)
+    const el = nearestPage(api)
+    if (!el) return
+    const zoom = Math.min(4, Math.max(0.1, (host.clientWidth - FIT_MARGIN) / el.width))
+    api.updateScene({
+      appState: {
+        zoom: { value: zoom as NormalizedZoomValue },
+        scrollX: host.clientWidth / 2 / zoom - (el.x + el.width / 2),
+        scrollY: FIT_MARGIN / zoom - el.y,
+      },
+      captureUpdate: CaptureUpdateAction.NEVER,
+    })
+    lastZoomAtRef.current = Date.now()
+    scheduleRenderRef.current()
+  }
+
   // "Fit page": centre the nearest handout page. Old-style boards (a PDF page
   // as the background) fit that page; blank boards fit whatever has been
   // drawn, or recentre the origin when empty.
@@ -539,13 +567,12 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
   }
   const onResizeUp = () => { resizeDragRef.current = null }
 
-  // Drag the handout itself to move it around (the pages are locked, so a plain
-  // Excalidraw drag does nothing on them). With the selection tool active, a
-  // press that starts ON a page pans the viewport — like grabbing the document
-  // window; annotations keep their positions relative to the pages, so the
-  // whole sheet travels together. Pen / shapes / text tools are untouched, and
-  // a click without movement still falls through (double-click keeps creating
-  // text where a page is under the cursor).
+  // The pointer workhorse (capture phase — Excalidraw swallows bubble-phase
+  // pointer events): (1) with a draw tool, pre-pick the default ink colour by
+  // where the pen lands on a handout board; (2) with the selection tool, drag
+  // on a page pans the viewport — like grabbing the document window, so the
+  // sheet travels with its annotations; (3) tracks the held pointer so the
+  // settle-time colour guard never replaces an element mid-stroke.
   useEffect(() => {
     const host = hostRef.current
     if (!host || !editable) return
@@ -562,10 +589,24 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
         sceneX >= el.x && sceneX <= el.x + el.width && sceneY >= el.y && sceneY <= el.y + el.height)
     }
     const onDown = (e: PointerEvent) => {
+      pointerHeldRef.current = true
       if (e.button !== 0) return
       const api = apiRef.current
       if (!api) return
-      if (api.getAppState().activeTool.type !== 'selection') return
+      const tool = api.getAppState().activeTool.type
+      // Before a draw tool starts an element on a handout board, pick the
+      // default ink for where the pen lands: white belongs on the black canvas,
+      // dark on a white page. Only the two default inks are switched — a
+      // deliberately chosen colour is never overridden.
+      if (DRAW_TOOLS.includes(tool) && api.getSceneElements().some((el) => el.type === 'image' && pdfPageOf(el) !== null)) {
+        const want = onPage(e.clientX, e.clientY) ? '#1e1e1e' : '#ffffff'
+        const cur = api.getAppState().currentItemStrokeColor
+        if ((cur === '#ffffff' || cur === '#1e1e1e') && cur !== want) {
+          api.updateScene({ appState: { currentItemStrokeColor: want }, captureUpdate: CaptureUpdateAction.NEVER })
+        }
+        return
+      }
+      if (tool !== 'selection') return
       const t = e.target as HTMLElement | null
       if (t && t.closest('button, [data-board-scroll]')) return
       if (!onPage(e.clientX, e.clientY)) return
@@ -590,6 +631,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
       scheduleRenderRef.current()
     }
     const onUp = (e: PointerEvent) => {
+      pointerHeldRef.current = false
       if (!drag || e.pointerId !== drag.id) return
       const moved = drag.moved
       drag = null
@@ -716,14 +758,19 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
       const clamped = Math.max(6, Math.min(hostW - 6, edge))
       setPageEdgeX((prev) => (prev === clamped ? prev : clamped))
     }
-    // Legibility guard for text: the white default belongs on the black canvas,
-    // but a text typed on (or dragged onto) a white handout page would vanish.
-    // Flip only between the two default inks and only when the position demands
-    // it — deliberately chosen colours are never touched. The flip converges,
-    // so the updateScene below cannot loop back through this handler.
-    if (pageEls.length > 0) {
+    // Legibility guard for ink: the white default belongs on the black canvas,
+    // but text / pen strokes / shape outlines that land on (or are dragged onto)
+    // a white handout page would vanish. Flip only between the two default inks
+    // and only when the position demands it — deliberately chosen colours are
+    // never touched. The flip converges, so the updateScene below cannot loop
+    // back through this handler.
+    // Settle-time only — never touch an element the teacher is still creating
+    // or editing (replacing it mid-stroke kills the in-progress element).
+    if (pageEls.length > 0 && !pointerHeldRef.current && !appStateState.editingTextElement) {
+      const INK_TYPES: readonly string[] = ['text', 'freedraw', 'rectangle', 'diamond', 'ellipse', 'arrow', 'line']
       const next = els.map((el) => {
-        if (el.type !== 'text' || el.isDeleted || el.containerId) return el
+        if (el.isDeleted || !INK_TYPES.includes(el.type)) return el
+        if (el.type === 'text' && el.containerId) return el
         const colour = el.strokeColor
         if (colour !== '#ffffff' && colour !== '#1e1e1e') return el
         const cx = el.x + el.width / 2
@@ -886,10 +933,20 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
           </div>
         </div>
       )}
-      {pageInfo && (
-        <button type="button" onClick={() => { const api = apiRef.current; if (api) toggleCollapse(api) }} title={collapsed ? '展开讲义（回到收起前的位置）' : '最小化讲义（收起 PDF，腾出黑板）'} aria-label={collapsed ? '展开讲义' : '最小化讲义'} className={`absolute right-4 z-10 grid h-8 w-8 place-items-center rounded-lg border border-slate-200 bg-white/95 text-slate-600 shadow-sm backdrop-blur transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200 dark:hover:bg-slate-800 ${zen ? 'top-14' : 'top-4'}`}>
-          {collapsed ? <Maximize size={15} /> : <Minus size={15} />}
+      {pageInfo && collapsed && (
+        <button type="button" onClick={() => { const api = apiRef.current; if (api) toggleCollapse(api) }} title="展开讲义（回到收起前的位置）" aria-label="展开讲义" className={`absolute right-4 z-10 grid h-8 w-8 place-items-center rounded-lg border border-slate-200 bg-white/95 text-slate-600 shadow-sm backdrop-blur transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200 dark:hover:bg-slate-800 ${zen ? 'top-14' : 'top-4'}`}>
+          <Maximize size={15} />
         </button>
+      )}
+      {pageInfo && !collapsed && pageEdgeX !== null && (
+        <div className="absolute z-10 flex -translate-x-full items-center gap-0.5 rounded-xl border border-slate-200 bg-white/95 p-0.5 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200" style={{ left: Math.max(164, pageEdgeX - 8), top: zen ? 56 : 12 }}>
+          <button type="button" onClick={() => { const api = apiRef.current; if (api) maximizePage(api) }} title="最大化（页面铺满窗口宽度）" aria-label="最大化" className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><Maximize size={15} /></button>
+          <button type="button" onClick={() => { const api = apiRef.current; if (api) toggleCollapse(api) }} title="最小化（收起讲义，腾出黑板）" aria-label="最小化" className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><Minus size={15} /></button>
+          <button type="button" onClick={() => { const api = apiRef.current; if (api) zoomByStep(api, 1 / 1.25) }} title="缩小一档" aria-label="缩小" className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><ZoomOut size={15} /></button>
+          {onClosePage && (
+            <button type="button" onClick={onClosePage} title="关闭这份讲义（从这块板移除）" aria-label="关闭" className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><X size={15} /></button>
+          )}
+        </div>
       )}
       {pageInfo && pageEdgeX !== null && (
         <button
