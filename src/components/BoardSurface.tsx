@@ -525,11 +525,10 @@ export default function BoardSurface({ pdf, page, editable, theme, hidePropertie
     const zoom = api.getAppState().zoom.value
     api.updateScene({
       appState: {
-        // Screen position of a scene point: screen = (scene + scroll) * zoom —
-        // so centring a point means scroll = screenCentre/zoom − scene. The old
-        // `+` signs marked it the other way round and parked the viewport one
-        // document-length away in empty space (the "jump shows nothing" bug).
-        scrollX: host.clientWidth / 2 / zoom - (el.x + el.width / 2),
+        // Vertical only: the teacher places the sheet left/right by dragging
+        // and a jump must not yank it back to centre. The old sign bug here
+        // (scroll = scene − centre) parked the viewport in empty space; the
+        // old horizontal recentring parked it in the middle of the canvas.
         scrollY: FIT_MARGIN / zoom - el.y,
       },
       captureUpdate: CaptureUpdateAction.NEVER,
