@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ComponentProps, type PointerEvent as ReactPointerEvent } from 'react'
-import { BoxSelect, ChevronLeft, ChevronRight, Eraser, Maximize, Minus, MousePointer2, MoveHorizontal, Pencil, Plus, Type, X, ZoomOut } from 'lucide-react'
+import { BoxSelect, ChevronLeft, ChevronRight, Circle, Eraser, Maximize, Minus, MousePointer2, MoveHorizontal, Pencil, Plus, Square, Type, X, ZoomOut } from 'lucide-react'
 import { CaptureUpdateAction, convertToExcalidrawElements, Excalidraw, FONT_FAMILY, restore } from '@excalidraw/excalidraw'
 import type { DataURL, ExcalidrawImperativeAPI, ExcalidrawInitialDataState, NormalizedZoomValue } from '@excalidraw/excalidraw/types'
 import type { FileId } from '@excalidraw/excalidraw/element/types'
@@ -29,17 +29,26 @@ export type BoardSurfaceProps = {
   onSceneChange?: (scene: BoardScene, meta: { structural: boolean }) => void
 }
 
-// ClassIn-style colour picks for the pen / text popups: a light-to-dark row,
-// three vivid rows, and the system colour wheel for anything else.
+// Same swatches Excalidraw's own properties panel offers: four neutral tints,
+// then the vivid grid, then a rainbow wheel for a custom colour.
 const INK_PALETTE = [
   '#ffffff', '#ced4da', '#495057', '#000000',
   '#e03131', '#f76707', '#f59f00', '#37b24d',
   '#15aabf', '#1971c2', '#7048e8', '#f06595',
 ]
 
+const DRAW_SHAPES = [
+  { type: 'freedraw', label: '画笔', Icon: Pencil },
+  { type: 'line', label: '直线', Icon: Minus },
+  { type: 'ellipse', label: '椭圆', Icon: Circle },
+  { type: 'rectangle', label: '矩形', Icon: Square },
+] as const
+const DRAW_TOOL_TYPES: readonly string[] = DRAW_SHAPES.map((s) => s.type)
+
 function InkPalette({ current, onPick }: { current: string; onPick: (color: string) => void }) {
+  const isCurrent = (color: string) => current.toLowerCase() === color
   return (
-    <div className="grid grid-cols-6 gap-1">
+    <div className="grid grid-cols-4 justify-items-center gap-2">
       {INK_PALETTE.map((color) => (
         <button
           key={color}
@@ -47,11 +56,15 @@ function InkPalette({ current, onPick }: { current: string; onPick: (color: stri
           title={color}
           onClick={() => onPick(color)}
           style={{ background: color }}
-          className={`h-6 w-6 rounded-md border ${current === color ? 'ring-2 ring-blue-500' : 'border-slate-300 dark:border-slate-600'}`}
+          className={`h-7 w-7 rounded-full border transition ${isCurrent(color) ? 'border-transparent ring-2 ring-blue-500 ring-offset-2 ring-offset-white dark:ring-white dark:ring-offset-slate-900' : 'border-black/10 dark:border-white/20'}`}
         />
       ))}
-      <label title="自定义颜色" className="relative h-6 w-6 cursor-pointer overflow-hidden rounded-md border border-slate-300 dark:border-slate-600">
-        <input type="color" value={current} onChange={(e) => onPick(e.target.value)} className="absolute -left-2 -top-2 h-10 w-10 cursor-pointer" />
+      <label
+        title="自定义颜色"
+        className={`relative h-7 w-7 cursor-pointer overflow-hidden rounded-full border transition ${INK_PALETTE.some(isCurrent) ? 'border-black/10 dark:border-white/20' : 'border-transparent ring-2 ring-blue-500 ring-offset-2 ring-offset-white dark:ring-white dark:ring-offset-slate-900'}`}
+      >
+        <span className="absolute inset-0 block bg-[conic-gradient(#ff0000,#ffff00,#00ff00,#00ffff,#0000ff,#ff00ff,#ff0000)]" />
+        <input type="color" value={current} onChange={(e) => onPick(e.target.value)} className="absolute -left-2 -top-2 h-10 w-10 cursor-pointer opacity-0" />
       </label>
     </div>
   )
@@ -140,11 +153,20 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
   // again (the teacher asked for a way to put the popup away).
   const [penPanelOpen, setPenPanelOpen] = useState(true)
   const [textPanelOpen, setTextPanelOpen] = useState(true)
+  // The brush can morph into a straight line / ellipse / rectangle (long-press
+  // the rail button or pick it in the panel). The last choice sticks.
+  const [drawTool, setDrawTool] = useState<'freedraw' | 'line' | 'ellipse' | 'rectangle'>('freedraw')
+  // Long-press the rail brush to pop the four shape choices beside it.
+  const [shapeMenuOpen, setShapeMenuOpen] = useState(false)
+  const penHoldRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const penHoldFiredRef = useRef(false)
   const [marqueeMode, setMarqueeMode] = useState(false)
   const marqueeModeRef = useRef(false)
   const [quietText, setQuietText] = useState(false)
   const [inkCursor, setInkCursor] = useState({ strokeColor: '#ffffff', strokeWidth: 2, fontSize: 28 })
   const textToolOn = activeToolType === 'text'
+  const drawToolActive = DRAW_TOOL_TYPES.includes(activeToolType)
+  const DrawIcon = DRAW_SHAPES.find((shape) => shape.type === drawTool)?.Icon ?? Pencil
   // The wheel listener is attached once, so the viewport helpers below read
   // live values through refs instead of closing over render-scoped state.
   const bgSizeRef = useRef<{ width: number; height: number } | null>(null)
@@ -617,12 +639,38 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
   // included) draws a selection box instead of panning, so the teacher can
   // lasso their own text; 点击 restores the plain selection tool (drag on a
   // page = move the document).
-  const setTool = (type: 'freedraw' | 'text' | 'eraser') => {
+  const setTool = (type: 'freedraw' | 'line' | 'ellipse' | 'rectangle' | 'text' | 'eraser') => {
     const api = apiRef.current
     if (!api) return
     marqueeModeRef.current = false
     setMarqueeMode(false)
+    setShapeMenuOpen(false)
     api.setActiveTool({ type })
+  }
+  // Long-press the brush badge to morph it into a line / ellipse / rectangle.
+  // A plain click still toggles the settings panel; the click that follows a
+  // held press is swallowed so it does not immediately close the shape menu.
+  const endPenHold = () => {
+    if (penHoldRef.current) { clearTimeout(penHoldRef.current); penHoldRef.current = null }
+  }
+  const startPenHold = () => {
+    penHoldFiredRef.current = false
+    penHoldRef.current = setTimeout(() => {
+      penHoldFiredRef.current = true
+      setPenPanelOpen(false)
+      setShapeMenuOpen(true)
+      if (!drawToolActive) {
+        marqueeModeRef.current = false
+        setMarqueeMode(false)
+        apiRef.current?.setActiveTool({ type: drawTool })
+      }
+    }, 450)
+  }
+  const onPenClick = () => {
+    if (penHoldFiredRef.current) { penHoldFiredRef.current = false; return }
+    if (shapeMenuOpen) { setShapeMenuOpen(false); return }
+    if (drawToolActive) setPenPanelOpen((v) => !v)
+    else { setPenPanelOpen(true); setTool(drawTool) }
   }
   // Pen / text settings popups: apply to the pending tool values, and — when
   // the teacher has picked a tool that is already selected elements of that
@@ -631,7 +679,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
     const api = apiRef.current
     if (!api) return
     const st = api.getAppState()
-    const matchTypes = kind === 'pen' ? ['freedraw'] : ['text']
+    const matchTypes = kind === 'pen' ? [...DRAW_TOOL_TYPES, 'diamond', 'arrow'] : ['text']
     let changed = false
     const elements = api.getSceneElements().map((el) => {
       if (!st.selectedElementIds[el.id] || el.isDeleted || !matchTypes.includes(el.type)) return el
@@ -956,7 +1004,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
   }), [elements, appState, files, page.id])
 
   return (
-    <div ref={hostRef} className={`relative h-full w-full${hideTools ? ' board-hide-tools' : ''}${quietText ? ' board-quiet-text' : ''}${textToolOn ? ' board-text-tool' : ''}${activeToolType === 'freedraw' ? ' board-tool-freedraw' : ''}${zen ? ' board-zen' : ''}`}>
+    <div ref={hostRef} className={`relative h-full w-full${hideTools ? ' board-hide-tools' : ''}${quietText ? ' board-quiet-text' : ''}${textToolOn ? ' board-text-tool' : ''}${drawToolActive ? ' board-draw-tool' : ''}${zen ? ' board-zen' : ''}`}>
       <Excalidraw
         key={page.id}
         excalidrawAPI={handleApi}
@@ -1040,8 +1088,38 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
           </div>
         </div>
       )}
-      {editable && !hideTools && activeToolType === 'freedraw' && penPanelOpen && (
-        <div data-board-scroll className={`absolute top-1/2 z-20 flex w-44 -translate-y-1/2 flex-col gap-2 rounded-2xl border p-2.5 backdrop-blur ${zen ? 'right-[120px] border-white/15 bg-black/60' : 'right-[68px] border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/95'}`}>
+      {editable && !hideTools && shapeMenuOpen && (
+        <div data-board-scroll className={`absolute top-1/2 z-30 flex -translate-y-1/2 items-center gap-1 rounded-2xl border p-1.5 backdrop-blur ${zen ? 'right-[120px] border-white/15 bg-black/60' : 'right-[68px] border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/95'}`}>
+          {DRAW_SHAPES.map(({ type, label, Icon }) => (
+            <button
+              key={type}
+              type="button"
+              title={label}
+              aria-label={label}
+              onClick={() => { setDrawTool(type); setTool(type); setPenPanelOpen(true) }}
+              className={`grid h-9 w-9 place-items-center rounded-xl transition ${drawTool === type ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}
+            >
+              <Icon size={16} />
+            </button>
+          ))}
+        </div>
+      )}
+      {editable && !hideTools && DRAW_TOOL_TYPES.includes(activeToolType) && penPanelOpen && (
+        <div data-board-scroll className={`absolute top-1/2 z-20 flex w-48 -translate-y-1/2 flex-col gap-2.5 rounded-2xl border p-2.5 backdrop-blur ${zen ? 'right-[120px] border-white/15 bg-black/60' : 'right-[68px] border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/95'}`}>
+          <div className="flex items-center gap-1">
+            {DRAW_SHAPES.map(({ type, label, Icon }) => (
+              <button
+                key={type}
+                type="button"
+                title={label}
+                aria-label={label}
+                onClick={() => { setDrawTool(type); setTool(type) }}
+                className={`grid h-9 flex-1 place-items-center rounded-lg transition ${activeToolType === type ? 'bg-blue-600 text-white' : 'text-slate-500 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'}`}
+              >
+                <Icon size={16} />
+              </button>
+            ))}
+          </div>
           <div className="flex items-center gap-1">
             {[1, 2, 4].map((w) => (
               <button key={w} type="button" title={`粗细 ${w}`} aria-label={`粗细 ${w}`} onClick={() => applyInk('pen', { strokeWidth: w })} className={`grid h-8 flex-1 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800 ${inkCursor.strokeWidth === w ? 'bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-600' : 'text-slate-600 dark:text-slate-200'}`}>
@@ -1066,7 +1144,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
         <div className={`board-tool-rail absolute top-1/2 z-20 flex -translate-y-1/2 flex-col gap-0.5 rounded-2xl border p-1.5 backdrop-blur ${zen ? 'right-[64px] border-white/15 bg-black/60' : 'right-3 border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/95'}`}>
           <button type="button" title="点击（选中/移动）" aria-label="点击" onClick={() => selectTool(false)} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'selection' && !marqueeMode ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><MousePointer2 size={17} /></button>
           <button type="button" title="框选（圈住自己写的内容）" aria-label="框选" onClick={() => selectTool(true)} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'selection' && marqueeMode ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><BoxSelect size={17} /></button>
-          <button type="button" title="画笔" aria-label="画笔" onClick={() => { if (activeToolType === 'freedraw') setPenPanelOpen((v) => !v); else { setPenPanelOpen(true); setTool('freedraw') } }} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'freedraw' ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><Pencil size={17} /></button>
+          <button type="button" title="画笔（长按切换直线 / 椭圆 / 矩形）" aria-label="画笔" onPointerDown={startPenHold} onPointerUp={endPenHold} onPointerLeave={endPenHold} onPointerCancel={endPenHold} onClick={onPenClick} className={`grid h-9 w-9 place-items-center rounded-xl transition ${drawToolActive ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><DrawIcon size={17} /></button>
           <button type="button" title="文字" aria-label="文字" onClick={() => { if (activeToolType === 'text') setTextPanelOpen((v) => !v); else { setTextPanelOpen(true); setTool('text') } }} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'text' ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><Type size={17} /></button>
           <button type="button" title="橡皮" aria-label="橡皮" onClick={() => setTool('eraser')} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'eraser' ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><Eraser size={17} /></button>
         </div>

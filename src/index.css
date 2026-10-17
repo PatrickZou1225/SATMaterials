@@ -76,7 +76,7 @@ body.board-hide-nav .site-nav {
 /* The pen and text tools get our own simplified 粗细/字号 + 颜色 popups beside
    the rail (ClassIn style) — Excalidraw's full properties island (Background,
    Fill, Opacity…) stays out of the way while they are on. */
-.board-tool-freedraw .selected-shape-actions,
+.board-draw-tool .selected-shape-actions,
 .board-text-tool .selected-shape-actions {
   display: none !important;
 }
