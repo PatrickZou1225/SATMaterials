@@ -1045,10 +1045,29 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
       width: sheet.width * zoom,
       height: sheet.height * zoom,
     })
-    // Give the remounted canvas time to decode and draw, then fade the cover.
-    const fade = window.setTimeout(() => setCoverFading(true), 450)
-    const clear = window.setTimeout(() => setCover(null), 700)
-    return () => { window.clearTimeout(fade); window.clearTimeout(clear) }
+    // Hold the cover until the sheet bitmap has actually decoded. A fixed
+    // timeout revealed Excalidraw's grey image placeholder whenever a page
+    // took longer than that to decode, which is the flash on every flip. Wait
+    // for decode, then give the remounted canvas a beat to paint it.
+    let cancelled = false
+    let timer = 0
+    const reveal = () => {
+      if (cancelled) return
+      timer = window.setTimeout(() => {
+        if (cancelled) return
+        // Nudge a paint with the decoded bitmap already in Excalidraw's cache.
+        apiRef.current?.refresh()
+        setCoverFading(true)
+        timer = window.setTimeout(() => setCover(null), 220)
+      }, 150)
+    }
+    const image = new Image()
+    image.src = file.dataURL
+    image.decode().then(reveal, () => {
+      // Undecodable: nothing better to cover with, so show the canvas anyway.
+      timer = window.setTimeout(reveal, 300)
+    })
+    return () => { cancelled = true; window.clearTimeout(timer) }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page.id])
 

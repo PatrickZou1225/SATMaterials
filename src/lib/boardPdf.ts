@@ -64,6 +64,11 @@ export async function buildSheet(
   let elements = buildHandoutElements([layout])
   try {
     const rendered = await renderPdfPageToDataUrl(pdf, layout.page)
+    // Decode the bitmap before the swap: the cover <img> can then paint the
+    // page on the first frame, and Excalidraw's own load hits a warm cache.
+    const bitmap = new Image()
+    bitmap.src = rendered.dataUrl
+    await bitmap.decode().catch(() => {})
     const id = pdfBitmapId(layout.page)
     files[id] = { id: id as FileId, mimeType: 'image/png', dataURL: rendered.dataUrl as DataURL, created: Date.now() }
     elements = elements.map((el) => (pdfPageOf(el) === layout.page ? { ...el, fileId: id as FileId } : el))
