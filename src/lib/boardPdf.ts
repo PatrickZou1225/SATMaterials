@@ -5,7 +5,10 @@ import { pdfPlaceholderDataUrl, pdfPlaceholderId, type PdfPageLayout } from './b
 
 // NOTE: imports the Excalidraw runtime, so callers must import() this lazily.
 
-// One image element per PDF page, stacked at the positions the layout computed.
+// One image element per PDF page. The layout's `y` is a column offset from the
+// old all-pages-at-once model; the board now shows a single sheet at a time, so
+// every sheet sits at the scene origin. Placing page N at its column offset put
+// it far below the viewport, which read as an all-black board.
 // BoardSurface locks every page on load so the handout reads as one fixed
 // document: pages can be neither dragged apart nor selected by accident.
 export function buildHandoutElements(layout: PdfPageLayout[]): OrderedExcalidrawElement[] {
@@ -14,7 +17,7 @@ export function buildHandoutElements(layout: PdfPageLayout[]): OrderedExcalidraw
       type: 'image' as const,
       id: `pdf-el-${p.page}` as ExcalidrawElement['id'],
       x: 0,
-      y: p.y,
+      y: 0,
       width: p.width,
       height: p.height,
       fileId: pdfPlaceholderId(p.page) as FileId,

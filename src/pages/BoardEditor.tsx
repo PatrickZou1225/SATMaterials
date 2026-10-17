@@ -232,7 +232,9 @@ export default function BoardEditor() {
         scene: {
           elements: [...buildHandoutElements([layout]), ...(allNotes[next] ?? [])],
           files: { ...current.scene.files, ...buildHandoutFiles([layout]) },
-          appState: {},
+          // Keep the teacher's zoom / page position across flips; only a
+          // never-positioned scene falls back to the left-docked fit.
+          appState: { ...current.scene.appState },
         },
         handout: { ...h, page: next, notes: allNotes },
       }

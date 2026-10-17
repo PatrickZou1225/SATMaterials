@@ -369,8 +369,10 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
     return () => window.clearTimeout(renderTimerRef.current)
   }, [])
 
-  // Fit the first page of a freshly loaded handout so it opens readable instead
-  // of showing origin at whatever Excalidraw's default zoom is.
+  // A freshly loaded handout opens like a ClassIn document window: the page
+  // docks to the LEFT, scaled to fit the window height, leaving the right side
+  // of the canvas free for the blackboard. The teacher can then drag the page's
+  // right edge to resize it.
   useEffect(() => {
     if (!needsFit) return
     const api = apiRef.current
@@ -379,10 +381,12 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
     const first = page.scene.elements.find((el) => pdfPageOf(el) !== null)
     if (!first) return
     const raf = requestAnimationFrame(() => {
-      const zoom = Math.max(0.1, Math.min((host.clientWidth - 24) / first.width, (host.clientHeight - 24) / first.height, 4))
-      // sceneX(screenX) = screenX / zoom - scrollX, so park the page centre mid-view.
-      const scrollX = host.clientWidth / 2 / zoom - first.x - first.width / 2
-      const scrollY = host.clientHeight / 2 / zoom - first.y - first.height / 2
+      const margin = 24
+      const zoom = Math.max(0.1, Math.min((host.clientHeight - margin) / first.height, (host.clientWidth - margin) / first.width, 1))
+      // sceneX(screenX) = screenX / zoom - scrollX, so this parks the page's
+      // top-left corner at the margin instead of centring it.
+      const scrollX = margin / zoom - first.x
+      const scrollY = margin / zoom - first.y
       api.updateScene({
         appState: { zoom: { value: zoom as NormalizedZoomValue }, scrollX, scrollY },
         captureUpdate: CaptureUpdateAction.NEVER,

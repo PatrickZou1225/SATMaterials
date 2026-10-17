@@ -98,7 +98,8 @@ export default function BoardView() {
         scene: {
           elements: [...buildHandoutElements([layout]), ...(allNotes[next] ?? [])],
           files: { ...page.scene.files, ...buildHandoutFiles([layout]) },
-          appState: {},
+          // Keep the student's zoom / page position across flips.
+          appState: { ...page.scene.appState },
         },
         handout: { ...h, page: next, notes: allNotes },
       }
