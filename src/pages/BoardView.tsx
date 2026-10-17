@@ -43,6 +43,9 @@ export default function BoardView() {
       if (row.files_path) {
         try { loaded = attachPageFiles(loaded, await downloadBoardFiles(row.files_path)) } catch { /* drawings still load without pasted images */ }
       }
+      // Open handouts with the sheet re-docked on the left, not wherever the
+      // saved viewport happened to leave it.
+      loaded = loaded.map((p) => (p.handout ? { ...p, scene: { ...p.scene, appState: {} } } : p))
       if (!active) return
       setBoard(row)
       setPages(loaded)
@@ -77,7 +80,7 @@ export default function BoardView() {
   // Read-only flipping: swap the sheet and its own notes, exactly like the
   // editor — but nothing is persisted here.
   const flippingRef = useRef(false)
-  const flipHandout = async (target: number) => {
+  const flipHandout = async (target: number, viewScrollY?: number) => {
     if (flippingRef.current) return
     const page = pages[currentIndex]
     const h = page?.handout
@@ -98,8 +101,12 @@ export default function BoardView() {
         scene: {
           elements: [...buildHandoutElements([layout]), ...(allNotes[next] ?? [])],
           files: { ...page.scene.files, ...buildHandoutFiles([layout]) },
-          // Keep the student's zoom / page position across flips.
-          appState: { ...page.scene.appState },
+          // Keep the student's zoom / page position across flips; a scroll-driven
+          // flip passes where the new sheet should land (top or bottom).
+          appState: {
+            ...page.scene.appState,
+            ...(typeof viewScrollY === 'number' ? { scrollY: viewScrollY } : {}),
+          },
         },
         handout: { ...h, page: next, notes: allNotes },
       }
@@ -147,7 +154,7 @@ export default function BoardView() {
           {currentPage.background.type === 'pdf' && !pdf
             ? <div className="grid h-full place-items-center text-slate-500">PDF 加载中…</div>
             : <Suspense fallback={<div className="grid h-full place-items-center text-slate-500">正在加载白板…</div>}>
-                <BoardSurface key={currentPage.id} pdf={pdf} page={currentPage} editable={false} theme={theme} onFlip={currentPage.handout ? (n) => void flipHandout(n) : undefined} />
+                <BoardSurface key={currentPage.id} pdf={pdf} page={currentPage} editable={false} theme={theme} onFlip={currentPage.handout ? (n, viewScrollY) => void flipHandout(n, viewScrollY) : undefined} />
               </Suspense>}
         </main>
       </div>

@@ -126,6 +126,9 @@ export default function BoardEditor() {
       if (row.files_path) {
         try { loaded = attachPageFiles(loaded, await downloadBoardFiles(row.files_path)) } catch { /* drawings still load; pasted images may be missing */ }
       }
+      // A saved handout's viewport is stale as a layout: opening the board
+      // re-docks the sheet on the left (see BoardSurface's fit effect).
+      loaded = loaded.map((p) => (p.handout ? { ...p, scene: { ...p.scene, appState: {} } } : p))
       if (!active) return
       setBoard(row)
       setTitle(row.title)
@@ -209,7 +212,7 @@ export default function BoardEditor() {
   // Flip the handout: swap the PDF sheet AND its annotations in one step, so the
   // notes always stay with the page they were written on.
   const flippingRef = useRef(false)
-  const flipHandout = async (target: number) => {
+  const flipHandout = async (target: number, viewScrollY?: number) => {
     if (flippingRef.current) return
     const base = mergedPages()
     const index = currentIndexRef.current
@@ -232,9 +235,12 @@ export default function BoardEditor() {
         scene: {
           elements: [...buildHandoutElements([layout]), ...(allNotes[next] ?? [])],
           files: { ...current.scene.files, ...buildHandoutFiles([layout]) },
-          // Keep the teacher's zoom / page position across flips; only a
-          // never-positioned scene falls back to the left-docked fit.
-          appState: { ...current.scene.appState },
+          // Keep the teacher's zoom / page position across flips; a scroll-driven
+          // flip passes where the new sheet should land (top or bottom).
+          appState: {
+            ...current.scene.appState,
+            ...(typeof viewScrollY === 'number' ? { scrollY: viewScrollY } : {}),
+          },
         },
         handout: { ...h, page: next, notes: allNotes },
       }
@@ -737,7 +743,7 @@ export default function BoardEditor() {
                   zen={zen}
                   insertQuestion={insertQuestion}
                   onClosePage={closeHandout}
-                  onFlip={currentPage.handout ? (n) => void flipHandout(n) : undefined}
+                  onFlip={currentPage.handout ? (n, viewScrollY) => void flipHandout(n, viewScrollY) : undefined}
                   onSceneChange={(scene, meta) => {
                     // Excalidraw fires once on mount with the loaded scene; only
                     // later callbacks mean the teacher actually drew something.

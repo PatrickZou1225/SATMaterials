@@ -26,7 +26,9 @@ export type BoardSurfaceProps = {
   onClosePage?: () => void
   // Single-board handouts: flipping swaps the PDF page and its own notes. When
   // absent, the board is the classic tall column and page jumps scroll it.
-  onFlip?: (page: number) => void
+  // `viewScrollY` parks the incoming sheet at the top (scrolled down past the
+  // end) or the bottom (scrolled up past the start) for a continuous read.
+  onFlip?: (page: number, viewScrollY?: number) => void
   // `structural` is false for UI-only changes (tool/ink/viewport), which lets the
   // caller avoid flagging a board dirty just because we recoloured the pen.
   onSceneChange?: (scene: BoardScene, meta: { structural: boolean }) => void
@@ -39,6 +41,11 @@ const INK_PALETTE = [
   '#e03131', '#f76707', '#f59f00', '#37b24d',
   '#15aabf', '#1971c2', '#7048e8', '#f06595',
 ]
+
+// A scroll-driven page flip remounts the whole surface (new page id), so an
+// instance ref cannot throttle the rest of a trackpad fling. Keep the cooldown
+// at module scope so one gesture turns at most one page.
+let lastAutoFlip = 0
 
 function InkPalette({ current, onPick }: { current: string; onPick: (color: string) => void }) {
   return (
@@ -152,6 +159,10 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
   // live values through refs instead of closing over render-scoped state.
   const bgSizeRef = useRef<{ width: number; height: number } | null>(null)
   bgSizeRef.current = bg ? { width: bg.width, height: bg.height } : null
+  // The collapse state is read by the (once-registered) wheel handler, which
+  // must not pin the viewport to the sheet while the teacher is on the blackboard.
+  const collapsedRef = useRef(false)
+  collapsedRef.current = collapsed
 
   // A handout page carries the whole PDF as a column of image elements. Its
   // bitmaps are rendered lazily (see renderVisibleRef). A saved board restores
@@ -370,9 +381,9 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
   }, [])
 
   // A freshly loaded handout opens like a ClassIn document window: the page
-  // docks to the LEFT, scaled to fit the window height, leaving the right side
-  // of the canvas free for the blackboard. The teacher can then drag the page's
-  // right edge to resize it.
+  // docks to the LEFT at 100% (shrinking only if the window is narrower than
+  // the sheet), leaving the right side of the canvas free for the blackboard.
+  // The teacher can then drag the page's right edge to resize it.
   useEffect(() => {
     if (!needsFit) return
     const api = apiRef.current
@@ -382,7 +393,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
     if (!first) return
     const raf = requestAnimationFrame(() => {
       const margin = 24
-      const zoom = Math.max(0.1, Math.min((host.clientHeight - margin) / first.height, (host.clientWidth - margin) / first.width, 1))
+      const zoom = Math.max(0.1, Math.min(1, (host.clientWidth - margin) / first.width))
       // sceneX(screenX) = screenX / zoom - scrollX, so this parks the page's
       // top-left corner at the margin instead of centring it.
       const scrollX = margin / zoom - first.x
@@ -826,8 +837,43 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
       } else {
         // Plain wheel / two-finger swipe: scroll the handout straight up/down —
         // the page stays nailed to the vertical axis no matter how the fingers
-        // drift, which is the calmest way through a long document. Horizontal
-        // movement (rarely needed) lives on Shift+wheel.
+        // drift, which is the calmest way through a long document. On a
+        // single-sheet handout, scrolling past the sheet's bottom (or above its
+        // top) swaps to the neighbouring page, so the teacher reads continuously
+        // instead of clicking the page arrows.
+        const sheet = api.getSceneElements().find((el) => pdfPageOf(el) !== null)
+        const h = page.handout
+        if (onFlip && h && sheet && !collapsedRef.current) {
+          const zoom = app.zoom.value
+          const viewH = host.clientHeight / zoom
+          // The sheet may be scrolled only within its own bounds — never into
+          // the empty canvas past its edges, which left the teacher stranded
+          // outside the document after a fast scroll.
+          const topLimit = -sheet.y
+          const bottomLimit = viewH - sheet.y - sheet.height
+          const fits = bottomLimit >= topLimit
+          const wanted = app.scrollY - e.deltaY / zoom
+          const pastBottom = e.deltaY > 0 && (fits || wanted < bottomLimit)
+          const pastTop = e.deltaY < 0 && (fits || wanted > topLimit)
+          if (Date.now() - lastAutoFlip > 250) {
+            if (pastBottom && h.page < h.pageCount) {
+              lastAutoFlip = Date.now()
+              onFlip(h.page + 1, 24 / zoom - sheet.y)
+              return
+            }
+            if (pastTop && h.page > 1) {
+              lastAutoFlip = Date.now()
+              onFlip(h.page - 1, (host.clientHeight - 24) / zoom - sheet.y - sheet.height)
+              return
+            }
+          }
+          api.updateScene({
+            appState: { scrollY: fits ? topLimit : Math.min(topLimit, Math.max(bottomLimit, wanted)) },
+            captureUpdate: CaptureUpdateAction.NEVER,
+          })
+          scheduleRenderRef.current()
+          return
+        }
         api.updateScene({
           appState: { scrollY: app.scrollY - e.deltaY / app.zoom.value },
           captureUpdate: CaptureUpdateAction.NEVER,
