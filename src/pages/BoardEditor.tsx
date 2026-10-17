@@ -6,7 +6,7 @@ import { useAccount } from '../context/account'
 import { supabase } from '../lib/supabase'
 import { useFullscreen } from '../lib/fullscreen'
 import { loadPdf, newId, type Board, type PDFDocumentProxy } from '../lib/board'
-import { attachPageFiles, blankPage, collectPageFiles, layoutPdfPages, parsePages, stripPageFiles, stripPdfBitmaps, type BoardPage, type BoardScene } from '../lib/boardPages'
+import { attachPageFiles, blankPage, collectPageFiles, layoutPdfPages, parsePages, PDF_PAGE_GAP, pdfPageOf, stripPageFiles, stripPdfBitmaps, type BoardPage, type BoardScene } from '../lib/boardPages'
 import { downloadBoardFiles, removeBoardFiles, saveBoardFiles } from '../lib/boardFiles'
 import { libraryFileUrl, type LibraryFile } from '../lib/library'
 import type { BankQuestion, QuestionBank } from '../lib/questionBank'
@@ -151,12 +151,11 @@ export default function BoardEditor() {
     setCloudOpen(false)
     if (!supabase) return
     setMessage('正在加载讲义…')
-    // An untouched single blank page is replaced by the handout; anything the
-    // teacher already drew stays and the handout is added as one more board.
-    // Excalidraw fires onChange on mount, so sceneRef is already populated — the
-    // live scene's element count, not sceneRef itself, is what says "untouched".
-    const liveElements = (sceneRef.current ?? pages[0]?.scene)?.elements ?? []
-    const pristine = pages.length === 1 && pages[0].background.type === 'blank' && liveElements.length === 0
+    // Snapshot the live scene BEFORE the (slow) PDF load, so nothing the teacher
+    // has already drawn or pasted can be lost while we wait.
+    const base = mergedPages()
+    const index = currentIndexRef.current
+    const current = base[index] ?? base[0]
     try {
       const doc = await loadPdf(libraryFileUrl(row))
       // One board holds the whole PDF: every page becomes an image element in a
@@ -164,23 +163,39 @@ export default function BoardEditor() {
       // corners to resize it (ClassIn-style).
       const layout = await layoutPdfPages(doc)
       const { buildHandoutElements, buildHandoutFiles } = await import('../lib/boardPdf')
-      const handout: BoardPage = {
+      // Merge the handout into the board the teacher is on, below whatever is
+      // already there. Opening a separate board and jumping to it left the
+      // teacher's notes off-screen, which looked like they had disappeared.
+      const existing = current.scene.elements
+      const bottom = existing.length
+        ? existing.reduce((max, el) => Math.max(max, el.y + el.height), -Infinity) + PDF_PAGE_GAP
+        : 0
+      const page: BoardPage = {
+        // A fresh page id forces BoardSurface to re-initialise Excalidraw with the
+        // combined scene — the canvas only reloads when the page id changes.
         id: newId(),
-        name: row.name,
-        // Blackboard behind the pages: the white sheets stay clearly bounded
-        // (findable resize edge) and the margin is a real blackboard to write on.
-        background: { type: 'blank', color: '#000000', grid: false },
-        scene: { elements: buildHandoutElements(layout), files: buildHandoutFiles(layout), appState: {} },
+        name: existing.length ? current.name : row.name,
+        // Keep the board's background: the white sheets sit on the blackboard as
+        // before, and light ink on a coloured board stays visible.
+        background: current.background,
+        scene: {
+          elements: [
+            ...existing,
+            ...buildHandoutElements(layout).map((el) => ({ ...el, y: el.y + bottom })),
+          ] as BoardScene['elements'],
+          files: { ...current.scene.files, ...buildHandoutFiles(layout) },
+          // No saved viewport -> BoardSurface fits the first handout page, so the
+          // teacher lands on the PDF and can scroll up to their notes.
+          appState: {},
+        },
       }
       setPdf(doc)
       setSourcePdf({ path: row.storage_path, name: row.name })
-      const merged = pristine ? [handout] : [...mergedPages(), handout]
-      setPages(merged)
-      setCurrentIndex(merged.length - 1)
+      setPages(base.map((p, i) => (i === index ? page : p)))
       if (!title.trim()) setTitle(row.name)
       sceneRef.current = null
       setDirty(true)
-      setMessage('')
+      setMessage(`已加载讲义（${doc.numPages} 页），接在板书下方——往上滚可回到板书。`)
     } catch {
       setMessage('PDF 加载失败。')
     }
@@ -245,18 +260,35 @@ export default function BoardEditor() {
     setDirty(true)
   }
 
-  // The PDF window's ✕: drop the handout board, or leave a fresh blackboard
-  // when it is the only board. Its ink goes too — the confirm says so.
+  // The PDF window's ✕: remove the handout pages from the board the teacher is
+  // viewing, leaving everything they drew or pasted on that board intact.
   const closeHandout = () => {
-    if (!window.confirm('关闭这份讲义？画在它上面的内容也会一起移除（之后可以从「我的云盘」重新打开）。')) return
-    if (pages.length > 1) {
-      removePage(currentIndex)
-    } else {
-      setPages([blankPage('第 1 页', CANVAS_COLORS[0].color, false)])
-      setCurrentIndex(0)
-      sceneRef.current = null
-      setDirty(true)
+    if (!window.confirm('关闭这份讲义？画在讲义上的内容也会一起移除（之后可以从「我的云盘」重新打开）。')) return
+    const base = mergedPages()
+    const index = currentIndexRef.current
+    const current = base[index]
+    if (!current) return
+    const elements = current.scene.elements.filter((el) => pdfPageOf(el) === null)
+    if (elements.length === current.scene.elements.length) return
+    const files = { ...current.scene.files }
+    for (const id of Object.keys(files)) if (id.startsWith('pdf-')) delete files[id]
+    const page: BoardPage = {
+      // New id so BoardSurface reloads the scene without the handout pages.
+      id: newId(),
+      name: current.name,
+      background: current.background,
+      scene: { ...current.scene, elements, files },
     }
+    const next = base.map((p, i) => (i === index ? page : p))
+    setPages(next)
+    sceneRef.current = null
+    setDirty(true)
+    // Drop the loaded document once no board still shows its pages.
+    if (!next.some((p) => p.scene.elements.some((el) => pdfPageOf(el) !== null))) {
+      setPdf(null)
+      setSourcePdf(null)
+    }
+    setMessage('已移除讲义，板书保留。')
   }
 
   const save = async (nextStatus?: 'draft' | 'published') => {
