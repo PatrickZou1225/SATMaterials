@@ -5,7 +5,7 @@ import { useAccount } from '../context/account'
 import { supabase } from '../lib/supabase'
 import { useFullscreen } from '../lib/fullscreen'
 import { loadPdf, type Board, type PDFDocumentProxy } from '../lib/board'
-import { attachPageFiles, layoutPdfPages, parsePages, type BoardPage } from '../lib/boardPages'
+import { attachPageFiles, HANDOUT_BG, layoutPdfPages, parsePages, pdfPageOf, type BoardPage } from '../lib/boardPages'
 import { downloadBoardFiles } from '../lib/boardFiles'
 
 const BoardSurface = lazy(() => import('../components/BoardSurface'))
@@ -39,6 +39,14 @@ export default function BoardView() {
       if (err || !data) { setError('找不到这块板书，或你没有访问权限。'); setLoading(false); return }
       const row = data as Board
       let loaded = parsePages((row as unknown as { pages: unknown }).pages)
+      // Old handout boards baked in a white canvas; show them on the same
+      // eye-friendly backdrop the editor now uses.
+      loaded = loaded.map((p) => (
+        p.background.type === 'blank' && p.background.color === '#ffffff' &&
+        p.scene.elements.some((el) => pdfPageOf(el) !== null)
+          ? { ...p, background: { ...p.background, color: HANDOUT_BG } }
+          : p
+      ))
       if (row.files_path) {
         try { loaded = attachPageFiles(loaded, await downloadBoardFiles(row.files_path)) } catch { /* drawings still load without pasted images */ }
       }

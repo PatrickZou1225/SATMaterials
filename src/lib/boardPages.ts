@@ -44,6 +44,10 @@ export const BACKGROUND_WIDTH = 1000
 // Blank pages are a blackboard: dark background, light ink (see defaultInkColor).
 const BLANK_COLOR = '#000000'
 
+// Handout pages used to sit on a white canvas, which glares around the PDF.
+// Deep blue is easier on the eyes and still reads as a neutral backdrop.
+export const HANDOUT_BG = '#0f172a'
+
 export function emptyScene(): BoardScene {
   return { elements: [], files: {}, appState: {} }
 }

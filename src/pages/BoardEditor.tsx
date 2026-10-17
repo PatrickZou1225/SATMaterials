@@ -6,7 +6,7 @@ import { useAccount } from '../context/account'
 import { supabase } from '../lib/supabase'
 import { useFullscreen } from '../lib/fullscreen'
 import { loadPdf, newId, type Board, type PDFDocumentProxy } from '../lib/board'
-import { attachPageFiles, blankPage, collectPageFiles, layoutPdfPages, parsePages, PDF_PAGE_GAP, pdfPageOf, stripPageFiles, stripPdfBitmaps, type BoardPage, type BoardScene } from '../lib/boardPages'
+import { attachPageFiles, blankPage, collectPageFiles, HANDOUT_BG, layoutPdfPages, parsePages, PDF_PAGE_GAP, pdfPageOf, stripPageFiles, stripPdfBitmaps, type BoardPage, type BoardScene } from '../lib/boardPages'
 import { downloadBoardFiles, removeBoardFiles, saveBoardFiles } from '../lib/boardFiles'
 import { libraryFileUrl, type LibraryFile } from '../lib/library'
 import type { BankQuestion, QuestionBank } from '../lib/questionBank'
@@ -119,6 +119,15 @@ export default function BoardEditor() {
       const row = data as Board
       let loaded = parsePages(row.pages)
       if (!loaded.length) loaded = [blankPage('第 1 页')]
+      // Early handout boards defaulted to a white canvas. Show them on the
+      // eye-friendly default unless the teacher has actively chosen another
+      // canvas colour (any non-white colour is left alone).
+      loaded = loaded.map((p) => (
+        p.background.type === 'blank' && p.background.color === '#ffffff' &&
+        p.scene.elements.some((el) => pdfPageOf(el) !== null)
+          ? { ...p, background: { ...p.background, color: HANDOUT_BG } }
+          : p
+      ))
       if (row.files_path) {
         try { loaded = attachPageFiles(loaded, await downloadBoardFiles(row.files_path)) } catch { /* drawings still load; pasted images may be missing */ }
       }
@@ -186,7 +195,7 @@ export default function BoardEditor() {
         next = [{
           id: newId(),
           name: row.name,
-          background: { type: 'blank', color: '#ffffff', grid: false },
+          background: { type: 'blank', color: HANDOUT_BG, grid: false },
           scene: { elements: buildHandoutElements(layout), files: buildHandoutFiles(layout), appState: {} },
         }]
       } else {
@@ -202,8 +211,16 @@ export default function BoardEditor() {
         const files = { ...current.scene.files }
         for (const id of Object.keys(files)) if (id.startsWith('pdf-bm-') || id.startsWith('pdf-ph-')) delete files[id]
         Object.assign(files, buildHandoutFiles(layout))
+        // A legacy handout board still on the old white default moves to the
+        // new eye-friendly backdrop along with the reloaded pages.
+        const reskin = oldPages.length > 0 && current.background.type === 'blank' && current.background.color === '#ffffff'
         next = base.map((p, i) => (i === index
-          ? { ...p, id: newId(), scene: { elements, files, appState: {} } }
+          ? {
+              ...p,
+              id: newId(),
+              background: reskin ? { ...current.background, color: HANDOUT_BG } : p.background,
+              scene: { elements, files, appState: {} },
+            }
           : p))
       }
       setPages(next)
