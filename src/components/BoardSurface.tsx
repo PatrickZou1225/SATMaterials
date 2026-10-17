@@ -672,6 +672,18 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
     if (drawToolActive) setPenPanelOpen((v) => !v)
     else { setPenPanelOpen(true); setTool(drawTool) }
   }
+  // The shape row is a picker, not a settings panel: tapping anywhere else
+  // (canvas or another tool) dismisses it.
+  useEffect(() => {
+    if (!shapeMenuOpen) return
+    const onDown = (e: PointerEvent) => {
+      const target = e.target as HTMLElement | null
+      if (target?.closest('.board-tool-rail') || target?.closest('[data-shape-menu]')) return
+      setShapeMenuOpen(false)
+    }
+    document.addEventListener('pointerdown', onDown)
+    return () => document.removeEventListener('pointerdown', onDown)
+  }, [shapeMenuOpen])
   // Pen / text settings popups: apply to the pending tool values, and — when
   // the teacher has picked a tool that is already selected elements of that
   // kind — restyle those too, the way Excalidraw's own panel would.
@@ -708,6 +720,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
     if (!api) return
     marqueeModeRef.current = marquee
     setMarqueeMode(marquee)
+    setShapeMenuOpen(false)
     api.setActiveTool({ type: 'selection' })
   }
 
@@ -1089,7 +1102,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
         </div>
       )}
       {editable && !hideTools && shapeMenuOpen && (
-        <div data-board-scroll className={`absolute top-1/2 z-30 flex -translate-y-1/2 items-center gap-1 rounded-2xl border p-1.5 backdrop-blur ${zen ? 'right-[120px] border-white/15 bg-black/60' : 'right-[68px] border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/95'}`}>
+        <div data-board-scroll data-shape-menu className={`absolute top-1/2 z-30 flex -translate-y-1/2 items-center gap-1 rounded-2xl border p-1.5 backdrop-blur ${zen ? 'right-[120px] border-white/15 bg-black/60' : 'right-[68px] border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/95'}`}>
           {DRAW_SHAPES.map(({ type, label, Icon }) => (
             <button
               key={type}
