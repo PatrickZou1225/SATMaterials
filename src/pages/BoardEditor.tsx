@@ -6,7 +6,7 @@ import { useAccount } from '../context/account'
 import { supabase } from '../lib/supabase'
 import { useFullscreen } from '../lib/fullscreen'
 import { loadPdf, newId, type Board, type PDFDocumentProxy } from '../lib/board'
-import { attachPageFiles, blankPage, collectPageFiles, layoutPdfPages, parsePages, pdfPageOf, stripPageFiles, stripPdfBitmaps, type BoardPage, type BoardScene, type PdfPageLayout } from '../lib/boardPages'
+import { attachPageFiles, blankPage, collectPageFiles, layoutPdfPages, parsePages, pdfPageOf, stripPageFiles, stripPdfBitmaps, type BoardPage, type BoardScene } from '../lib/boardPages'
 import { downloadBoardFiles, removeBoardFiles, saveBoardFiles } from '../lib/boardFiles'
 import { libraryFileUrl, type LibraryFile } from '../lib/library'
 import type { BankQuestion, QuestionBank } from '../lib/questionBank'
@@ -46,9 +46,6 @@ export default function BoardEditor() {
 
   const [board, setBoard] = useState<Board | null>(null)
   const [pdf, setPdf] = useState<PDFDocumentProxy | null>(null)
-  // Page sizes of the loaded PDF, so flipping can build a sheet without
-  // re-measuring the whole document.
-  const [pdfLayout, setPdfLayout] = useState<PdfPageLayout[] | null>(null)
   const [pages, setPages] = useState<BoardPage[]>(() => [blankPage('第 1 页')])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [status, setStatus] = useState<'draft' | 'published' | 'archived'>('draft')
@@ -106,7 +103,6 @@ export default function BoardEditor() {
       setTitle('')
       setSourcePdf(null)
       setPdf(null)
-      setPdfLayout(null)
       setStatus('draft')
       setLoading(false)
       setDirty(false)
@@ -145,8 +141,14 @@ export default function BoardEditor() {
           if (active) setPdf(doc)
           try {
             const layout = await layoutPdfPages(doc)
-            if (active) setPdfLayout(layout)
-          } catch { /* flipping unavailable; the saved page still shows */ }
+            // Boards saved while handouts were single sheets kept only the page
+            // on screen; rebuild the continuous column now that page sizes are
+            // known.
+            if (active && loaded.some((p) => p.handout)) {
+              const { expandHandoutPages } = await import('../lib/boardPdf')
+              if (active) setPages((prev) => expandHandoutPages(prev, layout))
+            }
+          } catch { /* pages stay as saved; the sheet still scrolls */ }
         } catch {
           if (active) setMessage('PDF 加载失败。')
         }
@@ -162,42 +164,31 @@ export default function BoardEditor() {
     setCloudOpen(false)
     if (!supabase) return
     setMessage('正在加载讲义…')
-    // Snapshot the live scene BEFORE the (slow) PDF load, so nothing the teacher
-    // has already drawn or pasted can be lost while we wait.
-    const base = mergedPages()
-    const index = currentIndexRef.current
-    const current = base[index] ?? base[0]
+    // An untouched single blank page is replaced by the handout; anything the
+    // teacher already drew stays and the handout is added as one more board.
+    const liveElements = (sceneRef.current ?? pages[0]?.scene)?.elements ?? []
+    const pristine = pages.length === 1 && pages[0].background.type === 'blank' && liveElements.length === 0
     try {
       const doc = await loadPdf(libraryFileUrl(row))
+      // One board holds the whole PDF: every page becomes an image element in a
+      // vertical column, so the teacher scrolls continuously from cover to cover.
       const layout = await layoutPdfPages(doc)
-      const { buildSheet } = await import('../lib/boardPdf')
-      // One board shows one PDF page at a time. Anything the teacher drew before
-      // opening the handout becomes the notes of page 1, so nothing is lost.
-      const existing = current.scene.elements.filter((el) => pdfPageOf(el) === null)
-      const sheet = await buildSheet(doc, layout[0], existing)
-      const page: BoardPage = {
-        // A fresh page id forces BoardSurface to re-initialise Excalidraw with the
-        // new scene — the canvas only reloads when the page id changes.
+      const { buildHandoutElements, buildHandoutFiles } = await import('../lib/boardPdf')
+      const handout: BoardPage = {
         id: newId(),
         name: row.name,
-        // Keep the board's background: the white sheet sits on the blackboard as
-        // before, and light ink on a coloured board stays visible.
-        background: current.background,
-        scene: {
-          elements: sheet.elements as BoardScene['elements'],
-          files: { ...current.scene.files, ...sheet.files },
-          appState: {},
-        },
-        handout: { page: 1, pageCount: doc.numPages, notes: { 1: existing } },
+        background: { type: 'blank', color: '#ffffff', grid: false },
+        scene: { elements: buildHandoutElements(layout), files: buildHandoutFiles(layout), appState: {} },
       }
       setPdf(doc)
-      setPdfLayout(layout)
       setSourcePdf({ path: row.storage_path, name: row.name })
-      setPages(base.map((p, i) => (i === index ? page : p)))
+      const merged = pristine ? [handout] : [...mergedPages(), handout]
+      setPages(merged)
+      setCurrentIndex(merged.length - 1)
       if (!title.trim()) setTitle(row.name)
       sceneRef.current = null
       setDirty(true)
-      setMessage(`已加载讲义（${doc.numPages} 页），用底部页码条翻页。`)
+      setMessage(`已加载讲义（${doc.numPages} 页），滚轮向下连续阅读。`)
     } catch {
       setMessage('PDF 加载失败。')
     }
@@ -208,55 +199,6 @@ export default function BoardEditor() {
     if (!live) return pages
     return pages.map((p, i) => (i === currentIndexRef.current ? { ...p, scene: live } : p))
   }, [pages])
-
-  // Flip the handout: swap the PDF sheet AND its annotations in one step, so the
-  // notes always stay with the page they were written on.
-  const flippingRef = useRef(false)
-  const flipHandout = async (target: number, viewScrollY?: number) => {
-    if (flippingRef.current) return
-    const base = mergedPages()
-    const index = currentIndexRef.current
-    const current = base[index]
-    const h = current?.handout
-    if (!h || !pdf || !pdfLayout) return
-    const next = Math.max(1, Math.min(h.pageCount, target))
-    if (next === h.page) return
-    flippingRef.current = true
-    try {
-      const { buildSheet } = await import('../lib/boardPdf')
-      const layout = pdfLayout[next - 1]
-      if (!layout) return
-      const notes = current.scene.elements.filter((el) => pdfPageOf(el) === null)
-      const allNotes = { ...h.notes, [h.page]: notes }
-      // Rasterise the incoming page before the canvas swaps, so it paints the
-      // real sheet on its first frame instead of flashing the placeholder.
-      const sheet = await buildSheet(pdf, layout, allNotes[next] ?? [])
-      // Page bitmaps from earlier sheets are dead weight; keep only the files
-      // the teacher pasted (screenshots in notes).
-      const keptFiles = Object.fromEntries(Object.entries(current.scene.files).filter(([id]) => !id.startsWith('pdf-bm-')))
-      const page: BoardPage = {
-        ...current,
-        // New id so BoardSurface rebuilds the canvas with the new sheet.
-        id: newId(),
-        scene: {
-          elements: sheet.elements as BoardScene['elements'],
-          files: { ...keptFiles, ...sheet.files },
-          // Keep the teacher's zoom / page position across flips; a scroll-driven
-          // flip passes where the new sheet should land (top or bottom).
-          appState: {
-            ...current.scene.appState,
-            ...(typeof viewScrollY === 'number' ? { scrollY: viewScrollY } : {}),
-          },
-        },
-        handout: { ...h, page: next, notes: allNotes },
-      }
-      setPages(base.map((p, i) => (i === index ? page : p)))
-      sceneRef.current = null
-      setDirty(true)
-    } finally {
-      flippingRef.current = false
-    }
-  }
 
   const toggleNav = () => {
     setNavHidden((v) => {
@@ -749,7 +691,6 @@ export default function BoardEditor() {
                   zen={zen}
                   insertQuestion={insertQuestion}
                   onClosePage={closeHandout}
-                  onFlip={currentPage.handout ? (n, viewScrollY) => void flipHandout(n, viewScrollY) : undefined}
                   onSceneChange={(scene, meta) => {
                     // Excalidraw fires once on mount with the loaded scene; only
                     // later callbacks mean the teacher actually drew something.

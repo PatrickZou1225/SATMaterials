@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ComponentProps, type PointerEvent as ReactPointerEvent } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type ComponentProps, type PointerEvent as ReactPointerEvent } from 'react'
 import { BoxSelect, ChevronLeft, ChevronRight, Eraser, Maximize, Minus, MousePointer2, MoveHorizontal, Pencil, Plus, Type, X, ZoomOut } from 'lucide-react'
 import { CaptureUpdateAction, convertToExcalidrawElements, Excalidraw, FONT_FAMILY, restore } from '@excalidraw/excalidraw'
 import type { DataURL, ExcalidrawImperativeAPI, ExcalidrawInitialDataState, NormalizedZoomValue } from '@excalidraw/excalidraw/types'
@@ -24,11 +24,6 @@ export type BoardSurfaceProps = {
   // The ✕ of the PDF window cluster: remove the handout board (the editor
   // confirms first). Not passed in read-only views — the button hides.
   onClosePage?: () => void
-  // Single-board handouts: flipping swaps the PDF page and its own notes. When
-  // absent, the board is the classic tall column and page jumps scroll it.
-  // `viewScrollY` parks the incoming sheet at the top (scrolled down past the
-  // end) or the bottom (scrolled up past the start) for a continuous read.
-  onFlip?: (page: number, viewScrollY?: number) => void
   // `structural` is false for UI-only changes (tool/ink/viewport), which lets the
   // caller avoid flagging a board dirty just because we recoloured the pen.
   onSceneChange?: (scene: BoardScene, meta: { structural: boolean }) => void
@@ -41,11 +36,6 @@ const INK_PALETTE = [
   '#e03131', '#f76707', '#f59f00', '#37b24d',
   '#15aabf', '#1971c2', '#7048e8', '#f06595',
 ]
-
-// A scroll-driven page flip remounts the whole surface (new page id), so an
-// instance ref cannot throttle the rest of a trackpad fling. Keep the cooldown
-// at module scope so one gesture turns at most one page.
-let lastAutoFlip = 0
 
 function InkPalette({ current, onPick }: { current: string; onPick: (color: string) => void }) {
   return (
@@ -99,7 +89,7 @@ function useBackgroundImage(pdf: PDFDocumentProxy | null, page: BoardPage) {
   return image
 }
 
-export default function BoardSurface({ pdf, page, editable, theme, hideTools, zen, insertQuestion, onClosePage, onFlip, onSceneChange }: BoardSurfaceProps) {
+export default function BoardSurface({ pdf, page, editable, theme, hideTools, zen, insertQuestion, onClosePage, onSceneChange }: BoardSurfaceProps) {
   const bg = useBackgroundImage(pdf, page)
   const apiRef = useRef<ExcalidrawImperativeAPI | null>(null)
   // The imperative API arrives only after Excalidraw mounts — and a page flip
@@ -114,12 +104,6 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
   }, [])
 
   const backgroundElementId = bg?.id ?? null
-
-  // A page flip remounts Excalidraw, and the fresh instance paints nothing
-  // until the sheet bitmap decodes — that empty canvas is the flash on every
-  // page turn. A cover image of the incoming sheet hides the gap.
-  const [cover, setCover] = useState<{ src: string; left: number; top: number; width: number; height: number } | null>(null)
-  const [coverFading, setCoverFading] = useState(false)
 
   // Percent readout for the zoom cluster (fed by onChange below).
   const [zoomPct, setZoomPct] = useState(100)
@@ -165,10 +149,6 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
   // live values through refs instead of closing over render-scoped state.
   const bgSizeRef = useRef<{ width: number; height: number } | null>(null)
   bgSizeRef.current = bg ? { width: bg.width, height: bg.height } : null
-  // The collapse state is read by the (once-registered) wheel handler, which
-  // must not pin the viewport to the sheet while the teacher is on the blackboard.
-  const collapsedRef = useRef(false)
-  collapsedRef.current = collapsed
 
   // A handout page carries the whole PDF as a column of image elements. Its
   // bitmaps are rendered lazily (see renderVisibleRef). A saved board restores
@@ -330,8 +310,9 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
       // dropped (e.g. after switching pages, whose saved files carry only the
       // placeholder), so check the file really exists before skipping.
       const files = api.getFiles()
-      // Render a page slightly before it scrolls into view, so it's ready.
-      const pad = 400
+      // Render a page well before it scrolls into view — a full viewport ahead —
+      // so continuous scrolling never lands on a grey placeholder.
+      const pad = Math.max(400, host.clientHeight / zoom)
       const viewCenter = (top + bottom) / 2
       const pending: { p: number; center: number }[] = []
       for (const el of api.getSceneElements()) {
@@ -561,13 +542,6 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
     })
     lastZoomAtRef.current = Date.now()
     scheduleRenderRef.current()
-  }
-
-  // Page navigation: single-board handouts flip in place (the editor swaps the
-  // sheet and its notes); the classic tall column scrolls to the page.
-  const jumpTo = (api: ExcalidrawImperativeAPI, target: number) => {
-    if (onFlip) onFlip(target)
-    else goToPage(api, target)
   }
 
   const toggleFitWindow = () => {
@@ -841,45 +815,9 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
         api.updateScene({ appState: { scrollX: app.scrollX - dx / app.zoom.value }, captureUpdate: CaptureUpdateAction.NEVER })
         scheduleRenderRef.current()
       } else {
-        // Plain wheel / two-finger swipe: scroll the handout straight up/down —
-        // the page stays nailed to the vertical axis no matter how the fingers
-        // drift, which is the calmest way through a long document. On a
-        // single-sheet handout, scrolling past the sheet's bottom (or above its
-        // top) swaps to the neighbouring page, so the teacher reads continuously
-        // instead of clicking the page arrows.
-        const sheet = api.getSceneElements().find((el) => pdfPageOf(el) !== null)
-        const h = page.handout
-        if (onFlip && h && sheet && !collapsedRef.current) {
-          const zoom = app.zoom.value
-          const viewH = host.clientHeight / zoom
-          // The sheet may be scrolled only within its own bounds — never into
-          // the empty canvas past its edges, which left the teacher stranded
-          // outside the document after a fast scroll.
-          const topLimit = -sheet.y
-          const bottomLimit = viewH - sheet.y - sheet.height
-          const fits = bottomLimit >= topLimit
-          const wanted = app.scrollY - e.deltaY / zoom
-          const pastBottom = e.deltaY > 0 && (fits || wanted < bottomLimit)
-          const pastTop = e.deltaY < 0 && (fits || wanted > topLimit)
-          if (Date.now() - lastAutoFlip > 250) {
-            if (pastBottom && h.page < h.pageCount) {
-              lastAutoFlip = Date.now()
-              onFlip(h.page + 1, 24 / zoom - sheet.y)
-              return
-            }
-            if (pastTop && h.page > 1) {
-              lastAutoFlip = Date.now()
-              onFlip(h.page - 1, (host.clientHeight - 24) / zoom - sheet.y - sheet.height)
-              return
-            }
-          }
-          api.updateScene({
-            appState: { scrollY: fits ? topLimit : Math.min(topLimit, Math.max(bottomLimit, wanted)) },
-            captureUpdate: CaptureUpdateAction.NEVER,
-          })
-          scheduleRenderRef.current()
-          return
-        }
+        // Plain wheel / two-finger swipe: scroll the document straight up/down.
+        // The whole PDF is one tall column, so the hand never stops at a page
+        // edge — one continuous scroll from the first page to the last.
         api.updateScene({
           appState: { scrollY: app.scrollY - e.deltaY / app.zoom.value },
           captureUpdate: CaptureUpdateAction.NEVER,
@@ -1017,60 +955,6 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
     scrollToContent: false,
   }), [elements, appState, files, page.id])
 
-  // Position the cover exactly where the booted canvas will draw the sheet:
-  // screen = (scene + scroll) * zoom. A flip ships a pre-rasterised bitmap, so
-  // there is always one to cover with; a board loaded from the server still
-  // points at the grey placeholder, which is not worth covering.
-  useLayoutEffect(() => {
-    setCoverFading(false)
-    const host = hostRef.current
-    const sheet = page.scene.elements.find((el) => pdfPageOf(el) !== null)
-    const fileId = sheet?.type === 'image' ? String(sheet.fileId) : ''
-    const file = fileId ? page.scene.files[fileId] : undefined
-    if (!host || !sheet || !file || !fileId.startsWith('pdf-bm-')) {
-      setCover(null)
-      return
-    }
-    // A fresh page docks left at the same zoom/scroll the fit effect will use.
-    const margin = 24
-    const zoom = needsFit
-      ? Math.max(0.1, Math.min(1, (host.clientWidth - margin) / sheet.width))
-      : appState.zoom.value
-    const scrollX = needsFit ? margin / zoom - sheet.x : appState.scrollX
-    const scrollY = needsFit ? margin / zoom - sheet.y : appState.scrollY
-    setCover({
-      src: file.dataURL,
-      left: (sheet.x + scrollX) * zoom,
-      top: (sheet.y + scrollY) * zoom,
-      width: sheet.width * zoom,
-      height: sheet.height * zoom,
-    })
-    // Hold the cover until the sheet bitmap has actually decoded. A fixed
-    // timeout revealed Excalidraw's grey image placeholder whenever a page
-    // took longer than that to decode, which is the flash on every flip. Wait
-    // for decode, then give the remounted canvas a beat to paint it.
-    let cancelled = false
-    let timer = 0
-    const reveal = () => {
-      if (cancelled) return
-      timer = window.setTimeout(() => {
-        if (cancelled) return
-        // Nudge a paint with the decoded bitmap already in Excalidraw's cache.
-        apiRef.current?.refresh()
-        setCoverFading(true)
-        timer = window.setTimeout(() => setCover(null), 220)
-      }, 150)
-    }
-    const image = new Image()
-    image.src = file.dataURL
-    image.decode().then(reveal, () => {
-      // Undecodable: nothing better to cover with, so show the canvas anyway.
-      timer = window.setTimeout(reveal, 300)
-    })
-    return () => { cancelled = true; window.clearTimeout(timer) }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page.id])
-
   return (
     <div ref={hostRef} className={`relative h-full w-full${hideTools ? ' board-hide-tools' : ''}${quietText ? ' board-quiet-text' : ''}${textToolOn ? ' board-text-tool' : ''}${activeToolType === 'freedraw' ? ' board-tool-freedraw' : ''}${zen ? ' board-zen' : ''}`}>
       <Excalidraw
@@ -1087,13 +971,6 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
         // 复制图片 covers exporting.
         UIOptions={{ canvasActions: { changeViewBackgroundColor: false, saveAsImage: false } }}
       />
-      {cover && (
-        // z-3 sits above Excalidraw's canvases (1–2) but below its toolbar (4)
-        // and our own bars (10), so only the blank canvas is hidden.
-        <div className={`pointer-events-none absolute inset-0 z-[3] transition-opacity duration-200 ${coverFading ? 'opacity-0' : 'opacity-100'}`} style={{ backgroundColor: canvasColor }}>
-          <img src={cover.src} alt="" draggable={false} className="absolute select-none" style={{ left: cover.left, top: cover.top, width: cover.width, height: cover.height }} />
-        </div>
-      )}
       <div className="absolute bottom-4 right-4 z-10 flex items-center gap-0.5 rounded-xl border border-slate-200 bg-white/95 p-1 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200">
         <button type="button" title="缩小" aria-label="缩小" onClick={() => { const api = apiRef.current; if (api) zoomByStep(api, 1 / 1.25) }} className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><Minus size={16} /></button>
         <span className="min-w-[46px] text-center text-xs font-semibold tabular-nums">{zoomPct}%</span>
@@ -1113,7 +990,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
               <span className="mx-0.5 h-4 w-px bg-slate-200 dark:bg-slate-700" />
             </>
           )}
-          <button type="button" title="上一页" aria-label="上一页" disabled={pageInfo.current <= 1} onClick={() => { const api = apiRef.current; if (api) jumpTo(api, Math.max(1, pageInfo.current - 1)) }} className="grid h-7 w-7 place-items-center rounded-full transition hover:bg-slate-100 disabled:opacity-30 dark:hover:bg-slate-800"><ChevronLeft size={15} /></button>
+          <button type="button" title="上一页" aria-label="上一页" disabled={pageInfo.current <= 1} onClick={() => { const api = apiRef.current; if (api) goToPage(api,Math.max(1, pageInfo.current - 1)) }} className="grid h-7 w-7 place-items-center rounded-full transition hover:bg-slate-100 disabled:opacity-30 dark:hover:bg-slate-800"><ChevronLeft size={15} /></button>
           {pageInput === null ? (
             <button type="button" title="点击输入页码跳转" onClick={() => setPageInput(String(pageInfo.current))} className="min-w-[78px] rounded-full px-1.5 py-0.5 text-center text-xs font-semibold tabular-nums transition hover:bg-slate-100 dark:hover:bg-slate-800">第 {pageInfo.current} / {pageInfo.total} 页</button>
           ) : (
@@ -1128,7 +1005,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
                     const n = Number(pageInput)
                     if (n >= 1 && n <= pageInfo.total) {
                       const api = apiRef.current
-                      if (api) jumpTo(api, n)
+                      if (api) goToPage(api,n)
                     }
                     setPageInput(null)
                   } else if (e.key === 'Escape') {
@@ -1141,7 +1018,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
               <span className="text-xs text-slate-500">/ {pageInfo.total} 页</span>
             </span>
           )}
-          <button type="button" title="下一页" aria-label="下一页" disabled={pageInfo.current >= pageInfo.total} onClick={() => { const api = apiRef.current; if (api) jumpTo(api, Math.min(pageInfo.total, pageInfo.current + 1)) }} className="grid h-7 w-7 place-items-center rounded-full transition hover:bg-slate-100 disabled:opacity-30 dark:hover:bg-slate-800"><ChevronRight size={15} /></button>
+          <button type="button" title="下一页" aria-label="下一页" disabled={pageInfo.current >= pageInfo.total} onClick={() => { const api = apiRef.current; if (api) goToPage(api,Math.min(pageInfo.total, pageInfo.current + 1)) }} className="grid h-7 w-7 place-items-center rounded-full transition hover:bg-slate-100 disabled:opacity-30 dark:hover:bg-slate-800"><ChevronRight size={15} /></button>
         </div>
       )}
       {outlineOpen && outline.length > 0 && (
@@ -1153,7 +1030,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
                 key={`${item.page}-${i}`}
                 type="button"
                 title={item.title}
-                onClick={() => { const api = apiRef.current; if (api) jumpTo(api, item.page) }}
+                onClick={() => { const api = apiRef.current; if (api) goToPage(api,item.page) }}
                 style={{ paddingLeft: 12 + item.depth * 14 }}
                 className={`block w-full truncate py-1.5 pr-3 text-left text-xs transition hover:bg-slate-100 dark:hover:bg-slate-800 ${pageInfo && item.page === pageInfo.current ? 'font-semibold text-blue-600 dark:text-blue-400' : ''}`}
               >
