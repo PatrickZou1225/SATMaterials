@@ -6,7 +6,7 @@ import { useAccount } from '../context/account'
 import { supabase } from '../lib/supabase'
 import { useFullscreen } from '../lib/fullscreen'
 import { loadPdf, newId, type Board, type PDFDocumentProxy } from '../lib/board'
-import { attachPageFiles, blankPage, collectPageFiles, layoutPdfPages, parsePages, pdfPageOf, stripPageFiles, stripPdfBitmaps, type BoardPage, type BoardScene } from '../lib/boardPages'
+import { attachPageFiles, blankPage, collectPageFiles, layoutPdfPages, parsePages, PDF_PAGE_GAP, pdfPageOf, stripPageFiles, stripPdfBitmaps, type BoardPage, type BoardScene } from '../lib/boardPages'
 import { downloadBoardFiles, removeBoardFiles, saveBoardFiles } from '../lib/boardFiles'
 import { libraryFileUrl, type LibraryFile } from '../lib/library'
 import type { BankQuestion, QuestionBank } from '../lib/questionBank'
@@ -164,27 +164,50 @@ export default function BoardEditor() {
     setCloudOpen(false)
     if (!supabase) return
     setMessage('正在加载讲义…')
-    // An untouched single blank page is replaced by the handout; anything the
-    // teacher already drew stays and the handout is added as one more board.
-    const liveElements = (sceneRef.current ?? pages[0]?.scene)?.elements ?? []
-    const pristine = pages.length === 1 && pages[0].background.type === 'blank' && liveElements.length === 0
     try {
       const doc = await loadPdf(libraryFileUrl(row))
       // One board holds the whole PDF: every page becomes an image element in a
       // vertical column, so the teacher scrolls continuously from cover to cover.
       const layout = await layoutPdfPages(doc)
       const { buildHandoutElements, buildHandoutFiles } = await import('../lib/boardPdf')
-      const handout: BoardPage = {
-        id: newId(),
-        name: row.name,
-        background: { type: 'blank', color: '#ffffff', grid: false },
-        scene: { elements: buildHandoutElements(layout), files: buildHandoutFiles(layout), appState: {} },
-      }
+      const base = mergedPages()
+      const index = currentIndexRef.current
+      const current = base[index]
+      const oldPages = current ? current.scene.elements.filter((el) => !el.isDeleted && pdfPageOf(el) !== null) : []
+      const notes = current ? current.scene.elements.filter((el) => !el.isDeleted && pdfPageOf(el) === null) : []
+      // An untouched single blank page is replaced by the handout. Anything the
+      // teacher already drew stays on the SAME board — the handout is merged
+      // into it, so loading a PDF can never hide existing notes.
+      const pristine = base.length === 1 && current?.background.type === 'blank' && notes.length === 0 && oldPages.length === 0
       setPdf(doc)
       setSourcePdf({ path: row.storage_path, name: row.name })
-      const merged = pristine ? [handout] : [...mergedPages(), handout]
-      setPages(merged)
-      setCurrentIndex(merged.length - 1)
+      let next: BoardPage[]
+      if (!current || pristine) {
+        next = [{
+          id: newId(),
+          name: row.name,
+          background: { type: 'blank', color: '#ffffff', grid: false },
+          scene: { elements: buildHandoutElements(layout), files: buildHandoutFiles(layout), appState: {} },
+        }]
+      } else {
+        // Reloading a PDF lines the new pages up with the old ones; otherwise
+        // the handout goes below whatever is already on the board.
+        const offset = oldPages.length > 0
+          ? Math.min(...oldPages.map((el) => el.y))
+          : notes.length > 0 ? Math.max(...notes.map((el) => el.y + el.height)) + PDF_PAGE_GAP : 0
+        const elements = [
+          ...notes,
+          ...buildHandoutElements(layout).map((el) => ({ ...el, y: el.y + offset })),
+        ]
+        const files = { ...current.scene.files }
+        for (const id of Object.keys(files)) if (id.startsWith('pdf-bm-') || id.startsWith('pdf-ph-')) delete files[id]
+        Object.assign(files, buildHandoutFiles(layout))
+        next = base.map((p, i) => (i === index
+          ? { ...p, id: newId(), scene: { elements, files, appState: {} } }
+          : p))
+      }
+      setPages(next)
+      setCurrentIndex(pristine ? 0 : index)
       if (!title.trim()) setTitle(row.name)
       sceneRef.current = null
       setDirty(true)

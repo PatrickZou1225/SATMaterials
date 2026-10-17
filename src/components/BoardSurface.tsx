@@ -199,17 +199,23 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
   }, [bg, page.id])
 
   // Excalidraw can ignore `currentItemStrokeColor` from initialData (it keeps its
-  // own last-used colour), which left dark ink on the black board. Force it onto
-  // the pen whenever the page or its background changes — and give the TEXT
-  // tool white ink while it is on (the teacher types on the black canvas; the
-  // pen keeps its adaptive colour for marking up the white pages).
+  // own last-used colour), which left dark ink on the black board. Nudge it to
+  // the legible default whenever the page or its background changes — but only
+  // when the current colour is still one of Excalidraw's untouched defaults. A
+  // colour the teacher picked (red, green…) must survive tool switches and
+  // writing somewhere else.
   const inkColor = defaultInkColor(page.background)
   useEffect(() => {
-    apiRef.current?.updateScene({
-      appState: { currentItemStrokeColor: textToolOn ? '#ffffff' : inkColor },
-      captureUpdate: CaptureUpdateAction.NEVER,
-    })
-  }, [textToolOn, inkColor, page.id, api])
+    const api = apiRef.current
+    if (!api) return
+    const cur = api.getAppState().currentItemStrokeColor
+    if ((cur === '#ffffff' || cur === '#1e1e1e') && cur !== inkColor) {
+      api.updateScene({
+        appState: { currentItemStrokeColor: inkColor },
+        captureUpdate: CaptureUpdateAction.NEVER,
+      })
+    }
+  }, [inkColor, page.id, api])
 
   // Text tool defaults the teacher asked for: Large size (S16 / M20 / L28 /
   // XL36) and the Normal family. Text elements copy these at creation time.
