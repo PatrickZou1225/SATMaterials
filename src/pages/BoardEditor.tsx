@@ -170,11 +170,11 @@ export default function BoardEditor() {
     try {
       const doc = await loadPdf(libraryFileUrl(row))
       const layout = await layoutPdfPages(doc)
-      const { buildHandoutElements, buildHandoutFiles } = await import('../lib/boardPdf')
+      const { buildSheet } = await import('../lib/boardPdf')
       // One board shows one PDF page at a time. Anything the teacher drew before
       // opening the handout becomes the notes of page 1, so nothing is lost.
       const existing = current.scene.elements.filter((el) => pdfPageOf(el) === null)
-      const first = layout[0]
+      const sheet = await buildSheet(doc, layout[0], existing)
       const page: BoardPage = {
         // A fresh page id forces BoardSurface to re-initialise Excalidraw with the
         // new scene — the canvas only reloads when the page id changes.
@@ -184,8 +184,8 @@ export default function BoardEditor() {
         // before, and light ink on a coloured board stays visible.
         background: current.background,
         scene: {
-          elements: [...buildHandoutElements([first]), ...existing] as BoardScene['elements'],
-          files: { ...current.scene.files, ...buildHandoutFiles([first]) },
+          elements: sheet.elements as BoardScene['elements'],
+          files: { ...current.scene.files, ...sheet.files },
           appState: {},
         },
         handout: { page: 1, pageCount: doc.numPages, notes: { 1: existing } },
@@ -223,18 +223,24 @@ export default function BoardEditor() {
     if (next === h.page) return
     flippingRef.current = true
     try {
-      const { buildHandoutElements, buildHandoutFiles } = await import('../lib/boardPdf')
+      const { buildSheet } = await import('../lib/boardPdf')
       const layout = pdfLayout[next - 1]
       if (!layout) return
       const notes = current.scene.elements.filter((el) => pdfPageOf(el) === null)
       const allNotes = { ...h.notes, [h.page]: notes }
+      // Rasterise the incoming page before the canvas swaps, so it paints the
+      // real sheet on its first frame instead of flashing the placeholder.
+      const sheet = await buildSheet(pdf, layout, allNotes[next] ?? [])
+      // Page bitmaps from earlier sheets are dead weight; keep only the files
+      // the teacher pasted (screenshots in notes).
+      const keptFiles = Object.fromEntries(Object.entries(current.scene.files).filter(([id]) => !id.startsWith('pdf-bm-')))
       const page: BoardPage = {
         ...current,
         // New id so BoardSurface rebuilds the canvas with the new sheet.
         id: newId(),
         scene: {
-          elements: [...buildHandoutElements([layout]), ...(allNotes[next] ?? [])],
-          files: { ...current.scene.files, ...buildHandoutFiles([layout]) },
+          elements: sheet.elements as BoardScene['elements'],
+          files: { ...keptFiles, ...sheet.files },
           // Keep the teacher's zoom / page position across flips; a scroll-driven
           // flip passes where the new sheet should land (top or bottom).
           appState: {

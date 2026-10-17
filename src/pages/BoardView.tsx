@@ -5,7 +5,7 @@ import { useAccount } from '../context/account'
 import { supabase } from '../lib/supabase'
 import { useFullscreen } from '../lib/fullscreen'
 import { loadPdf, newId, type Board, type PDFDocumentProxy } from '../lib/board'
-import { attachPageFiles, layoutPdfPages, parsePages, pdfPageOf, type BoardPage, type PdfPageLayout } from '../lib/boardPages'
+import { attachPageFiles, layoutPdfPages, parsePages, pdfPageOf, type BoardPage, type BoardScene, type PdfPageLayout } from '../lib/boardPages'
 import { downloadBoardFiles } from '../lib/boardFiles'
 
 const BoardSurface = lazy(() => import('../components/BoardSurface'))
@@ -30,6 +30,9 @@ export default function BoardView() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  // The student's live viewport, so a flip keeps their zoom and horizontal
+  // position and lands at the top/bottom edge the wheel asked for.
+  const liveAppStateRef = useRef<BoardScene['appState'] | null>(null)
 
   useEffect(() => {
     let active = true
@@ -89,22 +92,26 @@ export default function BoardView() {
     if (next === h.page) return
     flippingRef.current = true
     try {
-      const { buildHandoutElements, buildHandoutFiles } = await import('../lib/boardPdf')
+      const { buildSheet } = await import('../lib/boardPdf')
       const layout = pdfLayout[next - 1]
       if (!layout) return
       const notes = page.scene.elements.filter((el) => pdfPageOf(el) === null)
       const allNotes = { ...h.notes, [h.page]: notes }
+      // Rasterise the incoming page before the canvas swaps, so it paints the
+      // real sheet on its first frame instead of flashing the placeholder.
+      const sheet = await buildSheet(pdf, layout, allNotes[next] ?? [])
+      const keptFiles = Object.fromEntries(Object.entries(page.scene.files).filter(([id]) => !id.startsWith('pdf-bm-')))
       const nextPage: BoardPage = {
         ...page,
         // New id so BoardSurface rebuilds the canvas with the new sheet.
         id: newId(),
         scene: {
-          elements: [...buildHandoutElements([layout]), ...(allNotes[next] ?? [])],
-          files: { ...page.scene.files, ...buildHandoutFiles([layout]) },
+          elements: sheet.elements as BoardScene['elements'],
+          files: { ...keptFiles, ...sheet.files },
           // Keep the student's zoom / page position across flips; a scroll-driven
           // flip passes where the new sheet should land (top or bottom).
           appState: {
-            ...page.scene.appState,
+            ...(liveAppStateRef.current ?? page.scene.appState),
             ...(typeof viewScrollY === 'number' ? { scrollY: viewScrollY } : {}),
           },
         },
@@ -154,7 +161,7 @@ export default function BoardView() {
           {currentPage.background.type === 'pdf' && !pdf
             ? <div className="grid h-full place-items-center text-slate-500">PDF 加载中…</div>
             : <Suspense fallback={<div className="grid h-full place-items-center text-slate-500">正在加载白板…</div>}>
-                <BoardSurface key={currentPage.id} pdf={pdf} page={currentPage} editable={false} theme={theme} onFlip={currentPage.handout ? (n, viewScrollY) => void flipHandout(n, viewScrollY) : undefined} />
+                <BoardSurface key={currentPage.id} pdf={pdf} page={currentPage} editable={false} theme={theme} onFlip={currentPage.handout ? (n, viewScrollY) => void flipHandout(n, viewScrollY) : undefined} onSceneChange={(scene) => { liveAppStateRef.current = scene.appState }} />
               </Suspense>}
         </main>
       </div>

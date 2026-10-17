@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type ComponentProps, type PointerEvent as ReactPointerEvent } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ComponentProps, type PointerEvent as ReactPointerEvent } from 'react'
 import { BoxSelect, ChevronLeft, ChevronRight, Eraser, Maximize, Minus, MousePointer2, MoveHorizontal, Pencil, Plus, Type, X, ZoomOut } from 'lucide-react'
 import { CaptureUpdateAction, convertToExcalidrawElements, Excalidraw, FONT_FAMILY, restore } from '@excalidraw/excalidraw'
 import type { DataURL, ExcalidrawImperativeAPI, ExcalidrawInitialDataState, NormalizedZoomValue } from '@excalidraw/excalidraw/types'
@@ -114,6 +114,12 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
   }, [])
 
   const backgroundElementId = bg?.id ?? null
+
+  // A page flip remounts Excalidraw, and the fresh instance paints nothing
+  // until the sheet bitmap decodes — that empty canvas is the flash on every
+  // page turn. A cover image of the incoming sheet hides the gap.
+  const [cover, setCover] = useState<{ src: string; left: number; top: number; width: number; height: number } | null>(null)
+  const [coverFading, setCoverFading] = useState(false)
 
   // Percent readout for the zoom cluster (fed by onChange below).
   const [zoomPct, setZoomPct] = useState(100)
@@ -971,7 +977,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
         })
       }
     }
-    if (!editable || !onSceneChange) return
+    if (!onSceneChange) return
     const prev = prevElementsRef.current
     const structural = !prev || prev.length !== els.length || els.some((el, i) => isStructural(el as unknown as Elementish, prev[i] as unknown as Elementish))
     prevElementsRef.current = els
@@ -1011,6 +1017,41 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
     scrollToContent: false,
   }), [elements, appState, files, page.id])
 
+  // Position the cover exactly where the booted canvas will draw the sheet:
+  // screen = (scene + scroll) * zoom. A flip ships a pre-rasterised bitmap, so
+  // there is always one to cover with; a board loaded from the server still
+  // points at the grey placeholder, which is not worth covering.
+  useLayoutEffect(() => {
+    setCoverFading(false)
+    const host = hostRef.current
+    const sheet = page.scene.elements.find((el) => pdfPageOf(el) !== null)
+    const fileId = sheet?.type === 'image' ? String(sheet.fileId) : ''
+    const file = fileId ? page.scene.files[fileId] : undefined
+    if (!host || !sheet || !file || !fileId.startsWith('pdf-bm-')) {
+      setCover(null)
+      return
+    }
+    // A fresh page docks left at the same zoom/scroll the fit effect will use.
+    const margin = 24
+    const zoom = needsFit
+      ? Math.max(0.1, Math.min(1, (host.clientWidth - margin) / sheet.width))
+      : appState.zoom.value
+    const scrollX = needsFit ? margin / zoom - sheet.x : appState.scrollX
+    const scrollY = needsFit ? margin / zoom - sheet.y : appState.scrollY
+    setCover({
+      src: file.dataURL,
+      left: (sheet.x + scrollX) * zoom,
+      top: (sheet.y + scrollY) * zoom,
+      width: sheet.width * zoom,
+      height: sheet.height * zoom,
+    })
+    // Give the remounted canvas time to decode and draw, then fade the cover.
+    const fade = window.setTimeout(() => setCoverFading(true), 450)
+    const clear = window.setTimeout(() => setCover(null), 700)
+    return () => { window.clearTimeout(fade); window.clearTimeout(clear) }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page.id])
+
   return (
     <div ref={hostRef} className={`relative h-full w-full${hideTools ? ' board-hide-tools' : ''}${quietText ? ' board-quiet-text' : ''}${textToolOn ? ' board-text-tool' : ''}${activeToolType === 'freedraw' ? ' board-tool-freedraw' : ''}${zen ? ' board-zen' : ''}`}>
       <Excalidraw
@@ -1027,6 +1068,13 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
         // 复制图片 covers exporting.
         UIOptions={{ canvasActions: { changeViewBackgroundColor: false, saveAsImage: false } }}
       />
+      {cover && (
+        // z-3 sits above Excalidraw's canvases (1–2) but below its toolbar (4)
+        // and our own bars (10), so only the blank canvas is hidden.
+        <div className={`pointer-events-none absolute inset-0 z-[3] transition-opacity duration-200 ${coverFading ? 'opacity-0' : 'opacity-100'}`} style={{ backgroundColor: canvasColor }}>
+          <img src={cover.src} alt="" draggable={false} className="absolute select-none" style={{ left: cover.left, top: cover.top, width: cover.width, height: cover.height }} />
+        </div>
+      )}
       <div className="absolute bottom-4 right-4 z-10 flex items-center gap-0.5 rounded-xl border border-slate-200 bg-white/95 p-1 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200">
         <button type="button" title="缩小" aria-label="缩小" onClick={() => { const api = apiRef.current; if (api) zoomByStep(api, 1 / 1.25) }} className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><Minus size={16} /></button>
         <span className="min-w-[46px] text-center text-xs font-semibold tabular-nums">{zoomPct}%</span>

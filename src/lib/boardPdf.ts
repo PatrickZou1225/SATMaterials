@@ -1,7 +1,8 @@
 import { convertToExcalidrawElements } from '@excalidraw/excalidraw'
 import type { BinaryFiles, DataURL } from '@excalidraw/excalidraw/types'
 import type { ExcalidrawElement, FileId, OrderedExcalidrawElement } from '@excalidraw/excalidraw/element/types'
-import { pdfPlaceholderDataUrl, pdfPlaceholderId, type PdfPageLayout } from './boardPages'
+import type { PDFDocumentProxy } from './board'
+import { pdfBitmapId, pdfPageOf, pdfPlaceholderDataUrl, pdfPlaceholderId, renderPdfPageToDataUrl, type PdfPageLayout } from './boardPages'
 
 // NOTE: imports the Excalidraw runtime, so callers must import() this lazily.
 
@@ -47,4 +48,27 @@ export function buildHandoutFiles(layout: PdfPageLayout[]): BinaryFiles {
     }
   }
   return files
+}
+
+// Build one finished sheet: the page element, its notes, and the bitmap already
+// rasterised. Flipping remounts the Excalidraw canvas; swapping in a sheet that
+// still points at the grey placeholder made the first frame flash grey/white
+// until the lazy renderer caught up. Rendering up front means the new canvas
+// paints the real page on its first frame.
+export async function buildSheet(
+  pdf: PDFDocumentProxy,
+  layout: PdfPageLayout,
+  notes: ExcalidrawElement[],
+): Promise<{ elements: OrderedExcalidrawElement[]; files: BinaryFiles }> {
+  const files = buildHandoutFiles([layout])
+  let elements = buildHandoutElements([layout])
+  try {
+    const rendered = await renderPdfPageToDataUrl(pdf, layout.page)
+    const id = pdfBitmapId(layout.page)
+    files[id] = { id: id as FileId, mimeType: 'image/png', dataURL: rendered.dataUrl as DataURL, created: Date.now() }
+    elements = elements.map((el) => (pdfPageOf(el) === layout.page ? { ...el, fileId: id as FileId } : el))
+  } catch {
+    // Placeholder stays; the lazy renderer will retry when the sheet is shown.
+  }
+  return { elements: [...elements, ...notes] as OrderedExcalidrawElement[], files }
 }
