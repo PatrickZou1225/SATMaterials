@@ -95,7 +95,16 @@ function useBackgroundImage(pdf: PDFDocumentProxy | null, page: BoardPage) {
 export default function BoardSurface({ pdf, page, editable, theme, hideTools, zen, insertQuestion, onClosePage, onFlip, onSceneChange }: BoardSurfaceProps) {
   const bg = useBackgroundImage(pdf, page)
   const apiRef = useRef<ExcalidrawImperativeAPI | null>(null)
+  // The imperative API arrives only after Excalidraw mounts — and a page flip
+  // remounts it via the `key` prop. Effects that must run against the live
+  // instance depend on this state so they re-run with the new API instead of
+  // bailing once on the null ref (which left flipped pages as a bare placeholder).
+  const [api, setApi] = useState<ExcalidrawImperativeAPI | null>(null)
   const hostRef = useRef<HTMLDivElement | null>(null)
+  const handleApi = useCallback((next: ExcalidrawImperativeAPI) => {
+    apiRef.current = next
+    setApi(next)
+  }, [])
 
   const backgroundElementId = bg?.id ?? null
 
@@ -181,7 +190,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
       appState: { currentItemStrokeColor: textToolOn ? '#ffffff' : inkColor },
       captureUpdate: CaptureUpdateAction.NEVER,
     })
-  }, [textToolOn, inkColor, page.id])
+  }, [textToolOn, inkColor, page.id, api])
 
   // Text tool defaults the teacher asked for: Large size (S16 / M20 / L28 /
   // XL36) and the Normal family. Text elements copy these at creation time.
@@ -190,7 +199,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
       appState: { currentItemFontSize: 28, currentItemFontFamily: FONT_FAMILY.Nunito },
       captureUpdate: CaptureUpdateAction.NEVER,
     })
-  }, [page.id])
+  }, [page.id, api])
 
   // Read the PDF's embedded outline for the 目录 list; resolve each destination
   // to a page number. Unresolvable entries are skipped, and documents without
@@ -267,7 +276,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
     : (typeof page.scene.appState.viewBackgroundColor === 'string' ? page.scene.appState.viewBackgroundColor : '#000000')
   useEffect(() => {
     apiRef.current?.updateScene({ appState: { viewBackgroundColor: canvasColor }, captureUpdate: CaptureUpdateAction.NEVER })
-  }, [canvasColor, page.id])
+  }, [canvasColor, page.id, api])
 
   const prevElementsRef = useRef<readonly unknown[] | null>(null)
   // True while any pointer is held — the settle-time ink guard must not replace
@@ -339,7 +348,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
     }
     renderVisibleRef.current = renderVisible
     renderVisible()
-  }, [pdf, page.id])
+  }, [pdf, page.id, api])
 
   // Zooming moves the viewport in bursts, and rasterising a page is heavy
   // main-thread canvas work. Completing a batch of renders mid-gesture made the
@@ -382,7 +391,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
     })
     return () => cancelAnimationFrame(raf)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page.id])
+  }, [page.id, api])
 
   // ---------------------------------------------------------------------------
   // Viewport model (document-viewer style). The handout is one very tall column
@@ -956,7 +965,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
     <div ref={hostRef} className={`relative h-full w-full${hideTools ? ' board-hide-tools' : ''}${quietText ? ' board-quiet-text' : ''}${textToolOn ? ' board-text-tool' : ''}${activeToolType === 'freedraw' ? ' board-tool-freedraw' : ''}${zen ? ' board-zen' : ''}`}>
       <Excalidraw
         key={page.id}
-        excalidrawAPI={(api) => { apiRef.current = api }}
+        excalidrawAPI={handleApi}
         initialData={initialData}
         viewModeEnabled={!editable}
         theme={theme}
