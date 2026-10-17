@@ -66,7 +66,11 @@
 
 ## 讲义（handout）的渲染机制（本轮核心）
 
-**一份 PDF = 一块黑板，所有页竖着排成一列**（不是一页一块板）。
+> **⚠️ 2026-10-17 起改为「单板翻页」**：一块板只显示一页 PDF，翻页时 PDF 和该页笔记一起切换
+> （`BoardPage.handout`）。下面「所有页竖着排成一列」的描述仅适用于**改版前保存的旧板书**，
+> 代码仍能打开它们。新行为见文末 2026-10-17 一节。
+
+**旧模型：一份 PDF = 一块黑板，所有页竖着排成一列**（不是一页一块板）。
 
 - `layoutPdfPages(pdf)` 逐页量尺寸，按 `BACKGROUND_WIDTH = 1000` 等比换算高度，上到下堆叠（间距 `PDF_PAGE_GAP = 40`）。
 - `buildHandoutElements(layout)`：每页一个**未锁定**图片元素（可拖四角放大缩小），贴 `customData.pdfPage = 页码`。
@@ -461,6 +465,31 @@ Excalidraw 原生规则（`showSelectedShapeActions`）：**文字工具激活�
 
 **注意（遗留）**：一块已保存板书只有一个 `pdf_path`。如果往同一块板里先后加载**两份不同** PDF，重载后所有
 `customData.pdfPage` 元素都会用最后那份 PDF 渲染 → 页内容会串。要支持多份 PDF 得把来源路径写进 `customData` 并做 pdf 缓存。
+
+## 2026-10-17（第二轮）单板翻页：PDF 只翻页，背景板不再是一长列
+
+**问题**：讲义是 150 页竖排的一列，老师在 130 页写字后去 148 页，笔记留在 130 页的位置，来回要滚很远。
+老师要的是「只翻 PDF，背景板不要那么多页」。
+
+**做法**：一块板同一时间只放**一页** PDF。翻页时 PDF 页面和这一页自己的笔记一起换掉。
+
+- 数据：`BoardPage.handout = { page, pageCount, notes: Record<页码, 元素[]> }`
+  - `notes` 按页码存每一页的板书；当前页的板书同时就是 `scene.elements`（除 PDF 图片元素外）。
+  - `scene.files` 是**所有页共享的图片池**（粘贴的截图不会因翻页丢失）。
+- 翻页（`BoardEditor.flipHandout` / `BoardView.flipHandout`）：
+  1. `mergedPages()` 取当前实时场景 → 把非 PDF 元素存进 `notes[当前页]`；
+  2. 用 `buildHandoutElements([layout[目标页]])` 造新一页的图片元素；
+  3. `elements = [PDF 图元素, ...notes[目标页]]`，`appState: {}`（自动铺满窗口）；
+  4. 换新 `page.id` 逼 `BoardSurface` 重建画布。
+- 页码条 / 目录 / 上下页：`BoardSurface` 新增 `onFlip` prop；有它就翻页，没有就沿用旧版「滚动到那一页」。
+- `BoardSurface` 的页码总数优先取 `page.handout.pageCount`（场景里只有一页，不能靠元素数）。
+- 旧板书没有 `handout` 字段 → 继续按「一列」显示，向后兼容。
+- 学生端 `BoardView` 也实现了同样的只读翻页。
+
+**其他修复（同一天）**：
+- **点文字/截图不再拖动整块板**：`BoardSurface` 的拖拽手势原来只要按在讲义页上就平移视口；
+  现在先做元素命中测试（`onTeacherElement`），按在老师自己的元素上就交给 Excalidraw 选中/移动。
+- **页间黑杠**：`PDF_PAGE_GAP` 40 → 8，页面几乎贴在一起（新加载的讲义生效）。
 
 ## 已知问题 / 待在真机验证
 

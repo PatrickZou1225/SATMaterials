@@ -24,6 +24,9 @@ export type BoardSurfaceProps = {
   // The ✕ of the PDF window cluster: remove the handout board (the editor
   // confirms first). Not passed in read-only views — the button hides.
   onClosePage?: () => void
+  // Single-board handouts: flipping swaps the PDF page and its own notes. When
+  // absent, the board is the classic tall column and page jumps scroll it.
+  onFlip?: (page: number) => void
   // `structural` is false for UI-only changes (tool/ink/viewport), which lets the
   // caller avoid flagging a board dirty just because we recoloured the pen.
   onSceneChange?: (scene: BoardScene, meta: { structural: boolean }) => void
@@ -89,7 +92,7 @@ function useBackgroundImage(pdf: PDFDocumentProxy | null, page: BoardPage) {
   return image
 }
 
-export default function BoardSurface({ pdf, page, editable, theme, hideTools, zen, insertQuestion, onClosePage, onSceneChange }: BoardSurfaceProps) {
+export default function BoardSurface({ pdf, page, editable, theme, hideTools, zen, insertQuestion, onClosePage, onFlip, onSceneChange }: BoardSurfaceProps) {
   const bg = useBackgroundImage(pdf, page)
   const apiRef = useRef<ExcalidrawImperativeAPI | null>(null)
   const hostRef = useRef<HTMLDivElement | null>(null)
@@ -530,6 +533,13 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
     scheduleRenderRef.current()
   }
 
+  // Page navigation: single-board handouts flip in place (the editor swaps the
+  // sheet and its notes); the classic tall column scrolls to the page.
+  const jumpTo = (api: ExcalidrawImperativeAPI, target: number) => {
+    if (onFlip) onFlip(target)
+    else goToPage(api, target)
+  }
+
   const toggleFitWindow = () => {
     const next = !fitWindow
     setFitWindow(next)
@@ -670,6 +680,20 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
         el.type === 'image' && !el.isDeleted && pdfPageOf(el) !== null &&
         sceneX >= el.x && sceneX <= el.x + el.width && sceneY >= el.y && sceneY <= el.y + el.height)
     }
+    // Any element the teacher drew or pasted (text, screenshot, stroke) — but
+    // not the locked handout pages. A press on one of these belongs to
+    // Excalidraw (select / move it), not to our page-pan gesture.
+    const onTeacherElement = (clientX: number, clientY: number) => {
+      const api = apiRef.current
+      if (!api) return false
+      const st = api.getAppState()
+      const rect = host.getBoundingClientRect()
+      const sceneX = (clientX - rect.left) / st.zoom.value - st.scrollX
+      const sceneY = (clientY - rect.top) / st.zoom.value - st.scrollY
+      return api.getSceneElements().some((el) =>
+        !el.isDeleted && !el.locked &&
+        sceneX >= el.x && sceneX <= el.x + el.width && sceneY >= el.y && sceneY <= el.y + el.height)
+    }
     const onDown = (e: PointerEvent) => {
       pointerHeldRef.current = true
       if (e.button !== 0) return
@@ -692,6 +716,9 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
       }
       if (tool !== 'selection' || marqueeModeRef.current) return
       if (!onPage(e.clientX, e.clientY)) return
+      // Pressing the teacher's own text / screenshot must move that element, not
+      // the page underneath it.
+      if (onTeacherElement(e.clientX, e.clientY)) return
       const st = api.getAppState()
       drag = { id: e.pointerId, startX: e.clientX, startY: e.clientY, scrollX: st.scrollX, scrollY: st.scrollY }
     }
@@ -841,7 +868,9 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
         if (dist < bestDist) { bestDist = dist; best = el }
       }
       const current = pdfPageOf(best) ?? 1
-      const total = pageEls.length
+      // A single-board handout knows its whole page count even though only the
+      // current sheet is in the scene.
+      const total = page.handout?.pageCount ?? pageEls.length
       setPageInfo((prev) => (prev && prev.current === current && prev.total === total ? prev : { current, total }))
       // Hug the PDF's right edge; clamped so the hot zone stays reachable when
       // the boundary slides off-screen.
@@ -958,7 +987,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
               <span className="mx-0.5 h-4 w-px bg-slate-200 dark:bg-slate-700" />
             </>
           )}
-          <button type="button" title="上一页" aria-label="上一页" disabled={pageInfo.current <= 1} onClick={() => { const api = apiRef.current; if (api) goToPage(api, Math.max(1, pageInfo.current - 1)) }} className="grid h-7 w-7 place-items-center rounded-full transition hover:bg-slate-100 disabled:opacity-30 dark:hover:bg-slate-800"><ChevronLeft size={15} /></button>
+          <button type="button" title="上一页" aria-label="上一页" disabled={pageInfo.current <= 1} onClick={() => { const api = apiRef.current; if (api) jumpTo(api, Math.max(1, pageInfo.current - 1)) }} className="grid h-7 w-7 place-items-center rounded-full transition hover:bg-slate-100 disabled:opacity-30 dark:hover:bg-slate-800"><ChevronLeft size={15} /></button>
           {pageInput === null ? (
             <button type="button" title="点击输入页码跳转" onClick={() => setPageInput(String(pageInfo.current))} className="min-w-[78px] rounded-full px-1.5 py-0.5 text-center text-xs font-semibold tabular-nums transition hover:bg-slate-100 dark:hover:bg-slate-800">第 {pageInfo.current} / {pageInfo.total} 页</button>
           ) : (
@@ -973,7 +1002,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
                     const n = Number(pageInput)
                     if (n >= 1 && n <= pageInfo.total) {
                       const api = apiRef.current
-                      if (api) goToPage(api, n)
+                      if (api) jumpTo(api, n)
                     }
                     setPageInput(null)
                   } else if (e.key === 'Escape') {
@@ -986,7 +1015,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
               <span className="text-xs text-slate-500">/ {pageInfo.total} 页</span>
             </span>
           )}
-          <button type="button" title="下一页" aria-label="下一页" disabled={pageInfo.current >= pageInfo.total} onClick={() => { const api = apiRef.current; if (api) goToPage(api, Math.min(pageInfo.total, pageInfo.current + 1)) }} className="grid h-7 w-7 place-items-center rounded-full transition hover:bg-slate-100 disabled:opacity-30 dark:hover:bg-slate-800"><ChevronRight size={15} /></button>
+          <button type="button" title="下一页" aria-label="下一页" disabled={pageInfo.current >= pageInfo.total} onClick={() => { const api = apiRef.current; if (api) jumpTo(api, Math.min(pageInfo.total, pageInfo.current + 1)) }} className="grid h-7 w-7 place-items-center rounded-full transition hover:bg-slate-100 disabled:opacity-30 dark:hover:bg-slate-800"><ChevronRight size={15} /></button>
         </div>
       )}
       {outlineOpen && outline.length > 0 && (
@@ -998,7 +1027,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
                 key={`${item.page}-${i}`}
                 type="button"
                 title={item.title}
-                onClick={() => { const api = apiRef.current; if (api) goToPage(api, item.page) }}
+                onClick={() => { const api = apiRef.current; if (api) jumpTo(api, item.page) }}
                 style={{ paddingLeft: 12 + item.depth * 14 }}
                 className={`block w-full truncate py-1.5 pr-3 text-left text-xs transition hover:bg-slate-100 dark:hover:bg-slate-800 ${pageInfo && item.page === pageInfo.current ? 'font-semibold text-blue-600 dark:text-blue-400' : ''}`}
               >

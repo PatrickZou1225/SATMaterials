@@ -19,11 +19,22 @@ export type BoardScene = {
   appState: Record<string, unknown>
 }
 
+// A handout board shows one PDF page at a time. `notes` keeps the teacher's
+// elements for every page they have visited, keyed by page number, so flipping
+// swaps the annotations together with the sheet instead of leaving them behind
+// on a 150-page-long canvas.
+export type HandoutState = {
+  page: number
+  pageCount: number
+  notes: Record<number, ExcalidrawElement[]>
+}
+
 export type BoardPage = {
   id: string
   name: string
   background: PageBackground
   scene: BoardScene
+  handout?: HandoutState
 }
 
 // Excalidraw scene coordinates are unitless. We render every handout page at a
@@ -109,7 +120,8 @@ export async function renderPdfPageToDataUrl(
 // is derived from the page number, and the bitmap is swapped in while it's in
 // view. `customData.pdfPage` is how an element remembers which page it shows.
 
-export const PDF_PAGE_GAP = 40
+// Pages sit almost flush: a wide gap reads as a thick black bar between sheets.
+export const PDF_PAGE_GAP = 8
 
 export type PdfPageLayout = { page: number; y: number; width: number; height: number }
 
@@ -202,7 +214,13 @@ export function attachPageFiles(pages: BoardPage[], files: BinaryFiles): BoardPa
   if (Object.keys(files).length === 0) return pages
   return pages.map((p) => {
     const needed: BinaryFiles = {}
-    for (const el of p.scene.elements) {
+    // Screenshots pasted on other handout pages live outside `scene.elements`
+    // (their notes are parked in `handout.notes`), so scan those too.
+    const allElements = [
+      ...p.scene.elements,
+      ...Object.values(p.handout?.notes ?? {}).flat(),
+    ]
+    for (const el of allElements) {
       if (el.type !== 'image') continue
       const fileId = el.fileId
       if (fileId && files[fileId]) needed[fileId] = files[fileId]
