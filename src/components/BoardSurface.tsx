@@ -396,9 +396,9 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
   }, [])
 
   // A freshly loaded handout opens like a ClassIn document window: the page
-  // docks to the LEFT at 100% (shrinking only if the window is narrower than
-  // the sheet), leaving the right side of the canvas free for the blackboard.
-  // The teacher can then drag the page's right edge to resize it.
+  // docks FLUSH to the left edge at 100% (shrinking only if the window is
+  // narrower than the sheet), leaving the right side of the canvas free for the
+  // blackboard. The teacher can then drag the page's right edge to resize it.
   useEffect(() => {
     if (!needsFit) return
     const api = apiRef.current
@@ -407,12 +407,14 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
     const first = page.scene.elements.find((el) => pdfPageOf(el) !== null)
     if (!first) return
     const raf = requestAnimationFrame(() => {
-      const margin = 24
-      const zoom = Math.max(0.1, Math.min(1, (host.clientWidth - margin) / first.width))
+      // Horizontal margin 0: the sheet's left edge sits exactly on the board's
+      // left edge, so nothing needs dragging into place on open.
+      const marginTop = 24
+      const zoom = Math.max(0.1, Math.min(1, host.clientWidth / first.width))
       // sceneX(screenX) = screenX / zoom - scrollX, so this parks the page's
       // top-left corner at the margin instead of centring it.
-      const scrollX = margin / zoom - first.x
-      const scrollY = margin / zoom - first.y
+      const scrollX = -first.x
+      const scrollY = marginTop / zoom - first.y
       api.updateScene({
         appState: { zoom: { value: zoom as NormalizedZoomValue }, scrollX, scrollY },
         captureUpdate: CaptureUpdateAction.NEVER,
@@ -1186,17 +1188,17 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
       {pageInfo && pageEdgeX !== null && (
         <button
           type="button"
-          title="按住左右拖动：往右拉放大，往左拉缩小"
           aria-label="拖动缩放讲义"
           onPointerDown={onResizeDown}
           onPointerMove={onResizeMove}
           onPointerUp={onResizeUp}
           onPointerCancel={onResizeUp}
-          style={{ left: pageEdgeX - 6 }}
-          className="group absolute top-1/2 z-10 h-[70%] w-3 -translate-y-1/2 cursor-ew-resize touch-none bg-transparent"
+          style={{ left: pageEdgeX - 8 }}
+          className="group absolute top-1/2 z-10 h-[70%] w-4 -translate-y-1/2 cursor-ew-resize touch-none bg-transparent"
         >
-          <span className="pointer-events-none absolute left-1/2 top-1/2 flex h-16 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-lg border border-slate-200 bg-white/90 text-slate-500 opacity-0 shadow-md backdrop-blur transition-opacity duration-150 group-hover:opacity-100 group-active:opacity-100 dark:border-slate-700 dark:bg-slate-900/90 dark:text-slate-300">
-            <MoveHorizontal size={14} />
+          {/* Just the arrow, only while the pointer is near the page edge. */}
+          <span className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-slate-500 opacity-0 drop-shadow-sm transition-opacity duration-150 group-hover:opacity-100 group-active:opacity-100 dark:text-slate-300">
+            <MoveHorizontal size={16} />
           </span>
         </button>
       )}
