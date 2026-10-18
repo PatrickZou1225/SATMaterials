@@ -6,7 +6,7 @@ import type { FileId } from '@excalidraw/excalidraw/element/types'
 import '@excalidraw/excalidraw/index.css'
 import type { PDFDocumentProxy } from '../lib/board'
 import type { BoardScene, BoardPage } from '../lib/boardPages'
-import { defaultInkColor, pdfBitmapId, pdfPageOf, renderPdfPageToDataUrl } from '../lib/boardPages'
+import { defaultInkColor, pdfBitmapId, pdfPageOf, pdfPlaceholderId, renderPdfPageToDataUrl } from '../lib/boardPages'
 import { buildBackgroundElement } from '../lib/boardExport'
 
 export type BoardSurfaceProps = {
@@ -14,8 +14,6 @@ export type BoardSurfaceProps = {
   page: BoardPage
   editable: boolean
   theme: 'light' | 'dark'
-  // Collapse Excalidraw's drawing-tool palette (the top bar's brush button).
-  hideTools?: boolean
   // Presentation mode: hide all of Excalidraw's own chrome (toolbar, menus).
   zen?: boolean
   // The blackboard layer keeps a fixed scale, so its zoom cluster is hidden.
@@ -134,7 +132,7 @@ function useBackgroundImage(pdf: PDFDocumentProxy | null, page: BoardPage) {
   return image
 }
 
-export default function BoardSurface({ pdf, page, editable, theme, hideTools, zen, hideZoom, onCollapse, onMaximize, maximized, fitSignal, embedded, externalTool, onToolStateChange, onResizePaneTo, onSave, saveMenu, saveWrapRef, insertQuestion, onClosePage, onSceneChange }: BoardSurfaceProps) {
+export default function BoardSurface({ pdf, page, editable, theme, zen, hideZoom, onCollapse, onMaximize, maximized, fitSignal, embedded, externalTool, onToolStateChange, onResizePaneTo, onSave, saveMenu, saveWrapRef, insertQuestion, onClosePage, onSceneChange }: BoardSurfaceProps) {
   const bg = useBackgroundImage(pdf, page)
   const apiRef = useRef<ExcalidrawImperativeAPI | null>(null)
   // The imperative API arrives only after Excalidraw mounts — and a page flip
@@ -386,11 +384,24 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
   // bitmaps are never persisted (stripPdfBitmaps resets them before saving).
   const renderingRef = useRef<Set<number>>(new Set())
   const renderVisibleRef = useRef<() => void>(() => {})
+  const sceneRetryRef = useRef(0)
   useEffect(() => {
+    let sceneRetries = 0
     const renderVisible = () => {
       const api = apiRef.current
       const host = hostRef.current
       if (!api || !host || !pdf) return
+      // Excalidraw hands us its API before the saved scene has landed, so a
+      // first pass right after a tab switch can see an empty canvas and conclude
+      // there is nothing to render — leaving restored pages without bitmaps.
+      // Keep checking until the scene is really there.
+      if (!api.getSceneElements().some((el) => pdfPageOf(el) !== null)) {
+        if (sceneRetries++ < 40 && page.scene.elements.some((el) => pdfPageOf(el) !== null)) {
+          window.clearTimeout(sceneRetryRef.current)
+          sceneRetryRef.current = window.setTimeout(() => renderVisibleRef.current(), 120)
+        }
+        return
+      }
       const app = api.getAppState()
       const zoom = app.zoom.value
       const top = -app.scrollY
@@ -420,6 +431,9 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
         void (async () => {
           try {
             const rendered = await renderPdfPageToDataUrl(pdf, p)
+            // A tab switch during rasterisation leaves `api` pointing at an
+            // unmounted instance; painting into it would lose the bitmap.
+            if (apiRef.current !== api) return
             api.addFiles([{ id: pdfBitmapId(p) as FileId, mimeType: 'image/png', dataURL: rendered.dataUrl as DataURL, created: Date.now() }])
             api.updateScene({
               elements: api.getSceneElements().map((cur) => (pdfPageOf(cur) === p ? { ...cur, fileId: pdfBitmapId(p) as FileId } : cur)),
@@ -435,6 +449,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
     }
     renderVisibleRef.current = renderVisible
     renderVisible()
+    return () => window.clearTimeout(sceneRetryRef.current)
   }, [pdf, page.id, api])
 
   // Zooming moves the viewport in bursts, and rasterising a page is heavy
@@ -1085,7 +1100,20 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
     const prev = prevElementsRef.current
     const structural = !prev || prev.length !== els.length || els.some((el, i) => isStructural(el as unknown as Elementish, prev[i] as unknown as Elementish))
     prevElementsRef.current = els
-    const filtered = els.filter((el) => el.id !== backgroundElementId)
+    // Report page elements against their placeholder file, never the rasterised
+    // bitmap: the bitmaps are deliberately not persisted, so a restored scene
+    // that still pointed at `pdf-bm-*` would render as a broken-image box until
+    // the lazy renderer ran again. Placeholders are always present in `files`.
+    const filtered = els
+      .filter((el) => el.id !== backgroundElementId)
+      .map((el) => {
+        const p = pdfPageOf(el)
+        if (p === null) return el
+        const fileId = (el as unknown as { fileId?: FileId }).fileId
+        return fileId === pdfPlaceholderId(p)
+          ? el
+          : ({ ...el, fileId: pdfPlaceholderId(p) as FileId } as unknown as typeof el)
+      })
     const cleanedFiles = { ...filesState }
     if (backgroundElementId) delete cleanedFiles[backgroundElementId]
     // Never carry rasterised page bitmaps into the saved scene.
@@ -1122,7 +1150,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
   }), [elements, appState, files, page.id])
 
   return (
-    <div ref={hostRef} className={`relative h-full w-full${hideTools ? ' board-hide-tools' : ''}${quietText ? ' board-quiet-text' : ''}${textToolOn ? ' board-text-tool' : ''}${drawToolActive ? ' board-draw-tool' : ''}${zen ? ' board-zen' : ''}`}>
+    <div ref={hostRef} className={`relative h-full w-full${quietText ? ' board-quiet-text' : ''}${textToolOn ? ' board-text-tool' : ''}${drawToolActive ? ' board-draw-tool' : ''}${zen ? ' board-zen' : ''}`}>
       <Excalidraw
         key={page.id}
         excalidrawAPI={handleApi}
@@ -1202,7 +1230,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
           </div>
         </div>
       )}
-      {editable && !hideTools && !embedded && shapeMenuOpen && (
+      {editable && !embedded && shapeMenuOpen && (
         <div data-board-scroll data-shape-menu className={`absolute top-1/2 z-30 flex -translate-y-1/2 items-center gap-1 rounded-2xl border p-1.5 backdrop-blur ${zen ? 'right-[120px] border-white/15 bg-black/60' : 'right-[68px] border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/95'}`}>
           {DRAW_SHAPES.map(({ type, label, Icon }) => (
             <button
@@ -1218,7 +1246,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
           ))}
         </div>
       )}
-      {editable && !hideTools && !embedded && DRAW_TOOL_TYPES.includes(activeToolType) && penPanelOpen && (
+      {editable && !embedded && DRAW_TOOL_TYPES.includes(activeToolType) && penPanelOpen && (
         <div data-board-scroll className={`absolute top-1/2 z-20 flex w-48 -translate-y-1/2 flex-col gap-2.5 rounded-2xl border p-2.5 backdrop-blur ${zen ? 'right-[120px] border-white/15 bg-black/60' : 'right-[68px] border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/95'}`}>
           <div className="flex items-center gap-1">
             {DRAW_SHAPES.map(({ type, label, Icon }) => (
@@ -1244,7 +1272,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
           <InkPalette current={inkCursor.strokeColor} onPick={(color) => applyInk('pen', { strokeColor: color })} />
         </div>
       )}
-      {editable && !hideTools && !embedded && activeToolType === 'text' && textPanelOpen && (
+      {editable && !embedded && activeToolType === 'text' && textPanelOpen && (
         <div data-board-scroll className={`absolute top-1/2 z-20 flex w-44 -translate-y-1/2 flex-col gap-2 rounded-2xl border p-2.5 backdrop-blur ${zen ? 'right-[120px] border-white/15 bg-black/60' : 'right-[68px] border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/95'}`}>
           <div className="flex items-center gap-1">
             {[{ label: 'S', size: 16 }, { label: 'M', size: 20 }, { label: 'L', size: 28 }, { label: 'XL', size: 36 }].map(({ label, size }) => (
@@ -1254,7 +1282,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
           <InkPalette current={inkCursor.strokeColor} onPick={(color) => applyInk('text', { strokeColor: color })} />
         </div>
       )}
-      {editable && !hideTools && !embedded && (
+      {editable && !embedded && (
         <div className={`board-tool-rail absolute top-1/2 z-20 flex -translate-y-1/2 flex-col gap-0.5 rounded-2xl border p-1.5 backdrop-blur ${zen ? 'right-[64px] border-white/15 bg-black/60' : 'right-3 border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/95'}`}>
           <button type="button" title="点击（选中/移动）" aria-label="点击" onClick={() => selectTool(false)} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'selection' && !marqueeMode ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><MousePointer2 size={17} /></button>
           <button type="button" title="框选（圈住自己写的内容）" aria-label="框选" onClick={() => selectTool(true)} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'selection' && marqueeMode ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><BoxSelect size={17} /></button>

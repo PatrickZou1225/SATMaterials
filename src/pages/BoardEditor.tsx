@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { ChevronLeft, ChevronRight, ClipboardCopy, Cloud, Download, FileText, History, Image as ImageIcon, LayoutGrid, Maximize, Minimize, Paintbrush, Palette, PanelTop, PanelTopClose, Plus, Presentation, Save, Search, Send, Trash2, X } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ClipboardCopy, Cloud, Download, FileText, History, Image as ImageIcon, LayoutGrid, Maximize, Minimize, Palette, Plus, Presentation, Save, Search, Send, Trash2, X } from 'lucide-react'
 import CloudDrivePicker from '../components/CloudDrivePicker'
 import { useAccount } from '../context/account'
 import { supabase } from '../lib/supabase'
@@ -88,7 +88,6 @@ export default function BoardEditor() {
   const [dirty, setDirty] = useState(false)
 
   const [title, setTitle] = useState('')
-  const [hideTools, setHideTools] = useState(() => typeof window !== 'undefined' && window.localStorage.getItem('sat_board_hide_tools') === '1')
   // The page-thumbnail rail eats width when projecting; let it fold away too.
   const [pagesOpen, setPagesOpen] = useState(() => typeof window === 'undefined' || window.localStorage.getItem('sat_board_pages_open') !== '0')
   // 投屏 mode: hide all our chrome and Excalidraw's side menus, leaving the
@@ -96,8 +95,6 @@ export default function BoardEditor() {
   const [zen, setZen] = useState(false)
   // The thumbnail overlay stays closed in 投屏 (only the ▦ rail button opens it).
   const [zenPages, setZenPages] = useState(false)
-  // Hide the site-wide nav (without fullscreen) so the handout gets the height.
-  const [navHidden, setNavHidden] = useState(() => typeof window !== 'undefined' && window.localStorage.getItem('sat_board_hide_nav') === '1')
   // The cloud-drive file this board's handout came from (used when saving).
   const [sourcePdf, setSourcePdf] = useState<{ path: string; name: string } | null>(null)
   const [cloudOpen, setCloudOpen] = useState(false)
@@ -296,20 +293,6 @@ export default function BoardEditor() {
     setPages((prev) => prev.map((p) => (live.has(p.id) ? { ...p, scene: live.get(p.id)! } : p)))
   }
 
-  const toggleNav = () => {
-    setNavHidden((v) => {
-      window.localStorage.setItem('sat_board_hide_nav', v ? '0' : '1')
-      return !v
-    })
-  }
-
-  const toggleTools = () => {
-    setHideTools((v) => {
-      window.localStorage.setItem('sat_board_hide_tools', v ? '0' : '1')
-      return !v
-    })
-  }
-
   const togglePages = () => {
     setPagesOpen((v) => {
       window.localStorage.setItem('sat_board_pages_open', v ? '0' : '1')
@@ -475,13 +458,6 @@ export default function BoardEditor() {
     }
     setExporting(false)
   }
-
-  // Hide the site nav via a body class (Layout renders it above this page);
-  // leaving the board always restores it.
-  useEffect(() => {
-    document.body.classList.toggle('board-hide-nav', navHidden)
-    return () => document.body.classList.remove('board-hide-nav')
-  }, [navHidden])
 
   // Outside click closes the 保存 / 背景 / 搜题 menus; picking an item closes them too.
   useEffect(() => {
@@ -666,16 +642,11 @@ export default function BoardEditor() {
   )
 
   return (
-    <div className={isFullscreen ? 'fixed inset-0 z-50 flex flex-col bg-slate-100 dark:bg-slate-950' : `flex flex-col bg-slate-100 dark:bg-slate-950 ${navHidden ? 'h-screen' : 'h-[calc(100vh-4rem)]'}`}>
-      {!zen && navHidden && (
-        <button type="button" onClick={toggleNav} className="fixed left-3 top-3 z-40 inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white/95 px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-sm backdrop-blur transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200 dark:hover:bg-slate-800">
-          <PanelTop size={14} />顶部栏
-        </button>
-      )}
+    <div className={isFullscreen ? 'fixed inset-0 z-50 flex flex-col bg-slate-100 dark:bg-slate-950' : 'flex h-[calc(100vh-4rem)] flex-col bg-slate-100 dark:bg-slate-950'}>
       {/* relative z-30: the board <main> below paints later in tree order, so
           without a stacking context here the 保存 / 背景 / 搜题 dropdowns that
           hang out of this bar were rendered underneath it and never seen. */}
-      {!zen && !navHidden && <div className="relative z-30 border-b border-slate-200 bg-white/95 backdrop-blur dark:border-slate-800 dark:bg-slate-900/95">
+      {!zen && <div className="relative z-30 border-b border-slate-200 bg-white/95 backdrop-blur dark:border-slate-800 dark:bg-slate-900/95">
         <div className="flex flex-wrap items-center gap-2 px-4 py-2.5">
           <input
             value={title}
@@ -729,8 +700,6 @@ export default function BoardEditor() {
             <span className="mx-0.5 h-5 w-px shrink-0 bg-slate-200 dark:bg-slate-700" />
             <Link to="/board/archive" title="历史板书" aria-label="历史板书" className="rounded-lg border border-slate-200 p-2 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800"><History size={16} /></Link>
             <button type="button" onClick={togglePages} title={pagesOpen ? '收起页面栏' : '展开页面栏'} className={`rounded-lg border p-2 ${pagesOpen ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="页面列表"><LayoutGrid size={16} /></button>
-            <button type="button" onClick={toggleNav} title={navHidden ? '展开顶部导航' : '收起顶部导航（全站导航和这一栏一起收，腾出讲义空间）'} className={`rounded-lg border p-2 ${navHidden ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="顶部导航">{navHidden ? <PanelTop size={16} /> : <PanelTopClose size={16} />}</button>
-            <button type="button" onClick={toggleTools} title={hideTools ? '显示工具条' : '收起工具条'} className={`rounded-lg border p-2 ${hideTools ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="工具栏"><Paintbrush size={16} /></button>
             <button type="button" onClick={toggleFullscreen} className="rounded-lg border border-slate-200 p-2 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800" aria-label="全屏">{isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}</button>
             <div ref={bgMenuRef} className="relative">
               <button type="button" onClick={() => setBgMenuOpen((v) => !v)} title="画布背景颜色" aria-label="画布背景颜色" className="rounded-lg border border-slate-200 p-2 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800"><Palette size={16} /></button>
@@ -799,7 +768,6 @@ export default function BoardEditor() {
               onCloseHandout={closeHandout}
               editable
               theme={theme}
-              hideTools={hideTools}
               zen={zen}
               insertQuestion={insertQuestion}
               onSave={() => { setSaveMenuOpen(false); setRailSaveOpen((v) => !v) }}

@@ -13,7 +13,6 @@ export type BoardWorkspaceProps = {
   handouts?: BoardPage[]
   editable: boolean
   theme: 'light' | 'dark'
-  hideTools?: boolean
   zen?: boolean
   insertQuestion?: { title: string; text: string; serial: number } | null
   onSave?: () => void
@@ -36,7 +35,6 @@ export default function BoardWorkspace({
   handouts = [],
   editable,
   theme,
-  hideTools,
   zen,
   insertQuestion,
   onSave,
@@ -109,7 +107,6 @@ export default function BoardWorkspace({
         page={boardPage}
         editable={editable}
         theme={theme}
-        hideTools={hideTools}
         zen={zen}
         hideZoom
         externalTool={tool}
@@ -133,7 +130,6 @@ export default function BoardWorkspace({
             page={handout}
             editable={editable}
             theme={theme}
-            hideTools={hideTools}
             zen={zen}
             embedded
             externalTool={tool}

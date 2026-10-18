@@ -38,13 +38,6 @@ html.dark {
   color-scheme: dark;
 }
 
-/* The board page can tuck the global nav away without going fullscreen, giving
-   the handout its 64px back. BoardEditor toggles the body class (and its own
-   height) — the nav itself stays mounted but out of the way. */
-body.board-hide-nav .site-nav {
-  display: none !important;
-}
-
 /* Mirror image, always on: selecting a text — or editing one, including
    double-click-to-type — must not summon the island on its own. Only
    deliberately picking the text tool does. BoardSurface toggles
@@ -65,11 +58,6 @@ body.board-hide-nav .site-nav {
 /* Excalidraw's bottom-left zoom cluster (− / % / ＋) duplicates our own cluster
    (bottom-right) — hide it; the undo / redo buttons beside it stay. */
 .excalidraw .zoom-button {
-  display: none !important;
-}
-
-/* …and our rail itself tucks away when 收起工具条 is on. */
-.board-hide-tools .board-tool-rail {
   display: none !important;
 }
 
