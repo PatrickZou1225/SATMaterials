@@ -4,7 +4,8 @@ const PAIRED_PASSAGE_PATTERN = /^\s*Text 1\s+([\s\S]*?)\s+Text 2\s+([\s\S]*?)\s*
 // text is adapted from Mark Twain's 1876 novel The Adventures of Tom Sawyer.") that
 // the exam sets apart from the excerpt itself. The capture merges the two into one
 // paragraph, so split it back out and style it as an introduction.
-const INTRODUCTION_START = /^The following (?:text|passage|poem|excerpt) is\b/i
+const INTRODUCTION_START =
+  /^The following (?:text|passage|poem|excerpt) (?:is|discusses)\b/i
 
 function splitIntroduction(text: string): { introduction: string; body: string } | null {
   if (!INTRODUCTION_START.test(text)) return null
