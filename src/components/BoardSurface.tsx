@@ -1116,15 +1116,15 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
         // 复制图片 covers exporting.
         UIOptions={{ canvasActions: { changeViewBackgroundColor: false, saveAsImage: false } }}
       />
-      {!hideZoom && <div className={`absolute z-10 flex flex-wrap items-center gap-0.5 rounded-xl border border-slate-200 bg-white/95 p-1 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200 ${embedded ? 'left-16 top-3 max-w-[calc(100%-4.5rem)]' : 'bottom-4 right-4'}`}>
+      {!hideZoom && <div className={`absolute z-10 flex items-center gap-0.5 rounded-xl border border-slate-200 bg-white/95 p-1 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200 ${embedded ? 'left-2 top-16 flex-col' : 'bottom-4 right-4'}`}>
         <button type="button" title="缩小" aria-label="缩小" onClick={() => { const api = apiRef.current; if (api) zoomByStep(api, 1 / 1.25) }} className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><Minus size={16} /></button>
-        <span className="min-w-[46px] text-center text-xs font-semibold tabular-nums">{zoomPct}%</span>
+        <span className={`text-center text-xs font-semibold tabular-nums ${embedded ? 'py-0.5' : 'min-w-[46px]'}`}>{zoomPct}%</span>
         <button type="button" title="放大" aria-label="放大" onClick={() => { const api = apiRef.current; if (api) zoomByStep(api, 1.25) }} className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><Plus size={16} /></button>
-        <span className="mx-0.5 h-5 w-px bg-slate-200 dark:bg-slate-700" />
+        <span className={embedded ? 'my-0.5 h-px w-6 bg-slate-200 dark:bg-slate-700' : 'mx-0.5 h-5 w-px bg-slate-200 dark:bg-slate-700'} />
         <button type="button" title="回到整页" aria-label="回到整页" onClick={() => { const api = apiRef.current; if (api) fitPage(api) }} className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><Maximize size={16} /></button>
-        <button type="button" title="适应窗口：窗口大小变化时自动缩放到整页" aria-label="适应窗口" onClick={toggleFitWindow} className={`h-8 rounded-lg px-2 text-[11px] font-semibold transition ${fitWindow ? 'bg-blue-600 text-white' : 'hover:bg-slate-100 dark:hover:bg-slate-800'}`}>适配</button>
+        <button type="button" title="适应窗口：窗口大小变化时自动缩放到整页" aria-label="适应窗口" onClick={toggleFitWindow} className={`h-8 w-8 rounded-lg text-[11px] font-semibold transition ${fitWindow ? 'bg-blue-600 text-white' : 'hover:bg-slate-100 dark:hover:bg-slate-800'}`}>适配</button>
         {pageInfo && (
-          <button type="button" title={collapsed ? '显示讲义' : '收起讲义（腾出黑板，再点回来）'} aria-label={collapsed ? '显示讲义' : '收起讲义'} onClick={() => { const api = apiRef.current; if (api) toggleCollapse(api) }} className={`h-8 rounded-lg px-2 text-[11px] font-semibold transition ${collapsed ? 'bg-blue-600 text-white' : 'hover:bg-slate-100 dark:hover:bg-slate-800'}`}>{collapsed ? '显示讲义' : '收起讲义'}</button>
+          <button type="button" title={collapsed ? '显示讲义' : '收起讲义（腾出黑板，再点回来）'} aria-label={collapsed ? '显示讲义' : '收起讲义'} onClick={() => { const api = apiRef.current; if (api) toggleCollapse(api) }} className={`h-8 w-8 rounded-lg text-[11px] font-semibold transition ${collapsed ? 'bg-blue-600 text-white' : 'hover:bg-slate-100 dark:hover:bg-slate-800'}`}>{collapsed ? '显示' : '收起'}</button>
         )}
         {onClosePage && (
           <button type="button" title="关闭这份讲义（从这块板移除）" aria-label="关闭讲义" onClick={onClosePage} className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><X size={16} /></button>
