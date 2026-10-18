@@ -18,6 +18,9 @@ export type BoardSurfaceProps = {
   zen?: boolean
   // The blackboard layer keeps a fixed scale, so its zoom cluster is hidden.
   hideZoom?: boolean
+  // Handout switcher, merged into the top-right control cluster so it never
+  // covers the middle of the page.
+  handoutTabs?: ReactNode
   // When the surface sits in the floating handout window, its own "收起讲义"
   // button delegates to the window (which hides the whole window).
   onCollapse?: () => void
@@ -132,7 +135,7 @@ function useBackgroundImage(pdf: PDFDocumentProxy | null, page: BoardPage) {
   return image
 }
 
-export default function BoardSurface({ pdf, page, editable, theme, zen, hideZoom, onCollapse, onMaximize, maximized, fitSignal, embedded, externalTool, onToolStateChange, onResizePaneTo, onSave, saveMenu, saveWrapRef, insertQuestion, onClosePage, onSceneChange }: BoardSurfaceProps) {
+export default function BoardSurface({ pdf, page, editable, theme, zen, hideZoom, handoutTabs, onCollapse, onMaximize, maximized, fitSignal, embedded, externalTool, onToolStateChange, onResizePaneTo, onSave, saveMenu, saveWrapRef, insertQuestion, onClosePage, onSceneChange }: BoardSurfaceProps) {
   const bg = useBackgroundImage(pdf, page)
   const apiRef = useRef<ExcalidrawImperativeAPI | null>(null)
   // The imperative API arrives only after Excalidraw mounts — and a page flip
@@ -1166,10 +1169,12 @@ export default function BoardSurface({ pdf, page, editable, theme, zen, hideZoom
         UIOptions={{ canvasActions: { changeViewBackgroundColor: false, saveAsImage: false } }}
       />
       {!hideZoom && (
-        <div className="absolute right-3 top-3 z-10 flex items-center gap-0.5 rounded-xl border border-slate-200 bg-white/95 p-1 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200">
-          <button type="button" title={maximized ? '还原窗口' : '最大化（讲义铺满工作区）'} aria-label="最大化" onClick={onMaximize} disabled={!onMaximize} className={`grid h-8 w-8 place-items-center rounded-lg transition disabled:opacity-40 ${maximized ? 'bg-blue-600 text-white hover:bg-blue-600' : 'hover:bg-slate-100 dark:hover:bg-slate-800'}`}><Maximize size={16} /></button>
-          <button type="button" title="最小化（收起讲义，腾出黑板）" aria-label="最小化" onClick={() => { const api = apiRef.current; if (api) toggleCollapse(api) }} className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><Minus size={16} /></button>
-          <button type="button" title={`100% 显示（当前 ${zoomPct}%）`} aria-label="100% 显示" onClick={() => { const api = apiRef.current; const host = hostRef.current; if (api && host) applyZoom(api, 1, host.clientWidth / 2, host.clientHeight / 2) }} className="h-8 rounded-lg px-2 text-[11px] font-semibold tabular-nums transition hover:bg-slate-100 dark:hover:bg-slate-800">{zoomPct}%</button>
+        <div className="absolute right-3 top-3 z-10 flex max-w-[calc(100%-1.5rem)] items-center gap-0.5 rounded-xl border border-slate-200 bg-white/95 p-1 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200">
+          {handoutTabs}
+          {handoutTabs && <span className="mx-0.5 h-5 w-px shrink-0 bg-slate-200 dark:bg-slate-700" />}
+          <button type="button" title={maximized ? '还原窗口' : '最大化（讲义铺满工作区）'} aria-label="最大化" onClick={onMaximize} disabled={!onMaximize} className={`grid h-8 w-8 shrink-0 place-items-center rounded-lg transition disabled:opacity-40 ${maximized ? 'bg-blue-600 text-white hover:bg-blue-600' : 'hover:bg-slate-100 dark:hover:bg-slate-800'}`}><Maximize size={16} /></button>
+          <button type="button" title="最小化（收起讲义，腾出黑板）" aria-label="最小化" onClick={() => { const api = apiRef.current; if (api) toggleCollapse(api) }} className="grid h-8 w-8 shrink-0 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><Minus size={16} /></button>
+          <button type="button" title={`100% 显示（当前 ${zoomPct}%）`} aria-label="100% 显示" onClick={() => { const api = apiRef.current; const host = hostRef.current; if (api && host) applyZoom(api, 1, host.clientWidth / 2, host.clientHeight / 2) }} className="h-8 shrink-0 rounded-lg px-2 text-[11px] font-semibold tabular-nums transition hover:bg-slate-100 dark:hover:bg-slate-800">{zoomPct}%</button>
         </div>
       )}
       {pageInfo && (

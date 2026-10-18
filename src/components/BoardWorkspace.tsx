@@ -142,34 +142,34 @@ export default function BoardWorkspace({
             onClosePage={onCloseHandout ? () => onCloseHandout(handout.id) : undefined}
             onResizePaneTo={resizePaneTo}
             onSceneChange={onSceneChange ? (scene, meta) => onSceneChange(handout.id, scene, meta) : undefined}
-          />
-          {handouts.length > 1 && (
-            <div className="absolute left-1/2 top-2 z-30 flex max-w-[calc(100%-11.5rem)] -translate-x-1/2 items-center gap-1 overflow-x-auto rounded-full border border-slate-200 bg-white/95 p-1 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95">
-              {handouts.map((h) => (
-                <span key={h.id} className="flex shrink-0 items-center">
-                  <button
-                    type="button"
-                    onClick={() => onSelectHandout?.(h.id)}
-                    title={h.name}
-                    className={`max-w-[9rem] truncate rounded-full px-2.5 py-1 text-[11px] font-semibold transition ${h.id === handout.id ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'}`}
-                  >
-                    {h.name}
-                  </button>
-                  {editable && onCloseHandout && (
+            handoutTabs={handouts.length > 1 ? (
+              <div className="flex min-w-0 items-center gap-0.5 overflow-x-auto [scrollbar-width:none]">
+                {handouts.map((h) => (
+                  <span key={h.id} className="flex shrink-0 items-center">
                     <button
                       type="button"
-                      onClick={() => onCloseHandout(h.id)}
-                      title="关闭这份讲义"
-                      aria-label="关闭这份讲义"
-                      className="ml-0.5 grid h-5 w-5 place-items-center rounded-full text-slate-400 transition hover:bg-slate-200 hover:text-slate-600 dark:hover:bg-slate-700 dark:hover:text-slate-200"
+                      onClick={() => onSelectHandout?.(h.id)}
+                      title={h.name}
+                      className={`max-w-[9rem] truncate rounded-lg px-2 py-1.5 text-[11px] font-semibold transition ${h.id === handout.id ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'}`}
                     >
-                      <X size={12} />
+                      {h.name}
                     </button>
-                  )}
-                </span>
-              ))}
-            </div>
-          )}
+                    {editable && onCloseHandout && (
+                      <button
+                        type="button"
+                        onClick={() => onCloseHandout(h.id)}
+                        title="关闭这份讲义"
+                        aria-label="关闭这份讲义"
+                        className="ml-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full text-slate-400 transition hover:bg-slate-200 hover:text-slate-600 dark:hover:bg-slate-700 dark:hover:text-slate-200"
+                      >
+                        <X size={12} />
+                      </button>
+                    )}
+                  </span>
+                ))}
+              </div>
+            ) : undefined}
+          />
         </div>
       )}
 
