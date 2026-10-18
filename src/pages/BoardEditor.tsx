@@ -647,6 +647,13 @@ export default function BoardEditor() {
                       <span className="block text-xs text-slate-500">历史板书、发布给学生用</span>
                     </span>
                   </button>
+                  <button type="button" disabled={exporting} onClick={() => { setSaveMenuOpen(false); void exportImage() }} className="flex w-full items-start gap-2 border-t border-slate-100 px-3 py-2.5 hover:bg-slate-100 disabled:opacity-50 dark:border-slate-800 dark:hover:bg-slate-800">
+                    <Download size={15} className="mt-0.5 shrink-0 text-slate-500" />
+                    <span>
+                      <span className="block text-sm font-semibold text-slate-700 dark:text-slate-100">保存到本地</span>
+                      <span className="block text-xs text-slate-500">全部页面拼成一张长图下载</span>
+                    </span>
+                  </button>
                   <button type="button" disabled={exporting} onClick={() => { setSaveMenuOpen(false); void copyImage() }} className="flex w-full items-start gap-2 border-t border-slate-100 px-3 py-2.5 hover:bg-slate-100 disabled:opacity-50 dark:border-slate-800 dark:hover:bg-slate-800">
                     <ClipboardCopy size={15} className="mt-0.5 shrink-0 text-slate-500" />
                     <span>
