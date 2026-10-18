@@ -82,7 +82,7 @@ export default function BoardEditor() {
   const bankRef = useRef<QuestionBank | null>(null)
   const qSearchSeqRef = useRef(0)
   const insertSerialRef = useRef(0)
-  const [insertQuestion, setInsertQuestion] = useState<{ title: string; text: string; serial: number } | null>(null)
+  const [insertQuestion, setInsertQuestion] = useState<{ title: string; text: string; originalText: string; serial: number } | null>(null)
   // Any untouched drawing stays local until the teacher hits 保存 — nothing is
   // written to the server (or counted against storage) until then.
   const [dirty, setDirty] = useState(false)
@@ -535,18 +535,26 @@ export default function BoardEditor() {
   }
 
   // Format a bank question as one board text block: passage, prompt, options.
-  // Wrapped by hand — Excalidraw text only breaks at the newlines we give it.
+  // `originalText` keeps the unwrapped copy — Excalidraw reflows from it when
+  // the teacher drags the text box's side handle, while `text` is what shows
+  // initially.
   const pickBankQuestion = (q: BankQuestion) => {
     setQSearchOpen(false)
     const title = `【${q.setTitle} · 模块${q.moduleNum} · 第${q.question.id}题】`
     const parts: string[] = []
-    if (q.question.passage?.trim()) parts.push(hardWrap(q.question.passage.trim()))
-    parts.push(hardWrap(q.question.question.trim()))
+    if (q.question.passage?.trim()) parts.push(q.question.passage.trim())
+    parts.push(q.question.question.trim())
     parts.push(q.question.options
-      .map((opt, i) => hardWrap(`${'ABCD'[i] ?? String(i + 1)}) ${opt.trim()}`, 68).replace(/\n/g, '\n    '))
+      .map((opt, i) => `${'ABCD'[i] ?? String(i + 1)}) ${opt.trim()}`)
       .join('\n'))
     if (q.question.image || q.question.table) parts.push('（此题含图表，请对照题库原图）')
-    setInsertQuestion({ title, text: parts.join('\n\n'), serial: ++insertSerialRef.current })
+    const originalText = parts.join('\n\n')
+    setInsertQuestion({
+      title,
+      text: parts.map((part) => hardWrap(part, 72)).join('\n\n'),
+      originalText,
+      serial: ++insertSerialRef.current,
+    })
   }
 
   // The colour belongs to the blackboard layer; the handout window keeps its own

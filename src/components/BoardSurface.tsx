@@ -46,7 +46,7 @@ export type BoardSurfaceProps = {
   saveWrapRef?: Ref<HTMLDivElement>
   // One-shot request from the editor's 搜题 panel: formatted question text to
   // drop at the viewport centre. A fresh `serial` means "insert now".
-  insertQuestion?: { title: string; text: string; serial: number } | null
+  insertQuestion?: { title: string; text: string; originalText: string; serial: number } | null
   // The ✕ of the PDF window cluster: remove the handout board (the editor
   // confirms first). Not passed in read-only views — the button hides.
   onClosePage?: () => void
@@ -333,11 +333,16 @@ export default function BoardSurface({ pdf, page, editable, theme, zen, hideZoom
     const host = hostRef.current
     const cx = st.scrollX + (host?.clientWidth ?? 900) / 2 / st.zoom.value
     const cy = st.scrollY + (host?.clientHeight ?? 600) / 2 / st.zoom.value
+    // `originalText` holds the unwrapped question, so dragging the box's side
+    // handle makes Excalidraw reflow the whole text at the new width instead of
+    // keeping the line breaks burned in at insert time.
     const [el] = convertToExcalidrawElements([{
       type: 'text',
       x: 0,
       y: 0,
       text: `${insertQuestion.title}\n\n${insertQuestion.text}`,
+      originalText: `${insertQuestion.title}\n\n${insertQuestion.originalText}`,
+      autoResize: false,
       fontSize: 20,
       fontFamily: FONT_FAMILY.Nunito,
       strokeColor: '#ffffff', // the legibility guard flips it if it lands on a page

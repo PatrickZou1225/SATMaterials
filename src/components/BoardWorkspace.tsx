@@ -14,7 +14,7 @@ export type BoardWorkspaceProps = {
   editable: boolean
   theme: 'light' | 'dark'
   zen?: boolean
-  insertQuestion?: { title: string; text: string; serial: number } | null
+  insertQuestion?: { title: string; text: string; originalText: string; serial: number } | null
   onSave?: () => void
   saveMenu?: ReactNode
   saveWrapRef?: Ref<HTMLDivElement>
