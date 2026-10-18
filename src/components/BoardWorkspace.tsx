@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ChevronRight } from 'lucide-react'
 import BoardSurface, { type BoardToolState } from './BoardSurface'
 import type { PDFDocumentProxy } from '../lib/board'
@@ -57,20 +57,12 @@ export default function BoardWorkspace({
     Math.max(320, box.w - left - 8),
   )
 
-  const resizeRef = useRef<{ x: number; width: number } | null>(null)
-  const onResizeDown = (e: ReactPointerEvent<HTMLDivElement>) => {
-    if (e.button !== 0) return
-    e.preventDefault()
-    e.currentTarget.setPointerCapture(e.pointerId)
-    resizeRef.current = { x: e.clientX, width }
-  }
-  const onResizeMove = (e: ReactPointerEvent<HTMLDivElement>) => {
-    const drag = resizeRef.current
-    if (!drag) return
+  // The drag handle lives on the PDF sheet's right edge (inside the embedded
+  // surface), so the pane hugs the sheet while the sheet is stretched.
+  const resizePaneTo = (next: number) => {
     const maxW = Math.max(320, box.w - left - 8)
-    setWinW(Math.max(320, Math.min(drag.width + e.clientX - drag.x, maxW)))
+    setWinW(Math.max(320, Math.min(Math.round(next), maxW)))
   }
-  const onResizeUp = () => { resizeRef.current = null }
 
   const updateTool = (state: BoardToolState) => setTool((prev) => (
     prev && prev.tool === state.tool && prev.strokeColor === state.strokeColor &&
@@ -123,16 +115,8 @@ export default function BoardWorkspace({
             onCollapse={() => setCollapsed(true)}
             insertQuestion={insertQuestion}
             onClosePage={onCloseHandout}
+            onResizePaneTo={resizePaneTo}
             onSceneChange={onSceneChange ? (scene, meta) => onSceneChange(handout.id, scene, meta) : undefined}
-          />
-          <div
-            role="separator"
-            aria-label="拖动调整讲义窗口宽度"
-            onPointerDown={onResizeDown}
-            onPointerMove={onResizeMove}
-            onPointerUp={onResizeUp}
-            onPointerCancel={onResizeUp}
-            className="absolute right-0 top-0 z-30 h-full w-1.5 cursor-ew-resize touch-none bg-transparent hover:bg-blue-500/40"
           />
         </div>
       )}

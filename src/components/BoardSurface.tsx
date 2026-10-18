@@ -29,6 +29,9 @@ export type BoardSurfaceProps = {
   // Shared tool state so the single rail draws on both layers.
   externalTool?: BoardToolState | null
   onToolStateChange?: (state: BoardToolState) => void
+  // Embedded handout: the page-edge drag also resizes the workspace pane, so the
+  // window edge tracks the sheet's right edge while it is stretched.
+  onResizePaneTo?: (width: number) => void
   // One-shot request from the editor's 搜题 panel: formatted question text to
   // drop at the viewport centre. A fresh `serial` means "insert now".
   insertQuestion?: { title: string; text: string; serial: number } | null
@@ -120,7 +123,7 @@ function useBackgroundImage(pdf: PDFDocumentProxy | null, page: BoardPage) {
   return image
 }
 
-export default function BoardSurface({ pdf, page, editable, theme, hideTools, zen, hideZoom, onCollapse, embedded, externalTool, onToolStateChange, insertQuestion, onClosePage, onSceneChange }: BoardSurfaceProps) {
+export default function BoardSurface({ pdf, page, editable, theme, hideTools, zen, hideZoom, onCollapse, embedded, externalTool, onToolStateChange, onResizePaneTo, insertQuestion, onClosePage, onSceneChange }: BoardSurfaceProps) {
   const bg = useBackgroundImage(pdf, page)
   const apiRef = useRef<ExcalidrawImperativeAPI | null>(null)
   // The imperative API arrives only after Excalidraw mounts — and a page flip
@@ -688,9 +691,20 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
     const host = hostRef.current
     const drag = resizeDragRef.current
     if (!api || !host || !drag) return
-    // 300px of travel ≈ 1.5x; shrinking and growing are both clamped.
-    const factor = Math.max(0.4, Math.min(2.5, 1 + (e.clientX - drag.startX) / 300))
+    const el = nearestPage(api)
+    const dx = e.clientX - drag.startX
+    // An embedded pane edge follows the hand 1:1: the scale factor is derived
+    // from the sheet's on-screen width so its right edge lands exactly under the
+    // pointer. The standalone board (no pane) keeps the coarser 300px ≈ 1.5x.
+    const factor = onResizePaneTo && el
+      ? Math.max(0.1 / drag.startZoom, Math.min(4 / drag.startZoom, 1 + dx / Math.max(1, el.width * drag.startZoom)))
+      : Math.max(0.4, Math.min(2.5, 1 + dx / 300))
     applyZoom(api, drag.startZoom * factor, drag.anchorX, host.clientHeight / 2)
+    if (onResizePaneTo && el) {
+      const next = api.getAppState()
+      const rightEdge = (el.x + el.width + next.scrollX) * next.zoom.value
+      onResizePaneTo(Math.round(rightEdge + 8))
+    }
   }
   const onResizeUp = () => { resizeDragRef.current = null }
 
@@ -1245,10 +1259,10 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
           )}
         </div>
       )}
-      {!embedded && pageInfo && pageEdgeX !== null && (
+      {pageInfo && pageEdgeX !== null && (
         <button
           type="button"
-          aria-label="拖动缩放讲义"
+          aria-label={embedded ? '拖动调整讲义宽度' : '拖动缩放讲义'}
           onPointerDown={onResizeDown}
           onPointerMove={onResizeMove}
           onPointerUp={onResizeUp}
