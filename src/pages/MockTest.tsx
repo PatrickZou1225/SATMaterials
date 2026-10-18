@@ -153,7 +153,6 @@ function MockTestRunner() {
   }
 
   const current = questions[currentIndex]
-  const hasStimulus = Boolean(current?.passage || current?.table || current?.image)
   const answeredCount = Object.keys(selected).length
 
   const handleSelect = (optIdx: number) => {
@@ -511,7 +510,7 @@ function MockTestRunner() {
       )}
 
       {/* 移动端 Passage/Question 切换 */}
-      <div className={`${hasStimulus ? 'flex' : 'hidden'} md:hidden bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-700`}>
+      <div className="md:hidden bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-700 flex">
         <button
           onClick={() => setMobileView('passage')}
           className={`flex-1 py-3 text-sm font-semibold text-center transition-colors ${
@@ -537,7 +536,7 @@ function MockTestRunner() {
       {/* 题目主体 */}
       <main className="flex-1 min-h-0 flex flex-col md:flex-row overflow-hidden">
         {/* 左栏 Passage —— Bluebook 正文栏：衬线、左对齐、宽行距 */}
-        <div className={hasStimulus ? `${mobileView === 'passage' ? 'block' : 'hidden'} ${chromeHidden ? 'md:hidden' : 'md:block'} border-r-[6px] border-[#d6d6d6] bg-white overflow-y-auto min-h-0 md:w-1/2` : 'hidden'}>
+        <div className={`${mobileView === 'passage' ? 'block' : 'hidden'} ${chromeHidden ? 'md:hidden' : 'md:block'} border-r-[6px] border-[#d6d6d6] bg-white overflow-y-auto min-h-0 md:w-1/2`}>
           <div className="px-8 py-10 sm:px-12">
             <div
               className="sat-reading mx-auto max-w-[62ch] text-[#16181d]"
@@ -587,7 +586,7 @@ function MockTestRunner() {
         </div>
 
         {/* 右栏 Question —— Bluebook 题目栏 */}
-        <div className={`${!hasStimulus || mobileView === 'question' ? 'block' : 'hidden'} md:block ${!hasStimulus || chromeHidden ? 'md:w-full' : 'md:w-1/2'} bg-white overflow-y-auto flex flex-col min-h-0`}>
+        <div className={`${mobileView === 'question' ? 'block' : 'hidden'} md:block ${chromeHidden ? 'md:w-full' : 'md:w-1/2'} bg-white overflow-y-auto flex flex-col min-h-0`}>
           <div className="px-8 py-8 flex-1 flex flex-col">
             {/* 题号行：黑方块题号 + Mark for Review */}
             <div className="flex items-center gap-4 border-b border-dashed border-[#3c4043] pb-3">
