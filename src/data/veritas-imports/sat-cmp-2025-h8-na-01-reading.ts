@@ -513,7 +513,7 @@ export const importedMockTest = {
         },
         {
           "id": 5,
-          "passage": "The following text is from Anne Spencer's 1922 poem \"Translation.\" We trekked into a far country, My friend and I. Our deeper content was never spoken, But each knew all the other said. He told me how calm his soul was laid By the lack of anvil and strife. \"The wooing kestrel,\" I said, \"mutes his mating-note To please the harmony of this sweet silence.\"",
+          "passage": "The following text is from Anne Spencer's 1922 poem \"Translation.\" We trekked into a far country,\nMy friend and I.\nOur deeper content was never spoken,\nBut each knew all the other said.\nHe told me how calm his soul was laid\nBy the lack of anvil and strife.\n\"The wooing kestrel,\" I said, \"mutes his mating-note\nTo please the harmony of this sweet silence.\"",
           "question": "Which choice best describes the function of the reference to \"anvil and strife\" in the text as a whole?",
           "options": [
             "It symbolizes the speaker's friend's view that meaningful work and social engagement are core components of a fulfilling life.",

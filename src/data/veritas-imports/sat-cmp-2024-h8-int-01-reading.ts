@@ -518,7 +518,7 @@ export const importedMockTest = {
         },
         {
           "id": 4,
-          "passage": "The following text is from Sarojini Naidu's 1896 poem \"Alabaster.\" Like this alabaster box whose art Is frail as a cassia-flower, is my heart, Carven with delicate dreams and wrought With many a subtle and exquisite thought.",
+          "passage": "The following text is from Sarojini Naidu's 1896 poem \"Alabaster.\" Like this alabaster box whose art\nIs frail as a cassia-flower, is my heart,\nCarven with delicate dreams and wrought\nWith many a subtle and exquisite thought.",
           "question": "Which choice best describes the function of the two underlined portions in the text as a whole?",
           "options": [
             "They describe the subjects, one physical and one abstract, of a comparison that extends throughout the text.",

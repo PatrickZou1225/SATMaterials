@@ -217,7 +217,7 @@ export const importedMockTest = {
         },
         {
           "id": 10,
-          "passage": "The following text is from William Blake's 1794 poem \"Introduction to the Songs of Experience.\" The speaker addresses Earth as if it has been asleep. 'O Earth, O Earth, return! Arise from out the dewy grass! Night is worn. And the morn Rises from the slumbrous mass.",
+          "passage": "The following text is from William Blake's 1794 poem \"Introduction to the Songs of Experience,\" in which the speaker addresses Earth as if it has been asleep.\n\nO Earth, O Earth, return!\nArise from out the dewy grass!\nNight is worn,\nAnd the morn\nRises from the slumbrous mass.",
           "question": "Based on the text, what does the speaker most likely mean by saying that \"night is worn\"?",
           "options": [
             "The night is ending.",

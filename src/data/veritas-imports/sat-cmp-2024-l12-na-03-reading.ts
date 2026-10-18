@@ -88,7 +88,7 @@ export const importedMockTest = {
         },
         {
           "id": 6,
-          "passage": "The following text is from Sara Teasdale's 1922 poem \"Two Songs for Solitude.\" My heart has grown rich with the passing of years, I have less need now than when I was young To share myself with every comer, Or shape my thoughts into words with my tongue.",
+          "passage": "The following text is from Sara Teasdale's 1922 poem \"Two Songs for Solitude.\" My heart has grown rich with the passing of years,\nI have less need now than when I was young\nTo share myself with every comer,\nOr shape my thoughts into words with my tongue.",
           "question": "Which choice best describes the function of the underlined portion in the text as a whole?",
           "options": [
             "It explains the speaker's views about proper conduct toward new acquaintances.",

@@ -43,7 +43,7 @@ export const importedMockTest = {
         },
         {
           "id": 3,
-          "passage": "The following text is adapted from the 1895 poem \"Ojistoh\" by Emily Pauline Johnson, a Kanienkahagen (Mohawk) writer also known as Tekahionwake. I am Ojistoh, I am she, the wife Of him whose name breathes bravery and life And courage to the tribe who calls him chief. I am Ojistoh, his white star, and he Is land, and lake, and sky—and soul to me.",
+          "passage": "The following text is adapted from the 1895 poem \"Ojistoh\" by Emily Pauline Johnson, a Kanienkahagen (Mohawk) writer also known as Tekahionwake. I am Ojistoh, I am she, the wife\nOf him whose name breathes bravery and life\nAnd courage to the tribe who calls him chief.\nI am Ojistoh, his white star, and he\nIs land, and lake, and sky—and soul to me.",
           "question": "As used in the text, what does the word \"breathes\" most nearly mean?",
           "options": [
             "absorbs",
@@ -105,7 +105,7 @@ export const importedMockTest = {
         },
         {
           "id": 7,
-          "passage": "The following text is from Robert Lowell's 1964 poem \"For the Union Dead.\" The South Boston Aquarium closed permanently in 1954. The old South Boston Aquarium stands in a Sahara of snow now. Its broken windows are boarded. The bronze weathervane cod has lost half its scales. The airy tanks are dry. ©2003 by Robert Lowell",
+          "passage": "The following text is from Robert Lowell's 1964 poem \"For the Union Dead,\" which describes the old South Boston Aquarium that closed permanently in 1954.\n\nThe old South Boston Aquarium stands\nin a Sahara of snow now. Its broken windows are boarded.\nThe bronze weathervane cod has lost half its scales.\nThe airy tanks are dry.\n\n©2003 by Robert Lowell",
           "question": "Which choice best states the main purpose of the text?",
           "options": [
             "To contrast the effects of different kinds of weather on a building",

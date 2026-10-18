@@ -573,7 +573,7 @@ export const importedMockTest = {
         },
         {
           "id": 8,
-          "passage": "The following text is Rainer Maria Rilke’s 1897 poem “Evening” (translated by Jessie Lamont in 1918). The bleak fields are asleep, My heart alone wakes; The evening in the harbour Down his red sails takes. Night, guardian of dreams, Now wanders through the land; The moon, a lily white, Blossoms within her hand.",
+          "passage": "The following text is Rainer Maria Rilke’s 1897 poem “Evening” (translated by Jessie Lamont in 1918). The bleak fields are asleep,\nMy heart alone wakes;\nThe evening in the harbour\nDown his red sails takes.\n\nNight, guardian of dreams,\nNow wanders through the land;\nThe moon, a lily white,\nBlossoms within her hand.",
           "question": "Which choice best states the function of the undeclined portion in the text as a whole?",
           "options": [
             "It conveys the speaker’s sense that he is alone while experiencing the evening.",

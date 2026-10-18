@@ -484,7 +484,7 @@ export const importedMockTest = {
         },
         {
           "id": 5,
-          "passage": "The following text is adapted from the 1895 poem Ojistoh by Emily Pauline Johnson, a Kanien'kehàka (Mohawk) writer also known as Tekahionwake. I am Ojistoh, I am she, the wife Of him whose name breathes bravery and life And courage to the tribe who calls him chief. I am Ojistoh, his white star, and he Is land, and lake, and sky—and soul to me.",
+          "passage": "The following text is adapted from the 1895 poem Ojistoh by Emily Pauline Johnson, a Kanien'kehàka (Mohawk) writer also known as Tekahionwake. I am Ojistoh, I am she, the wife\nOf him whose name breathes bravery and life\nAnd courage to the tribe who calls him chief.\nI am Ojistoh, his white star, and he\nIs land, and lake, and sky—and soul to me.",
           "question": "As used in the text, what does the word \"breathes\" most nearly mean?",
           "options": [
             "Imparts",

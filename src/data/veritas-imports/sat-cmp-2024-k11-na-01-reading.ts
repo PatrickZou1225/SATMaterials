@@ -29,7 +29,7 @@ export const importedMockTest = {
         },
         {
           "id": 2,
-          "passage": "The following text is from Georgia Douglas Johnson's 1918 poem \"Peace.\" I rest me deep within the wood, Drawn by its silent call, Far from the throbbing crowd of men, On nature's breast I fall.",
+          "passage": "The following text is from Georgia Douglas Johnson's 1918 poem \"Peace.\" I rest me deep within the wood,\nDrawn by its silent call,\nFar from the throbbing crowd of men,\nOn nature's breast I fall.",
           "question": "As used in the text, what does the word \"drawn\" most nearly mean?",
           "options": [
             "Unnoticed",

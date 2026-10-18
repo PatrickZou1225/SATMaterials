@@ -536,7 +536,7 @@ export const importedMockTest = {
         },
         {
           "id": 7,
-          "passage": "Text 1 is T.L. Hulme's 1912 poem \"Above the Dock.\" Text 2 is from Amy Lowell's 1912 poem \"The Crescent Moon.\" Text 1 Above the quiet dock in mid night, Tangled in the tall mast's corded height, Hangs the moon. What seemed so far away Is but a child's ballon, forgotten after play. Text 2 Slipping softly through the sky Little horned, happy moon, Can you hear me up so high? Will you come down soon?",
+          "passage": "Text 1 The following text is from T.L. Hulme's 1912 poem \"Above the Dock.\"\n\nAbove the quiet dock in mid night,\nTangled in the tall mast's corded height,\nHangs the moon. What seemed so far away\nIs but a child's balloon, forgotten after play.\n\nText 2 The following text is from Amy Lowell's 1912 poem \"The Crescent Moon.\"\n\nSlipping softly through the sky\nLittle horned, happy moon,\nCan you hear me up so high?\nWill you come down soon?",
           "question": "Which choice best describes a notable difference in how the speaker of Text 1 and the speaker of Text 2 portray the moon?",
           "options": [
             "While both speakers characterize the moon as an entrapped figure, only the speaker of Text 2 describes the moon as being content with this fate.",

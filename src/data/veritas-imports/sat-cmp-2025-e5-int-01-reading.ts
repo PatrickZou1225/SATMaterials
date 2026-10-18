@@ -542,7 +542,7 @@ export const importedMockTest = {
         },
         {
           "id": 8,
-          "passage": "The following text is from Narciso Tondreau's 1898 poem \"Yesterday and To-Day\" (translated by Agnes Blake Poor in 1918). The poem is about an old statue of the Greek goddess Venus, which now lies on the ground in a state of disrepair. How long ago, by summer breezes fanned, Here stood the newborn Venus, fresh and fair; All palpitating from the master's hand, The last touch of his chisel lingering there. \"And surely this shall last!\" he proudly thought; \"Fixed in immortal marble is my fame!\" Just here, where human hand has surely wrought, Some crumbling letters may have spelled his name.",
+          "passage": "The following text is from Narciso Tondreau's 1898 poem \"Yesterday and To-Day\" (translated by Agnes Blake Poor in 1918), a poem about an old statue of the Greek goddess Venus that now lies on the ground in a state of disrepair.\n\nHow long ago, by summer breezes fanned,\nHere stood the newborn Venus, fresh and fair;\nAll palpitating from the master's hand,\nThe last touch of his chisel lingering there.\n\"And surely this shall last!\" he proudly thought;\n\"Fixed in immortal marble is my fame!\"\nJust here, where human hand has surely wrought,\nSome crumbling letters may have spelled his name.",
           "question": "In the text, what does the speaker say that the artist believed about his sculpture?",
           "options": [
             "It would be praised for its intricate details that he carefully chiseled.",

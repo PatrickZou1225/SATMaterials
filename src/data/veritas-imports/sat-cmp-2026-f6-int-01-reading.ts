@@ -492,7 +492,7 @@ export const importedMockTest = {
         },
         {
           "id": 5,
-          "passage": "The following text is adapted from the 1898 poem \"Odina\" by Emily Pauline Johnson, a Kanien' kehá:ka (Mohawk) writer also known as Tekahionwake. I am Odina, I am she, the wife Of him whose name breathes valor and life And courage to the people who call him chief. I am Odina, his bright star, and he Is earth, and river, and sky—and soul to me.",
+          "passage": "The following text is adapted from the 1898 poem \"Odina\" by Emily Pauline Johnson, a Kanien' kehá:ka (Mohawk) writer also known as Tekahionwake. I am Odina, I am she, the wife\nOf him whose name breathes valor and life\nAnd courage to the people who call him chief.\nI am Odina, his bright star, and he\nIs earth, and river, and sky—and soul to me.",
           "question": "As used in the text, what does the word \"breathes\" most nearly mean?",
           "options": [
             "Relinquishes",

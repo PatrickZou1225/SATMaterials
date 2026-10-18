@@ -29,7 +29,7 @@ export const importedMockTest = {
         },
         {
           "id": 2,
-          "passage": "The following text is adapted from the 1895 poem \"The Song My Paddle Sings\" by Emily Pauline Johnson (Tekahionwake). West wind blow from your prairie nest, Blow from the mountains, blow from the west The sail is idle, the sailor too; O! wind of the west, we wait for you",
+          "passage": "The following text is adapted from the 1895 poem \"The Song My Paddle Sings\" by Emily Pauline Johnson (Tekahionwake). West wind, blow from your prairie nest,\nBlow from the mountains, blow from the west.\nThe sail is idle, the sailor too;\nO! wind of the west, we wait for you.",
           "question": "As used in the text, what does the word \"idle\" most nearly mean?",
           "options": [
             "Inactive",
@@ -522,7 +522,7 @@ export const importedMockTest = {
         },
         {
           "id": 6,
-          "passage": "The following text is from H.D.'s 1916 poem \"Mid Day.\" In the poem, the speaker is on a path in an outdoor setting. A slight wind shakes the seed pods — my thoughts are spent as the black seeds. My thoughts tear me, I dread their fever. I am scattered in its whirl. I am scattered like the hot shriveled seeds.",
+          "passage": "The following text is from H.D.'s 1916 poem \"Mid Day,\" in which the speaker is on a path in an outdoor setting.\n\nA slight wind shakes the seed pods —\nmy thoughts are spent\nas the black seeds.\n\nMy thoughts tear me,\nI dread their fever.\n\nI am scattered in its whirl.\nI am scattered like\nthe hot shriveled seeds.",
           "question": "Which choice best describes the function of the underlined portion in the text as a whole?",
           "options": [
             "It presents an observation of an occurrence in the natural world that the speaker then expands on to convey a sense of a turbulent interior state.",

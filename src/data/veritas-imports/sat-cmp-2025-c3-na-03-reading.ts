@@ -99,7 +99,7 @@ export const importedMockTest = {
         },
         {
           "id": 7,
-          "passage": "The following text is adapted from D.A. Lozano's 1844 poem \"A Remembrance of Puerto Cabello—The Mangle\" (translated by Agnes Blake Poor in 1918). The poem is a dedication to Puerto Cabello, a town on the northern coast of Venezuela. And while outside the tempest is raving o'er the ocean, And the ship is madly driving on some lone and desert shore; Thy warm and land-locked waters swell with an easy motion, And gently glides the light pirogue [canoe] at dipping of the oar.",
+          "passage": "The following text is adapted from D.A. Lozano's 1844 poem \"A Remembrance of Puerto Cabello—The Mangle\" (translated by Agnes Blake Poor in 1918), a dedication to Puerto Cabello, a town on the northern coast of Venezuela.\n\nAnd while outside the tempest is raving o'er the ocean,\nAnd the ship is madly driving on some lone and desert shore;\nThy warm and land-locked waters swell with an easy motion,\nAnd gently glides the light pirogue [canoe] at dipping of the oar.",
           "question": "Which choice best states the main purpose of the text?",
           "options": [
             "It emphasizes the severity of a storm that is expected to arrive soon in Puerto Cabello.",

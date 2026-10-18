@@ -510,7 +510,7 @@ export const importedMockTest = {
         },
         {
           "id": 6,
-          "passage": "The following text is from George Marion McClellan's 1895 poem \"Eternity.\" My spirit swoons, and all my senses cry For Ocean's breast and covering of the sky. Rock me to sleep, ye waves, and outward bound, Just let me drift far out from toil and care, Where lapping of the waves shall be the sound, Which mingled with the winds that gently bear Me on between a peaceful sea and sky, To make my soothing slumberous lullaby.",
+          "passage": "The following text is from George Marion McClellan's 1895 poem \"Eternity.\" My spirit swoons, and all my senses cry\nFor Ocean's breast and covering of the sky.\nRock me to sleep, ye waves, and outward bound,\nJust let me drift far out from toil and care,\nWhere lapping of the waves shall be the sound,\nWhich mingled with the winds that gently bear\nMe on between a peaceful sea and sky,\nTo make my soothing slumberous lullaby.",
           "question": "Which choice best states the main purpose of the text?",
           "options": [
             "To illustrate the increasing intensity of the speaker's desire to escape ongoing hardship by gliding on the ocean",

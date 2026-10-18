@@ -144,7 +144,7 @@ export const importedMockTest = {
         },
         {
           "id": 10,
-          "passage": "The following text is from Sarojini Naidu's 1896 poem \"Alabaster.\" Like this alabaster box whose art Is frail as a cassia‑flower, is my heart, Carven with delicate dreams and wrought With many a subtle and exquisite thought.",
+          "passage": "The following text is from Sarojini Naidu's 1896 poem \"Alabaster.\" Like this alabaster box whose art\nIs frail as a cassia‑flower, is my heart,\nCarven with delicate dreams and wrought\nWith many a subtle and exquisite thought.",
           "question": "In the text, what does the speaker compare the alabaster box to?",
           "options": [
             "A fortress",

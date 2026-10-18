@@ -60,7 +60,7 @@ export const importedMockTest = {
         },
         {
           "id": 4,
-          "passage": "The following text is adapted from the 1895 poem \"Ojistoh\" by Emily Pauline Johnson, a Kanienkahagen (Mohawk) writer also known as Tekahionwake. I am Ojistoh, I am she, the wife Of him whose name breathes bravery and life And courage to the tribe who calls him chief. I am Ojistoh, his white star, and he Is land, and lake, and sky—and soul to me.",
+          "passage": "The following text is adapted from the 1895 poem \"Ojistoh\" by Emily Pauline Johnson, a Kanienkahagen (Mohawk) writer also known as Tekahionwake. I am Ojistoh, I am she, the wife\nOf him whose name breathes bravery and life\nAnd courage to the tribe who calls him chief.\nI am Ojistoh, his white star, and he\nIs land, and lake, and sky—and soul to me.",
           "question": "As used in the text, what does the word \"breathes\" most nearly mean?",
           "options": [
             "Imparts",
@@ -542,7 +542,7 @@ export const importedMockTest = {
         },
         {
           "id": 5,
-          "passage": "The following text is from George Marion McClellan's 1895 poem \"Eternity.\" My spirit swoons, and all my senses cry For Ocean's breast and covering of the sky. Rock me to sleep, ye waves, and outward bound, Just let me drift far out from toil and care, Where lapping of the waves shall be the sound, Which mingled with the winds that gently bear Me on between a peaceful sea and sky, To make my soothing slumberous lullaby.",
+          "passage": "The following text is from George Marion McClellan's 1895 poem \"Eternity.\" My spirit swoons, and all my senses cry\nFor Ocean's breast and covering of the sky.\nRock me to sleep, ye waves, and outward bound,\nJust let me drift far out from toil and care,\nWhere lapping of the waves shall be the sound,\nWhich mingled with the winds that gently bear\nMe on between a peaceful sea and sky,\nTo make my soothing slumberous lullaby.",
           "question": "Which choice best states the main purpose of the text?",
           "options": [
             "To convey the speaker's longing for the ocean to impart a sense of inner tranquility",

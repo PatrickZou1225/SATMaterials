@@ -116,7 +116,7 @@ export const importedMockTest = {
         },
         {
           "id": 8,
-          "passage": "The following text is Emily Dicknison's circa 1873 poem \"There is no Frigate like a Book\". A Frigate like a Book\" A Frigate is a light fast ship; courses are swift horses. There is no Frigate like a Book To take us Lands away Nor any Coursers like a Page Of prancing Poetry— This Traverse may the poorest take Withut oppress of Toll— How frugal is the Chariot That bears the Human soul.",
+          "passage": "The following text is Emily Dickinson's circa 1873 poem \"There is no Frigate like a Book,\" which compares reading to travel: a frigate is a light fast ship, and coursers are swift horses.\n\nThere is no Frigate like a Book\nTo take us Lands away\nNor any Coursers like a Page\nOf prancing Poetry—\nThis Traverse may the poorest take\nWithout oppress of Toll—\nHow frugal is the Chariot\nThat bears the Human soul.",
           "question": "Which choice best states the main idea of the text?",
           "options": [
             "Reading gives people a reprieve from the financial focus of modern life.",

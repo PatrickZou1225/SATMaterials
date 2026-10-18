@@ -88,7 +88,7 @@ export const importedMockTest = {
         },
         {
           "id": 6,
-          "passage": "The following text is from the 1895 poem \"Marshlands\" by Emily Pauline Johnson, a Kanienkahagen (Mohawk) writer also known as Tekahionwake. Among the wild rice in the still lagoon. In monotone the lizard shrills his tune. The wild goose, homing, seeks a sheltering. Where rushes grow, and oozing lichens cling. Late cranes with heavy wing, and lazy flight. Sail up the silence with the nearing night. And like a spirit, swathed in some soft veil. Steals twilight and its shadow's o'er the swale. Hushed lie the sedges, and the vapours creep. Thick, grey and humid, while the marshes sleep.",
+          "passage": "The following text is from the 1895 poem \"Marshlands\" by Emily Pauline Johnson, a Kanienkahagen (Mohawk) writer also known as Tekahionwake. Among the wild rice in the still lagoon,\nIn monotone the lizard shrills his tune.\nThe wild goose, homing, seeks a sheltering,\nWhere rushes grow, and oozing lichens cling.\nLate cranes with heavy wing, and lazy flight,\nSail up the silence with the nearing night.\nAnd like a spirit, swathed in some soft veil,\nSteals twilight and its shadow's o'er the swale.\nHushed lie the sedges, and the vapours creep,\nThick, grey and humid, while the marshes sleep.",
           "question": "Which choice best describes the overall structure of the text?",
           "options": [
             "lt identifies a location, then refers to a person living there.",

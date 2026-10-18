@@ -4,15 +4,15 @@ const PAIRED_PASSAGE_PATTERN = /^\s*Text 1\s+([\s\S]*?)\s+Text 2\s+([\s\S]*?)\s*
 // text is adapted from Mark Twain's 1876 novel The Adventures of Tom Sawyer.") that
 // the exam sets apart from the excerpt itself. The capture merges the two into one
 // paragraph, so split it back out and style it as an introduction.
-const INTRODUCTION_START =
-  /^The following (?:text|passage|poem|excerpt) is (?:adapted from|excerpted from|translated from|taken from|from)\b/i
+const INTRODUCTION_START = /^The following (?:text|passage|poem|excerpt) is\b/i
 
 function splitIntroduction(text: string): { introduction: string; body: string } | null {
   if (!INTRODUCTION_START.test(text)) return null
 
   // The line ends at the first sentence-ending period, which can sit inside a
   // quoted title ("...above Tintern Abbey."), so allow a closing quote after it.
-  const sentence = text.match(/^[\s\S]*?\.(?=["”]?\s+[A-Z“"'])/)
+  // A period right after a capital is an initial ("T.L. Hulme"), not a stop.
+  const sentence = text.match(/^[\s\S]*?(?<![A-Z])\.(?=["”]?\s+[A-Z“"'])/)
   if (!sentence) return null
 
   let introduction = sentence[0].trim()
