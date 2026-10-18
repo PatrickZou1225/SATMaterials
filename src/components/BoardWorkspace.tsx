@@ -142,7 +142,7 @@ export default function BoardWorkspace({
             onClosePage={onCloseHandout ? () => onCloseHandout(handout.id) : undefined}
             onResizePaneTo={resizePaneTo}
             onSceneChange={onSceneChange ? (scene, meta) => onSceneChange(handout.id, scene, meta) : undefined}
-            handoutTabs={handouts.length > 1 ? (
+            handoutTabs={handouts.length > 0 ? (
               <div className="flex min-w-0 items-center gap-0.5 overflow-x-auto [scrollbar-width:none]">
                 {handouts.map((h) => (
                   <span key={h.id} className="flex shrink-0 items-center">

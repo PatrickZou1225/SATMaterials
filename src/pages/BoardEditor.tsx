@@ -334,13 +334,20 @@ export default function BoardEditor() {
   // The tab strip's ✕: remove one handout from the board the teacher is
   // viewing, leaving the blackboard notes and the other handouts intact.
   const closeHandout = (pageId?: string) => {
-    const target = pageId ? currentPair?.handouts.find((h) => h.id === pageId) : activeHandout
+    const list = currentPair?.handouts ?? []
+    const target = pageId ? list.find((h) => h.id === pageId) : activeHandout
     if (!target) return
-    if (!window.confirm('关闭这份讲义？讲义上的标注也会一起移除（之后可以从「我的云盘」重新打开）。')) return
+    if (!window.confirm(`关闭《${target.name}》？这份讲义上的标注也会一起移除（之后可以从「我的云盘」重新打开）。`)) return
+    const index = list.findIndex((h) => h.id === target.id)
+    const remaining = list.filter((h) => h.id !== target.id)
+    // Closing the handout on screen moves the pane to its neighbour; closing
+    // another tab leaves whatever the teacher is reading alone.
+    const wasActive = !activeHandout || activeHandout.id === target.id
+    const neighbour = remaining[Math.min(Math.max(index, 0), remaining.length - 1)]
     sceneMapRef.current.delete(target.id)
     const next = mergedPages().filter((p) => p.id !== target.id)
     setPages(next)
-    setActiveHandoutId('')
+    if (wasActive) setActiveHandoutId(neighbour?.id ?? '')
     setDirty(true)
     // Drop the loaded document once no board still shows a handout.
     if (!next.some((p) => p.kind === 'handout')) {
@@ -348,7 +355,9 @@ export default function BoardEditor() {
       pdfPathRef.current = null
       setSourcePdf(null)
     }
-    setMessage('已关闭讲义，黑板笔记保留。')
+    setMessage(remaining.length
+      ? `已关闭《${target.name}》，其余讲义和黑板笔记保留。`
+      : '已关闭讲义，黑板笔记保留。')
   }
 
   const save = async (nextStatus?: 'draft' | 'published') => {
