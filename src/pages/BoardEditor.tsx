@@ -57,6 +57,8 @@ export default function BoardEditor() {
   // clipboard (nothing written anywhere — the teacher saves storage that way).
   const [saveMenuOpen, setSaveMenuOpen] = useState(false)
   const saveMenuRef = useRef<HTMLDivElement | null>(null)
+  // Same menu, anchored to the zen-mode rail instead of the toolbar.
+  const zenSaveMenuRef = useRef<HTMLDivElement | null>(null)
   // 背景 palette: pick the canvas colour for the board being viewed.
   const [bgMenuOpen, setBgMenuOpen] = useState(false)
   const bgMenuRef = useRef<HTMLDivElement | null>(null)
@@ -441,7 +443,8 @@ export default function BoardEditor() {
     if (!saveMenuOpen && !bgMenuOpen && !qSearchOpen) return
     const onDown = (e: PointerEvent) => {
       const t = e.target as Node
-      if (saveMenuRef.current && !saveMenuRef.current.contains(t)) setSaveMenuOpen(false)
+      const insideSave = saveMenuRef.current?.contains(t) || zenSaveMenuRef.current?.contains(t)
+      if (!insideSave) setSaveMenuOpen(false)
       if (bgMenuRef.current && !bgMenuRef.current.contains(t)) setBgMenuOpen(false)
       if (qSearchRef.current && !qSearchRef.current.contains(t)) setQSearchOpen(false)
     }
@@ -630,7 +633,7 @@ export default function BoardEditor() {
               )}
             </div>
             <span className="mx-0.5 h-5 w-px shrink-0 bg-slate-200 dark:bg-slate-700" />
-            <button type="button" onClick={() => { setZenPages(false); setZen(true); if (!isFullscreen) toggleFullscreen() }} className={btn}><Presentation size={15} />投屏</button>
+            <button type="button" onClick={() => { setSaveMenuOpen(false); setZenPages(false); setZen(true); if (!isFullscreen) toggleFullscreen() }} className={btn}><Presentation size={15} />投屏</button>
             <span className="mx-0.5 h-5 w-px shrink-0 bg-slate-200 dark:bg-slate-700" />
             <button type="button" onClick={() => void exportImage()} disabled={exporting} className={btn}><Download size={15} />{exporting ? '导出中…' : '导出长图'}</button>
             <div ref={saveMenuRef} className="relative">
@@ -754,7 +757,34 @@ export default function BoardEditor() {
             <ZenButton title="新建空白板" onClick={addBlank}><Plus size={17} /></ZenButton>
             <ZenButton title="页面列表" onClick={() => setZenPages((v) => !v)} active={zenPages}><LayoutGrid size={17} /></ZenButton>
             <ZenButton title="导出长图" onClick={() => void exportImage()}><Download size={17} /></ZenButton>
-            <ZenButton title="保存" onClick={() => void save()} disabled={busy}><Save size={17} /></ZenButton>
+            <div ref={zenSaveMenuRef} className="relative">
+              <ZenButton title="保存板书" onClick={() => setSaveMenuOpen((v) => !v)} disabled={busy}><Save size={17} /></ZenButton>
+              {saveMenuOpen && (
+                <div className="absolute right-full top-1/2 z-40 mr-2 w-60 -translate-y-1/2 overflow-hidden rounded-xl border border-white/15 bg-slate-900/95 text-left shadow-xl backdrop-blur">
+                  <button type="button" onClick={() => { setSaveMenuOpen(false); void save() }} className="flex w-full items-start gap-2 px-3 py-2.5 hover:bg-white/10">
+                    <Save size={15} className="mt-0.5 shrink-0 text-white/60" />
+                    <span>
+                      <span className="block text-sm font-semibold text-white/90">保存到网站</span>
+                      <span className="block text-xs text-white/50">历史板书、发布给学生用</span>
+                    </span>
+                  </button>
+                  <button type="button" disabled={exporting} onClick={() => { setSaveMenuOpen(false); void exportImage() }} className="flex w-full items-start gap-2 border-t border-white/10 px-3 py-2.5 hover:bg-white/10 disabled:opacity-50">
+                    <Download size={15} className="mt-0.5 shrink-0 text-white/60" />
+                    <span>
+                      <span className="block text-sm font-semibold text-white/90">保存到本地</span>
+                      <span className="block text-xs text-white/50">全部页面拼成一张长图下载</span>
+                    </span>
+                  </button>
+                  <button type="button" disabled={exporting} onClick={() => { setSaveMenuOpen(false); void copyImage() }} className="flex w-full items-start gap-2 border-t border-white/10 px-3 py-2.5 hover:bg-white/10 disabled:opacity-50">
+                    <ClipboardCopy size={15} className="mt-0.5 shrink-0 text-white/60" />
+                    <span>
+                      <span className="block text-sm font-semibold text-white/90">复制图片到剪贴板</span>
+                      <span className="block text-xs text-white/50">不保存到网站、直接粘贴</span>
+                    </span>
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
 
           {zenPages && (
@@ -790,7 +820,7 @@ export default function BoardEditor() {
 
           <button
             type="button"
-            onClick={() => setZen(false)}
+            onClick={() => { setSaveMenuOpen(false); setZen(false) }}
             className="fixed right-4 top-4 z-40 inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/60 px-3.5 py-2 text-sm font-semibold text-white/90 backdrop-blur transition hover:bg-black/80"
           >
             <X size={15} />退出投屏

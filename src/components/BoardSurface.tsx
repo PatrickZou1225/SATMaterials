@@ -590,12 +590,14 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
     if (!collapsed) {
       const pages = pageElements(api)
       if (pages.length === 0) return
-      // The blackboard lives just right of the page column.
+      // The blackboard lives just right of the page column. Park the page's
+      // right edge exactly on the viewport's left edge: notes are usually
+      // written right beside the sheet, and the old jump (half a viewport plus
+      // 240) panned past them, so they looked deleted.
       const rightEdge = Math.max(...pages.map((el) => el.x + el.width))
       collapsedViewRef.current = { scrollX: app.scrollX, scrollY: app.scrollY, zoom }
-      const cx = rightEdge + host.clientWidth / 2 / zoom + 240
       api.updateScene({
-        appState: { scrollX: host.clientWidth / 2 / zoom - cx },
+        appState: { scrollX: -rightEdge },
         captureUpdate: CaptureUpdateAction.NEVER,
       })
       setCollapsed(true)
