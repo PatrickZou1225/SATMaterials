@@ -1116,7 +1116,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
         // 复制图片 covers exporting.
         UIOptions={{ canvasActions: { changeViewBackgroundColor: false, saveAsImage: false } }}
       />
-      {!hideZoom && <div className="absolute bottom-4 right-4 z-10 flex items-center gap-0.5 rounded-xl border border-slate-200 bg-white/95 p-1 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200">
+      {!hideZoom && <div className={`absolute z-10 flex flex-wrap items-center gap-0.5 rounded-xl border border-slate-200 bg-white/95 p-1 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200 ${embedded ? 'left-16 top-3 max-w-[calc(100%-4.5rem)]' : 'bottom-4 right-4'}`}>
         <button type="button" title="缩小" aria-label="缩小" onClick={() => { const api = apiRef.current; if (api) zoomByStep(api, 1 / 1.25) }} className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><Minus size={16} /></button>
         <span className="min-w-[46px] text-center text-xs font-semibold tabular-nums">{zoomPct}%</span>
         <button type="button" title="放大" aria-label="放大" onClick={() => { const api = apiRef.current; if (api) zoomByStep(api, 1.25) }} className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><Plus size={16} /></button>
