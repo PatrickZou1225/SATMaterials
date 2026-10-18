@@ -517,16 +517,18 @@ export default function BoardEditor() {
       bankRef.current = buildQuestionBank()
     }
     setQBusy(false)
+    // Search every indexed question, not just mock-test sets: byKey also holds
+    // the official College Board samples. Table text counts as searchable too —
+    // some questions are only identifiable by a word in their table.
     const hits: BankQuestion[] = []
-    outer: for (const set of bankRef.current.sets) {
-      for (const mod of set.modules) {
-        for (const q of mod.questions) {
-          const hay = `${q.question.passage}\n${q.question.question}\n${q.question.options.join('\n')}`.toLowerCase()
-          if (hay.includes(needle)) {
-            hits.push(q)
-            if (hits.length >= 30) break outer
-          }
-        }
+    for (const q of bankRef.current.byKey.values()) {
+      const table = q.question.table
+        ? [q.question.table.title ?? '', ...q.question.table.headers, ...q.question.table.rows.flat()].join('\n')
+        : ''
+      const hay = `${q.question.passage}\n${q.question.question}\n${q.question.options.join('\n')}\n${table}`.toLowerCase()
+      if (hay.includes(needle)) {
+        hits.push(q)
+        if (hits.length >= 30) break
       }
     }
     if (seq === qSearchSeqRef.current) setQResults(hits)
@@ -678,7 +680,7 @@ export default function BoardEditor() {
           <div className="ml-auto flex items-center gap-2">
             <button type="button" onClick={() => setCloudOpen(true)} className={btn}><Cloud size={15} />我的云盘</button>
             <div ref={qSearchRef} className="relative">
-              <button type="button" onClick={() => { setQSearchOpen((v) => !v); setQResults(null) }} className={btn}><Search size={15} />搜题</button>
+              <button type="button" onClick={() => { setQSearchOpen((v) => !v); setQQuery(''); setQResults(null) }} className={btn}><Search size={15} />搜题</button>
               {qSearchOpen && (
                 <div className="absolute right-0 top-full z-30 mt-1 w-96 overflow-hidden rounded-xl border border-slate-200 bg-white text-left shadow-lg dark:border-slate-700 dark:bg-slate-900">
                   <div className="border-b border-slate-100 p-2 dark:border-slate-800">

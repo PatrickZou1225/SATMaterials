@@ -85,6 +85,16 @@ export default function BoardWorkspace({
     setFitSignal((n) => n + 1)
   }
 
+  // A 搜题 result always lands on the blackboard. If the handout window is
+  // covering it full-screen, restore the window so the pasted text is visible
+  // instead of landing on a canvas the teacher cannot see.
+  useEffect(() => {
+    if (!insertQuestion || insertQuestion.serial === 0 || !maximized) return
+    setMaximized(false)
+    setFitSignal((n) => n + 1)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [insertQuestion?.serial])
+
   const updateTool = (state: BoardToolState) => setTool((prev) => (
     prev && prev.tool === state.tool && prev.strokeColor === state.strokeColor &&
     prev.strokeWidth === state.strokeWidth && prev.fontSize === state.fontSize
@@ -114,7 +124,7 @@ export default function BoardWorkspace({
         onSave={onSave}
         saveMenu={saveMenu}
         saveWrapRef={saveWrapRef}
-        insertQuestion={handoutPage ? null : insertQuestion}
+        insertQuestion={insertQuestion}
         onSceneChange={onSceneChange ? (scene, meta) => onSceneChange(boardPage.id, scene, meta) : undefined}
       />
 
@@ -138,7 +148,6 @@ export default function BoardWorkspace({
             onMaximize={toggleMaximize}
             maximized={maximized}
             fitSignal={fitSignal}
-            insertQuestion={insertQuestion}
             onClosePage={onCloseHandout ? () => onCloseHandout(handout.id) : undefined}
             onResizePaneTo={resizePaneTo}
             onSceneChange={onSceneChange ? (scene, meta) => onSceneChange(handout.id, scene, meta) : undefined}
