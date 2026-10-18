@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type ReactNode, type Ref } from 'react'
 import { ChevronRight } from 'lucide-react'
 import BoardSurface, { type BoardToolState } from './BoardSurface'
 import type { PDFDocumentProxy } from '../lib/board'
@@ -13,6 +13,9 @@ export type BoardWorkspaceProps = {
   hideTools?: boolean
   zen?: boolean
   insertQuestion?: { title: string; text: string; serial: number } | null
+  onSave?: () => void
+  saveMenu?: ReactNode
+  saveWrapRef?: Ref<HTMLDivElement>
   onCloseHandout?: () => void
   onSceneChange?: (pageId: string, scene: BoardScene, meta: { structural: boolean }) => void
 }
@@ -31,6 +34,9 @@ export default function BoardWorkspace({
   hideTools,
   zen,
   insertQuestion,
+  onSave,
+  saveMenu,
+  saveWrapRef,
   onCloseHandout,
   onSceneChange,
 }: BoardWorkspaceProps) {
@@ -91,6 +97,9 @@ export default function BoardWorkspace({
         hideZoom
         externalTool={tool}
         onToolStateChange={updateTool}
+        onSave={onSave}
+        saveMenu={saveMenu}
+        saveWrapRef={saveWrapRef}
         insertQuestion={handoutPage ? null : insertQuestion}
         onSceneChange={onSceneChange ? (scene, meta) => onSceneChange(boardPage.id, scene, meta) : undefined}
       />

@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type ComponentProps, type PointerEvent as ReactPointerEvent } from 'react'
-import { BoxSelect, ChevronLeft, ChevronRight, Circle, Eraser, Maximize, Minus, MousePointer2, MoveHorizontal, Pencil, Plus, Square, Type, X, ZoomOut } from 'lucide-react'
+import { useCallback, useEffect, useMemo, useRef, useState, type ComponentProps, type PointerEvent as ReactPointerEvent, type ReactNode, type Ref } from 'react'
+import { BoxSelect, ChevronLeft, ChevronRight, Circle, Eraser, Maximize, Minus, MousePointer2, MoveHorizontal, Pencil, Plus, Save, Square, Type, X, ZoomOut } from 'lucide-react'
 import { CaptureUpdateAction, convertToExcalidrawElements, Excalidraw, FONT_FAMILY, restore } from '@excalidraw/excalidraw'
 import type { DataURL, ExcalidrawImperativeAPI, ExcalidrawInitialDataState, NormalizedZoomValue, ToolType } from '@excalidraw/excalidraw/types'
 import type { FileId } from '@excalidraw/excalidraw/element/types'
@@ -32,6 +32,11 @@ export type BoardSurfaceProps = {
   // Embedded handout: the page-edge drag also resizes the workspace pane, so the
   // window edge tracks the sheet's right edge while it is stretched.
   onResizePaneTo?: (width: number) => void
+  // Editor actions in the drawing rail: save stays reachable even when the top
+  // bar is collapsed for more canvas room.
+  onSave?: () => void
+  saveMenu?: ReactNode
+  saveWrapRef?: Ref<HTMLDivElement>
   // One-shot request from the editor's 搜题 panel: formatted question text to
   // drop at the viewport centre. A fresh `serial` means "insert now".
   insertQuestion?: { title: string; text: string; serial: number } | null
@@ -123,7 +128,7 @@ function useBackgroundImage(pdf: PDFDocumentProxy | null, page: BoardPage) {
   return image
 }
 
-export default function BoardSurface({ pdf, page, editable, theme, hideTools, zen, hideZoom, onCollapse, embedded, externalTool, onToolStateChange, onResizePaneTo, insertQuestion, onClosePage, onSceneChange }: BoardSurfaceProps) {
+export default function BoardSurface({ pdf, page, editable, theme, hideTools, zen, hideZoom, onCollapse, embedded, externalTool, onToolStateChange, onResizePaneTo, onSave, saveMenu, saveWrapRef, insertQuestion, onClosePage, onSceneChange }: BoardSurfaceProps) {
   const bg = useBackgroundImage(pdf, page)
   const apiRef = useRef<ExcalidrawImperativeAPI | null>(null)
   // The imperative API arrives only after Excalidraw mounts — and a page flip
@@ -1242,6 +1247,15 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
           <button type="button" title="画笔（长按切换直线 / 椭圆 / 矩形）" aria-label="画笔" onPointerDown={startPenHold} onPointerUp={endPenHold} onPointerLeave={endPenHold} onPointerCancel={endPenHold} onClick={onPenClick} className={`grid h-9 w-9 place-items-center rounded-xl transition ${drawToolActive ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><DrawIcon size={17} /></button>
           <button type="button" title="文字" aria-label="文字" onClick={() => { if (activeToolType === 'text') setTextPanelOpen((v) => !v); else { setTextPanelOpen(true); setTool('text') } }} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'text' ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><Type size={17} /></button>
           <button type="button" title="橡皮" aria-label="橡皮" onClick={() => setTool('eraser')} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'eraser' ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><Eraser size={17} /></button>
+          {onSave && !zen && (
+            <>
+              <span className="my-0.5 h-px w-6 self-center bg-slate-200 dark:bg-slate-700" />
+              <div ref={saveWrapRef} className="relative">
+                <button type="button" title="保存板书" aria-label="保存板书" onClick={onSave} className="grid h-9 w-9 place-items-center rounded-xl text-slate-600 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"><Save size={17} /></button>
+                {saveMenu}
+              </div>
+            </>
+          )}
         </div>
       )}
       {pageInfo && collapsed && (
