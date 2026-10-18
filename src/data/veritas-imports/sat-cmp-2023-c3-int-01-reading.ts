@@ -530,7 +530,7 @@ export const importedMockTest = {
         },
         {
           "id": 5,
-          "passage": "The following text is from E. Pauline Johnson’s 2002 poem “Shadow Lake.” The little fern-leaf, bending Upon the brink, its green reflection greets, And kisses soft the shadow that it meets With touch so fine, The border line The keenest vision can’t define; So perfect is the blending.",
+          "passage": "The following text is from E. Pauline Johnson’s 2002 poem “Shadow Lake.”\n\nThe little fern-leaf, bending\nUpon the brink, its green reflection greets,\nAnd kisses soft the shadow that it meets\nWith touch so fine,\nThe border line\nThe keenest vision can’t define;\nSo perfect is the blending.",
           "question": "As used in the text, what does the word “define” most nearly mean?",
           "options": [
             "explain",
