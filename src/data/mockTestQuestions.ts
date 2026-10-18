@@ -7,6 +7,10 @@
 // 添加新套题：在 allMockTests 数组里追加一个对象即可
 // ============================================================
 
+import { importedMockTest as satCmp2026J10Na02Reading } from './veritas-imports/sat-cmp-2026-j10-na-02'
+import { importedMockTest as satCmp2026J10Na01Reading } from './veritas-imports/sat-cmp-2026-j10-na-01'
+import { importedMockTest as satCmp2026J10Int01Reading } from './veritas-imports/sat-cmp-2026-j10-int-01'
+import { importedMockTest as satCmp2026J10Int01EasierReading } from './veritas-imports/sat-cmp-2026-j10-int-01-easier'
 import { importedMockTest as satCmp2026I9Int01Reading } from './veritas-imports/sat-cmp-2026-i9-int-01-reading'
 import { importedMockTest as satCmp2026I9Int02Reading } from './veritas-imports/sat-cmp-2026-i9-int-02-reading'
 import { importedMockTest as satCmp2026I9Int01EasierReading } from './veritas-imports/sat-cmp-2026-i9-int-01-easier-reading'
@@ -497,6 +501,10 @@ A splash of light from the late-afternoon sun lingered at the foot of Nariman's 
 //  组装所有套题
 // ──────────────────────────────────────────────
 export const allMockTests: MockTestSet[] = [
+  satCmp2026J10Na02Reading,
+  satCmp2026J10Na01Reading,
+  satCmp2026J10Int01Reading,
+  satCmp2026J10Int01EasierReading,
   satCmp2026I9Int01Reading,
   satCmp2026I9Int02Reading,
   satCmp2026I9Int01EasierReading,

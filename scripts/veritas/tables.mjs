@@ -3264,6 +3264,85 @@ export const tableOverrides = {
       bodyStart: 'A student is writing a research paper',
     },
   },
+
+  // ── 2026-10 (J10) ───────────────────────────────────────────────────────────
+  'sat-cmp-2026-j10-na-02-module-3': {
+    10: {
+      table: {
+        title: 'Employment in Tribal Economies in December 2017 and December 2023 by Sector',
+        headers: [
+          'Economic sector',
+          'Approximate total number of employees, 2017',
+          '% of workforce, 2017',
+          'Approximate total number of employees, 2023',
+          '% of workforce, 2023',
+        ],
+        rows: [
+          ['Business sector (all tribal businesses)', '220,700', '66.0%', '232,300', '65.4%'],
+          ['Leisure and hospitality businesses', '185,100', '55.3%', '192,300', '54.2%'],
+          ['Education and healthcare businesses', '19,100', '5.7%', '21,600', '6.1%'],
+          ['Other businesses', '16,500', '5.0%', '18,400', '5.1%'],
+          ['Public sector (tribal government and public administration)', '113,800', '34.0%', '122,700', '34.6%'],
+        ],
+      },
+      bodyStart: 'Tribal nations employ a large percentage',
+    },
+    11: {
+      table: {
+        title: 'T-values and P-values for the Relationship between Recording Position and Change in Song Characteristics',
+        headers: ['Song characteristic', 'T-value', 'P-value'],
+        rows: [
+          ['Change in peak frequency (Hz)', '-1.0', '0.4'],
+          ['Change in song rate (songs/min)', '-2.2', '0.03'],
+          ['Change in song duration (s)', '-3.2', '0.002'],
+        ],
+      },
+      bodyStart: 'Erin Grabarczyk and Sharon Gill analyzed',
+    },
+  },
+  'sat-cmp-2026-j10-na-01-module-3': {
+    12: {
+      table: {
+        title: 'Percentage of Leaf Mass That Is Water for Two Tree Species in Connecticut Forest Fragments',
+        headers: ['Site', 'Fragment size', 'Tree', 'Water (% mass)'],
+        rows: [
+          ['VF', 'large', 'A. rubrum', '64.1%'],
+          ['GC', 'large', 'H. virginiana', '71.2%'],
+          ['LF', 'small', 'A. rubrum', '67.4%'],
+          ['BB', 'small', 'H. virginiana', '68.3%'],
+        ],
+      },
+      bodyStart: 'In 2018, Bagchi et al. investigated',
+    },
+  },
+  'sat-cmp-2026-j10-int-01-easier-module-2': {
+    11: {
+      table: {
+        title: 'Home Video Game Systems of the 1970s and 1980s',
+        headers: ['System', 'Manufacturer', 'Approximate number of units sold worldwide'],
+        rows: [
+          ['Amiga', 'Commodore', '1,600,000'],
+          ['Atari 2600', 'Atari', '18,450,000'],
+          ['Sega SG-1000/Master System', 'Sega', '3,935,000'],
+          ['MSX', 'ASCII Corp.', '4,000,000'],
+        ],
+      },
+      bodyStart: 'A student is researching the Amiga',
+    },
+    12: {
+      table: {
+        title: 'Brown Bears in Katmai National Park, Alaska',
+        headers: ['Bear identification number', 'Sex', 'Age (years)', 'Approximate weight (pounds)'],
+        rows: [
+          ['147', 'male', '10', '750'],
+          ['187', 'female', '10', '450'],
+          ['115', 'female', '4', '325'],
+          ['109', 'male', '7', '430'],
+        ],
+      },
+      bodyStart: 'Scientists collected data about the sex, age, and weight of brown bears',
+    },
+  },
 }
 
 export function applyTableOverride(passage, override) {
