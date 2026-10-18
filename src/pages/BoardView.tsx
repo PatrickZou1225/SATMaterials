@@ -1,10 +1,11 @@
-import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ChevronLeft, ChevronRight, FileText, Image as ImageIcon, Maximize, Minimize, Pencil } from 'lucide-react'
 import { useAccount } from '../context/account'
 import { supabase } from '../lib/supabase'
 import { useFullscreen } from '../lib/fullscreen'
 import { loadPdf, type Board, type PDFDocumentProxy } from '../lib/board'
+import { storageFileUrl } from '../lib/library'
 import { attachPageFiles, groupBoardPages, HANDOUT_BG, layoutPdfPages, parsePages, pdfPageOf, splitBoardPages, type BoardPage } from '../lib/boardPages'
 import { downloadBoardFiles } from '../lib/boardFiles'
 
@@ -25,6 +26,12 @@ export default function BoardView() {
   const theme = readTheme()
   const [board, setBoard] = useState<Board | null>(null)
   const [pdf, setPdf] = useState<PDFDocumentProxy | null>(null)
+  // Several handouts can live on one board; the tab strip switches between them.
+  const [activeHandoutId, setActiveHandoutId] = useState('')
+  const pdfDocsRef = useRef(new Map<string, PDFDocumentProxy>())
+  // The document currently in `pdf`; stale documents are never painted onto a
+  // newly selected handout.
+  const pdfPathRef = useRef<string | null>(null)
   const [pages, setPages] = useState<BoardPage[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [loading, setLoading] = useState(true)
@@ -53,11 +60,12 @@ export default function BoardView() {
       if (!active) return
       setBoard(row)
       if (row.pdf_path) {
-        const { data: urlData } = supabase.storage.from('boards').getPublicUrl(row.pdf_path)
         try {
-          const doc = await loadPdf(urlData.publicUrl)
+          const doc = await loadPdf(storageFileUrl(row.pdf_path))
           if (!active) return
           setPdf(doc)
+          pdfPathRef.current = row.pdf_path
+          pdfDocsRef.current.set(row.pdf_path, doc)
           try {
             const layout = await layoutPdfPages(doc)
             // Boards saved while handouts were single sheets kept only the page
@@ -74,8 +82,14 @@ export default function BoardView() {
       }
       if (!active) return
       // Old boards mixed the PDF and the notes in one scene; split them into
-      // the two layers the viewer renders side by side.
-      setPages(splitBoardPages(loaded))
+      // the two layers the viewer renders side by side. Handouts saved before
+      // per-handout paths existed fall back to the board-level pdf_path.
+      const split = splitBoardPages(loaded)
+      setPages(row.pdf_path
+        ? split.map((p) => (p.kind === 'handout' && !p.pdfPath
+          ? { ...p, pdfPath: row.pdf_path!, pdfName: row.pdf_name ?? p.name }
+          : p))
+        : split)
       setLoading(false)
     })()
     return () => { active = false }
@@ -92,6 +106,32 @@ export default function BoardView() {
   const pairs = useMemo(() => groupBoardPages(pages), [pages])
   const pairIndex = Math.min(currentIndex, Math.max(0, pairs.length - 1))
   const currentPair = pairs[pairIndex]
+  const activeHandout = currentPair?.handouts.find((h) => h.id === activeHandoutId)
+    ?? currentPair?.handouts[currentPair.handouts.length - 1]
+    ?? null
+  const activeHandoutPath = activeHandout ? (activeHandout.pdfPath ?? board?.pdf_path ?? null) : null
+  const activeDoc = pdf && pdfPathRef.current === activeHandoutPath ? pdf : null
+
+  // Each handout can come from a different PDF; load the one the tab selects.
+  useEffect(() => {
+    const path = activeHandout ? (activeHandout.pdfPath ?? board?.pdf_path ?? null) : null
+    if (!path) { setPdf(null); pdfPathRef.current = null; return }
+    const cached = pdfDocsRef.current.get(path)
+    if (cached) { setPdf(cached); pdfPathRef.current = path; return }
+    setPdf(null)
+    pdfPathRef.current = null
+    let active = true
+    void (async () => {
+      try {
+        const doc = await loadPdf(storageFileUrl(path))
+        pdfDocsRef.current.set(path, doc)
+        if (active) { setPdf(doc); pdfPathRef.current = path }
+      } catch {
+        if (active) setError('PDF 加载失败。')
+      }
+    })()
+    return () => { active = false }
+  }, [activeHandout?.id, activeHandout?.pdfPath, board?.pdf_path])
 
   return (
     <div className={isFullscreen ? 'fixed inset-0 z-50 flex flex-col bg-slate-100 dark:bg-slate-950' : 'flex h-[calc(100vh-4rem)] flex-col bg-slate-100 dark:bg-slate-950'}>
@@ -121,9 +161,9 @@ export default function BoardView() {
                   className={`block w-full overflow-hidden rounded-lg border-2 text-left ${index === pairIndex ? 'border-blue-500' : 'border-slate-200 dark:border-slate-700'}`}
                 >
                   <div className="flex h-20 items-center justify-center text-xs" style={{ backgroundColor: board.background.type === 'blank' ? board.background.color : '#ffffff', color: board.background.type === 'blank' && board.background.color !== '#ffffff' ? '#e2e8f0' : '#475569' }}>
-                    {pair.handout ? <span className="flex flex-col items-center gap-1"><FileText size={18} />讲义</span> : <ImageIcon size={18} />}
+                    {pair.handouts.length > 0 ? <span className="flex flex-col items-center gap-1"><FileText size={18} />讲义</span> : <ImageIcon size={18} />}
                   </div>
-                  <div className="truncate bg-slate-50 px-1.5 py-1 text-[11px] text-slate-500 dark:bg-slate-800 dark:text-slate-400">{index + 1}. {pair.handout?.name ?? board.name}</div>
+                  <div className="truncate bg-slate-50 px-1.5 py-1 text-[11px] text-slate-500 dark:bg-slate-800 dark:text-slate-400">{index + 1}. {pair.handouts.length > 1 ? `${pair.handouts.length} 份讲义` : pair.handouts[0]?.name ?? board.name}</div>
                 </button>
               )
             })}
@@ -133,9 +173,11 @@ export default function BoardView() {
         <main className="relative min-h-0 flex-1">
           <Suspense fallback={<div className="grid h-full place-items-center text-slate-500">正在加载白板…</div>}>
             <BoardWorkspace
-              pdf={pdf}
+              pdf={activeDoc}
               boardPage={currentPair.board}
-              handoutPage={currentPair.handout ?? null}
+              handoutPage={activeHandout}
+              handouts={currentPair.handouts}
+              onSelectHandout={setActiveHandoutId}
               editable={false}
               theme={theme}
             />

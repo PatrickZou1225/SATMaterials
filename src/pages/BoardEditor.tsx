@@ -8,7 +8,7 @@ import { useFullscreen } from '../lib/fullscreen'
 import { loadPdf, newId, type Board, type PDFDocumentProxy } from '../lib/board'
 import { attachPageFiles, blankPage, collectPageFiles, groupBoardPages, HANDOUT_BG, layoutPdfPages, parsePages, pdfPageOf, splitBoardPages, stripPageFiles, stripPdfBitmaps, type BoardPage, type BoardScene } from '../lib/boardPages'
 import { downloadBoardFiles, removeBoardFiles, saveBoardFiles } from '../lib/boardFiles'
-import { libraryFileUrl, type LibraryFile } from '../lib/library'
+import { libraryFileUrl, storageFileUrl, type LibraryFile } from '../lib/library'
 import type { BankQuestion, QuestionBank } from '../lib/questionBank'
 
 const BoardWorkspace = lazy(() => import('../components/BoardWorkspace'))
@@ -46,6 +46,13 @@ export default function BoardEditor() {
 
   const [board, setBoard] = useState<Board | null>(null)
   const [pdf, setPdf] = useState<PDFDocumentProxy | null>(null)
+  // A board can show several handouts; this picks the one in the pane. Loaded
+  // documents are cached per storage path so flipping back is instant.
+  const [activeHandoutId, setActiveHandoutId] = useState('')
+  const pdfDocsRef = useRef(new Map<string, PDFDocumentProxy>())
+  // Which handout PDF `pdf` belongs to. Only that document may rasterise a
+  // handout's pages, so flipping tabs never paints one PDF's sheets onto another.
+  const pdfPathRef = useRef<string | null>(null)
   const [pages, setPages] = useState<BoardPage[]>(() => [blankPage('第 1 页')])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [status, setStatus] = useState<'draft' | 'published' | 'archived'>('draft')
@@ -113,6 +120,8 @@ export default function BoardEditor() {
       setStatus('draft')
       setLoading(false)
       setDirty(false)
+      setActiveHandoutId('')
+      pdfDocsRef.current.clear()
       sceneMapRef.current.clear()
       return
     }
@@ -148,6 +157,8 @@ export default function BoardEditor() {
           const doc = await loadPdf(urlData.publicUrl)
           if (!active) return
           setPdf(doc)
+          pdfPathRef.current = row.pdf_path
+          pdfDocsRef.current.set(row.pdf_path, doc)
           try {
             const layout = await layoutPdfPages(doc)
             // Boards saved while handouts were single sheets kept only the page
@@ -165,8 +176,16 @@ export default function BoardEditor() {
       if (!active) return
       // Legacy boards kept the PDF and the notes in one scene. Split them into
       // the independent blackboard and handout layers (no-op once saved again).
-      setPages(splitBoardPages(loaded))
+      // Handouts saved before per-handout paths existed fall back to the
+      // board-level pdf_path so they can still render on demand.
+      const split = splitBoardPages(loaded)
+      setPages(row.pdf_path
+        ? split.map((p) => (p.kind === 'handout' && !p.pdfPath
+          ? { ...p, pdfPath: row.pdf_path!, pdfName: row.pdf_name ?? p.name }
+          : p))
+        : split)
       setCurrentIndex(0)
+      setActiveHandoutId('')
       setDirty(false)
       sceneMapRef.current.clear()
       setLoading(false)
@@ -178,6 +197,37 @@ export default function BoardEditor() {
   const pairIndex = Math.min(currentIndex, Math.max(0, pairs.length - 1))
   const currentPair = pairs[pairIndex]
   const currentPage = currentPair?.board
+  // The pane shows the last-opened handout of the board unless a tab picked one.
+  const activeHandout = currentPair?.handouts.find((h) => h.id === activeHandoutId)
+    ?? currentPair?.handouts[currentPair.handouts.length - 1]
+    ?? null
+  const activeHandoutPath = activeHandout ? (activeHandout.pdfPath ?? board?.pdf_path ?? null) : null
+  // Never hand a surface a document that doesn't belong to the page on screen.
+  const activeDoc = pdf && pdfPathRef.current === activeHandoutPath ? pdf : null
+
+  // Load the PDF behind the active handout (cached per path). Each handout may
+  // come from a different document, so this follows the tab selection.
+  useEffect(() => {
+    const path = activeHandout ? (activeHandout.pdfPath ?? board?.pdf_path ?? null) : null
+    if (!path) { setPdf(null); pdfPathRef.current = null; return }
+    const cached = pdfDocsRef.current.get(path)
+    if (cached) { setPdf(cached); pdfPathRef.current = path; return }
+    // Drop the previous handout's document at once so it can't rasterise the
+    // newly mounted handout while this one loads.
+    setPdf(null)
+    pdfPathRef.current = null
+    let active = true
+    void (async () => {
+      try {
+        const doc = await loadPdf(storageFileUrl(path))
+        pdfDocsRef.current.set(path, doc)
+        if (active) { setPdf(doc); pdfPathRef.current = path }
+      } catch {
+        if (active) setMessage('PDF 加载失败。')
+      }
+    })()
+    return () => { active = false }
+  }, [activeHandout?.id, activeHandout?.pdfPath, board?.pdf_path])
 
   const onPickCloudFile = async (row: LibraryFile) => {
     setCloudOpen(false)
@@ -194,13 +244,12 @@ export default function BoardEditor() {
       if (!key) return
       const base = mergedPages()
       const keyOf = (p: BoardPage) => p.pair ?? p.id
-      const oldHandouts = base.filter((p) => keyOf(p) === key && p.kind === 'handout')
-      const kept = base.filter((p) => !(keyOf(p) === key && p.kind === 'handout'))
-      if (!kept.some((p) => keyOf(p) === key && p.kind !== 'handout')) {
-        kept.push({ ...blankPage('黑板', CANVAS_COLORS[0].color, false), pair: key })
+      // Opening another PDF adds it next to the ones already open instead of
+      // replacing them; the pane's tab strip switches between them.
+      const marked = base.map((p) => (keyOf(p) === key && p.kind !== 'handout' ? { ...p, kind: 'board' as const } : p))
+      if (!marked.some((p) => keyOf(p) === key && p.kind !== 'handout')) {
+        marked.push({ ...blankPage('黑板', CANVAS_COLORS[0].color, false), pair: key })
       }
-      const marked = kept.map((p) => (keyOf(p) === key && p.kind !== 'handout' ? { ...p, kind: 'board' as const } : p))
-      for (const p of oldHandouts) sceneMapRef.current.delete(p.id)
       const boardAt = marked.findIndex((p) => keyOf(p) === key && p.kind !== 'handout')
       // The pane shares the blackboard's colour, so the sheet floats on one
       // continuous surface instead of looking like a second little board.
@@ -214,15 +263,20 @@ export default function BoardEditor() {
         scene: { elements: buildHandoutElements(layout), files: buildHandoutFiles(layout), appState: {} },
         kind: 'handout',
         pair: key,
+        pdfPath: row.storage_path,
+        pdfName: row.name,
       }
       setPdf(doc)
+      pdfPathRef.current = row.storage_path
+      pdfDocsRef.current.set(row.storage_path, doc)
       setSourcePdf({ path: row.storage_path, name: row.name })
-      setPages(boardAt >= 0
-        ? [...marked.slice(0, boardAt + 1), handout, ...marked.slice(boardAt + 1)]
-        : [...marked, handout])
+      // Insert after the board and any handouts already on it.
+      const lastOfPair = marked.reduce((acc, p, i) => (keyOf(p) === key ? i : acc), -1)
+      setPages([...marked.slice(0, lastOfPair + 1), handout, ...marked.slice(lastOfPair + 1)])
+      setActiveHandoutId(handout.id)
       if (!title.trim()) setTitle(row.name)
       setDirty(true)
-      setMessage(`已加载讲义（${doc.numPages} 页），左侧窗口翻页；黑板笔记不受影响。`)
+      setMessage(`已打开讲义（${doc.numPages} 页），顶部标签可切换多份讲义；黑板笔记不受影响。`)
     } catch {
       setMessage('PDF 加载失败。')
     }
@@ -289,22 +343,29 @@ export default function BoardEditor() {
     setDirty(true)
   }
 
-  // The handout window's ✕: remove the handout layer from the board the teacher
-  // is viewing, leaving the blackboard notes intact.
-  const closeHandout = () => {
-    const handout = currentPair?.handout
-    if (!handout) return
+  const selectHandout = (id: string) => {
+    flushScenes()
+    setActiveHandoutId(id)
+  }
+
+  // The tab strip's ✕: remove one handout from the board the teacher is
+  // viewing, leaving the blackboard notes and the other handouts intact.
+  const closeHandout = (pageId?: string) => {
+    const target = pageId ? currentPair?.handouts.find((h) => h.id === pageId) : activeHandout
+    if (!target) return
     if (!window.confirm('关闭这份讲义？讲义上的标注也会一起移除（之后可以从「我的云盘」重新打开）。')) return
-    sceneMapRef.current.delete(handout.id)
-    const next = mergedPages().filter((p) => p.id !== handout.id)
+    sceneMapRef.current.delete(target.id)
+    const next = mergedPages().filter((p) => p.id !== target.id)
     setPages(next)
+    setActiveHandoutId('')
     setDirty(true)
     // Drop the loaded document once no board still shows a handout.
     if (!next.some((p) => p.kind === 'handout')) {
       setPdf(null)
+      pdfPathRef.current = null
       setSourcePdf(null)
     }
-    setMessage('已移除讲义，黑板笔记保留。')
+    setMessage('已关闭讲义，黑板笔记保留。')
   }
 
   const save = async (nextStatus?: 'draft' | 'published') => {
@@ -320,6 +381,9 @@ export default function BoardEditor() {
     const files = collectPageFiles(stamped)
     const hasFiles = Object.keys(files).length > 0
     const pageRows = stripPageFiles(stamped)
+    // The row-level path is what older readers use; keep it pointing at the
+    // first handout. New readers use the per-page `pdfPath`.
+    const handoutSource = pageRows.find((p) => p.kind === 'handout' && p.pdfPath)
 
     if (!board) {
       const id = newId()
@@ -344,8 +408,8 @@ export default function BoardEditor() {
           title: finalTitle,
           teacher_id: account.user.id,
           status: nextStatus ?? 'draft',
-          pdf_path: sourcePdf?.path ?? null,
-          pdf_name: sourcePdf?.name ?? null,
+          pdf_path: handoutSource?.pdfPath ?? sourcePdf?.path ?? null,
+          pdf_name: handoutSource?.pdfName ?? sourcePdf?.name ?? null,
           page_count: pageRows.length,
           pages: pageRows,
           files_path: filesPath,
@@ -380,7 +444,7 @@ export default function BoardEditor() {
 
     const { error } = await supabase
       .from('boards')
-      .update({ pages: pageRows, page_count: pageRows.length, title: title.trim() || board.title, pdf_path: sourcePdf?.path ?? null, pdf_name: sourcePdf?.name ?? null, status: nextStatus ?? status, files_path: filesPath, files_bytes: filesBytes, updated_at: new Date().toISOString() })
+      .update({ pages: pageRows, page_count: pageRows.length, title: title.trim() || board.title, pdf_path: handoutSource?.pdfPath ?? sourcePdf?.path ?? null, pdf_name: handoutSource?.pdfName ?? sourcePdf?.name ?? null, status: nextStatus ?? status, files_path: filesPath, files_bytes: filesBytes, updated_at: new Date().toISOString() })
       .eq('id', board.id)
     if (error) setMessage('保存失败，请重试。')
     else {
@@ -701,9 +765,9 @@ export default function BoardEditor() {
                   className={`group relative block w-full overflow-hidden rounded-lg border-2 text-left ${index === pairIndex ? 'border-blue-500' : 'border-slate-200 dark:border-slate-700'}`}
                 >
                   <div className="flex h-20 items-center justify-center text-xs" style={{ backgroundColor: board.background.type === 'blank' ? board.background.color : '#ffffff', color: board.background.type === 'blank' && board.background.color !== '#ffffff' ? '#e2e8f0' : '#475569' }}>
-                    {pair.handout ? <span className="flex flex-col items-center gap-1"><FileText size={18} />讲义</span> : <ImageIcon size={18} />}
+                    {pair.handouts.length > 0 ? <span className="flex flex-col items-center gap-1"><FileText size={18} />讲义</span> : <ImageIcon size={18} />}
                   </div>
-                  <div className="truncate bg-slate-50 px-1.5 py-1 text-[11px] text-slate-500 dark:bg-slate-800 dark:text-slate-400">{index + 1}. {pair.handout?.name ?? board.name}</div>
+                  <div className="truncate bg-slate-50 px-1.5 py-1 text-[11px] text-slate-500 dark:bg-slate-800 dark:text-slate-400">{index + 1}. {pair.handouts.length > 1 ? `${pair.handouts.length} 份讲义` : pair.handouts[0]?.name ?? board.name}</div>
                   {pairs.length > 1 && (
                     <span
                       role="button"
@@ -727,9 +791,12 @@ export default function BoardEditor() {
         <main className="relative min-h-0 flex-1">
           <Suspense fallback={<div className="grid h-full place-items-center text-slate-500">正在加载白板…</div>}>
             <BoardWorkspace
-              pdf={pdf}
+              pdf={activeDoc}
               boardPage={currentPage}
-              handoutPage={currentPair?.handout ?? null}
+              handoutPage={activeHandout}
+              handouts={currentPair?.handouts ?? []}
+              onSelectHandout={selectHandout}
+              onCloseHandout={closeHandout}
               editable
               theme={theme}
               hideTools={hideTools}
@@ -742,7 +809,6 @@ export default function BoardEditor() {
                   {saveMenuItems}
                 </div>
               ) : null}
-              onCloseHandout={closeHandout}
               onSceneChange={(pageId, scene, meta) => {
                 // Excalidraw fires once per layer on mount with the loaded
                 // scene; later structural callbacks mean the teacher drew
@@ -808,7 +874,7 @@ export default function BoardEditor() {
                     className={`block w-full overflow-hidden rounded-lg border-2 ${index === pairIndex ? 'border-blue-400' : 'border-white/15'}`}
                   >
                     <div className="flex h-14 items-center justify-center text-[10px]" style={{ backgroundColor: board.background.type === 'blank' ? board.background.color : '#ffffff', color: board.background.type === 'blank' && board.background.color !== '#ffffff' ? '#e2e8f0' : '#475569' }}>
-                      {pair.handout ? '讲义' : <ImageIcon size={14} />}
+                      {pair.handouts.length > 0 ? '讲义' : <ImageIcon size={14} />}
                     </div>
                     <div className="truncate bg-white/10 px-1.5 py-0.5 text-[10px] text-white/70">{index + 1}</div>
                   </button>

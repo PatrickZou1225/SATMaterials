@@ -40,22 +40,26 @@ export type BoardPage = {
   // ties the two layers of one board together.
   kind?: 'board' | 'handout'
   pair?: string
+  // A handout page remembers the cloud-drive PDF it was built from, so a board
+  // can hold several handouts and re-render any of them on demand.
+  pdfPath?: string
+  pdfName?: string
 }
 
-export type BoardPair = { key: string; board: BoardPage; handout?: BoardPage }
+export type BoardPair = { key: string; board: BoardPage; handouts: BoardPage[] }
 
-// Group pages into display boards: a blackboard page plus its optional handout
-// page. Legacy pages without a `pair` stand alone (their id is the key).
+// Group pages into display boards: a blackboard page plus every handout opened
+// on it. Legacy pages without a `pair` stand alone (their id is the key).
 export function groupBoardPages(pages: BoardPage[]): BoardPair[] {
   const map = new Map<string, BoardPair>()
   for (const page of pages) {
     const key = page.pair ?? page.id
     let pair = map.get(key)
     if (!pair) {
-      pair = { key, board: page }
+      pair = { key, board: page, handouts: [] }
       map.set(key, pair)
     }
-    if (page.kind === 'handout') pair.handout = page
+    if (page.kind === 'handout') pair.handouts.push(page)
     else pair.board = page
   }
   return [...map.values()]

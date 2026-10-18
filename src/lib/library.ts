@@ -63,10 +63,15 @@ export async function deleteLibraryFile(row: LibraryFile): Promise<void> {
   await supabase.from('library_files').delete().eq('id', row.id)
 }
 
-export function libraryFileUrl(row: LibraryFile): string {
-  if (row.storage_path.startsWith(R2_PREFIX)) return r2Url(row.storage_path.slice(R2_PREFIX.length))
+// Resolve a stored path (Supabase object key or `r2:` key) to a fetchable URL.
+export function storageFileUrl(path: string): string {
+  if (path.startsWith(R2_PREFIX)) return r2Url(path.slice(R2_PREFIX.length))
   if (!supabase) return ''
-  return supabase.storage.from(LIBRARY_BUCKET).getPublicUrl(row.storage_path).data.publicUrl
+  return supabase.storage.from(LIBRARY_BUCKET).getPublicUrl(path).data.publicUrl
+}
+
+export function libraryFileUrl(row: LibraryFile): string {
+  return storageFileUrl(row.storage_path)
 }
 
 // 1 GB on the Supabase free tier; 10 GB once R2 is wired up.

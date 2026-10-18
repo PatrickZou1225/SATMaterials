@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ComponentProps, type PointerEvent as ReactPointerEvent, type ReactNode, type Ref } from 'react'
-import { BoxSelect, ChevronLeft, ChevronRight, Circle, Eraser, Maximize, Minus, MousePointer2, MoveHorizontal, Pencil, Plus, Save, Square, Type, X, ZoomOut } from 'lucide-react'
+import { BoxSelect, ChevronLeft, ChevronRight, Circle, Eraser, Maximize, Minus, MousePointer2, MoveHorizontal, Pencil, Save, Square, Type, X, ZoomOut } from 'lucide-react'
 import { CaptureUpdateAction, convertToExcalidrawElements, Excalidraw, FONT_FAMILY, restore } from '@excalidraw/excalidraw'
 import type { DataURL, ExcalidrawImperativeAPI, ExcalidrawInitialDataState, NormalizedZoomValue, ToolType } from '@excalidraw/excalidraw/types'
 import type { FileId } from '@excalidraw/excalidraw/element/types'
@@ -23,6 +23,12 @@ export type BoardSurfaceProps = {
   // When the surface sits in the floating handout window, its own "收起讲义"
   // button delegates to the window (which hides the whole window).
   onCollapse?: () => void
+  // "最大化" of the handout window: widen it to the whole workspace.
+  onMaximize?: () => void
+  maximized?: boolean
+  // Changes whenever the pane changes size through maximize/restore; refits the
+  // sheet to the new width.
+  fitSignal?: number
   // Part of the two-layer workspace: the blackboard rail is the only toolbar on
   // screen, so this surface hides its own rail, ink popups and edge controls.
   embedded?: boolean
@@ -128,7 +134,7 @@ function useBackgroundImage(pdf: PDFDocumentProxy | null, page: BoardPage) {
   return image
 }
 
-export default function BoardSurface({ pdf, page, editable, theme, hideTools, zen, hideZoom, onCollapse, embedded, externalTool, onToolStateChange, onResizePaneTo, onSave, saveMenu, saveWrapRef, insertQuestion, onClosePage, onSceneChange }: BoardSurfaceProps) {
+export default function BoardSurface({ pdf, page, editable, theme, hideTools, zen, hideZoom, onCollapse, onMaximize, maximized, fitSignal, embedded, externalTool, onToolStateChange, onResizePaneTo, onSave, saveMenu, saveWrapRef, insertQuestion, onClosePage, onSceneChange }: BoardSurfaceProps) {
   const bg = useBackgroundImage(pdf, page)
   const apiRef = useRef<ExcalidrawImperativeAPI | null>(null)
   // The imperative API arrives only after Excalidraw mounts — and a page flip
@@ -162,7 +168,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
   const [outlineOpen, setOutlineOpen] = useState(false)
   // "Fit to window": keep the page scaled to the host whenever the window
   // resizes — the reference app's "fit page to window display size" button.
-  const [fitWindow, setFitWindow] = useState(() => typeof window !== 'undefined' && window.localStorage.getItem('sat_board_fit_window') === '1')
+  const [fitWindow] = useState(() => typeof window !== 'undefined' && window.localStorage.getItem('sat_board_fit_window') === '1')
   // "Collapse the handout": park the viewport on the empty board to the right
   // of the page column and remember where the PDF was, so the toggle restores
   // it exactly — ClassIn's collapse/expand, mapped onto a single canvas.
@@ -629,14 +635,6 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
     scheduleRenderRef.current()
   }
 
-  const toggleFitWindow = () => {
-    const next = !fitWindow
-    setFitWindow(next)
-    try { window.localStorage.setItem('sat_board_fit_window', next ? '1' : '0') } catch { /* ignore */ }
-    const api = apiRef.current
-    if (next && api) fitPage(api)
-  }
-
   const toggleCollapse = (api: ExcalidrawImperativeAPI) => {
     // In the two-layer workspace this surface lives inside the floating handout
     // window; collapsing means hiding that window, not panning a camera.
@@ -924,6 +922,29 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fitWindow])
 
+  // Maximize/restore changes the pane width; stretch the sheet to the new width
+  // the way a document viewer would. The wait lets the pane's new width land in
+  // layout before it is measured.
+  useEffect(() => {
+    if (!fitSignal) return
+    const timer = window.setTimeout(() => {
+      const api = apiRef.current
+      const host = hostRef.current
+      if (!api || !host) return
+      const el = nearestPage(api)
+      if (!el) return
+      const zoom = Math.max(0.1, Math.min(4, host.clientWidth / el.width))
+      applyZoom(api, zoom, host.clientWidth / 2, host.clientHeight / 2)
+      // Keep the sheet flush with the pane's left edge, like a document page.
+      api.updateScene({
+        appState: { scrollX: -el.x, scrollY: api.getAppState().scrollY },
+        captureUpdate: CaptureUpdateAction.NEVER,
+      })
+    }, 80)
+    return () => window.clearTimeout(timer)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fitSignal])
+
   useEffect(() => {
     const host = hostRef.current
     if (!host) return
@@ -1116,20 +1137,13 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
         // 复制图片 covers exporting.
         UIOptions={{ canvasActions: { changeViewBackgroundColor: false, saveAsImage: false } }}
       />
-      {!hideZoom && <div className={`absolute z-10 flex items-center gap-0.5 rounded-xl border border-slate-200 bg-white/95 p-1 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200 ${embedded ? 'left-2 top-16 flex-col' : 'bottom-4 right-4'}`}>
-        <button type="button" title="缩小" aria-label="缩小" onClick={() => { const api = apiRef.current; if (api) zoomByStep(api, 1 / 1.25) }} className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><Minus size={16} /></button>
-        <span className={`text-center text-xs font-semibold tabular-nums ${embedded ? 'py-0.5' : 'min-w-[46px]'}`}>{zoomPct}%</span>
-        <button type="button" title="放大" aria-label="放大" onClick={() => { const api = apiRef.current; if (api) zoomByStep(api, 1.25) }} className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><Plus size={16} /></button>
-        <span className={embedded ? 'my-0.5 h-px w-6 bg-slate-200 dark:bg-slate-700' : 'mx-0.5 h-5 w-px bg-slate-200 dark:bg-slate-700'} />
-        <button type="button" title="回到整页" aria-label="回到整页" onClick={() => { const api = apiRef.current; if (api) fitPage(api) }} className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><Maximize size={16} /></button>
-        <button type="button" title="适应窗口：窗口大小变化时自动缩放到整页" aria-label="适应窗口" onClick={toggleFitWindow} className={`h-8 w-8 rounded-lg text-[11px] font-semibold transition ${fitWindow ? 'bg-blue-600 text-white' : 'hover:bg-slate-100 dark:hover:bg-slate-800'}`}>适配</button>
-        {pageInfo && (
-          <button type="button" title={collapsed ? '显示讲义' : '收起讲义（腾出黑板，再点回来）'} aria-label={collapsed ? '显示讲义' : '收起讲义'} onClick={() => { const api = apiRef.current; if (api) toggleCollapse(api) }} className={`h-8 w-8 rounded-lg text-[11px] font-semibold transition ${collapsed ? 'bg-blue-600 text-white' : 'hover:bg-slate-100 dark:hover:bg-slate-800'}`}>{collapsed ? '显示' : '收起'}</button>
-        )}
-        {onClosePage && (
-          <button type="button" title="关闭这份讲义（从这块板移除）" aria-label="关闭讲义" onClick={onClosePage} className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><X size={16} /></button>
-        )}
-      </div>}
+      {!hideZoom && (
+        <div className="absolute right-3 top-3 z-10 flex items-center gap-0.5 rounded-xl border border-slate-200 bg-white/95 p-1 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200">
+          <button type="button" title={maximized ? '还原窗口' : '最大化（讲义铺满工作区）'} aria-label="最大化" onClick={onMaximize} disabled={!onMaximize} className={`grid h-8 w-8 place-items-center rounded-lg transition disabled:opacity-40 ${maximized ? 'bg-blue-600 text-white hover:bg-blue-600' : 'hover:bg-slate-100 dark:hover:bg-slate-800'}`}><Maximize size={16} /></button>
+          <button type="button" title="最小化（收起讲义，腾出黑板）" aria-label="最小化" onClick={() => { const api = apiRef.current; if (api) toggleCollapse(api) }} className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><Minus size={16} /></button>
+          <button type="button" title={`100% 显示（当前 ${zoomPct}%）`} aria-label="100% 显示" onClick={() => { const api = apiRef.current; const host = hostRef.current; if (api && host) applyZoom(api, 1, host.clientWidth / 2, host.clientHeight / 2) }} className="h-8 rounded-lg px-2 text-[11px] font-semibold tabular-nums transition hover:bg-slate-100 dark:hover:bg-slate-800">{zoomPct}%</button>
+        </div>
+      )}
       {pageInfo && (
         <div className={`absolute left-1/2 z-10 flex -translate-x-1/2 items-center gap-0.5 rounded-full border border-slate-200 bg-white/95 px-1.5 py-1 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200 ${zen ? 'bottom-16' : 'bottom-4'}`}>
           {outline.length > 0 && (

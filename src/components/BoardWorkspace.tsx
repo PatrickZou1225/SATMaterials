@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode, type Ref } from 'react'
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight, X } from 'lucide-react'
 import BoardSurface, { type BoardToolState } from './BoardSurface'
 import type { PDFDocumentProxy } from '../lib/board'
 import type { BoardPage, BoardScene } from '../lib/boardPages'
@@ -8,6 +8,9 @@ export type BoardWorkspaceProps = {
   pdf: PDFDocumentProxy | null
   boardPage: BoardPage
   handoutPage: BoardPage | null
+  // Every handout opened on this board; when there is more than one a tab strip
+  // appears so the teacher can flip between them without leaving the board.
+  handouts?: BoardPage[]
   editable: boolean
   theme: 'light' | 'dark'
   hideTools?: boolean
@@ -16,7 +19,8 @@ export type BoardWorkspaceProps = {
   onSave?: () => void
   saveMenu?: ReactNode
   saveWrapRef?: Ref<HTMLDivElement>
-  onCloseHandout?: () => void
+  onSelectHandout?: (id: string) => void
+  onCloseHandout?: (id: string) => void
   onSceneChange?: (pageId: string, scene: BoardScene, meta: { structural: boolean }) => void
 }
 
@@ -29,6 +33,7 @@ export default function BoardWorkspace({
   pdf,
   boardPage,
   handoutPage,
+  handouts = [],
   editable,
   theme,
   hideTools,
@@ -37,6 +42,7 @@ export default function BoardWorkspace({
   onSave,
   saveMenu,
   saveWrapRef,
+  onSelectHandout,
   onCloseHandout,
   onSceneChange,
 }: BoardWorkspaceProps) {
@@ -44,6 +50,10 @@ export default function BoardWorkspace({
   const [box, setBox] = useState({ w: 0, h: 0 })
   // Window geometry: 0 width means "auto" (62% of the workspace).
   const [winW, setWinW] = useState(0)
+  // Maximized: the handout covers the whole workspace until toggled back.
+  const [maximized, setMaximized] = useState(false)
+  // Bumped on every maximize/restore so the pane refits the sheet to its new width.
+  const [fitSignal, setFitSignal] = useState(0)
   const [collapsed, setCollapsed] = useState(false)
   const [tool, setTool] = useState<BoardToolState | null>(null)
 
@@ -67,7 +77,14 @@ export default function BoardWorkspace({
   // surface), so the pane hugs the sheet while the sheet is stretched.
   const resizePaneTo = (next: number) => {
     const maxW = Math.max(320, box.w - left - 8)
+    setMaximized(false)
     setWinW(Math.max(320, Math.min(Math.round(next), maxW)))
+  }
+
+  const toggleMaximize = () => {
+    setCollapsed(false)
+    setMaximized((v) => !v)
+    setFitSignal((n) => n + 1)
   }
 
   const updateTool = (state: BoardToolState) => setTool((prev) => (
@@ -108,7 +125,7 @@ export default function BoardWorkspace({
         <div
           aria-hidden={collapsed}
           className={`absolute z-20 overflow-hidden transition-opacity duration-150 ${collapsed ? 'pointer-events-none opacity-0' : 'opacity-100'}`}
-          style={{ left, width, top: 0, height: box.h }}
+          style={maximized ? { left: 0, width: box.w, top: 0, height: box.h } : { left, width, top: 0, height: box.h }}
         >
           <BoardSurface
             key={handout.id}
@@ -122,11 +139,41 @@ export default function BoardWorkspace({
             externalTool={tool}
             onToolStateChange={updateTool}
             onCollapse={() => setCollapsed(true)}
+            onMaximize={toggleMaximize}
+            maximized={maximized}
+            fitSignal={fitSignal}
             insertQuestion={insertQuestion}
-            onClosePage={onCloseHandout}
+            onClosePage={onCloseHandout ? () => onCloseHandout(handout.id) : undefined}
             onResizePaneTo={resizePaneTo}
             onSceneChange={onSceneChange ? (scene, meta) => onSceneChange(handout.id, scene, meta) : undefined}
           />
+          {handouts.length > 1 && (
+            <div className="absolute left-1/2 top-2 z-30 flex max-w-[calc(100%-11.5rem)] -translate-x-1/2 items-center gap-1 overflow-x-auto rounded-full border border-slate-200 bg-white/95 p-1 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95">
+              {handouts.map((h) => (
+                <span key={h.id} className="flex shrink-0 items-center">
+                  <button
+                    type="button"
+                    onClick={() => onSelectHandout?.(h.id)}
+                    title={h.name}
+                    className={`max-w-[9rem] truncate rounded-full px-2.5 py-1 text-[11px] font-semibold transition ${h.id === handout.id ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'}`}
+                  >
+                    {h.name}
+                  </button>
+                  {editable && onCloseHandout && (
+                    <button
+                      type="button"
+                      onClick={() => onCloseHandout(h.id)}
+                      title="关闭这份讲义"
+                      aria-label="关闭这份讲义"
+                      className="ml-0.5 grid h-5 w-5 place-items-center rounded-full text-slate-400 transition hover:bg-slate-200 hover:text-slate-600 dark:hover:bg-slate-700 dark:hover:text-slate-200"
+                    >
+                      <X size={12} />
+                    </button>
+                  )}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
