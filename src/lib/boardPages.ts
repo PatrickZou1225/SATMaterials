@@ -35,6 +35,112 @@ export type BoardPage = {
   background: PageBackground
   scene: BoardScene
   handout?: HandoutState
+  // A board is drawn on two independent layers: the blackboard (notes) and the
+  // handout (PDF pages + the ink on them). Both pages live in `pages`; `pair`
+  // ties the two layers of one board together.
+  kind?: 'board' | 'handout'
+  pair?: string
+}
+
+export type BoardPair = { key: string; board: BoardPage; handout?: BoardPage }
+
+// Group pages into display boards: a blackboard page plus its optional handout
+// page. Legacy pages without a `pair` stand alone (their id is the key).
+export function groupBoardPages(pages: BoardPage[]): BoardPair[] {
+  const map = new Map<string, BoardPair>()
+  for (const page of pages) {
+    const key = page.pair ?? page.id
+    let pair = map.get(key)
+    if (!pair) {
+      pair = { key, board: page }
+      map.set(key, pair)
+    }
+    if (page.kind === 'handout') pair.handout = page
+    else pair.board = page
+  }
+  return [...map.values()]
+}
+
+// Boards saved before the layer split mixed the PDF column and the teacher's
+// notes in one scene. Pull them apart: elements sitting on a PDF sheet stay on
+// the handout layer (they are annotations), everything else becomes blackboard
+// notes shifted left so they start at the board's origin.
+//
+// Idempotent: pages that already carry a `kind` are returned untouched, so this
+// is safe to run on every load until the board is saved in the new shape.
+export function splitBoardPages(pages: BoardPage[]): BoardPage[] {
+  return pages.flatMap((page) => {
+    if (page.kind) return [page]
+    const live = page.scene.elements.filter((el) => !el.isDeleted)
+    const pdfEls = live.filter((el) => pdfPageOf(el) !== null)
+    if (pdfEls.length === 0) {
+      // Very old boards baked the PDF page into `background`; all their ink
+      // sits on that sheet, so it belongs to the handout layer.
+      if (page.background.type === 'pdf') {
+        const pair = newId()
+        return [
+          { ...page, id: newId(), kind: 'handout' as const, pair },
+          {
+            id: newId(),
+            name: `${page.name} · 黑板`,
+            background: { type: 'blank', color: BLANK_COLOR, grid: false },
+            scene: emptyScene(),
+            kind: 'board' as const,
+            pair,
+          },
+        ]
+      }
+      return [{ ...page, kind: 'board' as const }]
+    }
+
+    const left = Math.min(...pdfEls.map((el) => el.x))
+    const right = Math.max(...pdfEls.map((el) => el.x + el.width))
+    const onSheet = (el: ExcalidrawElement) => {
+      const cx = el.x + el.width / 2
+      const cy = el.y + el.height / 2
+      if (cx < left || cx > right) return false
+      return pdfEls.some((p) => cy >= p.y && cy <= p.y + p.height)
+    }
+    const sheetEls = live.filter(onSheet)
+    const boardEls = live.filter((el) => !onSheet(el)).map((el) => ({
+      ...el,
+      // Notes beside the column move to the board's left edge; notes above or
+      // below it (but within the column's width) keep their horizontal offset.
+      x: el.x - (el.x + el.width / 2 >= right ? right : left),
+    }))
+    const filesFor = (els: ExcalidrawElement[]): BinaryFiles => {
+      const ids = new Set<string>()
+      for (const el of els) {
+        const fileId = (el as { fileId?: string }).fileId
+        if (fileId) ids.add(fileId)
+      }
+      const files: BinaryFiles = {}
+      for (const [id, file] of Object.entries(page.scene.files)) if (ids.has(id)) files[id] = file
+      return files
+    }
+    const pair = newId()
+    const boardBackground: BlankBackground = page.background.type === 'blank'
+      ? { ...page.background, grid: false }
+      : { type: 'blank', color: BLANK_COLOR, grid: false }
+    return [
+      {
+        id: newId(),
+        name: page.name,
+        background: { type: 'blank', color: HANDOUT_BG, grid: false },
+        scene: { elements: sheetEls, files: filesFor(sheetEls), appState: {} },
+        kind: 'handout' as const,
+        pair,
+      },
+      {
+        id: newId(),
+        name: `${page.name} · 黑板`,
+        background: boardBackground,
+        scene: { elements: boardEls, files: filesFor(boardEls), appState: {} },
+        kind: 'board' as const,
+        pair,
+      },
+    ]
+  })
 }
 
 // Excalidraw scene coordinates are unitless. We render every handout page at a
@@ -53,7 +159,7 @@ export function emptyScene(): BoardScene {
 }
 
 export function blankPage(name: string, color = BLANK_COLOR, grid = false): BoardPage {
-  return { id: newId(), name, background: { type: 'blank', color, grid }, scene: emptyScene() }
+  return { id: newId(), name, background: { type: 'blank', color, grid }, scene: emptyScene(), kind: 'board' }
 }
 
 // Pick an ink color that stays visible on the page: white on a dark board, dark

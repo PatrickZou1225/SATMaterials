@@ -40,7 +40,10 @@ type PageScene = {
 
 // The canvas colour of a page: blank boards carry it on the background, PDF
 // boards on the saved scene (matching the blackboard default in BoardSurface).
+// Handout annotations are exported without the sheet, so they go on white —
+// the ink on a handout is dark and would vanish on the deep-blue backdrop.
 function canvasColorOf(page: BoardPage): string {
+  if (page.kind === 'handout') return '#ffffff'
   if (page.background.type === 'blank') return page.background.color
   const stored = page.scene.appState.viewBackgroundColor
   return typeof stored === 'string' ? stored : '#000000'
@@ -76,7 +79,9 @@ function sceneToCanvas(scene: PageScene, exportScale: number): HTMLCanvasElement
 // The scale is chosen so the whole column fits the canvas size limit (a 58-page
 // handout would otherwise be far too tall to rasterise in one image).
 export async function exportBoardLongImage(pages: BoardPage[]): Promise<Blob> {
-  const scenes = pages.map(buildInkScene).filter((scene) => scene.elements.length > 0)
+  // Annotations on the handout first, then the blackboard notes.
+  const ordered = [...pages].sort((a, b) => (a.kind === 'handout' ? 0 : 1) - (b.kind === 'handout' ? 0 : 1))
+  const scenes = ordered.map(buildInkScene).filter((scene) => scene.elements.length > 0)
   if (scenes.length === 0) throw new Error('还没有任何板书内容可以导出。')
 
   let sceneHeight = 0

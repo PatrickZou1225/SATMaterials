@@ -28,10 +28,12 @@
 - `library_files` 表：站长私有的**云盘**文件元数据（`owner_id` / `name` / `size_bytes` / `storage_path`）。
   - 文件实体在 Cloudflare R2（配了 `VITE_R2_WORKER_URL` 时）或 Supabase Storage（`boards` 桶，路径 `library/{owner}/{uuid}.pdf`）。
   - `storage_path` 以 `r2:` 开头表示在 R2。见 `src/lib/library.ts`。
-- `BoardPage = { id, name, background, scene }`
+- `BoardPage = { id, name, background, scene, handout?, kind?, pair? }`
   - `background`：`{ type:'pdf', pdfPage }`（旧式：一页 PDF 一张板背景）或 `{ type:'blank', color, grid }`
   - `scene`：`{ elements, files, appState }` —— Excalidraw 的元素 / 图片文件 / 精简后的 appState（背景色、viewport）
-- 一个 `Board`（已保存）里可以有**多个 `BoardPage`**（左侧栏可切换的多块板）。
+  - `kind`：`'board'`（黑板，只放笔记）或 `'handout'`（讲义，PDF + 画在 PDF 上的标注）
+  - `pair`：同一块板书的两层共用一个 `pair`，`groupBoardPages()` 据此合成一对
+- 一个 `Board`（已保存）里可以有**多对 `BoardPage`**（每对 = 一张黑板 + 可选一张讲义，左侧栏按对切换）。
 
 ---
 
@@ -567,3 +569,20 @@ Patrick 的反馈：「一顿一顿的停顿效果，非常让我头晕」。他
 **非投屏模式没有右侧竖栏**：这套竖栏是投屏专用 UI，普通模式同样五个功能都在顶部工具栏；
 而且右侧位置留给画笔工具条，两栏会重叠。为保证两处能力一致，普通模式的「保存」菜单也补上
 「保存到本地（长图下载）」，与投屏菜单三项对齐。
+
+## 2026-10-18（第六轮）黑板与讲义拆成两个独立图层
+
+**问题**：笔记和 PDF 标记画在同一块 Excalidraw 画布上，共享同一个相机——放大 PDF 时笔记跟着缩放，
+收起讲义时笔记也跟着被推出视野。
+
+**做法**：`BoardWorkspace`（新组件）叠两个独立的 `BoardSurface`：
+- 底层黑板：铺满全屏，`hideZoom`，笔记只在这里，相机固定；
+- 上层讲义浮窗：PDF + 标注，可拖动标题栏、拖右缘调宽、点「收起」最小化；收起后黑板全屏，左上角浮「显示讲义」。
+
+**数据迁移**：`splitBoardPages()` 在加载时把老板书按「中心点是否落在 PDF 页内」拆成讲义页 + 黑板页；
+侧边笔记左移到黑板左缘，`pdf-*` 文件留讲义页、笔记图片随笔记走。拆完保存一次即固定为新结构（幂等）。
+极旧的 `background.type:'pdf'` 页面：所有墨迹归讲义层，另配一张空黑板。
+
+**导出**：长图顺序改为「讲义标注页 → 黑板笔记页」，讲义页强制白底（深蓝底上的深色墨会看不见）。
+
+**已知取舍**：两个 Excalidraw 实例各有独立撤销栈，Ctrl+Z 只作用于当前聚焦的那一层。

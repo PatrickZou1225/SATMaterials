@@ -18,6 +18,11 @@ export type BoardSurfaceProps = {
   hideTools?: boolean
   // Presentation mode: hide all of Excalidraw's own chrome (toolbar, menus).
   zen?: boolean
+  // The blackboard layer keeps a fixed scale, so its zoom cluster is hidden.
+  hideZoom?: boolean
+  // When the surface sits in the floating handout window, its own "收起讲义"
+  // button delegates to the window (which hides the whole window).
+  onCollapse?: () => void
   // One-shot request from the editor's 搜题 panel: formatted question text to
   // drop at the viewport centre. A fresh `serial` means "insert now".
   insertQuestion?: { title: string; text: string; serial: number } | null
@@ -102,7 +107,7 @@ function useBackgroundImage(pdf: PDFDocumentProxy | null, page: BoardPage) {
   return image
 }
 
-export default function BoardSurface({ pdf, page, editable, theme, hideTools, zen, insertQuestion, onClosePage, onSceneChange }: BoardSurfaceProps) {
+export default function BoardSurface({ pdf, page, editable, theme, hideTools, zen, hideZoom, onCollapse, insertQuestion, onClosePage, onSceneChange }: BoardSurfaceProps) {
   const bg = useBackgroundImage(pdf, page)
   const apiRef = useRef<ExcalidrawImperativeAPI | null>(null)
   // The imperative API arrives only after Excalidraw mounts — and a page flip
@@ -583,6 +588,9 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
   }
 
   const toggleCollapse = (api: ExcalidrawImperativeAPI) => {
+    // In the two-layer workspace this surface lives inside the floating handout
+    // window; collapsing means hiding that window, not panning a camera.
+    if (onCollapse) { onCollapse(); return }
     const host = hostRef.current
     if (!host) return
     const app = api.getAppState()
@@ -1042,7 +1050,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
         // 复制图片 covers exporting.
         UIOptions={{ canvasActions: { changeViewBackgroundColor: false, saveAsImage: false } }}
       />
-      <div className="absolute bottom-4 right-4 z-10 flex items-center gap-0.5 rounded-xl border border-slate-200 bg-white/95 p-1 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200">
+      {!hideZoom && <div className="absolute bottom-4 right-4 z-10 flex items-center gap-0.5 rounded-xl border border-slate-200 bg-white/95 p-1 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200">
         <button type="button" title="缩小" aria-label="缩小" onClick={() => { const api = apiRef.current; if (api) zoomByStep(api, 1 / 1.25) }} className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><Minus size={16} /></button>
         <span className="min-w-[46px] text-center text-xs font-semibold tabular-nums">{zoomPct}%</span>
         <button type="button" title="放大" aria-label="放大" onClick={() => { const api = apiRef.current; if (api) zoomByStep(api, 1.25) }} className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><Plus size={16} /></button>
@@ -1052,7 +1060,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
         {pageInfo && (
           <button type="button" title={collapsed ? '显示讲义' : '收起讲义（腾出黑板，再点回来）'} aria-label={collapsed ? '显示讲义' : '收起讲义'} onClick={() => { const api = apiRef.current; if (api) toggleCollapse(api) }} className={`h-8 rounded-lg px-2 text-[11px] font-semibold transition ${collapsed ? 'bg-blue-600 text-white' : 'hover:bg-slate-100 dark:hover:bg-slate-800'}`}>{collapsed ? '显示讲义' : '收起讲义'}</button>
         )}
-      </div>
+      </div>}
       {pageInfo && (
         <div className={`absolute left-1/2 z-10 flex -translate-x-1/2 items-center gap-0.5 rounded-full border border-slate-200 bg-white/95 px-1.5 py-1 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200 ${zen ? 'bottom-16' : 'bottom-4'}`}>
           {outline.length > 0 && (

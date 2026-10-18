@@ -1,14 +1,14 @@
-import { lazy, Suspense, useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ChevronLeft, ChevronRight, FileText, Image as ImageIcon, Maximize, Minimize, Pencil } from 'lucide-react'
 import { useAccount } from '../context/account'
 import { supabase } from '../lib/supabase'
 import { useFullscreen } from '../lib/fullscreen'
 import { loadPdf, type Board, type PDFDocumentProxy } from '../lib/board'
-import { attachPageFiles, HANDOUT_BG, layoutPdfPages, parsePages, pdfPageOf, type BoardPage } from '../lib/boardPages'
+import { attachPageFiles, groupBoardPages, HANDOUT_BG, layoutPdfPages, parsePages, pdfPageOf, splitBoardPages, type BoardPage } from '../lib/boardPages'
 import { downloadBoardFiles } from '../lib/boardFiles'
 
-const BoardSurface = lazy(() => import('../components/BoardSurface'))
+const BoardWorkspace = lazy(() => import('../components/BoardWorkspace'))
 
 function readTheme(): 'light' | 'dark' {
   if (typeof window === 'undefined') return 'light'
@@ -52,26 +52,30 @@ export default function BoardView() {
       }
       if (!active) return
       setBoard(row)
-      setPages(loaded)
       if (row.pdf_path) {
         const { data: urlData } = supabase.storage.from('boards').getPublicUrl(row.pdf_path)
         try {
           const doc = await loadPdf(urlData.publicUrl)
-          if (active) setPdf(doc)
+          if (!active) return
+          setPdf(doc)
           try {
             const layout = await layoutPdfPages(doc)
             // Boards saved while handouts were single sheets kept only the page
             // on screen; rebuild the continuous column now that page sizes are
             // known.
-            if (active && loaded.some((p) => p.handout)) {
+            if (loaded.some((p) => p.handout)) {
               const { expandHandoutPages } = await import('../lib/boardPdf')
-              if (active) setPages((prev) => expandHandoutPages(prev, layout))
+              loaded = expandHandoutPages(loaded, layout)
             }
           } catch { /* pages stay as saved; the sheet still scrolls */ }
         } catch {
           if (active) setError('PDF 加载失败。')
         }
       }
+      if (!active) return
+      // Old boards mixed the PDF and the notes in one scene; split them into
+      // the two layers the viewer renders side by side.
+      setPages(splitBoardPages(loaded))
       setLoading(false)
     })()
     return () => { active = false }
@@ -85,7 +89,9 @@ export default function BoardView() {
     </div>
   )
 
-  const currentPage = pages[Math.min(currentIndex, pages.length - 1)]
+  const pairs = useMemo(() => groupBoardPages(pages), [pages])
+  const pairIndex = Math.min(currentIndex, Math.max(0, pairs.length - 1))
+  const currentPair = pairs[pairIndex]
 
   return (
     <div className={isFullscreen ? 'fixed inset-0 z-50 flex flex-col bg-slate-100 dark:bg-slate-950' : 'flex h-[calc(100vh-4rem)] flex-col bg-slate-100 dark:bg-slate-950'}>
@@ -93,9 +99,9 @@ export default function BoardView() {
         <div className="flex flex-wrap items-center gap-3 px-4 py-2.5">
           <span className="mr-auto max-w-[60%] truncate text-sm font-semibold text-slate-800 dark:text-slate-100">{board.title}</span>
           <div className="flex items-center gap-1 rounded-lg border border-slate-200 px-1 dark:border-slate-700">
-            <button type="button" onClick={() => setCurrentIndex((i) => Math.max(0, i - 1))} disabled={currentIndex <= 0} className="grid h-8 w-8 place-items-center text-slate-600 disabled:opacity-30 dark:text-slate-300" aria-label="上一页"><ChevronLeft size={16} /></button>
-            <span className="min-w-[64px] text-center text-xs text-slate-500">{currentIndex + 1} / {pages.length}</span>
-            <button type="button" onClick={() => setCurrentIndex((i) => Math.min(pages.length - 1, i + 1))} disabled={currentIndex >= pages.length - 1} className="grid h-8 w-8 place-items-center text-slate-600 disabled:opacity-30 dark:text-slate-300" aria-label="下一页"><ChevronRight size={16} /></button>
+            <button type="button" onClick={() => setCurrentIndex((i) => Math.max(0, i - 1))} disabled={pairIndex <= 0} className="grid h-8 w-8 place-items-center text-slate-600 disabled:opacity-30 dark:text-slate-300" aria-label="上一页"><ChevronLeft size={16} /></button>
+            <span className="min-w-[64px] text-center text-xs text-slate-500">{pairIndex + 1} / {pairs.length}</span>
+            <button type="button" onClick={() => setCurrentIndex((i) => Math.min(pairs.length - 1, i + 1))} disabled={pairIndex >= pairs.length - 1} className="grid h-8 w-8 place-items-center text-slate-600 disabled:opacity-30 dark:text-slate-300" aria-label="下一页"><ChevronRight size={16} /></button>
           </div>
           {isTeacher && <Link to={`/board/${board.id}/edit`} className="inline-flex items-center gap-1 rounded-lg border border-slate-200 px-2.5 py-1.5 text-sm text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"><Pencil size={15} />编辑</Link>}
           <button type="button" onClick={toggleFullscreen} className="rounded-lg border border-slate-200 p-2 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800" aria-label="全屏">{isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}</button>
@@ -105,28 +111,35 @@ export default function BoardView() {
       <div className="flex min-h-0 flex-1">
         <aside className="flex w-32 shrink-0 flex-col border-r border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
           <div className="flex-1 space-y-2 overflow-y-auto p-2">
-            {pages.map((page, index) => (
-              <button
-                key={page.id}
-                type="button"
-                onClick={() => setCurrentIndex(index)}
-                className={`block w-full overflow-hidden rounded-lg border-2 text-left ${index === currentIndex ? 'border-blue-500' : 'border-slate-200 dark:border-slate-700'}`}
-              >
-                <div className="flex h-20 items-center justify-center text-xs" style={{ backgroundColor: page.background.type === 'blank' ? page.background.color : '#ffffff', color: page.background.type === 'blank' && page.background.color !== '#ffffff' ? '#e2e8f0' : '#475569' }}>
-                  {page.background.type === 'pdf' ? <span className="flex flex-col items-center gap-1"><FileText size={18} />P{page.background.pdfPage}</span> : <ImageIcon size={18} />}
-                </div>
-                <div className="truncate bg-slate-50 px-1.5 py-1 text-[11px] text-slate-500 dark:bg-slate-800 dark:text-slate-400">{index + 1}. {page.name}</div>
-              </button>
-            ))}
+            {pairs.map((pair, index) => {
+              const board = pair.board
+              return (
+                <button
+                  key={pair.key}
+                  type="button"
+                  onClick={() => setCurrentIndex(index)}
+                  className={`block w-full overflow-hidden rounded-lg border-2 text-left ${index === pairIndex ? 'border-blue-500' : 'border-slate-200 dark:border-slate-700'}`}
+                >
+                  <div className="flex h-20 items-center justify-center text-xs" style={{ backgroundColor: board.background.type === 'blank' ? board.background.color : '#ffffff', color: board.background.type === 'blank' && board.background.color !== '#ffffff' ? '#e2e8f0' : '#475569' }}>
+                    {pair.handout ? <span className="flex flex-col items-center gap-1"><FileText size={18} />讲义</span> : <ImageIcon size={18} />}
+                  </div>
+                  <div className="truncate bg-slate-50 px-1.5 py-1 text-[11px] text-slate-500 dark:bg-slate-800 dark:text-slate-400">{index + 1}. {pair.handout?.name ?? board.name}</div>
+                </button>
+              )
+            })}
           </div>
         </aside>
 
         <main className="relative min-h-0 flex-1">
-          {currentPage.background.type === 'pdf' && !pdf
-            ? <div className="grid h-full place-items-center text-slate-500">PDF 加载中…</div>
-            : <Suspense fallback={<div className="grid h-full place-items-center text-slate-500">正在加载白板…</div>}>
-                <BoardSurface key={currentPage.id} pdf={pdf} page={currentPage} editable={false} theme={theme} />
-              </Suspense>}
+          <Suspense fallback={<div className="grid h-full place-items-center text-slate-500">正在加载白板…</div>}>
+            <BoardWorkspace
+              pdf={pdf}
+              boardPage={currentPair.board}
+              handoutPage={currentPair.handout ?? null}
+              editable={false}
+              theme={theme}
+            />
+          </Suspense>
         </main>
       </div>
     </div>

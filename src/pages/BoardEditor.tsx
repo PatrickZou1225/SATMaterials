@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ChevronLeft, ChevronRight, ClipboardCopy, Cloud, Download, FileText, History, Image as ImageIcon, LayoutGrid, Maximize, Minimize, Paintbrush, Palette, PanelTop, PanelTopClose, Plus, Presentation, Save, Search, Trash2, X } from 'lucide-react'
 import CloudDrivePicker from '../components/CloudDrivePicker'
@@ -6,12 +6,12 @@ import { useAccount } from '../context/account'
 import { supabase } from '../lib/supabase'
 import { useFullscreen } from '../lib/fullscreen'
 import { loadPdf, newId, type Board, type PDFDocumentProxy } from '../lib/board'
-import { attachPageFiles, blankPage, collectPageFiles, HANDOUT_BG, layoutPdfPages, parsePages, PDF_PAGE_GAP, pdfPageOf, stripPageFiles, stripPdfBitmaps, type BoardPage, type BoardScene } from '../lib/boardPages'
+import { attachPageFiles, blankPage, collectPageFiles, groupBoardPages, HANDOUT_BG, layoutPdfPages, parsePages, pdfPageOf, splitBoardPages, stripPageFiles, stripPdfBitmaps, type BoardPage, type BoardScene } from '../lib/boardPages'
 import { downloadBoardFiles, removeBoardFiles, saveBoardFiles } from '../lib/boardFiles'
 import { libraryFileUrl, type LibraryFile } from '../lib/library'
 import type { BankQuestion, QuestionBank } from '../lib/questionBank'
 
-const BoardSurface = lazy(() => import('../components/BoardSurface'))
+const BoardWorkspace = lazy(() => import('../components/BoardWorkspace'))
 
 // The 背景 palette: blank boards are blackboards by default, and any board —
 // handout included — can put its pages on one of these colours.
@@ -92,7 +92,9 @@ export default function BoardEditor() {
   const [sourcePdf, setSourcePdf] = useState<{ path: string; name: string } | null>(null)
   const [cloudOpen, setCloudOpen] = useState(false)
 
-  const sceneRef = useRef<BoardScene | null>(null)
+  // Live scenes keyed by page id: the blackboard and the handout window report
+  // their edits independently, and neither surface is remounted by the other.
+  const sceneMapRef = useRef(new Map<string, BoardScene>())
   const currentIndexRef = useRef(0)
   currentIndexRef.current = currentIndex
 
@@ -108,7 +110,7 @@ export default function BoardEditor() {
       setStatus('draft')
       setLoading(false)
       setDirty(false)
-      sceneRef.current = null
+      sceneMapRef.current.clear()
       return
     }
     let active = true
@@ -133,43 +135,46 @@ export default function BoardEditor() {
       if (row.files_path) {
         try { loaded = attachPageFiles(loaded, await downloadBoardFiles(row.files_path)) } catch { /* drawings still load; pasted images may be missing */ }
       }
-      // A saved handout's viewport is stale as a layout: opening the board
-      // re-docks the sheet on the left (see BoardSurface's fit effect).
-      loaded = loaded.map((p) => (p.handout ? { ...p, scene: { ...p.scene, appState: {} } } : p))
-      if (!active) return
       setBoard(row)
       setTitle(row.title)
       setStatus(row.status)
-      setPages(loaded)
-      setCurrentIndex(0)
-      setDirty(false)
-      sceneRef.current = null
       setSourcePdf(row.pdf_path ? { path: row.pdf_path, name: row.pdf_name ?? 'PDF' } : null)
       if (row.pdf_path) {
         const { data: urlData } = supabase.storage.from('boards').getPublicUrl(row.pdf_path)
         try {
           const doc = await loadPdf(urlData.publicUrl)
-          if (active) setPdf(doc)
+          if (!active) return
+          setPdf(doc)
           try {
             const layout = await layoutPdfPages(doc)
             // Boards saved while handouts were single sheets kept only the page
             // on screen; rebuild the continuous column now that page sizes are
             // known.
-            if (active && loaded.some((p) => p.handout)) {
+            if (loaded.some((p) => p.handout)) {
               const { expandHandoutPages } = await import('../lib/boardPdf')
-              if (active) setPages((prev) => expandHandoutPages(prev, layout))
+              loaded = expandHandoutPages(loaded, layout)
             }
           } catch { /* pages stay as saved; the sheet still scrolls */ }
         } catch {
           if (active) setMessage('PDF 加载失败。')
         }
       }
+      if (!active) return
+      // Legacy boards kept the PDF and the notes in one scene. Split them into
+      // the independent blackboard and handout layers (no-op once saved again).
+      setPages(splitBoardPages(loaded))
+      setCurrentIndex(0)
+      setDirty(false)
+      sceneMapRef.current.clear()
       setLoading(false)
     })()
     return () => { active = false }
   }, [boardId, isSession])
 
-  const currentPage = pages[currentIndex] ?? pages[0]
+  const pairs = useMemo(() => groupBoardPages(pages), [pages])
+  const pairIndex = Math.min(currentIndex, Math.max(0, pairs.length - 1))
+  const currentPair = pairs[pairIndex]
+  const currentPage = currentPair?.board
 
   const onPickCloudFile = async (row: LibraryFile) => {
     setCloudOpen(false)
@@ -177,70 +182,57 @@ export default function BoardEditor() {
     setMessage('正在加载讲义…')
     try {
       const doc = await loadPdf(libraryFileUrl(row))
-      // One board holds the whole PDF: every page becomes an image element in a
-      // vertical column, so the teacher scrolls continuously from cover to cover.
+      // One handout holds the whole PDF: every page becomes an image element in
+      // a vertical column, so the teacher scrolls continuously from cover to
+      // cover. It lives on its own layer — whatever is on the blackboard stays.
       const layout = await layoutPdfPages(doc)
       const { buildHandoutElements, buildHandoutFiles } = await import('../lib/boardPdf')
+      const key = currentPair?.key
+      if (!key) return
       const base = mergedPages()
-      const index = currentIndexRef.current
-      const current = base[index]
-      const oldPages = current ? current.scene.elements.filter((el) => !el.isDeleted && pdfPageOf(el) !== null) : []
-      const notes = current ? current.scene.elements.filter((el) => !el.isDeleted && pdfPageOf(el) === null) : []
-      // An untouched single blank page is replaced by the handout. Anything the
-      // teacher already drew stays on the SAME board — the handout is merged
-      // into it, so loading a PDF can never hide existing notes.
-      const pristine = base.length === 1 && current?.background.type === 'blank' && notes.length === 0 && oldPages.length === 0
+      const keyOf = (p: BoardPage) => p.pair ?? p.id
+      const oldHandouts = base.filter((p) => keyOf(p) === key && p.kind === 'handout')
+      const kept = base.filter((p) => !(keyOf(p) === key && p.kind === 'handout'))
+      if (!kept.some((p) => keyOf(p) === key && p.kind !== 'handout')) {
+        kept.push({ ...blankPage('黑板', CANVAS_COLORS[0].color, false), pair: key })
+      }
+      const marked = kept.map((p) => (keyOf(p) === key && p.kind !== 'handout' ? { ...p, kind: 'board' as const } : p))
+      for (const p of oldHandouts) sceneMapRef.current.delete(p.id)
+      const handout: BoardPage = {
+        id: newId(),
+        name: row.name,
+        background: { type: 'blank', color: HANDOUT_BG, grid: false },
+        scene: { elements: buildHandoutElements(layout), files: buildHandoutFiles(layout), appState: {} },
+        kind: 'handout',
+        pair: key,
+      }
+      const boardAt = marked.findIndex((p) => keyOf(p) === key && p.kind !== 'handout')
       setPdf(doc)
       setSourcePdf({ path: row.storage_path, name: row.name })
-      let next: BoardPage[]
-      if (!current || pristine) {
-        next = [{
-          id: newId(),
-          name: row.name,
-          background: { type: 'blank', color: HANDOUT_BG, grid: false },
-          scene: { elements: buildHandoutElements(layout), files: buildHandoutFiles(layout), appState: {} },
-        }]
-      } else {
-        // Reloading a PDF lines the new pages up with the old ones; otherwise
-        // the handout goes below whatever is already on the board.
-        const offset = oldPages.length > 0
-          ? Math.min(...oldPages.map((el) => el.y))
-          : notes.length > 0 ? Math.max(...notes.map((el) => el.y + el.height)) + PDF_PAGE_GAP : 0
-        const elements = [
-          ...notes,
-          ...buildHandoutElements(layout).map((el) => ({ ...el, y: el.y + offset })),
-        ]
-        const files = { ...current.scene.files }
-        for (const id of Object.keys(files)) if (id.startsWith('pdf-bm-') || id.startsWith('pdf-ph-')) delete files[id]
-        Object.assign(files, buildHandoutFiles(layout))
-        // A legacy handout board still on the old white default moves to the
-        // new eye-friendly backdrop along with the reloaded pages.
-        const reskin = oldPages.length > 0 && current.background.type === 'blank' && current.background.color === '#ffffff'
-        next = base.map((p, i) => (i === index
-          ? {
-              ...p,
-              id: newId(),
-              background: reskin ? { ...current.background, color: HANDOUT_BG } : p.background,
-              scene: { elements, files, appState: {} },
-            }
-          : p))
-      }
-      setPages(next)
-      setCurrentIndex(pristine ? 0 : index)
+      setPages(boardAt >= 0
+        ? [...marked.slice(0, boardAt + 1), handout, ...marked.slice(boardAt + 1)]
+        : [...marked, handout])
       if (!title.trim()) setTitle(row.name)
-      sceneRef.current = null
       setDirty(true)
-      setMessage(`已加载讲义（${doc.numPages} 页），滚轮向下连续阅读。`)
+      setMessage(`已加载讲义（${doc.numPages} 页），左侧窗口翻页；黑板笔记不受影响。`)
     } catch {
       setMessage('PDF 加载失败。')
     }
   }
 
   const mergedPages = useCallback((): BoardPage[] => {
-    const live = sceneRef.current
-    if (!live) return pages
-    return pages.map((p, i) => (i === currentIndexRef.current ? { ...p, scene: live } : p))
+    const live = sceneMapRef.current
+    if (live.size === 0) return pages
+    return pages.map((p) => (live.has(p.id) ? { ...p, scene: live.get(p.id)! } : p))
   }, [pages])
+
+  // Fold the live canvas scenes back into `pages` before swapping boards, so a
+  // board that is unmounted and later reopened restores what was drawn on it.
+  const flushScenes = () => {
+    const live = sceneMapRef.current
+    if (live.size === 0) return
+    setPages((prev) => prev.map((p) => (live.has(p.id) ? { ...p, scene: live.get(p.id)! } : p)))
+  }
 
   const toggleNav = () => {
     setNavHidden((v) => {
@@ -263,67 +255,48 @@ export default function BoardEditor() {
     })
   }
 
+  const keyOf = (p: BoardPage) => p.pair ?? p.id
+
   const switchTo = (index: number) => {
     if (index === currentIndexRef.current) return
-    const live = sceneRef.current
-    if (live) setPages((prev) => prev.map((p, i) => (i === currentIndexRef.current ? { ...p, scene: live } : p)))
-    sceneRef.current = null
+    flushScenes()
     setCurrentIndex(index)
   }
 
   const addBlank = () => {
-    const next = pages.length + 1
-    setPages((prev) => {
-      const copy = [...prev]
-      const live = sceneRef.current
-      if (live) copy[currentIndexRef.current] = { ...copy[currentIndexRef.current], scene: live }
-      copy.push(blankPage(`第 ${next} 页`, CANVAS_COLORS[0].color, false))
-      return copy
-    })
-    sceneRef.current = null
-    setCurrentIndex(pages.length)
+    flushScenes()
+    setPages((prev) => [...prev, blankPage(`第 ${pairs.length + 1} 页`, CANVAS_COLORS[0].color, false)])
+    setCurrentIndex(pairs.length)
     setDirty(true)
   }
 
   const removePage = (index: number) => {
-    if (pages.length <= 1) { setMessage('至少保留一页。'); return }
-    if (!window.confirm('删除这一页？上面的板书会一起删掉。')) return
-    const copy = pages.filter((_, i) => i !== index)
-    sceneRef.current = null
-    setPages(copy)
-    setCurrentIndex((i) => Math.min(i, copy.length - 1))
+    if (pairs.length <= 1) { setMessage('至少保留一页。'); return }
+    if (!window.confirm('删除这一页？黑板笔记和讲义标注会一起删掉。')) return
+    const key = pairs[index]?.key
+    const base = mergedPages()
+    for (const p of base) if (keyOf(p) === key) sceneMapRef.current.delete(p.id)
+    setPages(base.filter((p) => keyOf(p) !== key))
+    setCurrentIndex((i) => Math.min(i, pairs.length - 2))
     setDirty(true)
   }
 
-  // The PDF window's ✕: remove the handout pages from the board the teacher is
-  // viewing, leaving everything they drew or pasted on that board intact.
+  // The handout window's ✕: remove the handout layer from the board the teacher
+  // is viewing, leaving the blackboard notes intact.
   const closeHandout = () => {
-    if (!window.confirm('关闭这份讲义？画在讲义上的内容也会一起移除（之后可以从「我的云盘」重新打开）。')) return
-    const base = mergedPages()
-    const index = currentIndexRef.current
-    const current = base[index]
-    if (!current) return
-    const elements = current.scene.elements.filter((el) => pdfPageOf(el) === null)
-    if (elements.length === current.scene.elements.length) return
-    const files = { ...current.scene.files }
-    for (const id of Object.keys(files)) if (id.startsWith('pdf-')) delete files[id]
-    const page: BoardPage = {
-      // New id so BoardSurface reloads the scene without the handout pages.
-      id: newId(),
-      name: current.name,
-      background: current.background,
-      scene: { ...current.scene, elements, files },
-    }
-    const next = base.map((p, i) => (i === index ? page : p))
+    const handout = currentPair?.handout
+    if (!handout) return
+    if (!window.confirm('关闭这份讲义？讲义上的标注也会一起移除（之后可以从「我的云盘」重新打开）。')) return
+    sceneMapRef.current.delete(handout.id)
+    const next = mergedPages().filter((p) => p.id !== handout.id)
     setPages(next)
-    sceneRef.current = null
     setDirty(true)
-    // Drop the loaded document once no board still shows its pages.
-    if (!next.some((p) => p.scene.elements.some((el) => pdfPageOf(el) !== null))) {
+    // Drop the loaded document once no board still shows a handout.
+    if (!next.some((p) => p.kind === 'handout')) {
       setPdf(null)
       setSourcePdf(null)
     }
-    setMessage('已移除讲义，板书保留。')
+    setMessage('已移除讲义，黑板笔记保留。')
   }
 
   const save = async (nextStatus?: 'draft' | 'published') => {
@@ -517,15 +490,15 @@ export default function BoardEditor() {
     setInsertQuestion({ title, text: parts.join('\n\n'), serial: ++insertSerialRef.current })
   }
 
-  // Blank boards keep their colour on the page background (ink colour follows
-  // it); handout boards keep it on the saved scene. BoardSurface applies the
-  // change to the live canvas.
+  // The colour belongs to the blackboard layer; the handout window keeps its own
+  // backdrop. BoardSurface applies the change to the live canvas.
   const setCanvasColor = (color: string) => {
     setBgMenuOpen(false)
-    setPages((prev) => prev.map((p, i) => i !== currentIndex ? p : (
-      p.background.type === 'blank'
+    const key = currentPair?.key
+    setPages((prev) => prev.map((p) => (
+      keyOf(p) === key && p.kind !== 'handout' && p.background.type === 'blank'
         ? { ...p, background: { ...p.background, color } }
-        : { ...p, scene: { ...p.scene, appState: { ...p.scene.appState, viewBackgroundColor: color } } }
+        : p
     )))
     setDirty(true)
   }
@@ -594,9 +567,9 @@ export default function BoardEditor() {
           />
 
           <div className="flex items-center gap-1 rounded-lg border border-slate-200 px-1 dark:border-slate-700">
-            <button type="button" onClick={() => switchTo(Math.max(0, currentIndex - 1))} disabled={currentIndex <= 0} className="grid h-8 w-8 place-items-center text-slate-600 disabled:opacity-30 dark:text-slate-300" aria-label="上一页"><ChevronLeft size={16} /></button>
-            <span className="min-w-[64px] text-center text-xs text-slate-500">{currentIndex + 1} / {pages.length}</span>
-            <button type="button" onClick={() => switchTo(Math.min(pages.length - 1, currentIndex + 1))} disabled={currentIndex >= pages.length - 1} className="grid h-8 w-8 place-items-center text-slate-600 disabled:opacity-30 dark:text-slate-300" aria-label="下一页"><ChevronRight size={16} /></button>
+            <button type="button" onClick={() => switchTo(Math.max(0, pairIndex - 1))} disabled={pairIndex <= 0} className="grid h-8 w-8 place-items-center text-slate-600 disabled:opacity-30 dark:text-slate-300" aria-label="上一页"><ChevronLeft size={16} /></button>
+            <span className="min-w-[64px] text-center text-xs text-slate-500">{pairIndex + 1} / {pairs.length}</span>
+            <button type="button" onClick={() => switchTo(Math.min(pairs.length - 1, pairIndex + 1))} disabled={pairIndex >= pairs.length - 1} className="grid h-8 w-8 place-items-center text-slate-600 disabled:opacity-30 dark:text-slate-300" aria-label="下一页"><ChevronRight size={16} /></button>
           </div>
 
           {dirty
@@ -697,60 +670,61 @@ export default function BoardEditor() {
         <aside className="relative flex w-32 shrink-0 flex-col border-r border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
           <button type="button" onClick={togglePages} title="收起页面栏" aria-label="收起页面栏" className="absolute -right-3 top-2 z-10 grid h-6 w-6 place-items-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-sm hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"><ChevronLeft size={14} /></button>
           <div className="flex-1 space-y-2 overflow-y-auto p-2">
-            {pages.map((page, index) => (
-              <button
-                key={page.id}
-                type="button"
-                onClick={() => switchTo(index)}
-                className={`group relative block w-full overflow-hidden rounded-lg border-2 text-left ${index === currentIndex ? 'border-blue-500' : 'border-slate-200 dark:border-slate-700'}`}
-              >
-                <div className="flex h-20 items-center justify-center text-xs" style={{ backgroundColor: page.background.type === 'blank' ? page.background.color : '#ffffff', color: page.background.type === 'blank' && page.background.color !== '#ffffff' ? '#e2e8f0' : '#475569' }}>
-                  {page.background.type === 'pdf' ? <span className="flex flex-col items-center gap-1"><FileText size={18} />P{page.background.pdfPage}</span> : <ImageIcon size={18} />}
-                </div>
-                <div className="truncate bg-slate-50 px-1.5 py-1 text-[11px] text-slate-500 dark:bg-slate-800 dark:text-slate-400">{index + 1}. {page.name}</div>
-                {pages.length > 1 && (
-                  <span
-                    role="button"
-                    tabIndex={0}
-                    onClick={(e) => { e.stopPropagation(); removePage(index) }}
-                    onKeyDown={(e) => { if (e.key === 'Enter') { e.stopPropagation(); removePage(index) } }}
-                    className="absolute right-1 top-1 hidden rounded bg-black/50 p-0.5 text-white group-hover:block"
-                    aria-label="删除页"
-                  >
-                    <Trash2 size={12} />
-                  </span>
-                )}
-              </button>
-            ))}
+            {pairs.map((pair, index) => {
+              const board = pair.board
+              return (
+                <button
+                  key={pair.key}
+                  type="button"
+                  onClick={() => switchTo(index)}
+                  className={`group relative block w-full overflow-hidden rounded-lg border-2 text-left ${index === pairIndex ? 'border-blue-500' : 'border-slate-200 dark:border-slate-700'}`}
+                >
+                  <div className="flex h-20 items-center justify-center text-xs" style={{ backgroundColor: board.background.type === 'blank' ? board.background.color : '#ffffff', color: board.background.type === 'blank' && board.background.color !== '#ffffff' ? '#e2e8f0' : '#475569' }}>
+                    {pair.handout ? <span className="flex flex-col items-center gap-1"><FileText size={18} />讲义</span> : <ImageIcon size={18} />}
+                  </div>
+                  <div className="truncate bg-slate-50 px-1.5 py-1 text-[11px] text-slate-500 dark:bg-slate-800 dark:text-slate-400">{index + 1}. {pair.handout?.name ?? board.name}</div>
+                  {pairs.length > 1 && (
+                    <span
+                      role="button"
+                      tabIndex={0}
+                      onClick={(e) => { e.stopPropagation(); removePage(index) }}
+                      onKeyDown={(e) => { if (e.key === 'Enter') { e.stopPropagation(); removePage(index) } }}
+                      className="absolute right-1 top-1 hidden rounded bg-black/50 p-0.5 text-white group-hover:block"
+                      aria-label="删除页"
+                    >
+                      <Trash2 size={12} />
+                    </span>
+                  )}
+                </button>
+              )
+            })}
           </div>
           <button type="button" onClick={addBlank} className="m-2 inline-flex items-center justify-center gap-1 rounded-lg border border-dashed border-slate-300 py-2 text-xs font-semibold text-slate-500 hover:bg-slate-50 dark:border-slate-600 dark:hover:bg-slate-800"><Plus size={14} />空白板</button>
         </aside>
         )}
 
         <main className="relative min-h-0 flex-1">
-          {currentPage.background.type === 'pdf' && !pdf
-            ? <div className="grid h-full place-items-center text-slate-500">PDF 加载中…</div>
-            : <Suspense fallback={<div className="grid h-full place-items-center text-slate-500">正在加载白板…</div>}>
-                <BoardSurface
-                  key={currentPage.id}
-                  pdf={pdf}
-                  page={currentPage}
-                  editable
-                  theme={theme}
-                  hideTools={hideTools}
-                  zen={zen}
-                  insertQuestion={insertQuestion}
-                  onClosePage={closeHandout}
-                  onSceneChange={(scene, meta) => {
-                    // Excalidraw fires once on mount with the loaded scene; only
-                    // later callbacks mean the teacher actually drew something.
-                    // UI-only changes (tool/ink/viewport) never flag the board.
-                    const first = sceneRef.current === null
-                    sceneRef.current = scene
-                    if (!first && meta.structural) setDirty(true)
-                  }}
-                />
-              </Suspense>}
+          <Suspense fallback={<div className="grid h-full place-items-center text-slate-500">正在加载白板…</div>}>
+            <BoardWorkspace
+              pdf={pdf}
+              boardPage={currentPage}
+              handoutPage={currentPair?.handout ?? null}
+              editable
+              theme={theme}
+              hideTools={hideTools}
+              zen={zen}
+              insertQuestion={insertQuestion}
+              onCloseHandout={closeHandout}
+              onSceneChange={(pageId, scene, meta) => {
+                // Excalidraw fires once per layer on mount with the loaded
+                // scene; later structural callbacks mean the teacher drew
+                // something. UI-only changes (tool/ink/viewport) stay quiet.
+                const first = !sceneMapRef.current.has(pageId)
+                sceneMapRef.current.set(pageId, scene)
+                if (!first && meta.structural) setDirty(true)
+              }}
+            />
+          </Suspense>
         </main>
       </div>
 
@@ -796,27 +770,30 @@ export default function BoardEditor() {
 
           {zenPages && (
             <aside className="fixed right-[62px] top-1/2 z-40 flex max-h-[72vh] w-28 -translate-y-1/2 flex-col gap-1.5 overflow-y-auto rounded-xl border border-white/15 bg-black/70 p-1.5 backdrop-blur">
-              {pages.map((page, index) => (
-                <button
-                  key={page.id}
-                  type="button"
-                  onClick={() => switchTo(index)}
-                  className={`block w-full overflow-hidden rounded-lg border-2 ${index === currentIndex ? 'border-blue-400' : 'border-white/15'}`}
-                >
-                  <div className="flex h-14 items-center justify-center text-[10px]" style={{ backgroundColor: page.background.type === 'blank' ? page.background.color : '#ffffff', color: page.background.type === 'blank' && page.background.color !== '#ffffff' ? '#e2e8f0' : '#475569' }}>
-                    {page.background.type === 'pdf' ? `P${page.background.pdfPage}` : <ImageIcon size={14} />}
-                  </div>
-                  <div className="truncate bg-white/10 px-1.5 py-0.5 text-[10px] text-white/70">{index + 1}</div>
-                </button>
-              ))}
+              {pairs.map((pair, index) => {
+                const board = pair.board
+                return (
+                  <button
+                    key={pair.key}
+                    type="button"
+                    onClick={() => switchTo(index)}
+                    className={`block w-full overflow-hidden rounded-lg border-2 ${index === pairIndex ? 'border-blue-400' : 'border-white/15'}`}
+                  >
+                    <div className="flex h-14 items-center justify-center text-[10px]" style={{ backgroundColor: board.background.type === 'blank' ? board.background.color : '#ffffff', color: board.background.type === 'blank' && board.background.color !== '#ffffff' ? '#e2e8f0' : '#475569' }}>
+                      {pair.handout ? '讲义' : <ImageIcon size={14} />}
+                    </div>
+                    <div className="truncate bg-white/10 px-1.5 py-0.5 text-[10px] text-white/70">{index + 1}</div>
+                  </button>
+                )
+              })}
             </aside>
           )}
 
           {/* Page bar, mirroring ClassIn's ‹ 29/58 › strip. */}
           <div className="fixed bottom-4 left-1/2 z-40 flex -translate-x-1/2 items-center gap-1 rounded-full border border-white/15 bg-black/60 px-2 py-1 backdrop-blur">
-            <button type="button" onClick={() => switchTo(Math.max(0, currentIndex - 1))} disabled={currentIndex <= 0} className="grid h-8 w-8 place-items-center rounded-full text-white/85 hover:bg-white/15 disabled:opacity-30" aria-label="上一页"><ChevronLeft size={18} /></button>
-            <span className="min-w-[64px] text-center text-sm font-semibold text-white/85">{currentIndex + 1} / {pages.length}</span>
-            <button type="button" onClick={() => switchTo(Math.min(pages.length - 1, currentIndex + 1))} disabled={currentIndex >= pages.length - 1} className="grid h-8 w-8 place-items-center rounded-full text-white/85 hover:bg-white/15 disabled:opacity-30" aria-label="下一页"><ChevronRight size={18} /></button>
+            <button type="button" onClick={() => switchTo(Math.max(0, pairIndex - 1))} disabled={pairIndex <= 0} className="grid h-8 w-8 place-items-center rounded-full text-white/85 hover:bg-white/15 disabled:opacity-30" aria-label="上一页"><ChevronLeft size={18} /></button>
+            <span className="min-w-[64px] text-center text-sm font-semibold text-white/85">{pairIndex + 1} / {pairs.length}</span>
+            <button type="button" onClick={() => switchTo(Math.min(pairs.length - 1, pairIndex + 1))} disabled={pairIndex >= pairs.length - 1} className="grid h-8 w-8 place-items-center rounded-full text-white/85 hover:bg-white/15 disabled:opacity-30" aria-label="下一页"><ChevronRight size={18} /></button>
           </div>
 
           {(dirty || message) && (
