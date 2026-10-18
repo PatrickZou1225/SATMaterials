@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { ChevronLeft, ChevronRight, ClipboardCopy, Cloud, Download, FileText, History, Image as ImageIcon, LayoutGrid, Maximize, Minimize, Paintbrush, Palette, PanelTop, PanelTopClose, Plus, Presentation, Save, Search, Trash2, X } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ClipboardCopy, Cloud, Download, FileText, History, Image as ImageIcon, LayoutGrid, Maximize, Minimize, Paintbrush, Palette, PanelTop, PanelTopClose, Plus, Presentation, Save, Search, Send, Trash2, X } from 'lucide-react'
 import CloudDrivePicker from '../components/CloudDrivePicker'
 import { useAccount } from '../context/account'
 import { supabase } from '../lib/supabase'
@@ -56,7 +56,6 @@ export default function BoardEditor() {
   // 保存 opens a menu: store on the site, or copy the board as an image to the
   // clipboard (nothing written anywhere — the teacher saves storage that way).
   const [saveMenuOpen, setSaveMenuOpen] = useState(false)
-  const saveMenuRef = useRef<HTMLDivElement | null>(null)
   // Same menu, anchored to the zen-mode rail instead of the toolbar.
   const zenSaveMenuRef = useRef<HTMLDivElement | null>(null)
   // Same menu again, from the drawing rail — the top bar can be folded away to
@@ -425,7 +424,7 @@ export default function BoardEditor() {
     if (!saveMenuOpen && !railSaveOpen && !bgMenuOpen && !qSearchOpen) return
     const onDown = (e: PointerEvent) => {
       const t = e.target as Node
-      const insideSave = saveMenuRef.current?.contains(t) || zenSaveMenuRef.current?.contains(t) || railSaveMenuRef.current?.contains(t)
+      const insideSave = zenSaveMenuRef.current?.contains(t) || railSaveMenuRef.current?.contains(t)
       if (!insideSave) { setSaveMenuOpen(false); setRailSaveOpen(false) }
       if (bgMenuRef.current && !bgMenuRef.current.contains(t)) setBgMenuOpen(false)
       if (qSearchRef.current && !qSearchRef.current.contains(t)) setQSearchOpen(false)
@@ -556,10 +555,28 @@ export default function BoardEditor() {
   const btn = 'inline-flex items-center gap-1.5 rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 disabled:opacity-50 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-800'
 
   const closeSaveMenus = () => { setSaveMenuOpen(false); setRailSaveOpen(false) }
-  // Shared by the top-bar 保存 menu and the drawing-rail one.
+  // The drawing-rail save menu. The top bar no longer carries save/export/
+  // publish buttons, so everything lives here (and in the zen rail's menu).
   const saveMenuItems = (
     <>
-      <button type="button" onClick={() => { closeSaveMenus(); void save() }} className="flex w-full items-start gap-2 px-3 py-2.5 hover:bg-slate-100 dark:hover:bg-slate-800">
+      {status === 'published' ? (
+        <button type="button" disabled={busy} onClick={() => { closeSaveMenus(); void save('draft') }} className="flex w-full items-start gap-2 px-3 py-2.5 hover:bg-slate-100 disabled:opacity-50 dark:hover:bg-slate-800">
+          <Send size={15} className="mt-0.5 shrink-0 text-slate-500" />
+          <span>
+            <span className="block text-sm font-semibold text-slate-700 dark:text-slate-100">取消发布</span>
+            <span className="block text-xs text-slate-500">学生将无法继续回看</span>
+          </span>
+        </button>
+      ) : (
+        <button type="button" disabled={busy} onClick={() => { closeSaveMenus(); void save('published') }} className="flex w-full items-start gap-2 px-3 py-2.5 hover:bg-slate-100 disabled:opacity-50 dark:hover:bg-slate-800">
+          <Send size={15} className="mt-0.5 shrink-0 text-emerald-600" />
+          <span>
+            <span className="block text-sm font-semibold text-emerald-700 dark:text-emerald-400">发布给学生</span>
+            <span className="block text-xs text-slate-500">保存并让学生现在可以回看</span>
+          </span>
+        </button>
+      )}
+      <button type="button" onClick={() => { closeSaveMenus(); void save() }} className="flex w-full items-start gap-2 border-t border-slate-100 px-3 py-2.5 hover:bg-slate-100 dark:border-slate-800 dark:hover:bg-slate-800">
         <Save size={15} className="mt-0.5 shrink-0 text-slate-500" />
         <span>
           <span className="block text-sm font-semibold text-slate-700 dark:text-slate-100">保存到网站</span>
@@ -645,19 +662,6 @@ export default function BoardEditor() {
             </div>
             <span className="mx-0.5 h-5 w-px shrink-0 bg-slate-200 dark:bg-slate-700" />
             <button type="button" onClick={() => { setSaveMenuOpen(false); setZenPages(false); setZen(true); if (!isFullscreen) toggleFullscreen() }} className={btn}><Presentation size={15} />投屏</button>
-            <span className="mx-0.5 h-5 w-px shrink-0 bg-slate-200 dark:bg-slate-700" />
-            <button type="button" onClick={() => void exportImage()} disabled={exporting} className={btn}><Download size={15} />{exporting ? '导出中…' : '导出长图'}</button>
-            <div ref={saveMenuRef} className="relative">
-              <button type="button" disabled={busy} onClick={() => { setRailSaveOpen(false); setSaveMenuOpen((v) => !v) }} className={btn}><Save size={15} />保存</button>
-              {saveMenuOpen && (
-                <div className="absolute right-0 top-full z-30 mt-1 w-64 overflow-hidden rounded-xl border border-slate-200 bg-white text-left shadow-lg dark:border-slate-700 dark:bg-slate-900">
-                  {saveMenuItems}
-                </div>
-              )}
-            </div>
-            {status === 'published'
-              ? <button type="button" disabled={busy} onClick={() => void save('draft')} className={btn}>取消发布</button>
-              : <button type="button" disabled={busy} onClick={() => void save('published')} className="rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-50">发布给学生</button>}
             <span className="mx-0.5 h-5 w-px shrink-0 bg-slate-200 dark:bg-slate-700" />
             <Link to="/board/archive" title="历史板书" aria-label="历史板书" className="rounded-lg border border-slate-200 p-2 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800"><History size={16} /></Link>
             <button type="button" onClick={togglePages} title={pagesOpen ? '收起页面栏' : '展开页面栏'} className={`rounded-lg border p-2 ${pagesOpen ? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-700 dark:bg-blue-950/40 dark:text-blue-300' : 'border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800'}`} aria-label="页面列表"><LayoutGrid size={16} /></button>
