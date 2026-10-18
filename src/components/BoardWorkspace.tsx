@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react'
-import { ChevronRight, Minimize2, MoveHorizontal, X } from 'lucide-react'
-import BoardSurface from './BoardSurface'
+import { ChevronRight } from 'lucide-react'
+import BoardSurface, { type BoardToolState } from './BoardSurface'
 import type { PDFDocumentProxy } from '../lib/board'
 import type { BoardPage, BoardScene } from '../lib/boardPages'
 
@@ -18,9 +18,10 @@ export type BoardWorkspaceProps = {
 }
 
 // Two independent Excalidraw canvases stacked like ClassIn: a full-screen
-// blackboard with a floating, resizable handout window on top. Each layer has
-// its own camera, so zooming or collapsing the PDF never scales or hides the
-// notes written on the blackboard.
+// blackboard with the handout pane docked on the left. Each layer keeps its own
+// camera, so zooming or collapsing the PDF never scales or hides the notes.
+// The pane has no chrome of its own — it paints the same colour as the board,
+// and the blackboard's single tool rail drives both layers.
 export default function BoardWorkspace({
   pdf,
   boardPage,
@@ -37,8 +38,8 @@ export default function BoardWorkspace({
   const [box, setBox] = useState({ w: 0, h: 0 })
   // Window geometry: 0 width means "auto" (62% of the workspace).
   const [winW, setWinW] = useState(0)
-  const [winLeft, setWinLeft] = useState(12)
   const [collapsed, setCollapsed] = useState(false)
+  const [tool, setTool] = useState<BoardToolState | null>(null)
 
   useEffect(() => {
     const host = hostRef.current
@@ -50,26 +51,11 @@ export default function BoardWorkspace({
     return () => ro.disconnect()
   }, [])
 
+  const left = 8
   const width = Math.min(
     winW || Math.max(360, Math.round(box.w * 0.62)),
-    Math.max(320, box.w - 24),
+    Math.max(320, box.w - left - 8),
   )
-  const left = Math.max(8, Math.min(winLeft, Math.max(8, box.w - width - 8)))
-
-  const dragRef = useRef<{ x: number; left: number } | null>(null)
-  const onDragDown = (e: ReactPointerEvent<HTMLDivElement>) => {
-    if (e.button !== 0) return
-    e.preventDefault()
-    e.currentTarget.setPointerCapture(e.pointerId)
-    dragRef.current = { x: e.clientX, left }
-  }
-  const onDragMove = (e: ReactPointerEvent<HTMLDivElement>) => {
-    const drag = dragRef.current
-    if (!drag) return
-    const maxLeft = Math.max(8, box.w - width - 8)
-    setWinLeft(Math.max(8, Math.min(drag.left + e.clientX - drag.x, maxLeft)))
-  }
-  const onDragUp = () => { dragRef.current = null }
 
   const resizeRef = useRef<{ x: number; width: number } | null>(null)
   const onResizeDown = (e: ReactPointerEvent<HTMLDivElement>) => {
@@ -86,6 +72,20 @@ export default function BoardWorkspace({
   }
   const onResizeUp = () => { resizeRef.current = null }
 
+  const updateTool = (state: BoardToolState) => setTool((prev) => (
+    prev && prev.tool === state.tool && prev.strokeColor === state.strokeColor &&
+    prev.strokeWidth === state.strokeWidth && prev.fontSize === state.fontSize
+      ? prev
+      : state
+  ))
+
+  // Match the pane's backdrop to the blackboard so the PDF sheet reads as one
+  // document floating on the same surface, not a second mini-board.
+  const chromeColor = boardPage.background.type === 'blank' ? boardPage.background.color : '#000000'
+  const handout = handoutPage && handoutPage.background.type === 'blank'
+    ? { ...handoutPage, background: { ...handoutPage.background, color: chromeColor } }
+    : handoutPage
+
   return (
     <div ref={hostRef} className="relative h-full w-full overflow-hidden bg-black">
       <BoardSurface
@@ -97,63 +97,34 @@ export default function BoardWorkspace({
         hideTools={hideTools}
         zen={zen}
         hideZoom
+        externalTool={tool}
+        onToolStateChange={updateTool}
         insertQuestion={handoutPage ? null : insertQuestion}
         onSceneChange={onSceneChange ? (scene, meta) => onSceneChange(boardPage.id, scene, meta) : undefined}
       />
 
-      {handoutPage && (
+      {handout && (
         <div
           aria-hidden={collapsed}
-          className={`absolute z-20 flex flex-col overflow-hidden rounded-xl border border-white/15 bg-slate-900/95 shadow-2xl transition-opacity duration-150 ${collapsed ? 'pointer-events-none opacity-0' : 'opacity-100'}`}
-          style={{ left, width, top: 8, height: Math.max(240, box.h - 16) }}
+          className={`absolute z-20 overflow-hidden transition-opacity duration-150 ${collapsed ? 'pointer-events-none opacity-0' : 'opacity-100'}`}
+          style={{ left, width, top: 0, height: box.h }}
         >
-          <div
-            onPointerDown={onDragDown}
-            onPointerMove={onDragMove}
-            onPointerUp={onDragUp}
-            onPointerCancel={onDragUp}
-            className="flex h-9 shrink-0 cursor-move touch-none items-center gap-2 border-b border-white/10 bg-slate-900 px-2.5 text-white/80"
-          >
-            <MoveHorizontal size={14} className="shrink-0 text-white/40" />
-            <span className="min-w-0 flex-1 truncate text-xs font-semibold">{handoutPage.name}</span>
-            <button
-              type="button"
-              title="收起讲义（黑板笔记不受影响）"
-              aria-label="收起讲义"
-              onPointerDown={(e) => e.stopPropagation()}
-              onClick={() => setCollapsed(true)}
-              className="grid h-6 w-6 place-items-center rounded-md text-white/70 transition hover:bg-white/15"
-            >
-              <Minimize2 size={13} />
-            </button>
-            {editable && onCloseHandout && (
-              <button
-                type="button"
-                title="关闭这份讲义（从这块板移除）"
-                aria-label="关闭讲义"
-                onPointerDown={(e) => e.stopPropagation()}
-                onClick={onCloseHandout}
-                className="grid h-6 w-6 place-items-center rounded-md text-white/70 transition hover:bg-white/15"
-              >
-                <X size={14} />
-              </button>
-            )}
-          </div>
-          <div className="relative min-h-0 flex-1">
-            <BoardSurface
-              key={handoutPage.id}
-              pdf={pdf}
-              page={handoutPage}
-              editable={editable}
-              theme={theme}
-              hideTools={hideTools}
-              zen={zen}
-              onCollapse={() => setCollapsed(true)}
-              insertQuestion={insertQuestion}
-              onClosePage={onCloseHandout}
-              onSceneChange={onSceneChange ? (scene, meta) => onSceneChange(handoutPage.id, scene, meta) : undefined}
-            />
-          </div>
+          <BoardSurface
+            key={handout.id}
+            pdf={pdf}
+            page={handout}
+            editable={editable}
+            theme={theme}
+            hideTools={hideTools}
+            zen={zen}
+            embedded
+            externalTool={tool}
+            onToolStateChange={updateTool}
+            onCollapse={() => setCollapsed(true)}
+            insertQuestion={insertQuestion}
+            onClosePage={onCloseHandout}
+            onSceneChange={onSceneChange ? (scene, meta) => onSceneChange(handout.id, scene, meta) : undefined}
+          />
           <div
             role="separator"
             aria-label="拖动调整讲义窗口宽度"
@@ -166,7 +137,7 @@ export default function BoardWorkspace({
         </div>
       )}
 
-      {handoutPage && collapsed && (
+      {handout && collapsed && (
         <button
           type="button"
           onClick={() => setCollapsed(false)}

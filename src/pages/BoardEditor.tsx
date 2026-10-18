@@ -198,15 +198,20 @@ export default function BoardEditor() {
       }
       const marked = kept.map((p) => (keyOf(p) === key && p.kind !== 'handout' ? { ...p, kind: 'board' as const } : p))
       for (const p of oldHandouts) sceneMapRef.current.delete(p.id)
+      const boardAt = marked.findIndex((p) => keyOf(p) === key && p.kind !== 'handout')
+      // The pane shares the blackboard's colour, so the sheet floats on one
+      // continuous surface instead of looking like a second little board.
+      const paneColor = boardAt >= 0 && marked[boardAt].background.type === 'blank'
+        ? marked[boardAt].background.color
+        : CANVAS_COLORS[0].color
       const handout: BoardPage = {
         id: newId(),
         name: row.name,
-        background: { type: 'blank', color: HANDOUT_BG, grid: false },
+        background: { type: 'blank', color: paneColor, grid: false },
         scene: { elements: buildHandoutElements(layout), files: buildHandoutFiles(layout), appState: {} },
         kind: 'handout',
         pair: key,
       }
-      const boardAt = marked.findIndex((p) => keyOf(p) === key && p.kind !== 'handout')
       setPdf(doc)
       setSourcePdf({ path: row.storage_path, name: row.name })
       setPages(boardAt >= 0

@@ -126,7 +126,7 @@ export function splitBoardPages(pages: BoardPage[]): BoardPage[] {
       {
         id: newId(),
         name: page.name,
-        background: { type: 'blank', color: HANDOUT_BG, grid: false },
+        background: { type: 'blank', color: boardBackground.color, grid: false },
         scene: { elements: sheetEls, files: filesFor(sheetEls), appState: {} },
         kind: 'handout' as const,
         pair,

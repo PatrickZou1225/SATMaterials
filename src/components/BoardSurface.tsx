@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ComponentProps, type PointerEvent as ReactPointerEvent } from 'react'
 import { BoxSelect, ChevronLeft, ChevronRight, Circle, Eraser, Maximize, Minus, MousePointer2, MoveHorizontal, Pencil, Plus, Square, Type, X, ZoomOut } from 'lucide-react'
 import { CaptureUpdateAction, convertToExcalidrawElements, Excalidraw, FONT_FAMILY, restore } from '@excalidraw/excalidraw'
-import type { DataURL, ExcalidrawImperativeAPI, ExcalidrawInitialDataState, NormalizedZoomValue } from '@excalidraw/excalidraw/types'
+import type { DataURL, ExcalidrawImperativeAPI, ExcalidrawInitialDataState, NormalizedZoomValue, ToolType } from '@excalidraw/excalidraw/types'
 import type { FileId } from '@excalidraw/excalidraw/element/types'
 import '@excalidraw/excalidraw/index.css'
 import type { PDFDocumentProxy } from '../lib/board'
@@ -23,6 +23,12 @@ export type BoardSurfaceProps = {
   // When the surface sits in the floating handout window, its own "收起讲义"
   // button delegates to the window (which hides the whole window).
   onCollapse?: () => void
+  // Part of the two-layer workspace: the blackboard rail is the only toolbar on
+  // screen, so this surface hides its own rail, ink popups and edge controls.
+  embedded?: boolean
+  // Shared tool state so the single rail draws on both layers.
+  externalTool?: BoardToolState | null
+  onToolStateChange?: (state: BoardToolState) => void
   // One-shot request from the editor's 搜题 panel: formatted question text to
   // drop at the viewport centre. A fresh `serial` means "insert now".
   insertQuestion?: { title: string; text: string; serial: number } | null
@@ -32,6 +38,13 @@ export type BoardSurfaceProps = {
   // `structural` is false for UI-only changes (tool/ink/viewport), which lets the
   // caller avoid flagging a board dirty just because we recoloured the pen.
   onSceneChange?: (scene: BoardScene, meta: { structural: boolean }) => void
+}
+
+export type BoardToolState = {
+  tool: ToolType
+  strokeColor: string
+  strokeWidth: number
+  fontSize: number
 }
 
 // Same swatches Excalidraw's own properties panel offers: four neutral tints,
@@ -107,7 +120,7 @@ function useBackgroundImage(pdf: PDFDocumentProxy | null, page: BoardPage) {
   return image
 }
 
-export default function BoardSurface({ pdf, page, editable, theme, hideTools, zen, hideZoom, onCollapse, insertQuestion, onClosePage, onSceneChange }: BoardSurfaceProps) {
+export default function BoardSurface({ pdf, page, editable, theme, hideTools, zen, hideZoom, onCollapse, embedded, externalTool, onToolStateChange, insertQuestion, onClosePage, onSceneChange }: BoardSurfaceProps) {
   const bg = useBackgroundImage(pdf, page)
   const apiRef = useRef<ExcalidrawImperativeAPI | null>(null)
   // The imperative API arrives only after Excalidraw mounts — and a page flip
@@ -169,6 +182,9 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
   const marqueeModeRef = useRef(false)
   const [quietText, setQuietText] = useState(false)
   const [inkCursor, setInkCursor] = useState({ strokeColor: '#ffffff', strokeWidth: 2, fontSize: 28 })
+  // Last tool/ink combination broadcast to the workspace, so scrolls and other
+  // UI-only changes do not spam the shared toolbar state.
+  const reportedToolRef = useRef('')
   const textToolOn = activeToolType === 'text'
   const drawToolActive = DRAW_TOOL_TYPES.includes(activeToolType)
   const DrawIcon = DRAW_SHAPES.find((shape) => shape.type === drawTool)?.Icon ?? Pencil
@@ -221,6 +237,32 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
       })
     }
   }, [inkColor, page.id, api])
+
+  // Mirror the shared rail onto this surface: the handout layer has no rail of
+  // its own, but still has to draw with the tool the blackboard rail shows.
+  useEffect(() => {
+    const api = apiRef.current
+    if (!api || !externalTool) return
+    const app = api.getAppState()
+    const currentTool = (app.activeTool?.type ?? 'selection') as ToolType
+    const sameTool = currentTool === externalTool.tool
+    const sameInk =
+      (app.currentItemStrokeColor ?? '') === externalTool.strokeColor &&
+      (app.currentItemStrokeWidth ?? 0) === externalTool.strokeWidth &&
+      (app.currentItemFontSize ?? 0) === externalTool.fontSize
+    if (sameTool && sameInk) return
+    if (!sameTool) api.setActiveTool({ type: externalTool.tool })
+    if (!sameInk) {
+      api.updateScene({
+        appState: {
+          currentItemStrokeColor: externalTool.strokeColor,
+          currentItemStrokeWidth: externalTool.strokeWidth,
+          currentItemFontSize: externalTool.fontSize,
+        },
+        captureUpdate: CaptureUpdateAction.NEVER,
+      })
+    }
+  }, [externalTool])
 
   // Text tool defaults the teacher asked for: Large size (S16 / M20 / L28 /
   // XL36) and the Normal family. Text elements copy these at creation time.
@@ -930,6 +972,11 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
       setMarqueeMode(false)
     }
     setActiveToolType((prev) => (prev === toolType ? prev : toolType))
+    const toolKey = `${toolType}|${inkNow.strokeColor}|${inkNow.strokeWidth}|${inkNow.fontSize}`
+    if (toolKey !== reportedToolRef.current) {
+      reportedToolRef.current = toolKey
+      onToolStateChange?.({ tool: toolType as ToolType, ...inkNow })
+    }
     const toolIsText = toolType === 'text'
     const shouldQuiet = !toolIsText && (Boolean(appStateState.editingTextElement) ||
       els.some((el) => el.type === 'text' && !el.isDeleted && Boolean(appStateState.selectedElementIds[el.id])))
@@ -1060,6 +1107,9 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
         {pageInfo && (
           <button type="button" title={collapsed ? '显示讲义' : '收起讲义（腾出黑板，再点回来）'} aria-label={collapsed ? '显示讲义' : '收起讲义'} onClick={() => { const api = apiRef.current; if (api) toggleCollapse(api) }} className={`h-8 rounded-lg px-2 text-[11px] font-semibold transition ${collapsed ? 'bg-blue-600 text-white' : 'hover:bg-slate-100 dark:hover:bg-slate-800'}`}>{collapsed ? '显示讲义' : '收起讲义'}</button>
         )}
+        {onClosePage && (
+          <button type="button" title="关闭这份讲义（从这块板移除）" aria-label="关闭讲义" onClick={onClosePage} className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><X size={16} /></button>
+        )}
       </div>}
       {pageInfo && (
         <div className={`absolute left-1/2 z-10 flex -translate-x-1/2 items-center gap-0.5 rounded-full border border-slate-200 bg-white/95 px-1.5 py-1 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200 ${zen ? 'bottom-16' : 'bottom-4'}`}>
@@ -1119,7 +1169,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
           </div>
         </div>
       )}
-      {editable && !hideTools && shapeMenuOpen && (
+      {editable && !hideTools && !embedded && shapeMenuOpen && (
         <div data-board-scroll data-shape-menu className={`absolute top-1/2 z-30 flex -translate-y-1/2 items-center gap-1 rounded-2xl border p-1.5 backdrop-blur ${zen ? 'right-[120px] border-white/15 bg-black/60' : 'right-[68px] border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/95'}`}>
           {DRAW_SHAPES.map(({ type, label, Icon }) => (
             <button
@@ -1135,7 +1185,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
           ))}
         </div>
       )}
-      {editable && !hideTools && DRAW_TOOL_TYPES.includes(activeToolType) && penPanelOpen && (
+      {editable && !hideTools && !embedded && DRAW_TOOL_TYPES.includes(activeToolType) && penPanelOpen && (
         <div data-board-scroll className={`absolute top-1/2 z-20 flex w-48 -translate-y-1/2 flex-col gap-2.5 rounded-2xl border p-2.5 backdrop-blur ${zen ? 'right-[120px] border-white/15 bg-black/60' : 'right-[68px] border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/95'}`}>
           <div className="flex items-center gap-1">
             {DRAW_SHAPES.map(({ type, label, Icon }) => (
@@ -1161,7 +1211,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
           <InkPalette current={inkCursor.strokeColor} onPick={(color) => applyInk('pen', { strokeColor: color })} />
         </div>
       )}
-      {editable && !hideTools && activeToolType === 'text' && textPanelOpen && (
+      {editable && !hideTools && !embedded && activeToolType === 'text' && textPanelOpen && (
         <div data-board-scroll className={`absolute top-1/2 z-20 flex w-44 -translate-y-1/2 flex-col gap-2 rounded-2xl border p-2.5 backdrop-blur ${zen ? 'right-[120px] border-white/15 bg-black/60' : 'right-[68px] border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/95'}`}>
           <div className="flex items-center gap-1">
             {[{ label: 'S', size: 16 }, { label: 'M', size: 20 }, { label: 'L', size: 28 }, { label: 'XL', size: 36 }].map(({ label, size }) => (
@@ -1171,7 +1221,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
           <InkPalette current={inkCursor.strokeColor} onPick={(color) => applyInk('text', { strokeColor: color })} />
         </div>
       )}
-      {editable && !hideTools && (
+      {editable && !hideTools && !embedded && (
         <div className={`board-tool-rail absolute top-1/2 z-20 flex -translate-y-1/2 flex-col gap-0.5 rounded-2xl border p-1.5 backdrop-blur ${zen ? 'right-[64px] border-white/15 bg-black/60' : 'right-3 border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/95'}`}>
           <button type="button" title="点击（选中/移动）" aria-label="点击" onClick={() => selectTool(false)} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'selection' && !marqueeMode ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><MousePointer2 size={17} /></button>
           <button type="button" title="框选（圈住自己写的内容）" aria-label="框选" onClick={() => selectTool(true)} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'selection' && marqueeMode ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><BoxSelect size={17} /></button>
@@ -1185,7 +1235,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
           <Maximize size={15} />
         </button>
       )}
-      {pageInfo && !collapsed && pageEdgeX !== null && (
+      {!embedded && pageInfo && !collapsed && pageEdgeX !== null && (
         <div className="absolute z-10 flex -translate-x-full items-center gap-0.5 rounded-xl border border-slate-200 bg-white/95 p-0.5 text-slate-600 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200" style={{ left: Math.max(164, pageEdgeX - 8), top: zen ? 56 : 12 }}>
           <button type="button" onClick={() => { const api = apiRef.current; if (api) maximizePage(api) }} title="最大化（页面铺满窗口宽度）" aria-label="最大化" className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><Maximize size={15} /></button>
           <button type="button" onClick={() => { const api = apiRef.current; if (api) toggleCollapse(api) }} title="最小化（收起讲义，腾出黑板）" aria-label="最小化" className="grid h-8 w-8 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800"><Minus size={15} /></button>
@@ -1195,7 +1245,7 @@ export default function BoardSurface({ pdf, page, editable, theme, hideTools, ze
           )}
         </div>
       )}
-      {pageInfo && pageEdgeX !== null && (
+      {!embedded && pageInfo && pageEdgeX !== null && (
         <button
           type="button"
           aria-label="拖动缩放讲义"
