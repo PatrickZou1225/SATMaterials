@@ -83,6 +83,7 @@ export const importedMockTest = {
             "It explains why a common perception of a biological process is flawed."
           ],
           "answer": 1,
+          "underline": ["Vertical gene transfer involves the transmission of genetic material from a parent to offspring; horizontal gene transfer, on the other hand, involves the exchange of genetic material between organisms not in a parent-offspring relationship."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -536,6 +537,7 @@ export const importedMockTest = {
             "It defines a scientific term central to the text's discussion of the role of complex sociality in driving cognitive adaptations in animals."
           ],
           "answer": 1,
+          "underline": ["intraspecific contact with perceived outsiders"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },

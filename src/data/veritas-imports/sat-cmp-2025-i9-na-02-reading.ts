@@ -159,7 +159,8 @@ export const importedMockTest = {
             "\"I think high-speed rail is wonderful. The United States needs to build more high-speed rail lines.\"",
             "\"I believe that the United States has enough high-speed rail lines. It should invest in airports instead.\""
           ],
-          "answer": 2
+          "answer": 2,
+          "underline": ["The researchers claim that this survey reveals that there is strong support for building more HSR lines in the United States."],
         },
         {
           "id": 12,

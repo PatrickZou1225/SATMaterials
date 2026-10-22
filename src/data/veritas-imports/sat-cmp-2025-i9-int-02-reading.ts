@@ -66,6 +66,7 @@ export const importedMockTest = {
             "To depict Oscar as a polite and professional representative of the newspaper"
           ],
           "answer": 2,
+          "underline": ["Which wonderful words?"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -80,6 +81,7 @@ export const importedMockTest = {
             "It explains a biological process by contrasting it with a somewhat similar process."
           ],
           "answer": 3,
+          "underline": ["Vertical gene transfer involves the transmission of genetic material from a parent to offspring; horizontal gene transfer, on the other hand, involves the exchange of genetic material between organisms not in a parent-offspring relationship."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -470,6 +472,7 @@ export const importedMockTest = {
             "It provides context for Randall's decision to publish work by Black poets as broadsides."
           ],
           "answer": 1,
+          "underline": ["Since these broadsides became associated with the innovative aesthetics of the Black Arts Movement (1965–1975), Randall's publication format may likewise seem to have been pioneering, but, in fact, broadside poetry had also flourished in seventeenth-century London, where single-sheet popular ballads flooded the marketplace."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },

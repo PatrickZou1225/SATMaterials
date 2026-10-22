@@ -94,6 +94,7 @@ export const importedMockTest = {
             "It introduces previous findings that suggested a research method for Cruikshank and his team."
           ],
           "answer": 0,
+          "underline": ["Additionally, the shape and appearance of the crater did not suggest that it was formed by impact."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -503,6 +504,7 @@ export const importedMockTest = {
             "It specifies potential applications of the approach that Oliveira and colleagues used in their study."
           ],
           "answer": 1,
+          "underline": ["thus capitalizing on the research potential offered by a vast but hitherto relatively underutilized source of insight into the biological past"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -517,6 +519,7 @@ export const importedMockTest = {
             "It distinguishes between the two types of historical artifacts discussed earlier in the text."
           ],
           "answer": 2,
+          "underline": ["This relative scarcity"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -545,6 +548,7 @@ export const importedMockTest = {
             "lt bolsters the idea that Camillo's primary motivation to return home is his concern for the king of Sicily's well-being in his absence."
           ],
           "answer": 0,
+          "underline": ["to whose feeling sorrows I might be some allay—or I o'erween [presume] to think so"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },

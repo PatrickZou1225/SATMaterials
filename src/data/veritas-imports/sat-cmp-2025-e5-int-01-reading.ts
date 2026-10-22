@@ -80,6 +80,7 @@ export const importedMockTest = {
             "It identifies a misconception that the researchers had about the crater when they were first studying the data."
           ],
           "answer": 1,
+          "underline": ["Additionally, the shape and appearance of the crater did not suggest that it was formed by impact."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -497,6 +498,7 @@ export const importedMockTest = {
             "It explains why the research methodology selected by Oliveira and colleagues is not widely used."
           ],
           "answer": 1,
+          "underline": ["thus capitalizing on the research potential offered by a vast but hitherto relatively underutilized source of insight into the biological past"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -511,6 +513,7 @@ export const importedMockTest = {
             "It refers to a challenging situation presented earlier in the text."
           ],
           "answer": 3,
+          "underline": ["This relative scarcity"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -537,6 +540,7 @@ export const importedMockTest = {
             "It conveys Camillo's recognition that one benefit his presence may afford the king of Sicily is merely speculative."
           ],
           "answer": 3,
+          "underline": ["to whose feeling sorrows I might be some allay—or I o'erween [presume] to think so"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },

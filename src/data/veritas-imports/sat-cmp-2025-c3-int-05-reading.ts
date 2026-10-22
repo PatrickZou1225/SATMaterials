@@ -505,6 +505,7 @@ export const importedMockTest = {
             "It emphasizes a detail about where Simpson and colleagues conducted their 2011 study."
           ],
           "answer": 0,
+          "underline": ["In 2011 Stephen D. Simpson and colleagues published a study concluding that ocean acidification has a strong effect on the behavior of Amphiprion percula, a species of fish."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },

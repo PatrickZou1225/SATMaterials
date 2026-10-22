@@ -66,6 +66,7 @@ export const importedMockTest = {
             "It indicates Yung's unwillingness to distinguish between reality and fantasy as a child."
           ],
           "answer": 1,
+          "underline": ["Little did I realize when in 1845 I wrote, while in the Morrison School, a composition on \"An Imaginary Voyage to New York and up the Hudson,\" that I was to see New York in reality."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -80,6 +81,7 @@ export const importedMockTest = {
             "It offers commentary on the significance of the approach that Liow and colleagues used for their study."
           ],
           "answer": 3,
+          "underline": ["thus capitalizing on the research potential offered by a vast but hitherto relatively underutilized source of insight into the biological past"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -94,6 +96,7 @@ export const importedMockTest = {
             "It distinguishes between the two types of historical artifacts discussed earlier in the text."
           ],
           "answer": 0,
+          "underline": ["This relative scarcity"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -122,6 +125,7 @@ export const importedMockTest = {
             "It suggests that Camillo feels compelled to persuade Polixenes that Camillo's decision to leave the court is justified."
           ],
           "answer": 2,
+          "underline": ["to whose feeling sorrows I might be some allay—or I o'erween [presume] to think so"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },

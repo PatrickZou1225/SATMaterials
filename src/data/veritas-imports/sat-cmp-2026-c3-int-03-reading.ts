@@ -170,6 +170,7 @@ export const importedMockTest = {
             "To support the text's assertion that bioluminescence is associated with particular environments"
           ],
           "answer": 3,
+          "underline": ["70% of known luminescent species inhabit ocean environments"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },
@@ -184,6 +185,7 @@ export const importedMockTest = {
             "It describes part of the nervous system the team identified."
           ],
           "answer": 3,
+          "underline": ["The researchers spotted evidence of nerves extending into the animal's body parts and may have also found rare signs of a synganglion, a brain-like mass of nerves in the head."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },

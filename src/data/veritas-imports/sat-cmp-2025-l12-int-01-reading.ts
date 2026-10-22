@@ -100,6 +100,7 @@ export const importedMockTest = {
             "It illustrates a problem that inspired the study discussed in the text."
           ],
           "answer": 2,
+          "underline": ["One type of team included only humans and the other type included both humans and robots."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },
@@ -114,6 +115,7 @@ export const importedMockTest = {
             "It explains the circumstances that led to the formation of the theater company discussed in the text."
           ],
           "answer": 2,
+          "underline": ["Since NEC's founding in 1967, its workshops and performances have given Black playwrights, including Carter, a forum for their compelling stories."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },
@@ -504,6 +506,7 @@ export const importedMockTest = {
             "It contrasts the frequency with which a biological phenomenon has been detected in two categories of organisms."
           ],
           "answer": 3,
+          "underline": ["While horizontal gene transfer is common among prokaryotes—single-celled organisms, such as the bacteria Brevundimonas diminuta and Lactobacillus curvatus—it has rarely been observed among eukaryotes (multicellular organisms)."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },
@@ -532,6 +535,7 @@ export const importedMockTest = {
             "It describes an event in Yung's life that exemplifies a phenomenon."
           ],
           "answer": 3,
+          "underline": ["Little did I realize when in 1845 I wrote, while in the Morrison School, a composition on \"An Imaginary Voyage to New York and up the Hudson,\" that I was to see New York in reality."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },
@@ -589,6 +593,7 @@ export const importedMockTest = {
             "Museums don't always put works by different artists together in one room."
           ],
           "answer": 0,
+          "underline": ["A student argues that viewers usually can't examine works of art in a museum as carefully as they can examine works in online collections."],
           "domain": "Information and Ideas",
           "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)"
         },
@@ -904,6 +909,7 @@ export const importedMockTest = {
             "It refers to a finding presented in the previous sentence to recommend that companies that value product quality reconsider their reliance on automation."
           ],
           "answer": 2,
+          "underline": ["When considering automation, therefore, companies—especially those specializing in products of symbolic value—should weigh trade-offs between efficiency gains and consumer preferences."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },

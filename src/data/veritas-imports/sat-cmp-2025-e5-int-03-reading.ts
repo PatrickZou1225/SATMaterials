@@ -110,7 +110,8 @@ export const importedMockTest = {
             "The naming of Belo Horizonte as a City of Gastronomy was long overdue, given the city's unique and delicious food.",
             "The benefits of being named a City of Gastronomy extend well beyond tourism."
           ],
-          "answer": 1
+          "answer": 1,
+          "underline": ["It's obvious that the selection of Belo Horizonte by UNESCO has brought awareness to local recipes, cooking practices, and chefs and has provided a boost to the city's tourism industry."],
         },
         {
           "id": 8,
@@ -501,6 +502,7 @@ export const importedMockTest = {
             "It elaborates on a characterization of C. geaster presented earlier in the text."
           ],
           "answer": 3,
+          "underline": ["the mushroom appears to be very selective: it is typically found on the decaying stumps and roots of only a few tree species that are abundant in these areas"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },

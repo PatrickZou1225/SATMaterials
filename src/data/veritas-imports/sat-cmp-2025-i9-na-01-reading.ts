@@ -83,6 +83,7 @@ export const importedMockTest = {
             "It states that krill are arthropods but cave crickets are not."
           ],
           "answer": 2,
+          "underline": ["This evidence is exciting because it could help us better understand how M. symmetrica is related to other arthropods, such as cave crickets and krill."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -111,6 +112,7 @@ export const importedMockTest = {
             "It identifies an artist who has contributed a new stylistic element to the hyperpop sound."
           ],
           "answer": 3,
+          "underline": ["More recently, British recording artist Charli XCX has contributed to that sound by incorporating pop melodies into it."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -486,6 +488,7 @@ export const importedMockTest = {
             "To illustrate how the discussion of the HM earlier in the text can improve historians' understanding of the FA"
           ],
           "answer": 0,
+          "underline": ["Most other contemporaneous personal manuscripts like the Findern Anthology (FA) consist primarily of pieces by celebrated medieval authors like Chaucer and other readings favored by elites, whereas the HM has a distinctive emphasis on the popular, including entertainments like scary stories, and the practical, with advice about hygiene."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },

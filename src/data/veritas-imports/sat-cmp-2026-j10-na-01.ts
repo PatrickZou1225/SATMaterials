@@ -83,6 +83,7 @@ export const importedMockTest = {
             "It contradicts the claim about energy efficiency made in the previous sentence."
           ],
           "answer": 2,
+          "underline": ["In a classroom, for instance, installing window film might keep indoor temperatures comfortable during summer without excessive air conditioning but could reduce natural daylight enough to require additional artificial lighting."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },
@@ -111,6 +112,7 @@ export const importedMockTest = {
             "It explains a step that the researchers took to ensure that their data accurately reflected sellers' intended prices."
           ],
           "answer": 3,
+          "underline": ["Although the website will convert prices to the buyers' home currency, most sellers target local markets, so the researchers used virtual private networks to collect prices in each country's predominant currency."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },
@@ -497,6 +499,7 @@ export const importedMockTest = {
             "It suggests that the children's perception of the scene outside has been shifted by the perspective their father expresses."
           ],
           "answer": 3,
+          "underline": ["My siblings and I leave our places by the big heater with its opening's single blue flame, and we look out into a picture of winter we thought we had grown sick of."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },
@@ -511,6 +514,7 @@ export const importedMockTest = {
             "It presents a discrepancy between two studies' results that the text later implies is due to one set of results being inaccurate."
           ],
           "answer": 2,
+          "underline": ["While Thomas R. Buckley et al. found that the crown age (the age of the most recent common ancestor of all living species in the clade) is 41.1 million years for Grande Terre's clade of stick insects, most studies of the island's clades have reported more recent crown ages: Michael A. Sundue et al., for example, found that the crown age of Grande Terre's clade of Grammitis ferns is 8.5 million years."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },

@@ -108,6 +108,7 @@ export const importedMockTest = {
             "It states the conclusion reached by Allan and colleagues in their 2013 study."
           ],
           "answer": 3,
+          "underline": ["In 2013 Bridie J.M. Allan and colleagues published a study concluding that ocean acidification has a strong effect on the behavior of Pomacentrus amboinensis, a species of fish."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -177,7 +178,8 @@ export const importedMockTest = {
             "In a table in Bianchini's astronomical Latin manuscript from the 1440s, Tabulae primi mobilis B, a dot appears between two numbers in a context that suggests the value is not a whole number.",
             "As recorded in his manuscripts, some of Bianchini's calculations for the coordinates of the planets are inaccurate due to the use of whole numbers rather than non-whole-number decimals."
           ],
-          "answer": 2
+          "answer": 2,
+          "underline": ["Van Brummelen asserts that in his role as a consultant, Bianchini used trigonometry to calculate the coordinates of the planets, and these calculations contain the earliest example of the decimal point."],
         },
         {
           "id": 11,
@@ -581,7 +583,8 @@ export const importedMockTest = {
             "\"The piece I chose is accompanied by a statement of the personal interpretation I've developed over countless hours overseeing the work and interacting with its visitors—an interpretation that I've previously shared only in small impromptu conversations with those visitors who are interested in discussing their reflections on the piece with me.\"",
             "\"Throughout the exhibition's development, my colleagues and I partnered closely with other museum staff whose areas of expertise lie in curation and conservation, and whose insights enriched our understandings of the pieces we selected for the exhibition.\""
           ],
-          "answer": 2
+          "answer": 2,
+          "underline": ["amplifying a distinct perspective not typically given a formal platform"],
         },
         {
           "id": 12,
@@ -605,7 +608,8 @@ export const importedMockTest = {
             "Many were written with parts meant to be played on the quena, a traditional flute used across Andean countries, including Chile.",
             "Many were produced by Argentinian artists in the late 1950s, with others by artists in additional Latin American countries first emerging soon after."
           ],
-          "answer": 1
+          "answer": 1,
+          "underline": ["As the movement spread beyond Chile, the breadth of musical traditions incorporated into its foundation also expanded."],
         },
         {
           "id": 14,

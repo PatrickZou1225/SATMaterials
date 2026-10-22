@@ -83,6 +83,7 @@ export const importedMockTest = {
             "It states the conclusion reached by Allan and colleagues that is elaborated on in the sentences that follow."
           ],
           "answer": 0,
+          "underline": ["However, Allan and colleagues' study relied on a mean sample size of only about 18 fish."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -97,6 +98,7 @@ export const importedMockTest = {
             "It helps explain why two compilers of anthologies have different ideas regarding which short stories should be labeled as \"cyberpunk.\""
           ],
           "answer": 1,
+          "underline": ["Encompassing both early (e.g., Fritz Leiber's 1950 story \"Coming Attraction\") and more recent (e.g., Erica Satifka's 2021 story \"Act of Providence\") contributions, the broad chronological scope of Shurin's volume may make it seem more comprehensive than Mirrorshades, but Mirrorshades's focus is more carefully considered, rendering it the more authoritative anthology of this science fiction subgenre."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -111,6 +113,7 @@ export const importedMockTest = {
             "It gives a basic description of a phenomenon that is central to the discussion that follows."
           ],
           "answer": 3,
+          "underline": ["a phenomenon that occurs when the same trait evolves independently in two reproductively separate lineages"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -511,6 +514,7 @@ export const importedMockTest = {
             "It indicates that many other sculptors are more famous than Professor Rubek."
           ],
           "answer": 1,
+          "underline": ["And then you weren't so illustrious as I hear you've since become."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },

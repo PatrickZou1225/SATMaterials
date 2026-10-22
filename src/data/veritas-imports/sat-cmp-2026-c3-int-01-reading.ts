@@ -230,6 +230,7 @@ export const importedMockTest = {
             "Participants were equally successful at interpreting the gestures when the videos were tightly cropped to show only the apes' hands and arms, removing the surrounding environment from view."
           ],
           "answer": 0,
+          "underline": ["Though participants achieved some success, it is unclear whether they sometimes did so by making use of additional context provided by the images or sounds in the video recordings."],
           "domain": "Information and Ideas",
           "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)"
         },

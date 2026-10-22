@@ -80,6 +80,7 @@ export const importedMockTest = {
             "It indicates that Bitter always sings when working on a painting."
           ],
           "answer": 2,
+          "underline": ["There was a weight thrumming through the floorboards in a low song, and that was how Jam knew the painting was done."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -163,6 +164,7 @@ export const importedMockTest = {
             "Sponge 1 was inhabited by 13 female A. fasciatus."
           ],
           "answer": 0,
+          "underline": ["Additionally, the team found that male and female A. fasciatus share the same sponge (the same microhabitat), a behavior not found among Port Jackson sharks (Heterodontus portusjacksoni), another seabed-dwelling species."],
           "domain": "Information and Ideas",
           "skill": "Command of Evidence-Quantitative Evidence",
           "image": "/sat-cmp-2025-h8-int-02-m1-q9.png"
@@ -177,7 +179,8 @@ export const importedMockTest = {
             "Researchers confirm that olms live in only a few cave systems.",
             "Researchers determine that olms don't breed often."
           ],
-          "answer": 0
+          "answer": 0,
+          "underline": ["However, Raoul Manenti and team claim that olms regularly come to the surface to perform important activities such as finding food."],
         },
         {
           "id": 11,

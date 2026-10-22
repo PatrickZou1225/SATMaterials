@@ -455,6 +455,7 @@ export const importedMockTest = {
             "It indicates a distinction between horizontal gene transfer and vertical gene transfer."
           ],
           "answer": 0,
+          "underline": ["While horizontal gene transfer is common among prokaryotes—single-celled organisms such as the bacteria Carnobacterium viridans and Massilia timonae—it has rarely been observed among eukaryotes (typically multicellular organisms)."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },

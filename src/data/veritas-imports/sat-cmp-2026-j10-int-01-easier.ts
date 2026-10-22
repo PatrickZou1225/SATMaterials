@@ -111,6 +111,7 @@ export const importedMockTest = {
             "By asserting that both James and Scorsese ought to be considered masters of their chosen art forms"
           ],
           "answer": 2,
+          "underline": ["This places a burden on readers that they may not be prepared for: James's late novels are some of the best he wrote, but they are not for everyone."],
           "domain": "Craft and Structure",
           "skill": "Cross-Text Connections-Comparing and Contrasting Authors' Perspectives"
         },
@@ -153,6 +154,7 @@ export const importedMockTest = {
             "\"I believe that the United States has enough high-speed rail lines. It should invest in airports instead.\""
           ],
           "answer": 2,
+          "underline": ["The researchers claim that this survey reveals that there is strong support for building more HSR lines in the United States."],
           "domain": "Information and Ideas",
           "skill": "Command of Evidence-Textual Evidence (illustration/quotation)"
         },

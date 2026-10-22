@@ -124,7 +124,8 @@ export const importedMockTest = {
             "Most of the programs do not actually produce positive results even though program participants tend to regard them as beneficial.",
             "The programs tend to produce inconsistent results because they vary substantially in their methods and aims."
           ],
-          "answer": 1
+          "answer": 1,
+          "underline": ["But what results do such programs produce?"],
         },
         {
           "id": 9,
@@ -219,7 +220,8 @@ export const importedMockTest = {
             "Consumer surveys show low excitement for new products that were announced a long time before they were released.",
             "The kind of information a company provides about a new product helps determine how likely consumers are to buy the product."
           ],
-          "answer": 2
+          "answer": 2,
+          "underline": ["But the effect fades quickly, so companies need to be careful in timing the announcement and the release of a new product."],
         },
         {
           "id": 13,
@@ -572,6 +574,7 @@ export const importedMockTest = {
             "It clarifies a concept that is unclear in some of the studies mentioned in the text."
           ],
           "answer": 1,
+          "underline": ["Benjamin Prud'homme and colleagues have explored how convergent evolution—a phenomenon that occurs when the same trait evolves independently in two reproductively separate lineages—can result from a genetic mechanism shared by both lineages."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },

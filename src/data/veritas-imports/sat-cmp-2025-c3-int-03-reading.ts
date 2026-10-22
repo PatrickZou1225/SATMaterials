@@ -216,7 +216,8 @@ export const importedMockTest = {
             "Many feature political commentary addressing contemporary issues that stemmed from shared experiences of European colonization in Latin American countries.",
             "Many were produced by Argentinian artists in the late 1950s, with others by artists in additional Latin American countries first emerging soon after."
           ],
-          "answer": 1
+          "answer": 1,
+          "underline": ["As the movement spread beyond Chile, the breadth of musical traditions incorporated into its foundation also expanded."],
         },
         {
           "id": 15,

@@ -108,6 +108,7 @@ export const importedMockTest = {
             "It suggests why researchers were surprised by the finding of the relative costs and benefits of two types of venation patterns."
           ],
           "answer": 2,
+          "underline": ["Charles A. Price and Joshua S. Weitz assessed these trade-offs by comparing vascular function in the reticulate patterns of Acer griseum (paperbark maple) and other angiosperm leaf veins with that of analogous open-branching patterns."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },
@@ -194,6 +195,7 @@ export const importedMockTest = {
             "Helen says she wonders about Florence's future, to which Pawnie replies, \"My dear, I'm far too occupied in wondering what's going to happen to me to worry about other people.\""
           ],
           "answer": 0,
+          "underline": ["In this act, Coward conveys the idea that other characters consider Pawnie to be a thoughtless person."],
           "domain": "Information and Ideas",
           "skill": "Command of Evidence-Textual Evidence (illustration/quotation)"
         },
@@ -454,6 +456,7 @@ export const importedMockTest = {
             "It presents a research finding that challenges the view mentioned in the first sentence of the text."
           ],
           "answer": 2,
+          "underline": ["High-resolution images show these eruptions produce thin streams of hot gas moving at speeds between 55 and 200 kilometers per second."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },
@@ -638,6 +641,7 @@ export const importedMockTest = {
             "\"Seriality in Mackey's long song operates recursively, meaning that, in combination with the work's marshaling of an eclectic array of cultural allusions, it endlessly reiterates and recontextualizes the same archetypal images and narrative incidents, uncovering in these elements new and unexpected meanings with each repetition.\""
           ],
           "answer": 3,
+          "underline": ["Mackey's long song's open-endedness is essential to the way it manifests discrepant engagement—that is, the work's associative logic and resistance to linear narrative prevent readers from imposing a definitive and coherent interpretation on its presentation of world cultures."],
           "domain": "Information and Ideas",
           "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)"
         },

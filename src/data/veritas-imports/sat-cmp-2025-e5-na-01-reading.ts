@@ -534,6 +534,7 @@ export const importedMockTest = {
             "It describes a historical development that encouraged the founding of the two Latino cultural institutions discussed in the text."
           ],
           "answer": 1,
+          "underline": ["Since 2000, the number of Latino cultural institutions in the US has expanded considerably."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },

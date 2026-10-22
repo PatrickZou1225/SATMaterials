@@ -97,6 +97,7 @@ export const importedMockTest = {
             "It conveys Baldwin's rejection of contemporary US cinema in favor of earlier films that are more authentic representations of society."
           ],
           "answer": 2,
+          "underline": ["the failure of this film to authentically represent its subject matter is indicative of a larger trend in films of the era"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -508,6 +509,7 @@ export const importedMockTest = {
             "To describe a consideration that led the researchers to employ an alternative approach to coloring a pellicle that allowed them to achieve their main goal as presented in the text"
           ],
           "answer": 3,
+          "underline": ["The standard process for dyeing leather generates substantial wastewater and other undesirable byproducts, so adopting such a regimen would run counter to the ecological promise of the pellicle approach."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -666,7 +668,8 @@ export const importedMockTest = {
             "\"Even though The Grass Dancer alternates between realistic and antirealistic modes of representation, the influence of Dakota cultural traditions remains constant throughout the novel.\"",
             "\"Much of the interest of The Grass Dancer derives from the productive tension between its competing influences—namely, Dakota cultural traditions and the magical realism of Latin America.\""
           ],
-          "answer": 1
+          "answer": 1,
+          "underline": ["This style has exerted a decisive influence on authors in the United States, including Susan Power, whose 1994 novel The Grass Dancer resembles classic magical realist novels in its juxtaposition of literary realism with long-established cultural traditions—namely, those of the Dakota people of the northern plains."],
         },
         {
           "id": 13,

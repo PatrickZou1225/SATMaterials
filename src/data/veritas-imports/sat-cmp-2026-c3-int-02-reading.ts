@@ -66,6 +66,7 @@ export const importedMockTest = {
             "It notes a generally accepted belief that is called into question by a finding of the experiment outlined in the text."
           ],
           "answer": 3,
+          "underline": ["People tend to assume that being happy is the ideal emotional state and should be an ongoing aspiration"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },
@@ -180,6 +181,7 @@ export const importedMockTest = {
             "Numerous art historians of the late twentieth century and twenty-first century have focused their scholarship on how various artworks were interpreted at the time of their creation."
           ],
           "answer": 3,
+          "underline": ["Since it was first introduced, Baxandall's period eye has significantly influenced the practice of art history."],
           "domain": "Information and Ideas",
           "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)"
         },
@@ -481,6 +483,7 @@ export const importedMockTest = {
             "It acknowledges counterfactual questions that academic historians have largely overlooked."
           ],
           "answer": 0,
+          "underline": ["What if India had started the Industrial Revolution? What if Soviet cosmonauts had been first to land on the moon?"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },
@@ -495,6 +498,7 @@ export const importedMockTest = {
             "It provides an observation about human behavior that was validated by the experiment summarized in the text."
           ],
           "answer": 0,
+          "underline": ["On receiving good news, people's first instinct might be to immediately share it, but a recent experiment suggests that keeping it a secret can be psychologically beneficial."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },

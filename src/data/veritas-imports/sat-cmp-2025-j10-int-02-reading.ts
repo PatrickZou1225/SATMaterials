@@ -80,6 +80,7 @@ export const importedMockTest = {
             "It explains why the research methodology selected by Campana and colleagues is not widely used."
           ],
           "answer": 2,
+          "underline": ["thus capitalizing on the research potential offered by a vast but hitherto relatively underutilized source of insight into the biological past"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -94,6 +95,7 @@ export const importedMockTest = {
             "To offer key evidence that undermines LaBerge and team's initial hypothesis"
           ],
           "answer": 1,
+          "underline": ["The smoothness with which participants' eyes tracked objects in their dreams closely matched how sighted people who are awake visually track objects around them"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -470,6 +472,7 @@ export const importedMockTest = {
             "It presents a misconception about video games that the author believes is evident in MOMA's choice about which video games to exhibit."
           ],
           "answer": 1,
+          "underline": ["MOMA claims the video presentations are only for games that would be impractical to display in a playable form"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },

@@ -165,7 +165,8 @@ export const importedMockTest = {
             "Most people who go to museums in Boston are visiting from other places.",
             "More than one museum has works of art by Frida Kahlo in its full collection."
           ],
-          "answer": 0
+          "answer": 0,
+          "underline": ["In a paper, a student claims that people usually spend more time viewing a work of art in a museum than they do online."],
         },
         {
           "id": 12,
@@ -219,6 +220,7 @@ export const importedMockTest = {
             "Many were written with parts meant to be played on the quena, a traditional flute used across Andean countries, including Chile."
           ],
           "answer": 1,
+          "underline": ["As the movement spread beyond Chile, the breadth of musical traditions incorporated into its foundation also expanded."],
           "domain": "Information and Ideas",
           "skill": "Command of Evidence-Quantitative Evidence"
         },
@@ -464,6 +466,7 @@ export const importedMockTest = {
             "It illustrates the sense of adventure that Yung developed as a child."
           ],
           "answer": 2,
+          "underline": ["Little did I realize when in 1845 I wrote, while in the Morrison school, a composition on \"An lmaginary Voyage to New York and up the Hudson,\" that I was to see New York in reality."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },

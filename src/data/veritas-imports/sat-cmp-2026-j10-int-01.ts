@@ -157,6 +157,7 @@ export const importedMockTest = {
             "\"Not all the stories anthologized in The Big Book of Cyberpunk were first published as stand-alone short stories in magazines or journals: for example, Jeff Noon's 2011 story 'Ghost Codes of Sparkletown (New Mix)' was first released in a different form on a social networking platform.\""
           ],
           "answer": 1,
+          "underline": ["some critics assert that cyberpunk is a literary movement that is in large part aesthetic rather than idea-driven"],
           "domain": "Information and Ideas",
           "skill": "Command of Evidence-Textual Evidence (strengthen/weaken)"
         },
@@ -171,6 +172,7 @@ export const importedMockTest = {
             "\"Although Reagan's political party never completely controlled the legislative branch of government during his presidency, he was able to get modified versions of many of his policy priorities passed by the legislative branch.\""
           ],
           "answer": 3,
+          "underline": ["he was willing to compromise and cooperate with people he disagreed with in order to advance his objectives"],
           "domain": "Information and Ideas",
           "skill": "Command of Evidence"
         },
@@ -487,6 +489,7 @@ export const importedMockTest = {
             "It provides a specific illustration of the point the novel's author makes about the spread of digital dystopia."
           ],
           "answer": 3,
+          "underline": ["She even helps the company launch an app that awards points for sustainable purchases while publicly shaming users with high carbon footprints."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },
@@ -501,6 +504,7 @@ export const importedMockTest = {
             "It identifies a concern about the distribution of uranium isotopes in water that the research project described in the next sentence dispelled by comparing samples from two different lakes."
           ],
           "answer": 1,
+          "underline": ["The spatial distribution of isotopes within individual bodies of water is not always homogenous, potentially compromising studies with inadequate sampling protocols."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },

@@ -80,6 +80,7 @@ export const importedMockTest = {
             "It explains the circumstances that led to the formation of the theater company discussed in the text."
           ],
           "answer": 1,
+          "underline": ["Since NEC's founding in 1967, its workshops and performances have given Black playwrights, including Walker, a forum for their compelling stories."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },
@@ -94,6 +95,7 @@ export const importedMockTest = {
             "It provides information that explains why the data from Buffalo Ford Lake allow for multiple possibilities regarding the dominant ungulate species in the watershed."
           ],
           "answer": 3,
+          "underline": ["By contrast, bison dung cannot be distinguished from elk dung based solely on their fecal-steroidal profiles, as both contain similar levels of beta-sitosterol and cholestanone, among other sterols."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },
@@ -108,6 +110,7 @@ export const importedMockTest = {
             "It makes a comparison between the past and current rates at which new chemical compounds have entered the scientific literature."
           ],
           "answer": 1,
+          "underline": ["Using a conservative estimate of the number of viable compounds and assuming a doubling of the historical pace of discovery"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },
@@ -122,6 +125,7 @@ export const importedMockTest = {
             "It lists several Appalachian folk ballads that Dolly recorded early in her career."
           ],
           "answer": 2,
+          "underline": ["\"My Blue Tears,\" a song from her 1971 album Coat of Many Colors, echoes Appalachian ballads both in theme and word choice."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },
@@ -496,6 +500,7 @@ export const importedMockTest = {
             "It suggests a way in which a particular editor's definition of cyberpunk may be considered incomplete."
           ],
           "answer": 3,
+          "underline": ["many critics have previously argued that cyberpunk is a literary movement that is not just idea-driven but that has distinctive aesthetic components as well"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Determining Author's Purpose"
         },
@@ -510,6 +515,7 @@ export const importedMockTest = {
             "It identifies a song by Dolly that was influenced by Appalachian music."
           ],
           "answer": 3,
+          "underline": ["\"My Blue Ridge Mountain Boy,\" a song from her 1969 album of the same title, echoes Appalachian ballads in its narrative details."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },

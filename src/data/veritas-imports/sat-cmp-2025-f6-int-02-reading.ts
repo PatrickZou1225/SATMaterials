@@ -83,6 +83,7 @@ export const importedMockTest = {
             "It rephrases the question raised in the first sentence of the text."
           ],
           "answer": 2,
+          "underline": ["Wilkins and Smith found that policymakers could help reduce these emissions by encouraging people to visit state or national parks closer to their homes to cut down on their travel."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -97,6 +98,7 @@ export const importedMockTest = {
             "It contrasts the opinions of two critics."
           ],
           "answer": 0,
+          "underline": ["Bloom praises how the novel adroitly blends what playwright Friedrich Schiller termed the naive and sentimental modes"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -111,6 +113,7 @@ export const importedMockTest = {
             "It concedes that there is a lack of attention to the impression the rectory makes on people."
           ],
           "answer": 0,
+          "underline": ["but perhaps in doing so the thorough clerical aspect of the whole might have been somewhat marred"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -492,6 +495,7 @@ export const importedMockTest = {
             "It describes an event in Yung's life that exemplifies a phenomenon."
           ],
           "answer": 3,
+          "underline": ["Little did I realize when in 1845 I wrote, while in the Morrison School, a composition on \"An Imaginary Voyage to New York and up the Hudson,\" that I was to see New York in reality."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -506,6 +510,7 @@ export const importedMockTest = {
             "It demonstrates that Harris finds his experiences on the boat to be confusing."
           ],
           "answer": 1,
+          "underline": ["Harris's notion was, that it was he alone who had been working, and that both George and I had been imposing upon him."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -520,6 +525,7 @@ export const importedMockTest = {
             "It explains how an artist mentioned earlier in the text developed a distinctive style by adapting a particular approach to painting originated by his colleagues."
           ],
           "answer": 1,
+          "underline": ["To conclude that this approach accounts for the ethereal qualities now synonymous with the Highwaymen aesthetic is tempting but inaccurate, as Hair's methods weren't universally practiced by his affiliates: George Buckner, for example, painted with greater deliberateness but achieved the same effects."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },

@@ -80,6 +80,7 @@ export const importedMockTest = {
             "It emphasizes that a question about the beginning of a mass extinction raised by the researchers mentioned earlier is still unresolved."
           ],
           "answer": 1,
+          "underline": ["while abrupt in geological terms, unfold over thousands or millions of years"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -439,6 +440,7 @@ export const importedMockTest = {
             "It presents a misconception about video games that the author believes is evident in MOMA'S choice about which video games to exhibit."
           ],
           "answer": 0,
+          "underline": ["MOMA claims the video presentations are only for games that would be impractical to display in a playable form"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -453,6 +455,7 @@ export const importedMockTest = {
             "It illustrates a difficulty associated with the meaning of \"culture\" that the author believes holds back an academic field."
           ],
           "answer": 3,
+          "underline": ["Does the concept of culture encompass knowledge, or laws, or both these things and others?"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },

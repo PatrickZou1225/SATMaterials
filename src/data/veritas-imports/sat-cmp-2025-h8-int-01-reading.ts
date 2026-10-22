@@ -66,6 +66,7 @@ export const importedMockTest = {
             "It indicates how fast the Calamophyton forest spread."
           ],
           "answer": 2,
+          "underline": ["For example, the tree roots would have greatly reduced soil erosion, and the accumulated twigs the trees shed likely created new habitats for animal life."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -131,7 +132,8 @@ export const importedMockTest = {
             "Hawaiian is very similar to other languages that are spoken on the Polynesian Islands of the Pacific Ocean, including Tahitian, Samoan, and Māori.",
             "Roughly 680,000 Native Hawaiian people lived in the United States in 2020, and a little less than half of them lived in Hawai'i."
           ],
-          "answer": 1
+          "answer": 1,
+          "underline": ["Thanks to 'Aha Pūnana Leo, the number of young people who speak the language has increased."],
         },
         {
           "id": 10,
@@ -531,6 +533,7 @@ export const importedMockTest = {
             "To illustrate how the discussion of the HM earlier in the text can improve historians' understanding of the FA"
           ],
           "answer": 2,
+          "underline": ["Most other contemporaneous personal manuscripts like the Findern Anthology (FA) consist primarily of pieces by celebrated medieval authors like Hoccleve and other readings favored by elites, whereas the HM has a distinctive emphasis on the popular, including entertainments like crude comedies, and the practical, with advice about manners."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },

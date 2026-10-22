@@ -80,6 +80,7 @@ export const importedMockTest = {
             "To emphasize how strong Pollyanna's sense of happiness is."
           ],
           "answer": 3,
+          "underline": ["Oh, I'm so glad, GLAD, GLAD to see you"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Determining Author's Purpose"
         },
@@ -94,6 +95,7 @@ export const importedMockTest = {
             "It indicates a distinction between horizontal gene transfer and vertical gene transfer."
           ],
           "answer": 1,
+          "underline": ["While horizontal gene transfer is common among prokaryotes—single-celled organisms such as the bacteria Brevundimonas diminuta and Lactococcus lactis—it has rarely been observed among eukaryotes (typically multicellular organisms)."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },

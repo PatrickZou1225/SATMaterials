@@ -103,6 +103,7 @@ export const importedMockTest = {
             "It discusses a role that glass eels and other species serve in supporting the ecosystem of the Sargasso Sea."
           ],
           "answer": 2,
+          "underline": ["Scientists believe that solving the mystery will lead to better conservation of glass eels and their habitat, helping in turn to sustain several other species that rely on them as a food source."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -557,6 +558,7 @@ export const importedMockTest = {
             "It proposes that the distinction made between present-day nonisolate languages and isolates like Washoe and Chitimacha may not have been applicable in the distant past."
           ],
           "answer": 3,
+          "underline": ["Yet Washoe and Chitimacha, like all isolates, are potentially remnants of families whose other members vanished before the historical record could attest to them, perhaps through the geographical expansion of extant families."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -570,7 +572,8 @@ export const importedMockTest = {
             "By arguing that the reason members of the general public might disagree about a public artwork's merits is unrelated to the unconventionality of its appearance and ideas",
             "By contending that the kinds of reactions controversial public artworks often receive aren't exclusively the result of attributes inherent in the works themselves"
           ],
-          "answer": 3
+          "answer": 3,
+          "underline": ["Public art that fails to appease everyone by being sufficiently aesthetically and conceptually bland almost inevitably provokes backlash."],
         },
         {
           "id": 8,

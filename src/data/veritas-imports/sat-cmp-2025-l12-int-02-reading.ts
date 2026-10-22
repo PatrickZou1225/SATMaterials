@@ -94,6 +94,7 @@ export const importedMockTest = {
             "They emphasize the wide variety of sea creatures that Ah Boon has caught on this particular fishing trip."
           ],
           "answer": 0,
+          "underline": ["black pomfrets","prawns or squid","colorful varieties of fish"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },
@@ -108,6 +109,7 @@ export const importedMockTest = {
             "It identifies an inconclusive finding that motivated a shift in the focus of an analysis discussed in the text."
           ],
           "answer": 1,
+          "underline": ["Scholarly analysis of findings from 221 studies revealed no evidence that nativeness mediates the ecological effects of megafauna, however, determining instead that other traits, such as diet selectivity, are more germane."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Argument Development and Logical Organization"
         },
@@ -536,6 +538,7 @@ export const importedMockTest = {
             "It identifies a consideration that factored into an interpretation of the rock art at Cueva Huenul 1 that is presented in the text."
           ],
           "answer": 3,
+          "underline": ["The motif was subsequently reproduced multiple times at the site over the next 3,000 years, a period coinciding with extremely arid conditions and slightly negative population growth."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },

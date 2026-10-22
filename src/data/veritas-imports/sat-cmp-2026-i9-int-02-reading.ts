@@ -524,6 +524,7 @@ export const importedMockTest = {
             "It presents an observation that is crucial to the text's conclusion that tropical forest occupation by H. sapiens occurred significantly later in Africa than in Asia and Oceania."
           ],
           "answer": 1,
+          "underline": ["Tropical forests across the globe provide similar preservation conditions, so in all likelihood, this rather perplexing timeline simply reflected geographic differences in the extent of paleoanthropological research."],
           "domain": "Information and Ideas",
           "skill": "Inferences-Making Logical Inferences"
         },

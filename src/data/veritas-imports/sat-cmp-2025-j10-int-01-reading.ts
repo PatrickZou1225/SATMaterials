@@ -100,6 +100,7 @@ export const importedMockTest = {
             "It identifies the purpose of the study described in the sentence that follows."
           ],
           "answer": 0,
+          "underline": ["It can increase the amount of data researchers can collect, offer insight into the daily life of a scientist, and spark youth interest in science."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -491,6 +492,7 @@ export const importedMockTest = {
             "It illustrates the popularity of souvenir postcards during a particular historical period."
           ],
           "answer": 3,
+          "underline": ["Extremely popular, these postcards sparked a craze for souvenir postcards that lasted into the early 1900s: tourists bought postcards showing pictures of scenery and attractions from across the US, and billions of souvenir postcards were sent through the mail."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },
@@ -505,6 +507,7 @@ export const importedMockTest = {
             "It draws a distinction between the two species discussed in the text."
           ],
           "answer": 0,
+          "underline": ["You might think the answer to these questions is obviously no, but researchers in the Netherlands recently showed that many common plant species can thrive in soil designed to simulate Martian conditions, as long as water is supplied."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose-Part-Whole Relationships"
         },
@@ -700,6 +703,7 @@ export const importedMockTest = {
             "\"I believe that the United States has enough high-speed rail lines. It should invest in airports instead.\""
           ],
           "answer": 2,
+          "underline": ["The researchers claim that this survey reveals that there is strong support for building more HSR lines in the United States."],
           "domain": "Information and Ideas",
           "skill": "Command of Evidence-Textual Evidence (illustration/quotation)"
         },

@@ -570,6 +570,7 @@ export const importedMockTest = {
             "Inspiration you received while reading independently"
           ],
           "answer": 2,
+          "underline": ["pine from your own yard"],
           "domain": "Craft and Structure",
           "skill": "Words in Context"
         },
@@ -612,6 +613,7 @@ export const importedMockTest = {
             "It describes a characteristic of the Aubrey/Maturin novels and summarizes a negative assessment of it."
           ],
           "answer": 3,
+          "underline": ["Some critics have found fault with the abrupt endings of The Truelove and other books in the series, saying that they do not finish conclusively but arbitrarily stop."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },

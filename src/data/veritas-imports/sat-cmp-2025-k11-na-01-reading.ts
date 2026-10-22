@@ -520,6 +520,7 @@ export const importedMockTest = {
             "It proposes that the distinction made between present-day nonisolate languages and isolates like Zuni and Haida may not have been applicable in the distant past."
           ],
           "answer": 3,
+          "underline": ["Yet Zuni and Haida, like all isolates, are potentially remnants of families whose other members vanished before the historical record could attest to them, perhaps through the geographical expansion of extant families."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -557,7 +558,8 @@ export const importedMockTest = {
             "By agreeing with the idea that only works of art that are universally appealing are suitable for displaying in public spaces",
             "By contending that the kinds of reactions controversial public artworks often receive aren't exclusively the result of attributes inherent in the works themselves"
           ],
-          "answer": 3
+          "answer": 3,
+          "underline": ["Public art that fails to appease everyone by being sufficiently aesthetically and conceptually bland almost inevitably provokes backlash."],
         },
         {
           "id": 10,

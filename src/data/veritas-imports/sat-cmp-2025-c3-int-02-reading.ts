@@ -80,6 +80,7 @@ export const importedMockTest = {
             "It compares the frequencies with which horizontal gene transfer has been detected in two categories of organisms."
           ],
           "answer": 2,
+          "underline": ["While horizontal gene transfer is common among prokaryotes—single-celled organisms such as the bacteria Carnobacterium viridans and Moraxella caviae—it has rarely been observed among eukaryotes (typically multicellular organisms)."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -284,7 +285,8 @@ export const importedMockTest = {
             "In 1872, Japanese puppeteer Nishikawa Koryu developed a technique called kuruma ningyo, or cart puppetry, in which puppets have wooden pegs on their feet that the puppeteer can manipulate by moving his own feet.",
             "The few remaining theatrical companies with sannin zukai performers in the present day are mostly amateur troupes, in which members have other forms of employment that serve as their primary source of income."
           ],
-          "answer": 3
+          "answer": 3,
+          "underline": ["Over the ensuing centuries, audience interest in ningyo joruri began to decline and sannin zukai became prohibitively expensive to mount, so that sannin zukai puppeteers could no longer make the profession a full-time career."],
         },
         {
           "id": 15,

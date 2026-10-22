@@ -97,6 +97,7 @@ export const importedMockTest = {
             "It explains the basis for the new system's scoring criteria."
           ],
           "answer": 3,
+          "underline": ["The new six-point scale considers varying levels of supporting evidence used to identify bioluminescent species."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -111,6 +112,7 @@ export const importedMockTest = {
             "It indicates why paleontologists have used another approach in addition to fossil analysis to learn about certain aspects of pneumatic diverticula."
           ],
           "answer": 3,
+          "underline": ["Vascularity and other identifying characteristics of pneumatic diverticula tend not to fossilize, so paleontologists have relied on studies of living bird species to document these qualities, augmenting their findings from fossil analysis to glean additional insights into the respiratory systems of extinct genera such as Tyrannosaurus, Euhelopus, and other Cretaceous theropods and sauropods that may have also exhibited PSP."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -125,6 +127,7 @@ export const importedMockTest = {
             "It presents a finding from a study that identifies the circumstances required to ensure the survival of glass eels."
           ],
           "answer": 1,
+          "underline": ["Scientists believe that solving the mystery will lead to better conservation of glass eels and their habitat, helping in turn to sustain several other species that rely on them as a food source."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -486,6 +489,7 @@ export const importedMockTest = {
             "To challenge the common assumption that One Hundred Years of Solitude is superior to realist works by García Márquez"
           ],
           "answer": 2,
+          "underline": ["And despite his popular reputation, García Márquez himself wrote several works of strict realism, including Chronicle of a Death Foretold."],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -644,7 +648,8 @@ export const importedMockTest = {
             "\"Even though Beloved alternates between realistic and antirealistic modes of representation, the influence of Black American cultural traditions remains constant throughout the novel.\"",
             "\"Although much of Beloved conforms to the conventions of realistic fiction, Toni Morrison also incorporates elements drawn from Black American cultural traditions that transcend and expose the limitations of realism.\""
           ],
-          "answer": 3
+          "answer": 3,
+          "underline": ["This style has exerted a decisive influence on authors in the United States, including Toni Morrison, whose 1987 novel Beloved resembles classic magical realist novels in its juxtaposition of literary realism with long-established cultural traditions—namely, those of the Black American community."],
         },
         {
           "id": 12,

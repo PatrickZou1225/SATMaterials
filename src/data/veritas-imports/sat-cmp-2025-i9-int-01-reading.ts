@@ -94,6 +94,7 @@ export const importedMockTest = {
             "It summarizes an unexpected finding."
           ],
           "answer": 1,
+          "underline": ["(film containing scaled-down reproductions of documents)"],
           "domain": "Craft and Structure",
           "skill": "Text Structure and Purpose"
         },
@@ -604,7 +605,8 @@ export const importedMockTest = {
             "It included a greater number of artists than Reckoning and Resilience.",
             "It consisted mostly of works by printmakers."
           ],
-          "answer": 0
+          "answer": 0,
+          "underline": ["But whereas the work by Watson would have fit the theme for Across County Lines, works by Logan and Gizlice would not have."],
         },
         {
           "id": 12,
