@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ComponentProps, type PointerEvent as ReactPointerEvent, type ReactNode, type Ref } from 'react'
+import { createPortal } from 'react-dom'
 import { BoxSelect, ChevronLeft, ChevronRight, Circle, Eraser, Maximize, Minus, MousePointer2, MoveHorizontal, Pencil, Save, Square, Type, X, ZoomOut } from 'lucide-react'
 import { CaptureUpdateAction, convertToExcalidrawElements, Excalidraw, FONT_FAMILY, restore } from '@excalidraw/excalidraw'
 import type { DataURL, ExcalidrawImperativeAPI, ExcalidrawInitialDataState, NormalizedZoomValue, ToolType } from '@excalidraw/excalidraw/types'
@@ -36,6 +37,9 @@ export type BoardSurfaceProps = {
   // Shared tool state so the single rail draws on both layers.
   externalTool?: BoardToolState | null
   onToolStateChange?: (state: BoardToolState) => void
+  // In presentation mode the app-level rail sits above the maximized handout,
+  // so the drawing tools are portalled into it instead of being covered.
+  railHost?: HTMLElement | null
   // Embedded handout: the page-edge drag also resizes the workspace pane, so the
   // window edge tracks the sheet's right edge while it is stretched.
   onResizePaneTo?: (width: number) => void
@@ -135,7 +139,7 @@ function useBackgroundImage(pdf: PDFDocumentProxy | null, page: BoardPage) {
   return image
 }
 
-export default function BoardSurface({ pdf, page, editable, theme, zen, hideZoom, handoutTabs, onCollapse, onMaximize, maximized, fitSignal, embedded, externalTool, onToolStateChange, onResizePaneTo, onSave, saveMenu, saveWrapRef, insertQuestion, onClosePage, onSceneChange }: BoardSurfaceProps) {
+export default function BoardSurface({ pdf, page, editable, theme, zen, hideZoom, handoutTabs, onCollapse, onMaximize, maximized, fitSignal, embedded, externalTool, onToolStateChange, railHost, onResizePaneTo, onSave, saveMenu, saveWrapRef, insertQuestion, onClosePage, onSceneChange }: BoardSurfaceProps) {
   const bg = useBackgroundImage(pdf, page)
   const apiRef = useRef<ExcalidrawImperativeAPI | null>(null)
   // The imperative API arrives only after Excalidraw mounts — and a page flip
@@ -1157,6 +1161,92 @@ export default function BoardSurface({ pdf, page, editable, theme, zen, hideZoom
     scrollToContent: false,
   }), [elements, appState, files, page.id])
 
+  // Presentation mode portals the whole tool rail into the app-level zen rail:
+  // that rail is z-40 and stays clickable even when a handout is maximized over
+  // the board, while anything rendered here would be covered.
+  const portaled = Boolean(zen && railHost)
+  const popupShell = zen
+    ? 'border-white/15 bg-black/60'
+    : 'border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/95'
+  const popupPos = portaled
+    ? 'absolute right-full top-1/2 mr-2 -translate-y-1/2'
+    : `absolute top-1/2 -translate-y-1/2 ${zen ? 'right-[120px]' : 'right-[68px]'}`
+  const toolRail = editable && !embedded ? (
+    <>
+      {shapeMenuOpen && (
+        <div data-board-scroll data-shape-menu className={`${popupPos} z-30 flex items-center gap-1 rounded-2xl border p-1.5 backdrop-blur ${popupShell}`}>
+          {DRAW_SHAPES.map(({ type, label, Icon }) => (
+            <button
+              key={type}
+              type="button"
+              title={label}
+              aria-label={label}
+              onClick={() => { setDrawTool(type); setTool(type); setPenPanelOpen(true) }}
+              className={`grid h-9 w-9 place-items-center rounded-xl transition ${drawTool === type ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}
+            >
+              <Icon size={16} />
+            </button>
+          ))}
+        </div>
+      )}
+      {DRAW_TOOL_TYPES.includes(activeToolType) && penPanelOpen && (
+        <div data-board-scroll className={`${popupPos} z-20 flex w-48 flex-col gap-2.5 rounded-2xl border p-2.5 backdrop-blur ${popupShell}`}>
+          <div className="flex items-center gap-1">
+            {DRAW_SHAPES.map(({ type, label, Icon }) => (
+              <button
+                key={type}
+                type="button"
+                title={label}
+                aria-label={label}
+                onClick={() => { setDrawTool(type); setTool(type) }}
+                className={`grid h-9 flex-1 place-items-center rounded-lg transition ${activeToolType === type ? 'bg-blue-600 text-white' : 'text-slate-500 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'}`}
+              >
+                <Icon size={16} />
+              </button>
+            ))}
+          </div>
+          <div className="flex items-center gap-1">
+            {[1, 2, 4].map((w) => (
+              <button key={w} type="button" title={`粗细 ${w}`} aria-label={`粗细 ${w}`} onClick={() => applyInk('pen', { strokeWidth: w })} className={`grid h-8 flex-1 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800 ${inkCursor.strokeWidth === w ? 'bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-600' : 'text-slate-600 dark:text-slate-200'}`}>
+                <span className="block w-5 rounded bg-current" style={{ height: w === 1 ? 2 : w === 2 ? 3 : 5 }} />
+              </button>
+            ))}
+          </div>
+          <InkPalette current={inkCursor.strokeColor} onPick={(color) => applyInk('pen', { strokeColor: color })} />
+        </div>
+      )}
+      {activeToolType === 'text' && textPanelOpen && (
+        <div data-board-scroll className={`${popupPos} z-20 flex w-44 flex-col gap-2 rounded-2xl border p-2.5 backdrop-blur ${popupShell}`}>
+          <div className="flex items-center gap-1">
+            {[{ label: 'S', size: 16 }, { label: 'M', size: 20 }, { label: 'L', size: 28 }, { label: 'XL', size: 36 }].map(({ label, size }) => (
+              <button key={label} type="button" title={`字号 ${label}（${size}px）`} aria-label={`字号 ${label}`} onClick={() => applyInk('text', { fontSize: size })} className={`h-8 flex-1 rounded-lg text-xs font-semibold transition hover:bg-slate-100 dark:hover:bg-slate-800 ${inkCursor.fontSize === size ? 'bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-600' : 'text-slate-600 dark:text-slate-200'}`}>{label}</button>
+            ))}
+          </div>
+          <InkPalette current={inkCursor.strokeColor} onPick={(color) => applyInk('text', { strokeColor: color })} />
+        </div>
+      )}
+      {portaled && <span className="my-0.5 h-px w-6 self-center bg-white/20" />}
+      <div className={portaled
+        ? 'board-tool-rail flex flex-col gap-0.5'
+        : `board-tool-rail absolute top-1/2 z-20 flex -translate-y-1/2 flex-col gap-0.5 rounded-2xl border p-1.5 backdrop-blur ${zen ? 'right-[64px] border-white/15 bg-black/60' : 'right-3 border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/95'}`}>
+        <button type="button" title="点击（选中/移动）" aria-label="点击" onClick={() => selectTool(false)} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'selection' && !marqueeMode ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><MousePointer2 size={17} /></button>
+        <button type="button" title="框选（圈住自己写的内容）" aria-label="框选" onClick={() => selectTool(true)} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'selection' && marqueeMode ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><BoxSelect size={17} /></button>
+        <button type="button" title="画笔（长按切换直线 / 椭圆 / 矩形）" aria-label="画笔" onPointerDown={startPenHold} onPointerUp={endPenHold} onPointerLeave={endPenHold} onPointerCancel={endPenHold} onClick={onPenClick} className={`grid h-9 w-9 place-items-center rounded-xl transition ${drawToolActive ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><DrawIcon size={17} /></button>
+        <button type="button" title="文字" aria-label="文字" onClick={() => { if (activeToolType === 'text') setTextPanelOpen((v) => !v); else { setTextPanelOpen(true); setTool('text') } }} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'text' ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><Type size={17} /></button>
+        <button type="button" title="橡皮" aria-label="橡皮" onClick={() => setTool('eraser')} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'eraser' ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><Eraser size={17} /></button>
+        {onSave && !zen && (
+          <>
+            <span className="my-0.5 h-px w-6 self-center bg-slate-200 dark:bg-slate-700" />
+            <div ref={saveWrapRef} className="relative">
+              <button type="button" title="保存板书" aria-label="保存板书" onClick={onSave} className="grid h-9 w-9 place-items-center rounded-xl text-slate-600 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"><Save size={17} /></button>
+              {saveMenu}
+            </div>
+          </>
+        )}
+      </div>
+    </>
+  ) : null
+
   return (
     <div ref={hostRef} className={`relative h-full w-full${quietText ? ' board-quiet-text' : ''}${textToolOn ? ' board-text-tool' : ''}${drawToolActive ? ' board-draw-tool' : ''}${zen ? ' board-zen' : ''}`}>
       <Excalidraw
@@ -1240,76 +1330,7 @@ export default function BoardSurface({ pdf, page, editable, theme, zen, hideZoom
           </div>
         </div>
       )}
-      {editable && !embedded && shapeMenuOpen && (
-        <div data-board-scroll data-shape-menu className={`absolute top-1/2 z-30 flex -translate-y-1/2 items-center gap-1 rounded-2xl border p-1.5 backdrop-blur ${zen ? 'right-[120px] border-white/15 bg-black/60' : 'right-[68px] border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/95'}`}>
-          {DRAW_SHAPES.map(({ type, label, Icon }) => (
-            <button
-              key={type}
-              type="button"
-              title={label}
-              aria-label={label}
-              onClick={() => { setDrawTool(type); setTool(type); setPenPanelOpen(true) }}
-              className={`grid h-9 w-9 place-items-center rounded-xl transition ${drawTool === type ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}
-            >
-              <Icon size={16} />
-            </button>
-          ))}
-        </div>
-      )}
-      {editable && !embedded && DRAW_TOOL_TYPES.includes(activeToolType) && penPanelOpen && (
-        <div data-board-scroll className={`absolute top-1/2 z-20 flex w-48 -translate-y-1/2 flex-col gap-2.5 rounded-2xl border p-2.5 backdrop-blur ${zen ? 'right-[120px] border-white/15 bg-black/60' : 'right-[68px] border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/95'}`}>
-          <div className="flex items-center gap-1">
-            {DRAW_SHAPES.map(({ type, label, Icon }) => (
-              <button
-                key={type}
-                type="button"
-                title={label}
-                aria-label={label}
-                onClick={() => { setDrawTool(type); setTool(type) }}
-                className={`grid h-9 flex-1 place-items-center rounded-lg transition ${activeToolType === type ? 'bg-blue-600 text-white' : 'text-slate-500 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'}`}
-              >
-                <Icon size={16} />
-              </button>
-            ))}
-          </div>
-          <div className="flex items-center gap-1">
-            {[1, 2, 4].map((w) => (
-              <button key={w} type="button" title={`粗细 ${w}`} aria-label={`粗细 ${w}`} onClick={() => applyInk('pen', { strokeWidth: w })} className={`grid h-8 flex-1 place-items-center rounded-lg transition hover:bg-slate-100 dark:hover:bg-slate-800 ${inkCursor.strokeWidth === w ? 'bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-600' : 'text-slate-600 dark:text-slate-200'}`}>
-                <span className="block w-5 rounded bg-current" style={{ height: w === 1 ? 2 : w === 2 ? 3 : 5 }} />
-              </button>
-            ))}
-          </div>
-          <InkPalette current={inkCursor.strokeColor} onPick={(color) => applyInk('pen', { strokeColor: color })} />
-        </div>
-      )}
-      {editable && !embedded && activeToolType === 'text' && textPanelOpen && (
-        <div data-board-scroll className={`absolute top-1/2 z-20 flex w-44 -translate-y-1/2 flex-col gap-2 rounded-2xl border p-2.5 backdrop-blur ${zen ? 'right-[120px] border-white/15 bg-black/60' : 'right-[68px] border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/95'}`}>
-          <div className="flex items-center gap-1">
-            {[{ label: 'S', size: 16 }, { label: 'M', size: 20 }, { label: 'L', size: 28 }, { label: 'XL', size: 36 }].map(({ label, size }) => (
-              <button key={label} type="button" title={`字号 ${label}（${size}px）`} aria-label={`字号 ${label}`} onClick={() => applyInk('text', { fontSize: size })} className={`h-8 flex-1 rounded-lg text-xs font-semibold transition hover:bg-slate-100 dark:hover:bg-slate-800 ${inkCursor.fontSize === size ? 'bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-600' : 'text-slate-600 dark:text-slate-200'}`}>{label}</button>
-            ))}
-          </div>
-          <InkPalette current={inkCursor.strokeColor} onPick={(color) => applyInk('text', { strokeColor: color })} />
-        </div>
-      )}
-      {editable && !embedded && (
-        <div className={`board-tool-rail absolute top-1/2 z-20 flex -translate-y-1/2 flex-col gap-0.5 rounded-2xl border p-1.5 backdrop-blur ${zen ? 'right-[64px] border-white/15 bg-black/60' : 'right-3 border-slate-200 bg-white/95 shadow-sm dark:border-slate-700 dark:bg-slate-900/95'}`}>
-          <button type="button" title="点击（选中/移动）" aria-label="点击" onClick={() => selectTool(false)} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'selection' && !marqueeMode ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><MousePointer2 size={17} /></button>
-          <button type="button" title="框选（圈住自己写的内容）" aria-label="框选" onClick={() => selectTool(true)} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'selection' && marqueeMode ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><BoxSelect size={17} /></button>
-          <button type="button" title="画笔（长按切换直线 / 椭圆 / 矩形）" aria-label="画笔" onPointerDown={startPenHold} onPointerUp={endPenHold} onPointerLeave={endPenHold} onPointerCancel={endPenHold} onClick={onPenClick} className={`grid h-9 w-9 place-items-center rounded-xl transition ${drawToolActive ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><DrawIcon size={17} /></button>
-          <button type="button" title="文字" aria-label="文字" onClick={() => { if (activeToolType === 'text') setTextPanelOpen((v) => !v); else { setTextPanelOpen(true); setTool('text') } }} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'text' ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><Type size={17} /></button>
-          <button type="button" title="橡皮" aria-label="橡皮" onClick={() => setTool('eraser')} className={`grid h-9 w-9 place-items-center rounded-xl transition ${activeToolType === 'eraser' ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'}`}><Eraser size={17} /></button>
-          {onSave && !zen && (
-            <>
-              <span className="my-0.5 h-px w-6 self-center bg-slate-200 dark:bg-slate-700" />
-              <div ref={saveWrapRef} className="relative">
-                <button type="button" title="保存板书" aria-label="保存板书" onClick={onSave} className="grid h-9 w-9 place-items-center rounded-xl text-slate-600 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"><Save size={17} /></button>
-                {saveMenu}
-              </div>
-            </>
-          )}
-        </div>
-      )}
+      {portaled && railHost ? createPortal(toolRail, railHost) : toolRail}
       {pageInfo && collapsed && (
         <button type="button" onClick={() => { const api = apiRef.current; if (api) toggleCollapse(api) }} title="展开讲义（回到收起前的位置）" aria-label="展开讲义" className={`absolute right-4 z-10 grid h-8 w-8 place-items-center rounded-lg border border-slate-200 bg-white/95 text-slate-600 shadow-sm backdrop-blur transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-200 dark:hover:bg-slate-800 ${zen ? 'top-14' : 'top-4'}`}>
           <Maximize size={15} />

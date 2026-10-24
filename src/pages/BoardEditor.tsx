@@ -95,6 +95,9 @@ export default function BoardEditor() {
   const [zen, setZen] = useState(false)
   // The thumbnail overlay stays closed in 投屏 (only the ▦ rail button opens it).
   const [zenPages, setZenPages] = useState(false)
+  // Slot in the zen rail where the board's drawing tools are portalled, so the
+  // brush stays reachable when a maximized handout covers the board surface.
+  const [zenRailHost, setZenRailHost] = useState<HTMLDivElement | null>(null)
   // The cloud-drive file this board's handout came from (used when saving).
   const [sourcePdf, setSourcePdf] = useState<{ path: string; name: string } | null>(null)
   const [cloudOpen, setCloudOpen] = useState(false)
@@ -788,6 +791,7 @@ export default function BoardEditor() {
               editable
               theme={theme}
               zen={zen}
+              railHost={zenRailHost}
               insertQuestion={insertQuestion}
               onSave={() => { setSaveMenuOpen(false); setRailSaveOpen((v) => !v) }}
               saveWrapRef={railSaveMenuRef}
@@ -847,6 +851,8 @@ export default function BoardEditor() {
                 </div>
               )}
             </div>
+            {/* Drawing tools are portalled here by BoardSurface. */}
+            <div ref={setZenRailHost} className="relative flex flex-col gap-0.5" />
           </div>
 
           {zenPages && (

@@ -14,6 +14,7 @@ export type BoardWorkspaceProps = {
   editable: boolean
   theme: 'light' | 'dark'
   zen?: boolean
+  railHost?: HTMLElement | null
   insertQuestion?: { title: string; text: string; originalText: string; serial: number } | null
   onSave?: () => void
   saveMenu?: ReactNode
@@ -36,6 +37,7 @@ export default function BoardWorkspace({
   editable,
   theme,
   zen,
+  railHost,
   insertQuestion,
   onSave,
   saveMenu,
@@ -118,6 +120,7 @@ export default function BoardWorkspace({
         editable={editable}
         theme={theme}
         zen={zen}
+        railHost={railHost}
         hideZoom
         externalTool={tool}
         onToolStateChange={updateTool}
